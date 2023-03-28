@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Purely Organic' });
 });
 
+router.get('/login',(req,res)=>{
+  res.render('user/userLogin')
+})
+
 module.exports = router;
