@@ -35,7 +35,7 @@ body {
 	height: 100%;
 	font-family: "Cairo", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
+	/* font-smoothing: antialiased; */
 }
 
 h1,
@@ -797,7 +797,7 @@ ol {
 	position: absolute;
 	left: -35px;
 	top: 50%;
-	-webkit-transform: translateY(-35px);
+	/* -webkit-transform: translateY(-35px); */
 	background: #ffffff;
 }
 
@@ -3190,7 +3190,7 @@ ol {
 		position: relative;
 		left: 0;
 		top: 0;
-		-webkit-transform: translateY(0);
+		/* -webkit-transform: translateY(0); */
 	}
 	.categories__slider.owl-carousel .owl-nav button.owl-next {
 		right: -10px;

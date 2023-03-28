@@ -10,4 +10,8 @@ router.get('/login',(req,res)=>{
   res.render('user/userLogin')
 })
 
+router.get('/signup',(req,res)=>{
+  res.render('user/userSignup')
+})
+
 module.exports = router;
