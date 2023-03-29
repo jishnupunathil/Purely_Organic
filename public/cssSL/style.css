@@ -285,7 +285,7 @@ figure {
   color: #fff;
   /* border-bottom: none; */
   width: auto;
-  padding: 15px 105px;
+  padding: 12px 99px;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -319,8 +319,9 @@ figure {
 
 .form-group {
   position: relative;
-  margin-bottom: 25px;
-  overflow: hidden; }
+  margin-bottom: 10px;
+  /* overflow: hidden; */
+ }
   .form-group:last-child {
     margin-bottom: 0px; }
 
@@ -414,7 +415,7 @@ label {
   -webkit-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
-  color: #222; }
+  color: #ff0000; }
 
 .label-has-error {
   top: 22%; }
