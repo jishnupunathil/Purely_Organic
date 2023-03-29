@@ -194,7 +194,7 @@ h2 {
 
 .main {
   background: #f8f8f8;
-  padding: 150px 0; }
+  padding: 100px 0; }
 
 .clear {
   clear: both; }
@@ -270,7 +270,7 @@ body {
   margin: 0 55px; }
 
 .form-title {
-  margin-bottom: 33px; }
+  margin-bottom: 20px; }
 
 .signup-image {
   margin-top: 45px; }
@@ -283,9 +283,9 @@ figure {
   display: inline-block;
   background: #6dabe4;
   color: #fff;
-  border-bottom: none;
+  /* border-bottom: none; */
   width: auto;
-  padding: 15px 39px;
+  padding: 15px 105px;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -327,7 +327,8 @@ figure {
 input {
   width: 100%;
   display: block;
-  border: none;
+  /* border: none; */
+  border-radius: 10px;
   border-bottom: 1px solid #999;
   padding: 6px 30px;
   font-family: Poppins;

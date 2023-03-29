@@ -7,7 +7,7 @@ module.exports={
  userRegistation:((req,res)=>{
    
     console.log('body',req.body);
-    bcrypt.hash(req.body.password, 10, async(err, hash) => {
+    bcrypt.hash(req.body.password, 10,(err, hash) => {
     if (err) {
         return res.json({
             success: 0,
@@ -15,7 +15,6 @@ module.exports={
         })
     }
     else{
-        try{  
             const userMod=new userModel({
               firstname: req.body.firstname,
               lastname: req.body.lastname,
@@ -23,25 +22,22 @@ module.exports={
               phoneNumber:req.body.phoneNumber,
               password: hash
             })
-            await userMod.save()
-    
+            userMod.save()
+            .then(()=>{
             res.json({
     
                 success:1,
                 message:'user added successfuly'
     
             })
-    
-        }
-        catch(err){
+        })
+        .catch((err)=>{
             res.json({
                 success:0,
                 message:'error occuured while saving'+err
             })
-        }
+        })
     }
 })
-
-console.log(req.body);
-})
+ })
 }
