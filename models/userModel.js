@@ -4,10 +4,10 @@ const userSchema = new mongoose.Schema({
     firstname: { type: String },
     lastname: { type: String },
     email: { type: String, unique:true },
-    phoneNumber: { type: Number, unique: true },
+    phoneNumber: { type: String, unique: true },
     password: { type: String }
 })
 
-const studentModel = mongoose.model('user', userSchema)
+const userModel = mongoose.model('user', userSchema)
 
-module.exports = studentModel
+module.exports = userModel
