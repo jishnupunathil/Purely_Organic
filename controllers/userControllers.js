@@ -4,9 +4,21 @@ const bcrypt=require('bcrypt')
 
 module.exports={
 
+userIndexPage:((req,res)=>{
+    res.render("user/userIndex")
+}),
+
+userLoginPage:((req,res)=>{
+    res.render("user/userLogin")
+}),
+userRegistrationPage:((req,res)=>{
+    res.render("user/userSignup")
+}),
+
+
  userRegistation:((req,res)=>{
    
-    console.log('body',req.body);
+    // console.log('body',req.body);
     bcrypt.hash(req.body.password, 10,(err, hash) => {
     if (err) {
         return res.json({
@@ -23,13 +35,15 @@ module.exports={
               password: hash
             })
             userMod.save()
-            .then(()=>{
-            res.json({
+            .then((data)=>{
+            // res.json({
     
-                success:1,
-                message:'user added successfuly'
+            //     success:1,
+            //     message:'user added successfuly'
     
-            })
+            // })
+            res.redirect('/user/login')
+            console.log(data);
         })
         .catch((err)=>{
             res.json({

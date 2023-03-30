@@ -3,11 +3,17 @@ var router = express.Router();
 var controllers=require('../controllers/userControllers')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/',controllers.userIndexPage);
+
+router.get('/user/login',controllers.userLoginPage)
+
+router.get('/user/registration',controllers.userRegistrationPage)
 
 //user registration
-router.post('/registration',controllers.userRegistation)
+router.post('/user/registration',controllers.userRegistation)
 
 module.exports = router;
+
+
+
+
