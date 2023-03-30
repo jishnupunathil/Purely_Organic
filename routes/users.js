@@ -12,6 +12,10 @@ router.get('/user/registration',controllers.userRegistrationPage)
 //user registration
 router.post('/user/registration',controllers.userRegistation)
 
+//user login
+
+router.post('/user/login',controllers.userLogin)
+
 module.exports = router;
 
 

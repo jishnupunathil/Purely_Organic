@@ -14,9 +14,7 @@ userLoginPage:((req,res)=>{
 userRegistrationPage:((req,res)=>{
     res.render("user/userSignup")
 }),
-
-
- userRegistation:((req,res)=>{
+userRegistation:((req,res)=>{
    
     // console.log('body',req.body);
     bcrypt.hash(req.body.password, 10,(err, hash) => {
@@ -53,5 +51,32 @@ userRegistrationPage:((req,res)=>{
         })
     }
 })
+ }),
+
+ userLogin:((req,res)=>{
+    userModel.find({email:req.body.email})
+    .exec()
+    .then((result)=>{
+        if(result.length<1){
+            return res.json({
+                success:0,
+                message:'Account doesnt exist'
+            })
+        }
+        const user=result[0]
+        bcrypt.compare(req.body.password,user.password)
+        .then((result)=>{
+            if(result){
+                res.redirect('/')
+            }else{
+                return res.json({
+                    success: 0,
+                    message: ' wrong password '
+                })
+            }
+        }).catch((error)=>{
+           console.log(error.message)
+        })
+    })
  })
 }
