@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
     description: { type: String },
     category: { type: String},
     price: { type: Number},
+    image:{type:String},
     quantity: { type: Number },
     unit:{type:Number}
 })

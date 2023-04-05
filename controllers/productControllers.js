@@ -10,6 +10,7 @@ module.exports = {
         description: req.body.description,
         category: req.body.category,
         price: req.body.price,
+        image:req.body.image,
         quantity: req.body.quantity,
         unit: req.body.unit,
       });
@@ -31,7 +32,7 @@ module.exports = {
       let allproduct = await productModel.find();
       res.json({
         success: 1,
-        message: "books listed succesfuly",
+        message: "product listed succesfuly",
         item: allproduct,
       });
     } catch (err) {
@@ -77,6 +78,7 @@ module.exports = {
             description:req.body.description,
             category:req.body.category,
             price:req.body.price,
+            image:req.body.image,
             quantity:req.body.quantity,
             unit:req.body.unit
             }
@@ -93,5 +95,27 @@ module.exports = {
             })
     }
 }
+},
+deleteProduct:async (req,res)=>{
+    let id=req.params.id
+
+    let validId=mongoose.Types.ObjectId.isValid(id)
+    if (validId){
+        try{
+            await productModel.deleteOne({_id:id})
+            res.json({
+                success:1,
+                message:'product deleted successsfully'
+            })
+        }
+        catch(err){
+
+            res.json({
+                success:0,
+                message:'error occured while deleting'+err
+            })
+
+        }
+    }
 }
 }
