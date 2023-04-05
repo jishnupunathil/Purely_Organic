@@ -74,7 +74,7 @@ module.exports = {
               token,
               message: "admin Login successful",
             });
-          }else{
+          }else if(user.isAdmin===false){
             const userToken = jwt.sign(payload, "secretUser");
             return res.json({
               success: 1,
