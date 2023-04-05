@@ -1,5 +1,4 @@
 const userModel = require("../models/userModel");
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -15,7 +14,6 @@ module.exports = {
     res.render("user/userSignup");
   },
   userRegistation: (req, res) => {
-    // console.log('body',req.body);
     bcrypt.hash(req.body.password, 10, (err, hash) => {
       if (err) {
         return res.json({
@@ -33,12 +31,6 @@ module.exports = {
         userMod
           .save()
           .then((data) => {
-            // res.json({
-
-            //     success:1,
-            //     message:'user added successfuly'
-
-            // })
             res.redirect("/user/login");
             console.log(data);
           })

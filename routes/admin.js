@@ -1,9 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var productControllers=require('../controllers/productControllers');
+var adminControllers=require('../controllers/adminControllers')
 const checkAuth=require('../middleware/checkAuth')
 
 /* GET home page. */
+
+//user
+
+router.get('/userList',adminControllers.userList)
+
+router.get('/singleUserList/:id',adminControllers.singleUser)
 
 //products
 router.post('/addProducts',checkAuth,productControllers.addProducts)
