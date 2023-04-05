@@ -8,13 +8,16 @@ const userControllers = require('../controllers/userControllers');
 /* GET home page. */
 
 //user
-router.use('*',checkAuth)
+// router.use('*',checkAuth)
 
 router.get('/userList',adminControllers.userList)
 
 router.get('/singleUserList/:id',adminControllers.singleUser)
 
+router.post('/blockUser/:id',adminControllers.blockUser)
+
 //products
+
 router.post('/addProducts',checkAuth,productControllers.addProducts)
 
 router.get('/productList',productControllers.productList)

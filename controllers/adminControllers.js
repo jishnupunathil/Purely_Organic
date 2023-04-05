@@ -42,5 +42,53 @@ module.exports={
                 message:"invalid Id"
             })
         }
+    },
+    blockUser:async(req,res)=>{
+        let id=req.params.id
+        validId=mongoose.Types.ObjectId.isValid(id)
+        if(validId){
+            try{
+                await userModel.findByIdAndUpdate({_id:id},{
+                    $set:
+                {
+                isblocked:true
+                }
+            })
+            res.json({
+                success:1,
+                message:'user blocked'
+            })
+            }
+            catch(err){
+                res.json({
+                    success:0,
+                    message:'error occured while updating'+err
+                })
+        }
+    }
+    },
+    unblockUser:async(req,res)=>{
+        let id=req.params.id
+        validId=mongoose.Types.ObjectId.isValid(id)
+        if(validId){
+            try{
+                await userModel.findByIdAndUpdate({_id:id},{
+                    $set:
+                {
+                isblocked:false
+                }
+            })
+            res.json({
+                success:1,
+                message:'user unblocked'
+            })
+            }
+            catch(err){
+                res.json({
+                    success:0,
+                    message:'error occured while updating'+err
+                })
+        }
+    }
     }
 }
