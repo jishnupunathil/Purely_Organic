@@ -75,12 +75,21 @@ module.exports = {
               userId: user._id,
               isAdmin: user.isAdmin,
             };
-            const token = jwt.sign(payload, "BatchWeb");
+            if(user.isAdmin===true){
+            const token = jwt.sign(payload, "secretAdmin");
             return res.json({
               success: 1,
               token,
-              message: "Login successful",
+              message: "admin Login successful",
             });
+          }else{
+            const userToken = jwt.sign(payload, "secretUser");
+            return res.json({
+              success: 1,
+              userToken,
+              message: "user Login successful",
+            });
+          }
           } else {
             return res.json({
               success: 0,
