@@ -92,9 +92,16 @@
                                     <li><a href="#">English</a></li>
                                 </ul>
                             </div> -->
+                            <%if(user){%>
+                            <div class="header__top__right__auth">
+                                <a href=""><i class="fa fa-user"></i><%=user.firstname%></a>
+                                <button class="bg-danger" herf="/">Logout</button>
+                            </div>
+                            <%} else {%>
                             <div class="header__top__right__auth">
                                 <a href="/user/login"><i class="fa fa-user"></i> Login</a>
                             </div>
+                            <%}%>
                         </div>
                     </div>
                 </div>
