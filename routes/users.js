@@ -8,6 +8,8 @@ router.get('/',controllers.userIndexPage);
 
 router.get('/user/login',controllers.userLoginPage)
 
+router.get('/user/logout',controllers.userLogout)
+
 router.get('/user/registration',controllers.userRegistrationPage)
 
 //user registration

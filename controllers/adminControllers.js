@@ -2,6 +2,9 @@ const { default: mongoose } = require("mongoose");
 const userModel = require("../models/userModel");
 
 module.exports={
+    logout:(req,res)=>{
+        res.redirect('/')
+    },
     userList:async(req,res)=>{
         try{
             let allUser=await userModel.find()

@@ -94,8 +94,8 @@
                             </div> -->
                             <%if(user){%>
                             <div class="header__top__right__auth">
-                                <a href=""><i class="fa fa-user"></i><%=user.firstname%></a>
-                                <button class="bg-danger" herf="/">Logout</button>
+                                <a href="#"><i class="fa fa-user"></i><%=user.firstname%></a>
+                                <a href="/user/logout"><button class="bg-danger" style="margin-top: 10px;">Logout</button></a>
                             </div>
                             <%} else {%>
                             <div class="header__top__right__auth">

@@ -12,6 +12,11 @@ module.exports = {
       res.render("user/userLogin",{message:false,user:false});
     
   },
+  userLogout:(req,res)=>{
+
+    res.redirect('/')
+
+  },
   userRegistrationPage: (req, res) => {
     res.render("user/userSignup",{user:false});
   },

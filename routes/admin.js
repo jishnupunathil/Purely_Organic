@@ -14,6 +14,8 @@ router.get('/userList',adminControllers.userList)
 
 router.get('/singleUserList/:id',adminControllers.singleUser)
 
+router.get('/logout',adminControllers.logout)
+
 router.post('/blockUser/:id',adminControllers.blockUser)
 
 //products
