@@ -70,7 +70,7 @@ module.exports = {
             };
             if(user.isAdmin===true){
             const token = jwt.sign(payload, "secretAdmin");
-            res.render('admin/adminIndex',{userlay:false})
+            res.render('admin/dashboard',{userlay:false})
           }else if(user.isAdmin===false){
             const userToken = jwt.sign(payload, "secretUser");
             res.render('user/userIndex',{user,userlay:true,loggedIn:true})

@@ -2,7 +2,7 @@ const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
 
 module.exports = {
-  addProducts: async (req, res) => {
+  addProduct: async (req, res) => {
     console.log("body", req.body);
     try {
       const productMod = new productModel({
@@ -18,23 +18,17 @@ module.exports = {
 
       await productMod.save();
 
-      res.json({
-        success: 1,
-        message: "Product successfuly added",
-      });
+      res.render('admin/productList',{userlay:false})
     } catch (err) {
-      res.json({
-        success: 0,
-        message: "error occuured while saving" + err,
-      });
+      res.render('admin/addProducts',{userlay:false})
     }
   },
   productList: async (req, res) => {
     try {
       let allproduct = await productModel.find();
-      res.render('admin/adminProducts',{userlay:false,allproduct})
+      res.render('admin/productList',{userlay:false,allproduct})
     } catch (err) {
-      res.render('admin/adminIndex',{userlay:false})
+      res.render('admin/dashboard',{userlay:false})
     }
   },
   singleProduct: async (req, res) => {

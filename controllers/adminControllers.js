@@ -2,8 +2,13 @@ const { default: mongoose } = require("mongoose");
 const userModel = require("../models/userModel");
 
 module.exports={
-    getIndex:(req,res)=>{
-        res.render('admin/adminIndex',{userlay:false})
+    getDashboard:(req,res)=>{
+        res.render('admin/dashboard',{userlay:false})
+    },
+    getAddProduct:(req,res)=>{
+
+        res.render('admin/addProducts',{userlay:false})
+
     },
     logout:(req,res)=>{
         res.redirect('/')
@@ -11,9 +16,9 @@ module.exports={
     userList:async(req,res)=>{
         try{
             let allUser=await userModel.find()
-            res.render('admin/adminUser',{userlay:false,allUser})
+            res.render('admin/userList',{userlay:false,allUser})
     } catch (err) {
-      res.render('admin/adminIndex',{userlay:false})
+      res.render('admin/dashboard',{userlay:false})
         }
     },
 
