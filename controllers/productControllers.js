@@ -10,10 +10,12 @@ module.exports = {
         description: req.body.description,
         category: req.body.category,
         price: req.body.price,
-        image:req.body.image,
         quantity: req.body.quantity,
         unit: req.body.unit,
       });
+      const images = req.files.map((file) => file.path);
+      productMod.images = images;
+
       await productMod.save();
 
       res.json({

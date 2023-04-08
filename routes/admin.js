@@ -3,7 +3,8 @@ var router = express.Router();
 var productControllers=require('../controllers/productControllers');
 var adminControllers=require('../controllers/adminControllers')
 const checkAuth=require('../middleware/checkAuth');
-const userControllers = require('../controllers/userControllers');
+// const userControllers = require('../controllers/userControllers');
+const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload')
 
 /* GET home page. */
 
@@ -20,13 +21,13 @@ router.post('/blockUser/:id',adminControllers.blockUser)
 
 //products
 
-router.post('/addProducts',checkAuth,productControllers.addProducts)
+router.post('/addProducts',multipleImageUpload,productControllers.addProducts)
 
 router.get('/productList',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 
-router.put('/updateProduct/:id',productControllers.updateProduct)
+router.put('/updateProduct/:id',multipleImageUpload,productControllers.updateProduct)
 
 router.delete('/deleteProduct/:id',productControllers.deleteProduct)
 
