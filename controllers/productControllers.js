@@ -10,10 +10,12 @@ module.exports = {
         description: req.body.description,
         category: req.body.category,
         price: req.body.price,
-        image:req.body.image,
         quantity: req.body.quantity,
         unit: req.body.unit,
       });
+      const images = req.files.map((file) => file.path);
+      productMod.images = images;
+
       await productMod.save();
 
       res.json({
@@ -30,16 +32,9 @@ module.exports = {
   productList: async (req, res) => {
     try {
       let allproduct = await productModel.find();
-      res.json({
-        success: 1,
-        message: "product listed succesfuly",
-        item: allproduct,
-      });
+      res.render('admin/adminProducts',{userlay:false,allproduct})
     } catch (err) {
-      res.json({
-        success: 0,
-        message: "error occured while testing" + err,
-      });
+      res.render('admin/adminIndex',{userlay:false})
     }
   },
   singleProduct: async (req, res) => {

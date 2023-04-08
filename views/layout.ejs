@@ -1,2 +1,3 @@
- <%-include('layouts/userlayout.ejs')-%>
+<% if (userlay){%> <%-include('layouts/userlayout.ejs')-%>
    
+    <%} else {%> <%-include('layouts/adminlayout.ejs')-%> <% }%>
