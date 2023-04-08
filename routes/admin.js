@@ -13,7 +13,7 @@ const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload'
 
 router.get('/index',adminControllers.getIndex)
 
-router.get('/userList',adminControllers.userList)
+router.get('/userLists',adminControllers.userList)
 
 router.get('/singleUserList/:id',adminControllers.singleUser)
 
