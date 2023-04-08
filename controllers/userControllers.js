@@ -5,11 +5,11 @@ const { token } = require("morgan");
 
 module.exports = {
   userIndexPage: (req, res) => {
-    res.render("user/userIndex",{user:false});
+    res.render("user/userIndex",{userlay:true,user:false,loggedIn:false});
   },
 
   userLoginPage: (req, res) => {
-      res.render("user/userLogin",{message:false,user:false});
+      res.render("user/userLogin",{userlay:true,message:false,user:false,loggedIn:false});
     
   },
   userLogout:(req,res)=>{
@@ -18,7 +18,7 @@ module.exports = {
 
   },
   userRegistrationPage: (req, res) => {
-    res.render("user/userSignup",{user:false});
+    res.render("user/userSignup",{userlay:true,user:false,loggedIn:false});
   },
   userRegistation: (req, res) => {
     bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -57,7 +57,7 @@ module.exports = {
       .findOne({ email })
       .then((user) => {
         if (!user) {
-          return res.render('user/userLogin', {user:false, message: "Account does not exist"});
+          return res.render('user/userLogin', {user:false, message: "Account does not exist",userlay:true,loggedIn:false});
         }
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
@@ -70,13 +70,13 @@ module.exports = {
             };
             if(user.isAdmin===true){
             const token = jwt.sign(payload, "secretAdmin");
-            res.render('admin/adminIndex')
+            res.render('admin/adminIndex',{userlay:false})
           }else if(user.isAdmin===false){
             const userToken = jwt.sign(payload, "secretUser");
-            res.render('user/userIndex',{user})
+            res.render('user/userIndex',{user,userlay:true,loggedIn:true})
           }
           } else {
-            return res.render('user/userLogin', { user:false,message: "Invalid password" });
+            return res.render('user/userLogin', { user:false,message: "Invalid password",loggedIn:false,userlay:true });
           }
         });
       })
