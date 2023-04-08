@@ -11,6 +11,8 @@ const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload'
 //user
 // router.use('*',checkAuth)
 
+router.get('/index',adminControllers.getIndex)
+
 router.get('/userList',adminControllers.userList)
 
 router.get('/singleUserList/:id',adminControllers.singleUser)
@@ -23,7 +25,7 @@ router.post('/blockUser/:id',adminControllers.blockUser)
 
 router.post('/addProducts',multipleImageUpload,productControllers.addProducts)
 
-router.get('/productList',productControllers.productList)
+router.get('/productLists',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 

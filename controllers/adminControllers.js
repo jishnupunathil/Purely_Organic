@@ -2,6 +2,9 @@ const { default: mongoose } = require("mongoose");
 const userModel = require("../models/userModel");
 
 module.exports={
+    getIndex:(req,res)=>{
+        res.render('admin/adminIndex',{userlay:false})
+    },
     logout:(req,res)=>{
         res.redirect('/')
     },
