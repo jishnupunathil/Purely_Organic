@@ -6,15 +6,15 @@ module.exports = {
     console.log("body", req.body);
     try {
       const productMod = new productModel({
-        name: req.body.name,
-        description: req.body.description,
-        category: req.body.category,
-        price: req.body.price,
-        quantity: req.body.quantity,
-        unit: req.body.unit,
+        pname: req.body.name,
+        pdescription: req.body.description,
+        pcategory: req.body.category,
+        pprice: req.body.price,
+        pcountInStock: req.body.countInStock,
+        // unit: req.body.unit,
       });
       const images = req.files.map((file) => file.path);
-      productMod.images = images;
+      productMod.pimages = images;
 
       await productMod.save();
 
@@ -63,13 +63,13 @@ module.exports = {
             await productModel.findByIdAndUpdate({_id:id},{
                 $set:
             {
-            name:req.body.name,
-            description:req.body.description,
-            category:req.body.category,
-            price:req.body.price,
-            image:req.body.image,
-            quantity:req.body.quantity,
-            unit:req.body.unit
+            pname:req.body.name,
+            pdescription:req.body.description,
+            pcategory:req.body.category,
+            pprice:req.body.price,
+            pimage:req.body.image,
+            pcountInStock:req.body.countInStock,
+            // unit:req.body.unit
             }
         })
         res.json({
