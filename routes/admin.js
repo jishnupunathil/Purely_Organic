@@ -3,7 +3,7 @@ var router = express.Router();
 var productControllers=require('../controllers/productControllers');
 var adminControllers=require('../controllers/adminControllers')
 const checkAuth=require('../middleware/checkAuth');
-// const userControllers = require('../controllers/userControllers');
+const categoryControllers = require('../controllers/categoryControllers');
 const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload')
 
 /* GET home page. */
@@ -11,9 +11,9 @@ const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload'
 //user
 // router.use('*',checkAuth)
 
-router.get('/index',adminControllers.getIndex)
+router.get('/dashboard',adminControllers.getDashboard)
 
-router.get('/userLists',adminControllers.userList)
+router.get('/userList',adminControllers.userList)
 
 router.get('/singleUserList/:id',adminControllers.singleUser)
 
@@ -23,14 +23,22 @@ router.post('/blockUser/:id',adminControllers.blockUser)
 
 //products
 
-router.post('/addProducts',multipleImageUpload,productControllers.addProducts)
+router.get('/addProduct',adminControllers.getAddProduct)
 
-router.get('/productLists',productControllers.productList)
+router.post('/addProduct',multipleImageUpload,productControllers.addProduct)
+
+router.get('/productList',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 
 router.put('/updateProduct/:id',multipleImageUpload,productControllers.updateProduct)
 
 router.delete('/deleteProduct/:id',productControllers.deleteProduct)
+
+//category
+
+router.get('/category',categoryControllers.categoryList)
+
+router.post('/category',categoryControllers.addCategory)
 
 module.exports = router;

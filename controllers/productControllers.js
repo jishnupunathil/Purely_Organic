@@ -2,39 +2,33 @@ const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
 
 module.exports = {
-  addProducts: async (req, res) => {
+  addProduct: async (req, res) => {
     console.log("body", req.body);
     try {
       const productMod = new productModel({
-        name: req.body.name,
-        description: req.body.description,
-        category: req.body.category,
-        price: req.body.price,
-        quantity: req.body.quantity,
-        unit: req.body.unit,
+        pname: req.body.name,
+        pdescription: req.body.description,
+        pcategory: req.body.category,
+        pprice: req.body.price,
+        pcountInStock: req.body.countInStock,
+        // unit: req.body.unit,
       });
       const images = req.files.map((file) => file.path);
-      productMod.images = images;
+      productMod.pimages = images;
 
       await productMod.save();
 
-      res.json({
-        success: 1,
-        message: "Product successfuly added",
-      });
+      res.render('admin/productList',{userlay:false})
     } catch (err) {
-      res.json({
-        success: 0,
-        message: "error occuured while saving" + err,
-      });
+      res.render('admin/addProducts',{userlay:false})
     }
   },
   productList: async (req, res) => {
     try {
       let allproduct = await productModel.find();
-      res.render('admin/adminProducts',{userlay:false,allproduct})
+      res.render('admin/productList',{userlay:false,allproduct})
     } catch (err) {
-      res.render('admin/adminIndex',{userlay:false})
+      res.render('admin/dashboard',{userlay:false})
     }
   },
   singleProduct: async (req, res) => {
@@ -69,13 +63,13 @@ module.exports = {
             await productModel.findByIdAndUpdate({_id:id},{
                 $set:
             {
-            name:req.body.name,
-            description:req.body.description,
-            category:req.body.category,
-            price:req.body.price,
-            image:req.body.image,
-            quantity:req.body.quantity,
-            unit:req.body.unit
+            pname:req.body.name,
+            pdescription:req.body.description,
+            pcategory:req.body.category,
+            pprice:req.body.price,
+            pimage:req.body.image,
+            pcountInStock:req.body.countInStock,
+            // unit:req.body.unit
             }
         })
         res.json({

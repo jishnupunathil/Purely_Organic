@@ -1,13 +1,15 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-    name: { type: String },
-    description: { type: String },
-    category: { type: String},
-    price: { type: Number},
-    images:[{type:String}],
-    quantity: { type: Number },
-    unit:{type:Number}
+    pname: { type: String },
+    pdescription: { type: String },
+    pcategory: { type: String},
+    pprice: { type: Number},
+    pimages:[{type:String}],
+    pcountInStock: { type: Number },
+    punit:{type:Number}
+},{
+    timestamps:true
 })
 
 const productModel = mongoose.model('product', productSchema)
