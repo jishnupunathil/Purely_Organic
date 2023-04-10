@@ -15,20 +15,10 @@ module.exports = {
       });
       const images = req.files.map((file) => file.path);
       productMod.pimages = images;
-
       await productMod.save();
-
-
-      res.json({
-        success:1,
-        message:'product added'
-      })
+      res.redirect('/admin/productList')
     } catch (err) {
-
-      res.json({
-        sucess:0,
-        message:"errtot"+err
-      })
+      res.render('admin/addProducts',{userlay:false})
     }
   },
   productList: async (req, res) => {
@@ -95,22 +85,17 @@ module.exports = {
 },
 deleteProduct:async (req,res)=>{
     let id=req.params.id
+    console.log(id);
 
     let validId=mongoose.Types.ObjectId.isValid(id)
     if (validId){
         try{
             await productModel.deleteOne({_id:id})
-            res.json({
-                success:1,
-                message:'product deleted successsfully'
-            })
+            res.redirect('/admin/productList')
         }
         catch(err){
 
-            res.json({
-                success:0,
-                message:'error occured while deleting'+err
-            })
+            res.render('admin/productList',{userlay:false,allproduct})
 
         }
     }

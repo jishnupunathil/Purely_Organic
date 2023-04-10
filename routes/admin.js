@@ -33,7 +33,7 @@ router.get('/singleProduct/:id',productControllers.singleProduct)
 
 router.put('/updateProduct/:id',multipleImageUpload,productControllers.updateProduct)
 
-router.delete('/deleteProduct/:id',productControllers.deleteProduct)
+router.all('/deleteProduct/:id',productControllers.deleteProduct)
 
 //category
 

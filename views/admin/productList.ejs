@@ -152,19 +152,19 @@
             <% for (let i=0; i<allproduct.length; i++) { %>
             <div class="col-xl-3 col-lg-4 col-md-6">
                 <div class="card card-product-grid">
-                    <a href="#" class="img-wrap"> <img  src="<%= allproduct[i].pimages[0]%>" alt="Product"> </a>
+                    <a href="#" class="img-wrap"> <img  src="" alt="Product"> </a>
                     <div class="info-wrap">
                         <div class="dropdown float-end">
                             <a href="#" class="btn btn-sm btn-brand rounded">
                                 <i class="material-icons md-edit mr-5"></i>Edit
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger rounded">
+                            <a href="/admin/deleteProduct/<%=allproduct[i]._id%>"  class="btn btn-sm btn-danger rounded">
                                 <i class="material-icons md-delete mr-5"></i>delete
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end">
+                            <!-- <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href="#">Edit info</a>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
+                                <a class="dropdown-item text-danger" href=>Delete</a>
+                            </div> -->
                         </div>
                         <a href="#" class="title"><%=allproduct[i].pname%></a>
                         <div class="price mt-1">₹<%=allproduct[i].pprice%></div> 
