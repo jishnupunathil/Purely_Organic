@@ -6,21 +6,29 @@ module.exports = {
     console.log("body", req.body);
     try {
       const productMod = new productModel({
-        pname: req.body.name,
-        pdescription: req.body.description,
-        pcategory: req.body.category,
-        pprice: req.body.price,
-        pcountInStock: req.body.countInStock,
-        // unit: req.body.unit,
+        pname: req.body.pname,
+        pdescription: req.body.pdescription,
+        pcategory: req.body.pcategory,
+        pprice: req.body.pprice,
+        pcountInStock: req.body.pcountInStock,
+
       });
       const images = req.files.map((file) => file.path);
       productMod.pimages = images;
 
       await productMod.save();
 
-      res.render('admin/productList',{userlay:false})
+
+      res.json({
+        success:1,
+        message:'product added'
+      })
     } catch (err) {
-      res.render('admin/addProducts',{userlay:false})
+
+      res.json({
+        sucess:0,
+        message:"errtot"+err
+      })
     }
   },
   productList: async (req, res) => {

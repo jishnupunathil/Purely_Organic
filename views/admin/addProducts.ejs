@@ -1,4 +1,4 @@
- <div class="screen-overlay"></div>hii
+ <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="index.html" class="brand-wrap">
@@ -131,7 +131,7 @@
                             <h4>Basic</h4>
                         </div>
                         <div class="card-body">
-                            <form action="/admin/addProduct" method="post" id="addProduct">
+                            <form action="/admin/addProduct" method="POST" id="addProduct" enctype="multipart/form-data">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here" class="form-control" id="pname" name="pname">
@@ -172,7 +172,7 @@
                                     <input class="form-check-input" type="checkbox" value="">
                                     <span class="form-check-label"> Make a template </span>
                                 </label> -->
-                                <input type="submit" class="btn btn-brand rounded font-sm hover-up" value="Add Product">
+                                <button type="submit" class="btn btn-brand rounded font-sm hover-up">Add product</button>
                             
                         </div>
                     </div> <!-- card end// -->
@@ -217,7 +217,8 @@
                         <div class="card-body">
                             <div class="input-upload">
                                 <img src="/assets/imgs/theme/upload.svg" alt="">
-                                <input class="form-control" type="file" name="pimages" id="pimages">
+                                <input class="form-control" type="file" name="images" id="images" multiple>
+                                <!-- <input class="form-control" type="file"> -->
                             </div>
                         </div>
                     </div> <!-- card end// -->
@@ -229,7 +230,7 @@
                             <div class="row gx-2">
                                 <div class="col-sm-6 mb-3">
                                     <label class="form-label">Category</label>
-                                    <select class="form-select" name="pcategory"> 
+                                    <select class="form-select" name="pcategory" id="pcategory"> 
                                         <option> Fresh vegetables </option>
                                         <option> Fresh Meat </option>
                                         <option> Dried Fruits </option>

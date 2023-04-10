@@ -152,7 +152,7 @@
             <% for (let i=0; i<allproduct.length; i++) { %>
             <div class="col-xl-3 col-lg-4 col-md-6">
                 <div class="card card-product-grid">
-                    <a href="#" class="img-wrap"> <img src="" alt="Product"> </a>
+                    <a href="#" class="img-wrap"> <img  src="<%= allproduct[i].pimages[0]%>" alt="Product"> </a>
                     <div class="info-wrap">
                         <div class="dropdown float-end">
                             <a href="#" class="btn btn-sm btn-brand rounded">
@@ -166,9 +166,9 @@
                                 <a class="dropdown-item text-danger" href="#">Delete</a>
                             </div>
                         </div>
-                        <a href="#" class="title"><%=allproduct[i].name%></a>
-                        <div class="price mt-1">₹<%=allproduct[i].price%></div> 
-                        <div class="price mt-1"><%=allproduct[i].description%></div> <!-- price-wrap.// -->
+                        <a href="#" class="title"><%=allproduct[i].pname%></a>
+                        <div class="price mt-1">₹<%=allproduct[i].pprice%></div> 
+                        <div class="price mt-1"><%=allproduct[i].pdescription%></div> <!-- price-wrap.// -->
                     </div>
                 </div> <!-- card-product  end// -->
             </div> <!-- col.// -->
