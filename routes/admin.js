@@ -31,7 +31,7 @@ router.get('/productList',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 
-router.put('/updateProduct/:id',multipleImageUpload,productControllers.updateProduct)
+router.all('/updateProduct/:id',productControllers.updateProduct)
 
 router.all('/deleteProduct/:id',productControllers.deleteProduct)
 

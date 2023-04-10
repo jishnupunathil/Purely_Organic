@@ -11,7 +11,6 @@ module.exports = {
         pcategory: req.body.pcategory,
         pprice: req.body.pprice,
         pcountInStock: req.body.pcountInStock,
-
       });
       const images = req.files.map((file) => file.path);
       productMod.pimages = images;
@@ -35,16 +34,9 @@ module.exports = {
     if (ValidId) {
       try {
         let singleProduct = await productModel.findById({ _id: id });
-        res.json({
-          success: 1,
-          message: "single product listed",
-          item: singleProduct,
-        });
+        res.render('admin/editProduct',{userlay:false,singleProduct})
       } catch (err) {
-        res.json({
-          success: 0,
-          message: "error occured while listing single product" + err,
-        });
+        res.render('admin/productList',{userlay:false})
       }
     } else {
       res.json({
@@ -55,31 +47,26 @@ module.exports = {
   },
   updateProduct:async(req,res)=>{
     let id=req.params.id
+    console.log(id);
     validId=mongoose.Types.ObjectId.isValid(id)
     if(validId){
         try{
             await productModel.findByIdAndUpdate({_id:id},{
                 $set:
             {
-            pname:req.body.name,
-            pdescription:req.body.description,
-            pcategory:req.body.category,
-            pprice:req.body.price,
-            pimage:req.body.image,
-            pcountInStock:req.body.countInStock,
+            pname:req.body.pname,
+            pdescription:req.body.pdescription,
+            pcategory:req.body.pcategory,
+            pprice:req.body.pprice,
+            // pimage:req.body.image,
+            pcountInStock:req.body.pcountInStock,
             // unit:req.body.unit
             }
         })
-        res.json({
-            success:1,
-            message:'product updated successfuly'
-        })
+        res.redirect('/admin/productList')
         }
         catch(err){
-            res.json({
-                success:0,
-                message:'error occured while updating'+err
-            })
+            res.render('admin/editProduct',{userlay:false,singleProduct})
     }
 }
 },
