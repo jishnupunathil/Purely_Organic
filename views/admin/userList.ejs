@@ -173,9 +173,15 @@
                                 <td><%= user.email %></td>
                                 <td><span class="badge rounded-pill alert-success">Active</span></td>
                                 <td>08.07.2020</td>
+                                <%if(user.isblocked){%>
+                                <td class="text-end">
+                                    <a href="/admin/blockUser/<%=user._id%>" class="btn btn-sm btn-success rounded font-sm mt-15">unblock</a>
+                                </td>
+                                <%} else {%>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-sm btn-danger rounded font-sm mt-15">Block</a>
                                 </td>
+                                <%}%>
                             </tr>
                             <% }); %>
                         </tbody>

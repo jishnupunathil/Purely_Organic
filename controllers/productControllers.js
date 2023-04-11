@@ -23,7 +23,7 @@ module.exports = {
   productList: async (req, res) => {
     try {
             const page = parseInt(req.query.page) || 1;
-            const pageSize = parseInt(req.query.pageSize) || 2;
+            const pageSize = parseInt(req.query.pageSize) || 4;
             const skip = (page - 1) * pageSize;
     
             const allproduct = await productModel.find().skip(skip).limit(pageSize);
@@ -80,18 +80,18 @@ module.exports = {
             // unit:req.body.unit
             }
         })
-        // res.redirect('/admin/productList')
-        res.json({
-          success:1,
-          message:"data updated"
-        })
+        res.redirect('/admin/productList')
+        // res.json({
+        //   success:1,
+        //   message:"data updated"
+        // })
         }
         catch(err){
-            // res.render('admin/editProduct',{userlay:false,singleProduct})
-            res.json({
-              success:1,
-              message:'error'+err
-            })
+            res.render('admin/editProduct',{userlay:false,singleProduct})
+            // res.json({
+            //   success:1,
+            //   message:'error'+err
+            // })
     }
 }
 },

@@ -64,25 +64,21 @@ module.exports={
     },
     blockUser:async(req,res)=>{
         let id=req.params.id
+        console.log(id);
         validId=mongoose.Types.ObjectId.isValid(id)
         if(validId){
             try{
                 await userModel.findByIdAndUpdate({_id:id},{
                     $set:
                 {
-                isblocked:true
+                isblocked:false
                 }
             })
-            res.json({
-                success:1,
-                message:'user blocked'
-            })
+        
+            res.redirect('/admin/userList')
             }
             catch(err){
-                res.json({
-                    success:0,
-                    message:'error occured while updating'+err
-                })
+                res.redirect('/admin/userList')
         }
     }
     },
