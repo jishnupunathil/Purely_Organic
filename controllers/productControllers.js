@@ -63,10 +63,18 @@ module.exports = {
             // unit:req.body.unit
             }
         })
-        res.redirect('/admin/productList')
+        // res.redirect('/admin/productList')
+        res.json({
+          success:1,
+          message:"data updated"
+        })
         }
         catch(err){
-            res.render('admin/editProduct',{userlay:false,singleProduct})
+            // res.render('admin/editProduct',{userlay:false,singleProduct})
+            res.json({
+              success:1,
+              message:'error'+err
+            })
     }
 }
 },

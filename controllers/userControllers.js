@@ -4,13 +4,51 @@ const jwt = require("jsonwebtoken");
 const { token } = require("morgan");
 
 module.exports = {
+  indexPage: (req, res) => {
+    res.render("user/userIndex",{userlay:true,loggedIn:false});
+  },
   userIndexPage: (req, res) => {
-    res.render("user/userIndex",{userlay:true,user:false,loggedIn:false});
+    const token = req.cookies.token;
+  
+    if (!token) {
+      // user is not authenticated
+      return res.redirect('/user/login');
+    }
+  
+    try {
+      const decodedToken = jwt.verify(token, 'secretUser');
+      const userId = decodedToken.userId;
+      console.log('userId:', userId);
+  
+      userModel.findById(userId)
+      .then((user) => {
+        if (!user) {
+          console.log('user not found');
+          return res.redirect('/user/login');
+        }
+        console.log('user:', user);
+  
+        res.render('user/userIndex', { userlay: true, loggedIn: true, user });
+      }) 
+      .catch ((err)=> {
+        console.log('error decoding token:', err);
+        return res.redirect('/user/login');
+      })
+  }catch (err) {
+      console.log('error decoding token:', err);
+      return res.redirect('/user/login');
+    }
   },
 
-  userLoginPage: (req, res) => {
-      res.render("user/userLogin",{userlay:true,message:false,user:false,loggedIn:false});
     
+  userLoginPage: (req, res) => {
+    const token=req.cookies.token
+    if(!token){
+      res.render("user/userLogin",{userlay:true,message:false,loggedIn:false});
+    }else{
+      // res.render('user/userIndex',{userlay:true,loggedIn:true,user:true})
+      res.redirect('/user/index')
+    }
   },
   userLogout:(req,res)=>{
 
@@ -18,7 +56,7 @@ module.exports = {
 
   },
   userRegistrationPage: (req, res) => {
-    res.render("user/userSignup",{userlay:true,user:false,loggedIn:false});
+    res.render("user/userSignup",{userlay:true,loggedIn:false});
   },
   userRegistation: (req, res) => {
     bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -57,11 +95,11 @@ module.exports = {
       .findOne({ email })
       .then((user) => {
         if (!user) {
-          return res.render('user/userLogin', {user:false, message: "Account does not exist",userlay:true,loggedIn:false});
+          return res.render('user/userLogin', { message: "Account does not exist",userlay:true,loggedIn:false});
         }
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
-            return res.render('user/userLogin', {user:false, message: "Authentication failed" });
+            return res.render('user/userLogin', {message: "Authentication failed",loggedIn:false,userlay:true });
           }
           if (result) {
             const payload = {
@@ -70,18 +108,20 @@ module.exports = {
             };
             if(user.isAdmin===true){
             const token = jwt.sign(payload, "secretAdmin");
-            res.render('admin/dashboard',{userlay:false})
+            res.cookie('token', token, { httpOnly: true });
+            res.redirect('/admin/dashboard')
           }else if(user.isAdmin===false){
             const userToken = jwt.sign(payload, "secretUser");
-            res.render('user/userIndex',{user,userlay:true,loggedIn:true})
+            res.cookie('token', userToken, { httpOnly: true });
+            res.redirect('/user/index')
           }
           } else {
-            return res.render('user/userLogin', { user:false,message: "Invalid password",loggedIn:false,userlay:true });
+            return res.render('user/userLogin', {message: "Invalid password",loggedIn:false,userlay:true });
           }
         });
       })
       .catch((error) => {
-        return res.render('user/userLogin', { user:false,message: "Authentication failed" });
+        return res.render('user/userLogin', {message: "Authentication failed",loggedIn:false,userlay:true });
       });
   },
 }

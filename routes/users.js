@@ -4,7 +4,9 @@ var controllers=require('../controllers/userControllers')
 var productControllers=require('../controllers/productControllers')
 
 /* GET users listing. */
-router.get('/',controllers.userIndexPage);
+router.get('/',controllers.indexPage);
+
+router.get('/user/index',controllers.userIndexPage);
 
 router.get('/user/login',controllers.userLoginPage)
 

@@ -9,7 +9,7 @@ const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload'
 /* GET home page. */
 
 //user
-// router.use('*',checkAuth)
+router.use('*',checkAuth)
 
 router.get('/dashboard',adminControllers.getDashboard)
 
@@ -31,7 +31,7 @@ router.get('/productList',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 
-router.all('/updateProduct/:id',productControllers.updateProduct)
+router.put('/updateProduct/:id',productControllers.updateProduct)
 
 router.all('/deleteProduct/:id',productControllers.deleteProduct)
 
