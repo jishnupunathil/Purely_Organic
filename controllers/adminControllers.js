@@ -11,7 +11,8 @@ module.exports={
 
     },
     logout:(req,res)=>{
-        res.redirect('/')
+        res.cookie('token', '', { expires: new Date(0) });
+    res.redirect('/')
     },
     userList:async(req,res)=>{
         try{

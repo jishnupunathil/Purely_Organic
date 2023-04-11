@@ -51,9 +51,8 @@ module.exports = {
     }
   },
   userLogout:(req,res)=>{
-
+    res.cookie('token', '', { expires: new Date(0) });
     res.redirect('/')
-
   },
   userRegistrationPage: (req, res) => {
     res.render("user/userSignup",{userlay:true,loggedIn:false});
