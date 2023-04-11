@@ -22,8 +22,25 @@ module.exports = {
   },
   productList: async (req, res) => {
     try {
-      let allproduct = await productModel.find();
-      res.render('admin/productList',{userlay:false,allproduct})
+            const page = parseInt(req.query.page) || 1;
+            const pageSize = parseInt(req.query.pageSize) || 2;
+            const skip = (page - 1) * pageSize;
+    
+            const allproduct = await productModel.find().skip(skip).limit(pageSize);
+            const count = await productModel.countDocuments();
+    
+            const totalPages = Math.ceil(count / pageSize);
+            const currentPage = page > totalPages ? totalPages : page;
+
+      // let allproduct = await productModel.find();
+      res.render('admin/productList', {
+        userlay: false,
+        allproduct,
+        totalPages,
+        currentPage,
+        pageSize
+    });
+      // res.render('admin/productList',{userlay:false,allproduct})
     } catch (err) {
       res.render('admin/dashboard',{userlay:false})
     }

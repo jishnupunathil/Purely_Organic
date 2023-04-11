@@ -149,16 +149,16 @@
         </header> <!-- card-header end// -->
          
         <div class="row">
-            <% for (let i=0; i<allproduct.length; i++) { %>
+            <% allproduct.forEach(function(product) { %>
             <div class="col-xl-3 col-lg-4 col-md-6">
                 <div class="card card-product-grid">
                     <a href="#" class="img-wrap"> <img  src="" alt="Product"> </a>
                     <div class="info-wrap">
                         <div class="dropdown float-end">
-                            <a href="/admin/singleProduct/<%=allproduct[i]._id%>" class="btn btn-sm btn-brand rounded">
+                            <a href="/admin/singleProduct/<%=product._id%>" class="btn btn-sm btn-brand rounded">
                                 <i class="material-icons md-edit mr-5"></i>Edit
                             </a>
-                            <a href="/admin/deleteProduct/<%=allproduct[i]._id%>"  class="btn btn-sm btn-danger rounded">
+                            <a href="/admin/deleteProduct/<%=product._id%>"  class="btn btn-sm btn-danger rounded">
                                 <i class="material-icons md-delete mr-5"></i>delete
                             </a>
                             <!-- <div class="dropdown-menu dropdown-menu-end">
@@ -166,26 +166,32 @@
                                 <a class="dropdown-item text-danger" href=>Delete</a>
                             </div> -->
                         </div>
-                        <a href="#" class="title"><%=allproduct[i].pname%></a>
-                        <div class="price mt-1">₹<%=allproduct[i].pprice%></div> 
-                        <div class="price mt-1"><%=allproduct[i].pdescription%></div> <!-- price-wrap.// -->
+                        <a href="#" class="title"><%=product.pname%></a>
+                        <div class="price mt-1">₹<%=product.pprice%></div> 
+                        <div class="price mt-1"><%=product.pdescription%></div> <!-- price-wrap.// -->
                     </div>
                 </div> <!-- card-product  end// -->
             </div> <!-- col.// -->
-            <%}%>
+            <%})%>
             </div>
-        <div class="pagination-area mt-15 mb-50">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                    <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-                </ul>
-            </nav>
-        </div>
+            <div class="pagination-area mt-15 mb-50 ">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <% if (currentPage > 1) { %>
+                    <li class="page-item"><a class="page-link" href="?page=<%=currentPage-1%>"><i class="material-icons md-chevron_left"></i></a></li>
+                    <% } %>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <% if (i === currentPage) { %>active<% } %>"><a class="page-link" href="?page=<%=i%>"><%=i%></a></li>
+                    <% } %>
+                    <% if (currentPage < totalPages) { %>
+                    <li class="page-item"><a class="page-link" href="?page=<%=currentPage+1%>"><i class="material-icons md-chevron_right"></i></a></li>
+                    <% } %>
+                  </ul>
+                </nav>
+              </div>
     </section> <!-- content-main end// -->
     <%-include('../partials/adminFooter.ejs')%> 
     </main>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"></script>
