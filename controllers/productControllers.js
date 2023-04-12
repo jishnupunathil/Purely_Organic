@@ -32,7 +32,6 @@ module.exports = {
             const totalPages = Math.ceil(count / pageSize);
             const currentPage = page > totalPages ? totalPages : page;
 
-      // let allproduct = await productModel.find();
       res.render('admin/productList', {
         userlay: false,
         allproduct,
@@ -40,7 +39,7 @@ module.exports = {
         currentPage,
         pageSize
     });
-      // res.render('admin/productList',{userlay:false,allproduct})
+      
     } catch (err) {
       res.render('admin/dashboard',{userlay:false})
     }
@@ -63,11 +62,11 @@ module.exports = {
     }
   },
   updateProduct:async(req,res)=>{
+    try{
     let id=req.params.id
     console.log(id);
     validId=mongoose.Types.ObjectId.isValid(id)
     if(validId){
-        try{
             await productModel.findByIdAndUpdate({_id:id},{
                 $set:
             {
@@ -77,23 +76,22 @@ module.exports = {
             pprice:req.body.pprice,
             // pimage:req.body.image,
             pcountInStock:req.body.pcountInStock,
-            // unit:req.body.unit
-            }
+          }
         })
-        res.redirect('/admin/productList')
-        // res.json({
-        //   success:1,
-        //   message:"data updated"
-        // })
-        }
+        // res.redirect('/admin/productList')
+        res.json({
+          success:1,
+          message:"data updated"
+        })
+      }
+      }
         catch(err){
-            res.render('admin/editProduct',{userlay:false,singleProduct})
-            // res.json({
-            //   success:1,
-            //   message:'error'+err
-            // })
+            // res.render('admin/editProduct',{userlay:false,singleProduct})
+            res.json({
+              success:1,
+              message:'error'+err
+            })
     }
-}
 },
 deleteProduct:async (req,res)=>{
     let id=req.params.id

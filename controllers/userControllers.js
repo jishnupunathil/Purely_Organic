@@ -39,15 +39,39 @@ module.exports = {
       return res.redirect('/user/login');
     }
   },
-
-    
+  
+  
   userLoginPage: (req, res) => {
     const token=req.cookies.token
     if(!token){
       res.render("user/userLogin",{userlay:true,message:false,loggedIn:false});
-    }else{
-      // res.render('user/userIndex',{userlay:true,loggedIn:true,user:true})
-      res.redirect('/user/index')
+    }else {
+      jwt.verify(token, "secretAdmin", (err, decodedToken) => {
+        if (err) {
+          // If there's an error decoding the token, render the login page
+          res.render("user/userLogin", {
+            userlay: true,
+            message: false,
+            loggedIn: false,
+          });
+        } else if (decodedToken.isAdmin) {
+          jwt.verify(token, "secretAdmin", (err, decodedAdminToken) => {
+            if (err) {
+              // If there's an error decoding the admin token, render the login page
+              res.render("user/userLogin", {
+                userlay: true,
+                message: false,
+                loggedIn: false,
+              });
+            } else if(decodedAdminToken){
+              res.redirect('/admin/dashboard');
+            }
+          });
+        } else {
+          // If the token belongs to a user, redirect to the user index page
+          res.redirect('/user/index');
+        }
+      });
     }
   },
   userLogout:(req,res)=>{
