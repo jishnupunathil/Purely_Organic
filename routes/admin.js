@@ -41,4 +41,6 @@ router.get('/category',categoryControllers.categoryList)
 
 router.post('/category',categoryControllers.addCategory)
 
+router.get('/singleCategory/:id',categoryControllers.singleCategory)
+
 module.exports = router;

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 const categorySchema = new mongoose.Schema({
-    cname: { type: String },
+    cname: { type: String ,unique:true},
+    cdescription:{type:String}
 },{
     timestamps:true
 })
