@@ -31,9 +31,9 @@ router.get('/productList',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 
-router.put('/updateProduct/:id',productControllers.updateProduct)
+router.post('/updateProduct/:id',productControllers.updateProduct)
 
-router.delete('/deleteProduct/:id',productControllers.deleteProduct)
+router.all('/deleteProduct/:id',productControllers.deleteProduct)
 
 //category
 

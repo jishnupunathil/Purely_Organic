@@ -5,11 +5,7 @@ module.exports={
     categoryList: async (req, res) => {
         try {
           let allCategory = await categoryModel.find();
-          res.json({
-            success:1,
-            message:"category added succesfully",
-            item:allCategory
-          })
+          res.render('admin/categories',{allCategory,userlay:false})
         } catch (err) {
           res.json({
             success:0,

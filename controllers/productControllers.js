@@ -78,19 +78,19 @@ module.exports = {
             pcountInStock:req.body.pcountInStock,
           }
         })
-        // res.redirect('/admin/productList')
-        res.json({
-          success:1,
-          message:"data updated"
-        })
+        res.redirect('/admin/productList')
+        // res.json({
+        //   success:1,
+        //   message:"data updated"
+        // })
       }
       }
         catch(err){
-            // res.render('admin/editProduct',{userlay:false,singleProduct})
-            res.json({
-              success:1,
-              message:'error'+err
-            })
+            res.render('admin/editProduct',{userlay:false,singleProduct})
+            // res.json({
+            //   success:1,
+            //   message:'error'+err
+            // })
     }
 },
 deleteProduct:async (req,res)=>{
