@@ -10,14 +10,21 @@ module.exports = {
         pdescription: req.body.pdescription,
         pcategory: req.body.pcategory,
         pprice: req.body.pprice,
+        pimages: req.images || req.image,
         pcountInStock: req.body.pcountInStock,
       });
-      const images = req.files.map((file) => file.path);
-      productMod.pimages = images;
       await productMod.save();
-      res.redirect('/admin/productList')
+      // res.redirect('/admin/productList')
+      res.json({
+        success:1,
+        message:'added suceesfully'
+      })
     } catch (err) {
-      res.render('admin/addProducts',{userlay:false})
+      // res.render('admin/addProducts',{userlay:false})
+      res.json({
+        success:0,
+        message:'err'+err
+      })
     }
   },
   productList: async (req, res) => {
