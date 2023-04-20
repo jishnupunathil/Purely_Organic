@@ -7,7 +7,6 @@ const productSchema = new mongoose.Schema({
     pprice: { type: Number},
     pimages:[{type:String}],
     pcountInStock: { type: Number },
-    punit:{type:Number}
 },{
     timestamps:true
 })

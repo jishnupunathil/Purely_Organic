@@ -14,17 +14,17 @@ module.exports = {
         pcountInStock: req.body.pcountInStock,
       });
       await productMod.save();
-      // res.redirect('/admin/productList')
-      res.json({
-        success:1,
-        message:'added suceesfully'
-      })
+      res.redirect('/admin/productList')
+      // res.json({
+      //   success:1,
+      //   message:'added suceesfully'
+      // })
     } catch (err) {
-      // res.render('admin/addProducts',{userlay:false})
-      res.json({
-        success:0,
-        message:'err'+err
-      })
+      res.render('admin/addProducts',{userlay:false})
+      // res.json({
+      //   success:0,
+      //   message:'err'+err
+      // })
     }
   },
   productList: async (req, res) => {

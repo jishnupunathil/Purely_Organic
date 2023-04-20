@@ -4,7 +4,8 @@ var productControllers=require('../controllers/productControllers');
 var adminControllers=require('../controllers/adminControllers')
 const checkAuth=require('../middleware/checkAuth');
 const categoryControllers = require('../controllers/categoryControllers');
-const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload')
+const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload');
+const bannerController = require('../controllers/bannerController');
 
 /* GET home page. */
 
@@ -42,5 +43,11 @@ router.get('/category',categoryControllers.categoryList)
 router.post('/category',categoryControllers.addCategory)
 
 router.get('/singleCategory/:id',categoryControllers.singleCategory)
+
+//banner
+
+router.get('/banners',bannerController.bannerList)
+
+router.post('/banner',multipleImageUpload,bannerController.addBanner)
 
 module.exports = router;
