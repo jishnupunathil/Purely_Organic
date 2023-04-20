@@ -147,4 +147,11 @@ module.exports = {
         return res.render('user/userLogin', {message: "Authentication failed",loggedIn:false,userlay:true });
       });
   },
+
+  otp:(req,res)=>{
+    res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false})
+  },
+  otpLogin:(req,res)=>{
+    
+  }
 }

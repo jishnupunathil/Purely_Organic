@@ -94,6 +94,20 @@ $(document).ready(function () {
       }
     },
   });
+
+  $("#otpLogin").validate({
+    rules: {
+      phoneNumber: {
+        required: true,
+        number: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+    },
+    messages: {
+      phoneNumber:"Enter valid phone number ",
+    },
+  });
 });
 
   

@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var controllers=require('../controllers/userControllers')
-var productControllers=require('../controllers/productControllers')
+var productControllers=require('../controllers/productControllers');
+// const userControllers = require('../controllers/userControllers');
 
 /* GET users listing. */
 router.get('/',controllers.indexPage);
@@ -18,6 +19,9 @@ router.get('/user/registration',controllers.userRegistrationPage)
 router.post('/user/registration',controllers.userRegistation)
 
 //user login
+router.get('/user/otp',controllers.otp)
+
+router.post('/user/otpLogin',controllers.otpLogin)
 
 router.post('/user/login',controllers.userLogin)
 
