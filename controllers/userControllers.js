@@ -152,6 +152,8 @@ module.exports = {
     res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false})
   },
   otpLogin:(req,res)=>{
-    
+
+    res.render('user/submitOtp',{userlay:true,loggedIn:false,message:false})
+
   }
 }

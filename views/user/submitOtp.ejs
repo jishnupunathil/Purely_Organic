@@ -1,0 +1,66 @@
+<%-include('../partials/userHeader.ejs') %>
+<head>
+<!-- Font Icon -->
+      <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+      <!-- Main css -->
+      <link rel="stylesheet" href="/cssSL/style.css">
+ </head>
+
+    <div class="main"  style="background-image: url('/images/wallpaper2you_15817.jpg');">
+
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container2">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="/images/signin-image.jpg" alt="sing up image"></figure>
+                        <!-- <a href="#" class="signup-image-link">Forgot Password?</a> -->
+                        <!-- <a href="/user/registration" class="signup-image-link">Create an account?</a> -->
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Login with otp</h2>
+                        <form action="/user/otpLogin" method="POST" class="register-form" id="otpLoginSubmit">
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="number" name="loginOtp" id="loginOtp" placeholder="6-digit Code" />
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password"placeholder="Password"/>
+                            </div> -->
+                            <div class="form-group">
+                                <!-- <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" /> -->
+                                <!-- <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label> -->
+                            <!-- </div> -->
+                            <div class="form-group form-button">
+                                <button type="submit" class="btn btn-success">Submit otp</button>
+                            </div>
+                            <%if(message){%>
+                                <p style="color: red;"> <%=message%></p>
+                            <%}%>
+                        </form>
+                        <!-- <div class="social-login">
+                            <span class="social-label">Or login with</span>
+                            <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul>
+                        </div> -->
+                        <div class="social-login">
+                            <!-- <span class="social-label">Or login with <a href="/user/login">EMAIL</a></span> -->
+                            <!-- <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <%- include('../partials/userFooter.ejs')%>
