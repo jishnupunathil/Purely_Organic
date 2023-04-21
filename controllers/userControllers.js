@@ -2,10 +2,21 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { token } = require("morgan");
+const bannerModel = require("../models/bannerModel");
 
 module.exports = {
-  indexPage: (req, res) => {
-    res.render("user/userIndex",{userlay:true,loggedIn:false});
+  indexPage: async(req, res) => {
+    try {
+      let allBanner = await bannerModel.find();
+      // res.render('admin/banners',{allBanner,userlay:false})
+      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner});
+      console.log(allBanner);
+    } catch (err) {
+      res.json({
+        success:0,
+        message:'error while listing'+err
+      })
+    }
   },
   userIndexPage: (req, res) => {
     const token = req.cookies.token;
@@ -41,10 +52,11 @@ module.exports = {
   },
   
   
-  userLoginPage: (req, res) => {
+  userLoginPage: async(req, res) => {
+    let allBanner = await bannerModel.find();
     const token=req.cookies.token
     if(!token){
-      res.render("user/userLogin",{userlay:true,message:false,loggedIn:false});
+      res.render("user/userLogin",{userlay:true,message:false,loggedIn:false,allBanner});
     }else {
       jwt.verify(token, "secretAdmin", (err, decodedToken) => {
         if (err) {
@@ -53,6 +65,7 @@ module.exports = {
             userlay: true,
             message: false,
             loggedIn: false,
+            allBanner
           });
         } else if (decodedToken.isAdmin) {
           jwt.verify(token, "secretAdmin", (err, decodedAdminToken) => {
@@ -62,6 +75,7 @@ module.exports = {
                 userlay: true,
                 message: false,
                 loggedIn: false,
+                allBanner
               });
             } else if(decodedAdminToken){
               res.redirect('/admin/dashboard');
@@ -78,8 +92,9 @@ module.exports = {
     res.cookie('token', '', { expires: new Date(0) });
     res.redirect('/')
   },
-  userRegistrationPage: (req, res) => {
-    res.render("user/userSignup",{userlay:true,loggedIn:false});
+  userRegistrationPage: async(req, res) => {
+    let allBanner = await bannerModel.find();
+    res.render("user/userSignup",{userlay:true,loggedIn:false,allBanner});
   },
   userRegistation: (req, res) => {
     bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -148,8 +163,9 @@ module.exports = {
       });
   },
 
-  otp:(req,res)=>{
-    res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false})
+  otp:async(req,res)=>{
+    let allBanner = await bannerModel.find();
+    res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false,allBanner})
   },
   otpLogin:(req,res)=>{
 

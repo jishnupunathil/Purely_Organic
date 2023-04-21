@@ -1,20 +1,24 @@
 <%-include('../partials/userHeader.ejs') %>
 <head>
 <!-- Font Icon -->
-      <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
+      <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+      
       <!-- Main css -->
       <link rel="stylesheet" href="/cssSL/style.css">
  </head>
-
-    <div class="main"  style="background-image: url('/images/login1.jpg');">
-
+ <% allBanner.forEach(function(banner) { %>
+    <%if(banner.bname==='login bg'){%>
+    <div class="main"  style="background-image: url('<%=banner.bimages[1]%>');">
+        
         <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container2">
                 <div class="signin-content">
                     <div class="signin-image">
-                        <figure><img src="/images/signin-image.jpg" alt="sing up image"></figure>
+                        <figure><img src="<%=banner.bimages[2]%>" alt="sing up image"></figure>
+                        <%}%>
+        <%})%>
                         <!-- <a href="#" class="signup-image-link">Forgot Password?</a> -->
                         <a href="/user/registration" class="signup-image-link">Create an account?</a>
                     </div>
