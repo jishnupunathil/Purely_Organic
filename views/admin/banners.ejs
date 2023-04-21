@@ -139,7 +139,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <form action="/admin/banner" method="POST" enctype="multipart/form-data">
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Banner Name</label>
@@ -161,8 +161,9 @@
                                 <textarea placeholder="Type here" class="form-control" id="cdescription" name="cdescription"></textarea>
                             </div> -->
                             <div class="input-upload">
-                                <img src="/assets/imgs/theme/upload.svg" alt="">
-                                <input class="form-control" type="file" name="images" id="images" multiple>
+                                <!-- <img src="/assets/imgs/theme/upload.svg" alt=""> -->
+                                <div id="image-preview"></div>
+                                <input class="form-control" type="file" name="images" id="images" multiple accept="image/jpeg,image/png,image/jpg" onchange="previewImage(event)">
                                 <!-- <input class="form-control" type="file"> -->
                             </div>
                             <div class="d-grid">
@@ -170,7 +171,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
