@@ -209,18 +209,23 @@ module.exports = {
         console.log(req.body);
         console.log("$$$$$$$$$$$$$", mobNumber);
         try {
-            const validUser = await userModel.findOne({phoneNumber:mobNumber})
+            const user = await userModel.findOne({phoneNumber:mobNumber})
             const enteredOTP = req.body.code;
             twilioFunctions.client.verify.v2
                 .services(twilioFunctions.verifySid)
                 .verificationChecks.create({ to: `+91${mobNumber}`, code: enteredOTP })
                 .then((verification_check) => {
                     if (verification_check.status === "approved") {
-                        req.session.user = validUser;
-                        req.session.userName = validUser.name;
-                        req.session.loggedIn = true;
-                        if (req.session.user) {
-                            res.redirect("/user/index");
+                        const payload = {
+                          userId: user._id,
+                          isAdmin: user.isAdmin,
+                        };
+                        const token = jwt.sign(payload, "secretOgani");
+                        res.cookie('token', token, { httpOnly: true });
+                        if (user.isAdmin) {
+                          res.redirect('/admin/dashboard');
+                        } else {
+                          res.redirect('/user/index');
                         }
                     } else {
                         res.render("../views/user/verify-mobile", {
