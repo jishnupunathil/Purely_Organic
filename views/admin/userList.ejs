@@ -74,10 +74,6 @@
                 <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Banners</span>
                 </a>
-                <!-- <div class="submenu">
-                    <a href="page-transactions-1.html">Transaction 1</a>
-                    <a href="page-transactions-2.html">Transaction 2</a>
-                </div> -->
             </li>
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
@@ -132,43 +128,23 @@
             <h2 class="content-title">User list</h2>
         </div>
         <div class="card mb-4">
-            <header class="card-header">
-                <div class="row gx-3">
-                    <div class="col-lg-4 col-md-6 me-auto">
-                        <input type="text" placeholder="Search..." class="form-control">
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-6">
-                        <select class="form-select">
-                            <option>Show 20</option>
-                            <option>Show 30</option>
-                            <option>Show 40</option>
-                        </select>
-                    </div>
-                </div>
-            </header>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="userTable">
                         <thead>
                             <tr>
-                                <th>Seller</th>
+                                <th>Index</th>
+                                <th>user</th>
                                 <th>Email</th>
-                                <th>Status</th>
+                                <!-- <th>Status</th> -->
                                 <th>Registered</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% allUser.forEach(function(user) { %>
+                            <% allUser.forEach(function(user,index) { %>
                             <tr>
+                                <td><%=index+1%></td>
                                 <td width="40%">
                                     <a href="#" class="itemside">
                                         <div class="left">
@@ -181,7 +157,7 @@
                                     </a>
                                 </td>
                                 <td><%= user.email %></td>
-                                <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                <!-- <td><span class="badge rounded-pill alert-success">Active</span></td> -->
                                 <td>08.07.2020</td>
                                 <% if (user.isblocked) { %>
                                     <form method="POST" action="/admin/unBlockUser/<%= user._id %>">
@@ -199,27 +175,13 @@
                 </div>
             </div>
         </div>
-        <div class="pagination-area mt-15 mb-50 ">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <% if (currentPage > 1) { %>
-                <li class="page-item"><a class="page-link" href="?page=<%=currentPage-1%>"><i class="material-icons md-chevron_left"></i></a></li>
-                <% } %>
-                <% for (let i = 1; i <= totalPages; i++) { %>
-                <li class="page-item <% if (i === currentPage) { %>active<% } %>"><a class="page-link" href="?page=<%=i%>"><%=i%></a></li>
-                <% } %>
-                <% if (currentPage < totalPages) { %>
-                <li class="page-item"><a class="page-link" href="?page=<%=currentPage+1%>"><i class="material-icons md-chevron_right"></i></a></li>
-                <% } %>
-              </ul>
-            </nav>
-          </div>
        
     </section>
     <%-include('../partials/adminFooter.ejs')%>
 
+    
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"></script>
+
    
    
 

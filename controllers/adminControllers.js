@@ -17,22 +17,14 @@ module.exports={
     },
     userList:async(req,res)=>{
         try{
-            const page = parseInt(req.query.page) || 1;
-            const pageSize = parseInt(req.query.pageSize) || 7;
-            const skip = (page - 1) * pageSize;
+            
     
-            const allUser = await userModel.find().skip(skip).limit(pageSize);
-            const count = await userModel.countDocuments();
-    
-            const totalPages = Math.ceil(count / pageSize);
-            const currentPage = page > totalPages ? totalPages : page;
+            const allUser = await userModel.find()
+            // const count = await userModel.countDocuments();
     
             res.render('admin/userList', {
                 userlay: false,
-                allUser,
-                totalPages,
-                currentPage,
-                pageSize
+                allUser
             });
         } catch (err) {
             res.render('admin/dashboard', {userlay:false});

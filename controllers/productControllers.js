@@ -29,22 +29,13 @@ module.exports = {
   },
   productList: async (req, res) => {
     try {
-            const page = parseInt(req.query.page) || 1;
-            const pageSize = parseInt(req.query.pageSize) || 4;
-            const skip = (page - 1) * pageSize;
-    
-            const allproduct = await productModel.find().skip(skip).limit(pageSize);
-            const count = await productModel.countDocuments();
-    
-            const totalPages = Math.ceil(count / pageSize);
-            const currentPage = page > totalPages ? totalPages : page;
+          
+            const allproduct = await productModel.find()
+            // const count = await productModel.countDocuments();
 
       res.render('admin/productList', {
         userlay: false,
-        allproduct,
-        totalPages,
-        currentPage,
-        pageSize
+        allproduct
     });
       
     } catch (err) {
