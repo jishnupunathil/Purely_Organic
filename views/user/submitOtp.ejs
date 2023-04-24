@@ -24,11 +24,12 @@
 
                     <div class="signin-form">
                         <h2 class="form-title">Login with otp</h2>
-                        <form action="/user/otpLogin" method="POST" class="register-form" id="otpLoginSubmit">
+                        <form action="/user/submitOtp" method="POST" class="register-form" id="otpLoginSubmit">
                             <div class="form-group">
                                 <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="number" name="loginOtp" id="loginOtp" placeholder="6-digit Code" />
+                                <input type="number" name="code" id="code" placeholder="6-digit Code" />
                             </div>
+                            <input type="tel" name="phoneNumber" id="mobile" placeholder="otp" value="<%=locals.phoneNumber%>" style="display: none;" />
                             <!-- <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password" id="password"placeholder="Password"/>

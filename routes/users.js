@@ -25,6 +25,8 @@ router.get('/user/otp',controllers.otp)
 
 router.post('/user/otpLogin',controllers.otpLogin)
 
+router.post('/user/submitOtp',controllers.submitOtp)
+
 router.post('/user/login',controllers.userLogin)
 
 //product section

@@ -69,36 +69,36 @@ module.exports = {
     }
   },
   updateProduct:async(req,res)=>{
-    try{
     let id=req.params.id
     console.log(id);
     validId=mongoose.Types.ObjectId.isValid(id)
     if(validId){
-            await productModel.findByIdAndUpdate({_id:id},{
-                $set:
-            {
-            pname:req.body.pname,
-            pdescription:req.body.pdescription,
-            pcategory:req.body.pcategory,
-            pprice:req.body.pprice,
-            // pimage:req.body.image,
-            pcountInStock:req.body.pcountInStock,
-          }
+      try{
+
+        await productModel.findByIdAndUpdate(id,{
+          pname:req.body.pname,
+          pdescription:req.body.pdescription,
+          pcategory:req.body.pcategory,
+          pprice:req.body.pprice,
+          // pimage:req.body.image,
+          pcountInStock:req.body.pcountInStock,
+          
         })
         res.redirect('/admin/productList')
+      }
+      catch(err){
+          res.render('admin/editProduct',{userlay:false,singleProduct})
+        }
+          // res.json({
+          //   success:1,
+          //   message:'error'+err
+          // })
+  }
         // res.json({
         //   success:1,
         //   message:"data updated"
+        
         // })
-      }
-      }
-        catch(err){
-            res.render('admin/editProduct',{userlay:false,singleProduct})
-            // res.json({
-            //   success:1,
-            //   message:'error'+err
-            // })
-    }
 },
 deleteProduct:async (req,res)=>{
     let id=req.params.id
