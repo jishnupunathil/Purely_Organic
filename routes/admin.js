@@ -20,7 +20,9 @@ router.get('/singleUserList/:id',adminControllers.singleUser)
 
 router.get('/logout',adminControllers.logout)
 
-router.put('/blockUser/:id',adminControllers.blockUser)
+router.post('/blockUser/:id',adminControllers.blockUser)
+
+router.post('/unBlockUser/:id',adminControllers.unBlockUser)
 
 //products
 

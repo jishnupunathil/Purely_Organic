@@ -7,8 +7,8 @@ module.exports = (req, res, next) => {
   }
 
   try {
-    const decodedToken = jwt.verify(token, "secretUser");
-    if (!decodedToken.isAdmin) {
+    const decodedToken = jwt.verify(token, "secretOgani");
+    if (decodedToken.userId) {
       next();
     } else {
       return res.json({

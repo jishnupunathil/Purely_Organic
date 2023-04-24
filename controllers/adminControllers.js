@@ -3,6 +3,7 @@ const userModel = require("../models/userModel");
 
 module.exports={
     getDashboard:(req,res)=>{
+        
         res.render('admin/dashboard',{userlay:false})
     },
     getAddProduct:(req,res)=>{
@@ -68,11 +69,8 @@ module.exports={
         validId=mongoose.Types.ObjectId.isValid(id)
         if(validId){
             try{
-                await userModel.findByIdAndUpdate({_id:id},{
-                    $set:
-                {
-                isblocked:false
-                }
+                await userModel.findByIdAndUpdate(id,{
+                isblocked:true
             })
         
             res.redirect('/admin/userList')
@@ -82,27 +80,21 @@ module.exports={
         }
     }
     },
-    unblockUser:async(req,res)=>{
+    unBlockUser:async(req,res)=>{
         let id=req.params.id
         validId=mongoose.Types.ObjectId.isValid(id)
         if(validId){
             try{
                 await userModel.findByIdAndUpdate({_id:id},{
-                    $set:
-                {
+
+                
                 isblocked:false
-                }
+                
             })
-            res.json({
-                success:1,
-                message:'user unblocked'
-            })
+            res.redirect('/admin/userList')
             }
             catch(err){
-                res.json({
-                    success:0,
-                    message:'error occured while updating'+err
-                })
+                res.res.redirect('/admin/userList')
         }
     }
     }
