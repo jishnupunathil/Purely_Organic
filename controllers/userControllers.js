@@ -11,7 +11,7 @@ module.exports = {
       let allBanner = await bannerModel.find();
       // res.render('admin/banners',{allBanner,userlay:false})
       res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner});
-      console.log(allBanner);
+      // console.log(allBanner);
     } catch (err) {
       res.json({
         success:0,
@@ -248,6 +248,10 @@ module.exports = {
   //shopping
   getShopping:async(req,res)=>{
     let allBanner = await bannerModel.find();
-    res.render('user/shoppingPage',{userlay:true,loggedIn:true,allBanner,user:false})
+    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,user:false})
+  },
+  getProductPage:async(req,res)=>{
+    let allBanner = await bannerModel.find();
+    res.render('user/productPage',{userlay:true,loggedIn:false,allBanner,user:false})
   }
 }

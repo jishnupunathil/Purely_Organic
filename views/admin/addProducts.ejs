@@ -26,7 +26,7 @@
                         <a href="page-categories.html">Categories</a>
                     </div> -->
                 </li>
-                <li class="menu-item has-submenu">
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
@@ -35,6 +35,17 @@
                         <a href="page-orders-2.html">Order list 2</a>
                         <a href="page-orders-detail.html">Order detail</a>
                     </div>
+                </li> -->
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-store"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                    <!-- <div class="submenu">
+                        <a href="page-products-list.html">Product List</a>
+                        <a href="page-products-grid.html">Product grid</a>
+                        <a href="page-products-grid-2.html">Product grid 2</a>
+                        <a href="page-categories.html" class="active">Categories</a>
+                    </div> -->
                 </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-store"></i>
@@ -66,17 +77,17 @@
                         <a href="page-transactions-2.html">Transaction 2</a>
                     </div> -->
                 </li>
-                <li class="menu-item has-submenu">
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
                         <span class="text">Account</span>
-                    </a>
+                    </a> -->
                     <!-- <div class="submenu">
                         <a href="page-account-login.html">User login</a>
                         <a href="page-account-register.html">User registration</a>
                         <a href="page-error-404.html">Error 404</a>
                     </div> -->
-                </li>
-                <li class="menu-item">
+                <!-- </li> -->
+                <!-- <li class="menu-item">
                     <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
                         <span class="text">Reviews</span>
                     </a>
@@ -89,9 +100,9 @@
                     <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
                         <span class="text">Statistics</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
-            <hr>
+            <!-- <hr>
             <ul class="menu-aside">
                 <li class="menu-item has-submenu">
                     <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
@@ -107,7 +118,7 @@
                         <span class="text"> Starter page </span>
                     </a>
                 </li>
-            </ul>
+            </ul> -->
             <br>
             <br>
         </nav>
@@ -172,7 +183,7 @@
                                     <input class="form-check-input" type="checkbox" value="">
                                     <span class="form-check-label"> Make a template </span>
                                 </label> -->
-                                <button type="submit" class="btn btn-brand rounded font-sm hover-up">Add product</button>
+                                <button type="submit" class="btn btn-brand rounded font-sm hover-up" onclick="addProduct()">Add product</button>
                             
                         </div>
                     </div> <!-- card end// -->
@@ -259,5 +270,47 @@
         </section> <!-- content-main end// -->
         <%-include('../partials/adminFooter.ejs')%> 
     </main>
+<script>
+    function addProduct() {
+        // Get the form data
+        const form = document.querySelector("form");
+        const formData = new FormData(form);
+      
+        // Prevent the default form submission behavior
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+        });
+      
+        // Send a POST request to the server with the form data
+        fetch("/admin/addProduct", {
+          method: "POST",
+          body: formData,
+        })
+        .then(function (response) {
+          if (response.ok) {
+            // Show Sweet Alert success message
+            Swal.fire({
+              title: "Success!",
+              text: "Your product has been added.",
+              icon: "success",
+            }).then(function () {
+              // Reload the page to show the newly added product
+              location.reload();
+            });
+          } else {
+            // Show Sweet Alert error message
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to add product.",
+              icon: "error",
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+      </script>
     
+   
     

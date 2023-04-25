@@ -38,6 +38,8 @@ router.get('/singleProduct/:id',productControllers.singleProduct)
 
 router.get('/user/shopping',controllers.getShopping)
 
+router.get('/user/productPage',controllers.getProductPage)
+
 module.exports = router;
 
 
