@@ -54,6 +54,6 @@ router.post('/deleteCategory/:id',categoryControllers.deleteCategory)
 
 router.get('/banners',bannerController.bannerList)
 
-router.post('/banner',multipleImageUpload,bannerController.addBanner)
+router.post('/addBanner',multipleImageUpload,bannerController.addBanner)
 
 module.exports = router;

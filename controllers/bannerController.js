@@ -11,17 +11,11 @@ module.exports={
             bimages: req.images || req.image,
           });
           await bannerMod.save();
-        //   res.redirect('/admin/productList')
-          res.json({
-            success:1,
-            message:' banner added suceesfully'
-          })
+          res.redirect('/admin/banners')
+          
         } catch (err) {
-        //   res.render('admin/addProducts',{userlay:false})
-          res.json({
-            success:0,
-            message:'err'+err
-          })
+          res.redirect('/admin/banners')
+          
         }
       },
       bannerList: async (req, res) => {
