@@ -140,7 +140,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <form action="/admin/category" method="post">
+                        <form action="/admin/updateCategory/<%=singleCategory._id%>" method="post">
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Name</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="cname" name="cname" value="<%=singleCategory.cname%>"/>

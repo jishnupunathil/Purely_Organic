@@ -136,7 +136,7 @@
             <div>
                 <!-- <a href="#" class="btn btn-light rounded font-md">Export</a> -->
                 <!-- <a href="#" class="btn btn-light rounded  font-md">Import</a> -->
-                <a href="/admin/addProduct" class="btn btn-primary btn-sm rounded">Create new</a>
+                <a href="/admin/addProductPage" class="btn btn-primary btn-sm rounded">Create new</a>
             </div>
             </div>
         <div class="card mb-4">
@@ -145,18 +145,20 @@
                     <table class="table table-hover" id="productTable">
                         <thead>
                             <tr>
+                                <th>Index</th>
                                 <th>Product</th>
                                 <th>price</th>
                                 <th>Category</th>
                                 <th>Instock</th>
-                                <th class="text-end">Action</th>
-                                <th class="text-end">Action2</th>
+                                <th class="text-end">Edit</th>
+                                <th class="text-end">Delete</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <% allproduct.forEach(function(product) { %>
+                            <% allproduct.forEach(function(product,index) { %>
                             <tr>
+                                <td><%-index+1%></td>
                                 <td width="40%">
                                     <a href="#" class="itemside">
                                         <div class="left">

@@ -26,11 +26,11 @@ router.post('/unBlockUser/:id',adminControllers.unBlockUser)
 
 //products
 
-router.get('/addProduct',adminControllers.getAddProduct)
+router.get('/productList',productControllers.productList)
+
+router.get('/addProductPage',adminControllers.getAddProductPage)
 
 router.post('/addProduct',multipleImageUpload,productControllers.addProduct)
-
-router.get('/productList',productControllers.productList)
 
 router.get('/singleProduct/:id',productControllers.singleProduct)
 
@@ -42,9 +42,13 @@ router.all('/deleteProduct/:id',productControllers.deleteProduct)
 
 router.get('/category',categoryControllers.categoryList)
 
-router.post('/category',categoryControllers.addCategory)
+router.post('/addCategory',categoryControllers.addCategory)
 
 router.get('/singleCategory/:id',categoryControllers.singleCategory)
+
+router.post('/updateCategory/:id',categoryControllers.updateCategory)
+
+router.post('/deleteCategory/:id',categoryControllers.deleteCategory)
 
 //banner
 

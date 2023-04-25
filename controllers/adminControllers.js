@@ -6,7 +6,7 @@ module.exports={
         
         res.render('admin/dashboard',{userlay:false})
     },
-    getAddProduct:(req,res)=>{
+    getAddProductPage:(req,res)=>{
 
         res.render('admin/addProducts',{userlay:false})
 

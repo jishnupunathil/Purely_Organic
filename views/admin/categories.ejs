@@ -140,10 +140,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <form action="/admin/category" method="post">
+                            <form action="/admin/addCategory" method="post">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Name</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="cname" name="cname" />
+                                    <input type="text" placeholder="Type here" class="form-control" id="cname" name="cname" required/>
                                 </div>
                                 <!-- <div class="mb-4">
                                     <label for="product_slug" class="form-label">Slug</label>
@@ -158,7 +158,7 @@
                                 </div> -->
                                 <div class="mb-4">
                                     <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" id="cdescription" name="cdescription"></textarea>
+                                    <textarea placeholder="Type here" class="form-control" id="cdescription" name="cdescription" required></textarea>
                                 </div>
                                 <div class="d-grid">
                                     <button class="btn btn-primary">Create category</button>
@@ -197,26 +197,21 @@
                                             <!-- <td>Men clothes</td> -->
                                             <!-- <td>/men</td> -->
                                             <!-- <td>1</td> -->
-                                            <td class="text-end">
-                                                <!-- <div class="dropdown"> -->
-                                                    <!-- <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a> -->
-                                                    <!-- <div class="dropdown-menu"> -->
-                                                        <!-- <a class="dropdown-item" href="#">View detail</a> -->
-                                                        <a class="dropdown-item" href="/admin/singleCategory/<%=category._id%>"><button class="btn btn-warning btn-sm font-sm">Edit </button></a>
-                                                        <!-- <a class="dropdown-item text-danger" href="#"><button class="btn btn-danger btn-sm font-sm">Delete</button></a> -->
-                                                    <!-- </div> -->
-                                                <!-- </div>  -->
-                                            </td>
-                                            <td class="text-end">
+                                            <form method="get" action="/admin/singleCategory/<%=category._id%>">
+                                            <td class="text-end"> <button type="submit" class="btn btn-warning btn-sm font-sm">Edit </button></td>
+                                            </form>
+                                            <!-- <td class="text-end"> -->
                                                 <!-- <div class="dropdown"> -->
                                                     <!-- <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a> -->
                                                     <!-- <div class="dropdown-menu"> -->
                                                         <!-- <a class="dropdown-item" href="#">View detail</a> -->
                                                         <!-- <a class="dropdown-item" href="/admin/singleCategory/<%=category._id%>"><button class="btn btn-warning btn-sm font-sm">Edit </button></a> -->
-                                                        <a class="dropdown-item text-danger" href="#"><button class="btn btn-danger btn-sm font-sm">Delete</button></a>
+                                                        <form method="post" action="/admin/deleteCategory/<%=category._id%>">
+                                                            <td class="text-end"> <button type="submit" class="btn btn-danger btn-sm font-sm">Delete </button></td>
+                                                            </form>
                                                     <!-- </div> -->
                                                 <!-- </div>  -->
-                                            </td>
+                                            <!-- </td> -->
                                         </tr>
                                     <%})%>
                                     </tbody>
