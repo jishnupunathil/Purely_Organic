@@ -183,7 +183,7 @@
                                     <input class="form-check-input" type="checkbox" value="">
                                     <span class="form-check-label"> Make a template </span>
                                 </label> -->
-                                <button type="submit" class="btn btn-brand rounded font-sm hover-up" onclick="addProduct()">Add product</button>
+                                <button type="submit" class="btn btn-brand rounded font-sm hover-up">Add product</button>
                             
                         </div>
                     </div> <!-- card end// -->
@@ -270,47 +270,7 @@
         </section> <!-- content-main end// -->
         <%-include('../partials/adminFooter.ejs')%> 
     </main>
-<script>
-    function addProduct() {
-        // Get the form data
-        const form = document.querySelector("form");
-        const formData = new FormData(form);
-      
-        // Prevent the default form submission behavior
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-        });
-      
-        // Send a POST request to the server with the form data
-        fetch("/admin/addProduct", {
-          method: "POST",
-          body: formData,
-        })
-        .then(function (response) {
-          if (response.ok) {
-            // Show Sweet Alert success message
-            Swal.fire({
-              title: "Success!",
-              text: "Your product has been added.",
-              icon: "success",
-            }).then(function () {
-              // Reload the page to show the newly added product
-              location.reload();
-            });
-          } else {
-            // Show Sweet Alert error message
-            Swal.fire({
-              title: "Error!",
-              text: "Failed to add product.",
-              icon: "error",
-            });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      }
-      </script>
+
     
    
     

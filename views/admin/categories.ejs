@@ -130,7 +130,7 @@
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Categories </h2>
-                    <p>Add, edit or delete a category</p>
+                    <!-- <p>Add, edit or delete a category</p> -->
                 </div>
                 <div>
                     <input type="text" placeholder="Search Categories" class="form-control bg-white">
@@ -176,21 +176,22 @@
                                                 </div>
                                             </th> -->
                                             <!-- <th>ID</th> -->
+                                            <th>index</th>
                                             <th>Name</th>
                                             <th>Description</th>
-                                            <!-- <th>Slug</th> -->
-                                            <!-- <th>Order</th> -->
-                                            <th class="text-end">Action</th>
+                                            <th class="text-end">Edit</th>
+                                            <th class="text-end">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% allCategory.forEach(function(category){ %>
+                                        <% allCategory.forEach(function(category,index){ %>
                                         <tr>
                                             <!-- <td class="text-center">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" />
                                                 </div>
                                             </td> -->
+                                            <td><%-index+1%></td>
                                             <td><%=category.cname%></td>
                                             <td><b><%=category.cdescription%></b></td>
                                             <!-- <td>Men clothes</td> -->
@@ -202,9 +203,19 @@
                                                     <!-- <div class="dropdown-menu"> -->
                                                         <!-- <a class="dropdown-item" href="#">View detail</a> -->
                                                         <a class="dropdown-item" href="/admin/singleCategory/<%=category._id%>"><button class="btn btn-warning btn-sm font-sm">Edit </button></a>
+                                                        <!-- <a class="dropdown-item text-danger" href="#"><button class="btn btn-danger btn-sm font-sm">Delete</button></a> -->
+                                                    <!-- </div> -->
+                                                <!-- </div>  -->
+                                            </td>
+                                            <td class="text-end">
+                                                <!-- <div class="dropdown"> -->
+                                                    <!-- <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a> -->
+                                                    <!-- <div class="dropdown-menu"> -->
+                                                        <!-- <a class="dropdown-item" href="#">View detail</a> -->
+                                                        <!-- <a class="dropdown-item" href="/admin/singleCategory/<%=category._id%>"><button class="btn btn-warning btn-sm font-sm">Edit </button></a> -->
                                                         <a class="dropdown-item text-danger" href="#"><button class="btn btn-danger btn-sm font-sm">Delete</button></a>
                                                     <!-- </div> -->
-                                                <!-- </div> dropdown //end -->
+                                                <!-- </div>  -->
                                             </td>
                                         </tr>
                                     <%})%>

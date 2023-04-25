@@ -158,7 +158,8 @@
                                 </td>
                                 <td><%= user.email %></td>
                                 <!-- <td><span class="badge rounded-pill alert-success">Active</span></td> -->
-                                <td>08.07.2020</td>
+                                <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
+
                                 <% if (user.isblocked) { %>
                                     <form method="POST" action="/admin/unBlockUser/<%= user._id %>">
                                      <td> <button type="submit" class="btn btn-sm btn-success rounded font-sm mt-15">unblock</button></td>
