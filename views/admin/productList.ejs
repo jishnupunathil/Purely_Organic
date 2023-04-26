@@ -136,7 +136,7 @@
             <div>
                 <!-- <a href="#" class="btn btn-light rounded font-md">Export</a> -->
                 <!-- <a href="#" class="btn btn-light rounded  font-md">Import</a> -->
-                <a href="/admin/addProduct" class="btn btn-primary btn-sm rounded">Create new</a>
+                <a href="/admin/addProductPage" class="btn btn-primary btn-sm rounded">Create new</a>
             </div>
             </div>
         <div class="card mb-4">
@@ -178,10 +178,12 @@
                                 <td class="text-end">
                                     <a href="/admin/singleProduct/<%=product._id%>" class="btn btn-sm btn-warning rounded font-sm mt-10">Edit</a>
                                 </td>
-                                <td class="text-end">
+                                <!-- <td class="text-end">
                                     <a href="/admin/deleteProduct/<%=product._id%>" class="btn btn-sm btn-danger rounded font-sm mt-10">Delete</a>
-                                </td>
-                                
+                                </td> -->
+                                <form method="POST" action="/admin/deleteProduct/<%=product._id%>">
+                                    <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-10">Delete</button></td>
+                                  </form>
                             </tr>
                             <% }); %>
                         </tbody>

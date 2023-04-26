@@ -15,23 +15,15 @@ module.exports = {
       });
       await productMod.save();
       res.redirect("/admin/productList");
-      // res.json({
-      //   success:1,
-      //   message:'added suceesfully'
-      // })
+      
     } catch (err) {
       res.render("admin/addProducts", { userlay: false });
-      // res.json({
-      //   success:0,
-      //   message:'err'+err
-      // })
+      
     }
   },
   productList: async (req, res) => {
     try {
       const allproduct = await productModel.find();
-      // const count = await productModel.countDocuments();
-
       res.render("admin/productList", {
         userlay: false,
         allproduct,
@@ -58,36 +50,36 @@ module.exports = {
     }
   },
   updateProduct: async (req, res) => {
+    try {
     let id = req.params.id;
     console.log(id);
-    validId = mongoose.Types.ObjectId.isValid(id);
-    if (validId) {
-      try {
         await productModel.findByIdAndUpdate(id, {
           pname: req.body.pname,
-          pdescription: req.body.pdescription,
+          pdescription:req.body.pdescription,
           pcategory: req.body.pcategory,
           pprice: req.body.pprice,
-          // pimage:req.body.image,
+          // pimages: req.images || req.image,
           pcountInStock: req.body.pcountInStock,
+          
+
         });
         res.redirect("/admin/productList");
+      // }
       } catch (err) {
-        res.render("admin/editProduct", { userlay: false, singleProduct });
+        res.redirect("/admin/singleProduct/:id");
       }
-    }
   },
   deleteProduct: async (req, res) => {
+    try {
     let id = req.params.id;
     console.log(id);
-    let validId = mongoose.Types.ObjectId.isValid(id);
-    if (validId) {
-      try {
+    // let validId = mongoose.Types.ObjectId.isValid(id);
+    // if (validId) {
         await productModel.deleteOne({ _id: id });
         res.redirect("/admin/productList");
       } catch (err) {
         res.render("admin/productList", { userlay: false, allproduct });
       }
-    }
+    // }
   },
 };

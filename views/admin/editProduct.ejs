@@ -142,7 +142,7 @@
                         <h4>Basic</h4>
                     </div>
                     <div class="card-body">
-                        <form action="/admin/updateProduct/<%=singleProduct._id%>" method="POST" id="addProduct" enctype="multipart/form-data">
+                        <form action="/admin/updateProduct/<%=singleProduct._id%>" method="post" id="addProduct">
                             <!-- <input type="hidden" name="_method" value="PUT"> -->
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Product Name</label>
@@ -170,26 +170,26 @@
                                 
                             </div>
                             <button type="submit" class="btn btn-brand rounded font-sm hover-up">Edit product</button>
-                        </form>
+                        
                     </div>
                 </div> <!-- card end// -->
 
             </div>
-            <!-- <div class="col-lg-6">
+             <div class="col-lg-6">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4>Media</h4>
                     </div>
                     <div class="card-body">
-                        <div class="input-upload"> -->
-                            <!-- <img src="/assets/imgs/theme/upload.svg" alt=""> -->
-                            <!-- <div id="image-preview"></div> -->
-                            <!-- <input class="form-control" type="file" name="images" id="images"  multiple accept="image/jpeg,image/png,image/jpg" onchange="previewImage(event)"> -->
-                            <!-- <input class="form-control" type="file"> -->
+                        <div class="input-upload"> 
+                             <img src="<%=singleProduct.pimages[0]%>" alt="" id="image-preview">
+                             <div ></div>
+                             <input class="form-control" type="file" name="images" id="images"  multiple accept="image/jpeg,image/png,image/jpg" onchange="previewImage(event)">
+                             <!-- <input class="form-control" type="file"> -->
                         </div>
                     </div>
                 </div> <!-- card end// -->
-                <!-- <div class="card mb-4">
+                <div class="card mb-4">
                     <div class="card-header">
                         <h4>Organization</h4>
                     </div>
@@ -205,11 +205,12 @@
                                     <option> Fresh Fruits </option>
                                 </select>
                             </div>
-                        </div> -->
+                        </div> 
                          <!-- row.// -->
                     </div>
                 </div> <!-- card end// -->
             </div>
+        </form>
         </div>
     </section> <!-- content-main end// -->
     <%-include('../partials/adminFooter.ejs')%> 

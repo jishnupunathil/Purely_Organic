@@ -36,7 +36,7 @@ router.get('/singleProduct/:id',productControllers.singleProduct)
 
 router.post('/updateProduct/:id',productControllers.updateProduct)
 
-router.all('/deleteProduct/:id',productControllers.deleteProduct)
+router.post('/deleteProduct/:id',productControllers.deleteProduct)
 
 //category
 
