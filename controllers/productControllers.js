@@ -73,8 +73,7 @@ module.exports = {
     try {
     let id = req.params.id;
     console.log(id);
-    // let validId = mongoose.Types.ObjectId.isValid(id);
-    // if (validId) {
+ 
         await productModel.deleteOne({ _id: id });
         res.redirect("/admin/productList");
       } catch (err) {

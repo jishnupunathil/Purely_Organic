@@ -29,5 +29,15 @@ module.exports={
           })
         }
       },
-
+      deleteBanner: async(req, res) => {
+        try {
+        let id = req.params.id;
+        console.log(id);
+            await bannerModel.deleteOne({ _id: id });
+            res.redirect("/admin/banners");
+          } catch (err) {
+            res.render("admin/banners");
+          }
+        
+      }
 }

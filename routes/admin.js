@@ -56,4 +56,6 @@ router.get('/banners',bannerController.bannerList)
 
 router.post('/addBanner',multipleImageUpload,bannerController.addBanner)
 
+router.post('/deleteBanner/:id',bannerController.deleteBanner)
+
 module.exports = router;
