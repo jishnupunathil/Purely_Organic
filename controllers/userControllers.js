@@ -20,25 +20,16 @@ module.exports = {
     }
   },
   userIndexPage:async (req, res) => {
-    const token = req.cookies.token;
-  
-    if (!token) {
-      // user is not authenticated
-      return res.redirect('/user/login');
-    }
     let allBanner = await bannerModel.find();
-    try {
-      const decodedToken = jwt.verify(token, 'secretOgani');
-      const userId = decodedToken.userId;
-      console.log('userId:', userId);
-  
+      const userId = req.userId;
+      console.log("userId",userId)
       userModel.findById(userId)
       .then((user) => {
         if (!user) {
           console.log('user not found');
           return res.redirect('/user/login');
         }
-        console.log('user:', user);
+        
         
         res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner });
       }) 
@@ -46,10 +37,6 @@ module.exports = {
         console.log('error decoding token:', err);
         return res.redirect('/user/login');
       })
-  }catch (err) {
-      console.log('error decoding token:', err);
-      return res.redirect('/user/login');
-    }
   },
   
   

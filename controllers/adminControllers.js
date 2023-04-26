@@ -2,8 +2,7 @@ const { default: mongoose } = require("mongoose");
 const userModel = require("../models/userModel");
 
 module.exports={
-    getDashboard:(req,res)=>{
-        
+    getDashboard:(req,res)=>{     
         res.render('admin/dashboard',{userlay:false})
     },
     getAddProductPage:(req,res)=>{

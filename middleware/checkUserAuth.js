@@ -1,3 +1,4 @@
+const { request } = require("http");
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
@@ -9,6 +10,7 @@ module.exports = (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, "secretOgani");
     if (decodedToken.userId) {
+      req.userId = decodedToken.userId
       next();
     } else {
       return res.json({
@@ -23,3 +25,5 @@ module.exports = (req, res, next) => {
     });
   }
 };
+
+
