@@ -19,6 +19,7 @@ module.exports = {
       const categoryMod = new categoryModel({
         cname: req.body.cname,
         cdescription: req.body.cdescription,
+        cimages: req.images || req.image,
       });
 
       await categoryMod.save();

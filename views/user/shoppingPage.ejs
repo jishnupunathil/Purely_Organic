@@ -86,18 +86,11 @@
                     <div class="sidebar">
                         <div class="sidebar__item">
                             <h4>Department</h4>
+                            <% allCategory.forEach(function(category) { %>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
+                                <li><a href="#"><%=category.cname%></a></li>
                             </ul>
+                            <%})%>
                         </div>
                         <div class="sidebar__item">
                             <h4>Price</h4>
@@ -287,7 +280,7 @@
                                         </div>
                                         <div class="product__discount__item__text">
                                             <span>Vegetables</span>
-                                            <h5><a href="/user/productPage">Vegetables’package</a></h5>
+                                            <h5><a href="/productPage">Vegetables’package</a></h5>
                                             <div class="product__item__price">₹30.00 <span>₹36.00</span></div>
                                         </div>
                                     </div>

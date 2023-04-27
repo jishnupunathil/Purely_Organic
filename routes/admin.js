@@ -42,7 +42,7 @@ router.post('/deleteProduct/:id',productControllers.deleteProduct)
 
 router.get('/category',categoryControllers.categoryList)
 
-router.post('/addCategory',categoryControllers.addCategory)
+router.post('/addCategory',multipleImageUpload,categoryControllers.addCategory)
 
 router.get('/singleCategory/:id',categoryControllers.singleCategory)
 

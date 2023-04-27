@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
     console.log("no token")
-    return res.redirect("/user/login");
+    return res.redirect("/login");
   }
   try {
     const decodedToken = jwt.verify(token, "secretOgani");

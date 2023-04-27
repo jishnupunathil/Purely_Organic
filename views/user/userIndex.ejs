@@ -14,7 +14,7 @@
             <nav class="header__menu">
                 <ul>
                     <li class="active"><a href="./index.html">Home</a></li>
-                    <li><a href="/user/shopping">Shop</a></li>
+                    <li><a href="/shopping">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
                             <!-- <li><a href="./shop-details.html">Shop Details</a></li> -->
@@ -55,13 +55,13 @@
                             <i class="fa fa-bars"></i>
                             <span>All departments</span>
                         </div>
+                        <% allCategory.forEach(function(category) { %>
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
+                            <li><a href="#"><%=category.cname%></a></li>
                             </ul>
+                            <%})%>
                         </div>
+
                     </div>
                     <div class="col-lg-9">
                         <div class="hero__search">
@@ -108,31 +108,13 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
+                    <% allCategory.forEach(function(category) { %>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-1.jpg">
-                            <h5><a href="#">Fresh Fruit</a></h5>
+                        <div class="categories__item set-bg" data-setbg="<%=category.cimages%>">
+                            <h5><a href="#"><%=category.cname%></a></h5>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-2.jpg">
-                            <h5><a href="#">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-3.jpg">
-                            <h5><a href="#">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-4.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-5.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
+                    <%})%>
                 </div>
             </div>
         </div>
@@ -150,10 +132,10 @@
                     <div class="featured__controls">
                         <ul>
                             <li class="active" data-filter="*">All</li>
-                            <li data-filter=".oranges">Oranges</li>
+                            <li data-filter=".oranges">fruits&nuts</li>
                             <li data-filter=".fresh-meat">Fresh Meat</li>
-                            <li data-filter=".vegetables">Vegetables</li>
-                            <li data-filter=".fastfood">Fastfood</li>
+                            <li data-filter=".vegetables">fresh Vegetables</li>
+                            <li data-filter=".fastfood"></li>
                         </ul>
                     </div>
                 </div>

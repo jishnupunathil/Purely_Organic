@@ -139,33 +139,29 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <form action="/admin/addCategory" method="post">
+                        <div class="col-md-4">
+                            <form action="/admin/addCategory" method="post" enctype="multipart/form-data">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Name</label>
                                     <input type="text" placeholder="Type here" class="form-control" id="cname" name="cname" required/>
                                 </div>
-                                <!-- <div class="mb-4">
-                                    <label for="product_slug" class="form-label">Slug</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="product_slug" />
-                                </div> -->
-                                <!-- <div class="mb-4">
-                                    <label class="form-label">Parent</label>
-                                    <select class="form-select">
-                                        <option>Clothes</option>
-                                        <option>T-Shirts</option>
-                                    </select>
-                                </div> -->
+    
                                 <div class="mb-4">
                                     <label class="form-label">Description</label>
                                     <textarea placeholder="Type here" class="form-control" id="cdescription" name="cdescription" required></textarea>
+                                </div>
+                                <div class="input-upload">
+                                    <!-- <img src="/assets/imgs/theme/upload.svg" alt=""> -->
+                                    <div id="image-preview"></div>
+                                    <input class="form-control" type="file" name="images" id="images" multiple accept="image/jpeg,image/png,image/jpg" onchange="previewImage(event)">
+                                    <!-- <input class="form-control" type="file"> -->
                                 </div>
                                 <div class="d-grid">
                                     <button class="btn btn-primary">Create category</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <div class="table-responsive">
                                 <table class="table table-hover" id="categoryTable">
                                     <thead>

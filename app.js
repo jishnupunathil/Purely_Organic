@@ -5,9 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressLayout=require('express-ejs-layouts')
 
-
-var adminRouter = require('./routes/admin');
+var guestRouter=require('./routes/guest')
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
+
 
 var app = express();
 
@@ -29,8 +30,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/',usersRouter)
+app.use('/',guestRouter)
 app.use('/admin', adminRouter);
-app.use('/', usersRouter);
+app.use('/user', usersRouter);
 
   
 //mongodb

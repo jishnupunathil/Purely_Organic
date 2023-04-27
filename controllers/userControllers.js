@@ -4,22 +4,12 @@ const jwt = require("jsonwebtoken");
 const { token } = require("morgan");
 const bannerModel = require("../models/bannerModel");
 const twilioFunctions=require('../config/twilio')
+const categoryModel=require('../models/categoryModel')
 
 module.exports = {
-  indexPage: async(req, res) => {
-    try {
-      let allBanner = await bannerModel.find();
-      // res.render('admin/banners',{allBanner,userlay:false})
-      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner});
-      // console.log(allBanner);
-    } catch (err) {
-      res.json({
-        success:0,
-        message:'error while listing'+err
-      })
-    }
-  },
+  
   userIndexPage:async (req, res) => {
+    let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
       const userId = req.userId;
       console.log("userId",userId)
@@ -31,57 +21,19 @@ module.exports = {
         }
         
         
-        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner });
+        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory });
       }) 
       .catch ((err)=> {
         console.log('error decoding token:', err);
         return res.redirect('/user/login');
       })
   },
-  
-  
-  userLoginPage: async(req, res) => {
-    let allBanner = await bannerModel.find();
-    const token = req.cookies.token;
-  
-    if (!token) {
-      // If there is no token, render the user login page
-      res.render("user/userLogin", {
-        userlay: true,
-        message: false,
-        loggedIn: false,
-        allBanner
-      });
-    } else {
-      // If there is a token, verify it and redirect to the appropriate page
-      jwt.verify(token, "secretOgani", (err, decodedToken) => {
-        if (err) {
-          // If the token is invalid, clear the cookie and render the user login page
-          res.clearCookie("token");
-          res.render("user/userLogin", {
-            userlay: true,
-            message: false,
-            loggedIn: false,
-            allBanner
-          });
-        } else if (decodedToken.isAdmin) {
-          // If the token belongs to an admin, redirect to the admin dashboard
-          res.redirect('/admin/dashboard');
-        } else {
-          // If the token belongs to a regular user, redirect to the user index page
-          res.redirect('/user/index');
-        }
-      });
-    }
-  },
+
   userLogout:(req,res)=>{
     res.cookie('token', '', { expires: new Date(0) });
     res.redirect('/')
   },
-  userRegistrationPage: async(req, res) => {
-    let allBanner = await bannerModel.find();
-    res.render("user/userSignup",{userlay:true,loggedIn:false,allBanner});
-  },
+
   userRegistation: (req, res) => {
     bcrypt.hash(req.body.password, 10, (err, hash) => {
       if (err) {
@@ -146,10 +98,7 @@ module.exports = {
       });
   },
 
-  otp:async(req,res)=>{
-    let allBanner = await bannerModel.find();
-    res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false,allBanner})
-  },
+ 
   otpLogin:async (req,res)=>{
 
     // res.render('user/submitOtp',{userlay:true,loggedIn:false,message:false})
@@ -234,11 +183,17 @@ module.exports = {
 
   //shopping
   getShopping:async(req,res)=>{
+    let userId=req.userId
+    if(userId){
+      let user=await userModel.findById(userId)
+    let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
-    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,user:false})
+    res.render('user/shoppingPage',{userlay:true,loggedIn:true,allBanner,allCategory,user})
+    }else{
+    //   let allCategory=await categoryModel.find()
+    // let allBanner = await bannerModel.find();
+    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false})
+    }
   },
-  getProductPage:async(req,res)=>{
-    let allBanner = await bannerModel.find();
-    res.render('user/productPage',{userlay:true,loggedIn:false,allBanner,user:false})
-  }
+  
 }

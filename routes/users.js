@@ -7,27 +7,24 @@ const userControllers = require('../controllers/userControllers');
 // const userControllers = require('../controllers/userControllers');
 
 /* GET users listing. */
-router.get('/',controllers.indexPage);
 
-router.get('/user/index',checkUserAuth,controllers.userIndexPage);
 
-router.get('/user/login',controllers.userLoginPage)
+router.get('/index',checkUserAuth,controllers.userIndexPage);
 
-router.get('/user/logout',controllers.userLogout)
+router.get('/logout',controllers.userLogout)
 
-router.get('/user/registration',controllers.userRegistrationPage)
+
 
 //user registration
-router.post('/user/registration',controllers.userRegistation)
+router.post('/registration',controllers.userRegistation)
 
 //user login
-router.get('/user/otp',controllers.otp)
 
-router.post('/user/otpLogin',controllers.otpLogin)
+router.post('/otpLogin',controllers.otpLogin)
 
-router.post('/user/submitOtp',controllers.submitOtp)
+router.post('/submitOtp',controllers.submitOtp)
 
-router.post('/user/login',controllers.userLogin)
+router.post('/login',controllers.userLogin)
 
 //product section
 router.get('/productList',productControllers.productList)
@@ -36,9 +33,7 @@ router.get('/singleProduct/:id',productControllers.singleProduct)
 
 //shopping
 
-router.get('/user/shopping',controllers.getShopping)
 
-router.get('/user/productPage',controllers.getProductPage)
 
 module.exports = router;
 
