@@ -198,11 +198,13 @@
                             <div class="col-sm-6 mb-3">
                                 <label class="form-label">Category</label>
                                 <select class="form-select" name="pcategory" id="pcategory"> 
-                                    <option selected><%=singleProduct.pcategory%></option>
-                                    <option>Fresh vegetables</option>
-                                    <option>Fresh Meat</option>
-                                    <option>Nuts</option>
-                                    <option>Fresh Fruits</option>
+                                    <% allCategory.forEach(function(category){%>
+                                        <% if(category.cname === singleProduct.pcategory){ %>
+                                            <option selected><%= category.cname %></option>
+                                        <% } else { %>
+                                            <option><%= category.cname %></option>
+                                        <% } %>
+                                    <% }) %>
                                 </select>
                             </div>
                         </div> 

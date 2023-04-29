@@ -242,25 +242,11 @@
                                 <div class="col-sm-6 mb-3">
                                     <label class="form-label">Category</label>
                                     <select class="form-select" name="pcategory" id="pcategory"> 
-                                        <option>Fresh vegetables</option>
-                                        <option>Fresh Meat</option>
-                                        <option>Nuts</option>
-                                        <option>Fresh Fruits</option>
-                                    </select>
+                                            <% allCategory.forEach(function(category){%>
+                                            <option><%=category.cname%></option>
+                                            <%})%>
+                                        </select>
                                 </div>
-                                <!-- <div class="col-sm-6 mb-3">
-                                    <label class="form-label">Sub-category</label>
-                                    <select class="form-select">
-                                        <option> Nissan </option>
-                                        <option> Honda </option>
-                                        <option> Mercedes </option>
-                                        <option> Chevrolet </option>
-                                    </select>
-                                </div> -->
-                                <!-- <div class="mb-4">
-                                    <label for="product_name" class="form-label">Tags</label>
-                                    <input type="text" class="form-control">
-                                </div> -->
                             </div> <!-- row.// -->
                         </div>
                     </div> <!-- card end// -->

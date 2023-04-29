@@ -40,8 +40,9 @@ module.exports = {
     let ValidId = mongoose.Types.ObjectId.isValid(id);
     if (ValidId) {
       try {
+        let allCategory=await categoryModel.find()
         let singleProduct = await productModel.findById({ _id: id });
-        res.render("admin/editProduct", { userlay: false, singleProduct });
+        res.render("admin/editProduct", { userlay: false, singleProduct,allCategory });
       } catch (err) {
         res.render("admin/productList", { userlay: false });
       }

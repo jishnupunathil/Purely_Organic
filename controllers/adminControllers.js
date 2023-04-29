@@ -1,13 +1,15 @@
 const { default: mongoose } = require("mongoose");
 const userModel = require("../models/userModel");
+const categoryModel = require("../models/categoryModel");
 
 module.exports={
     getDashboard:(req,res)=>{     
         res.render('admin/dashboard',{userlay:false})
     },
-    getAddProductPage:(req,res)=>{
+    getAddProductPage:async(req,res)=>{
+        let allCategory=await categoryModel.find()
 
-        res.render('admin/addProducts',{userlay:false})
+        res.render('admin/addProducts',{userlay:false,allCategory})
 
     },
     logout:(req,res)=>{
