@@ -142,8 +142,8 @@
                         <h4>Basic</h4>
                     </div>
                     <div class="card-body">
-                        <form action="/admin/updateProduct/<%=singleProduct._id%>" method="post" id="addProduct">
-                            <!-- <input type="hidden" name="_method" value="PUT"> -->
+                        <form action="/admin/updateProduct/<%=singleProduct._id%>" method="post" id="addProduct" enctype="multipart/form-data" >
+                         
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Product Name</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="pname" name="pname" value="<%=singleProduct.pname%>">
@@ -180,13 +180,53 @@
                     <div class="card-header">
                         <h4>Media</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="input-upload"> 
-                             <img src="<%=singleProduct.pimages[0]%>" alt="" id="image-preview">
-                             <div ></div>
-                             <input class="form-control" type="file" name="images" id="images"  multiple accept="image/jpeg,image/png,image/jpg" onchange="previewImage(event)">
-                             <!-- <input class="form-control" type="file"> -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                          <div>
+                            <label class="form-label">Images</label>
+                            <% singleProduct.pimages.forEach((image)=>{%>
+                            <img
+                              src="<%=image %>"
+                              alt=""
+                              style="width: 100px; height: auto"
+                            />
+                            <%})%>
+                            <input
+                              class="form-control"
+                              type="file"
+                              name="images"
+                              accept="image/jpeg,image/png"
+                              onchange="previewImage(event)"
+                            />
+                            <img class="preview" style="width: 100px; height: inherit" />
+                            <input
+                            multiple
+                              class="form-control"
+                              type="file"
+                              name="images"
+                              accept="image/jpeg,image/png"
+                              onchange="previewImage(event)"
+                            />
+                            <img class="preview" style="width: 100px; height: inherit" />
+                            <input
+                              class="form-control"
+                              type="file"
+                              name="images"
+                              accept="image/jpeg,image/png"
+                              onchange="previewImage(event)"
+                            />
+                            <img class="preview" style="width: 100px; height: inherit" />
+                            <input
+                              class="form-control"
+                              type="file"
+                              name="images"
+                              accept="image/jpeg,image/png"
+                              onchange="previewImage(event)"
+                            />
+                            <img class="preview" style="width: 100px; height: inherit" />
+                          </div>
                         </div>
+                      </div>
                     </div>
                 </div> <!-- card end// -->
                 <div class="card mb-4">
@@ -217,3 +257,23 @@
     </section> <!-- content-main end// -->
     <%-include('../partials/adminFooter.ejs')%> 
 </main>
+
+<script>
+
+  function previewImage(event) {
+    var input = event.target;
+
+    var preview = input.nextElementSibling;
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function () {
+        preview.src = reader.result;
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+</script>

@@ -225,13 +225,41 @@
                         <div class="card-header">
                             <h4>Media</h4>
                         </div>
-                        <div class="card-body">
-                            <div class="input-upload">
-                                <div id="image-preview"></div>
-                                <input class="form-control" type="file" name="images" id="images" multiple accept="image/*" onchange="previewImage(event)">
-                                <!-- <input class="form-control" type="file"> -->
-                            </div>
-                        </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                              <div>
+                                <label class="form-label">Images</label>
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="images"
+                                  accept="image/jpeg,image/png"
+                                  onchange="previewImage(event)"
+                                />
+                                <img class="preview" style="width: 100px; height: inherit" />
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="images"
+                                  accept="image/jpeg,image/png"
+                                  onchange="previewImage(event)"
+                                />
+                                <img class="preview" style="width: 100px; height: inherit" />
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="images"
+                                  accept="image/jpeg,image/png"
+                                  onchange="previewImage(event)"
+                                />
+                                <img class="preview" style="width: 100px; height: inherit" />
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="images"
+                                  accept="image/jpeg,image/png"
+                                  onchange="previewImage(event)"
+                                />
                     </div> <!-- card end// -->
                     <div class="card mb-4">
                         <div class="card-header">
@@ -256,6 +284,24 @@
         </section> <!-- content-main end// -->
         <%-include('../partials/adminFooter.ejs')%> 
     </main>
+
+    <script>
+        function previewImage(event) {
+          var input = event.target;
+      
+          var preview = input.nextElementSibling;
+      
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+      
+            reader.onload = function () {
+              preview.src = reader.result;
+            };
+      
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+      </script>
 
     
    
