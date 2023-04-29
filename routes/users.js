@@ -27,12 +27,14 @@ router.post('/submitOtp',controllers.submitOtp)
 router.post('/login',controllers.userLogin)
 
 //product section
-router.get('/productList',productControllers.productList)
 
-router.get('/singleProduct/:id',productControllers.singleProduct)
+// router.get('/productList',productControllers.productList)
+
+router.get('/singleProductView/:id',checkUserAuth,productControllers.sproductUser)
 
 //shopping
 
+router.get('/shopping',checkUserAuth,controllers.getShopping)
 
 
 module.exports = router;

@@ -4,28 +4,30 @@ const jwt = require("jsonwebtoken");
 const { token } = require("morgan");
 const bannerModel = require("../models/bannerModel");
 const twilioFunctions=require('../config/twilio')
-const categoryModel=require('../models/categoryModel')
+const categoryModel=require('../models/categoryModel');
+const productModel = require("../models/productModel");
 
 module.exports = {
   
   userIndexPage:async (req, res) => {
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
+    let allProduct=await productModel.find().skip(3).limit(8)
       const userId = req.userId;
       console.log("userId",userId)
       userModel.findById(userId)
       .then((user) => {
         if (!user) {
           console.log('user not found');
-          return res.redirect('/user/login');
+          return res.redirect('/login');
         }
         
         
-        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory });
+        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory,allProduct });
       }) 
       .catch ((err)=> {
         console.log('error decoding token:', err);
-        return res.redirect('/user/login');
+        return res.redirect('/login');
       })
   },
 
@@ -52,7 +54,7 @@ module.exports = {
         userMod
           .save()
           .then((data) => {
-            res.redirect("/user/login");
+            res.redirect("/login");
             console.log(data);
           })
           .catch((err) => {
@@ -64,17 +66,18 @@ module.exports = {
       }
     });
   },
-  userLogin: (req, res) => {
+  userLogin: async(req, res) => {
+    let allBanner = await bannerModel.find();
     const email = req.body.email;
     const password = req.body.password;
     userModel.findOne({ email })
       .then((user) => {
         if (!user) {
-          return res.render('user/userLogin', { message: "Account does not exist", userlay: true, loggedIn: false });
+          return res.render('user/userLogin', { message: "Account does not exist", userlay: true, loggedIn: false,allBanner });
         }
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
-            return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true });
+            return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true,allBanner });
           }
           if (result) {
             const payload = {
@@ -89,12 +92,12 @@ module.exports = {
               res.redirect('/user/index');
             }
           } else {
-            return res.render('user/userLogin', { message: "Invalid password", loggedIn: false, userlay: true });
+            return res.render('user/userLogin', { message: "Invalid password", loggedIn: false, userlay: true,allBanner });
           }
         });
       })
       .catch((error) => {
-        return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true });
+        return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true,allBanner });
       });
   },
 
@@ -184,11 +187,12 @@ module.exports = {
   //shopping
   getShopping:async(req,res)=>{
     let userId=req.userId
-    if(userId){
-      let user=await userModel.findById(userId)
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
-    res.render('user/shoppingPage',{userlay:true,loggedIn:true,allBanner,allCategory,user})
+    let allProduct=await productModel.find()
+    if(userId){
+      let user=await userModel.findById(userId)
+    res.render('user/shoppingPage',{userlay:true,loggedIn:true,allBanner,allCategory,user,allProduct})
     }else{
     //   let allCategory=await categoryModel.find()
     // let allBanner = await bannerModel.find();

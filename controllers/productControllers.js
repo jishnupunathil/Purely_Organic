@@ -1,5 +1,8 @@
+const bannerModel = require("../models/bannerModel");
 const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
+const userModel = require("../models/userModel");
+const categoryModel = require("../models/categoryModel");
 
 module.exports = {
   addProduct: async (req, res) => {
@@ -58,7 +61,7 @@ module.exports = {
           pdescription:req.body.pdescription,
           pcategory: req.body.pcategory,
           pprice: req.body.pprice,
-          // pimages: req.images || req.image,
+          pimages: req.images || req.image,
           pcountInStock: req.body.pcountInStock,
           
 
@@ -80,5 +83,36 @@ module.exports = {
         res.render("admin/productList", { userlay: false, allproduct });
       }
     // }
+  },
+  sproductUser: async (req, res) => {
+    let id = req.params.id;
+    const userId = req.userId;
+    console.log(userId);
+    
+    let ValidId = mongoose.Types.ObjectId.isValid(id);
+    if (ValidId) {
+      try {
+        let allProduct=await productModel.find().skip(4).limit(4)
+      let allBanner=await bannerModel.find()
+      let allCategory=await categoryModel.find()
+      console.log(allCategory);
+      let user=await userModel.findById(userId)
+        let singleProduct = await productModel.findById({ _id: id });
+        res.render("user/productPage", { userlay: true,
+           singleProduct,
+           allBanner,
+           loggedIn:true,
+           user,
+           allCategory,
+          allProduct });
+      } catch (err) {
+        res.redirect("/user/index");
+      }
+    } else {
+      res.json({
+        success: 0,
+        message: "invalid id",
+      });
+    }
   },
 };

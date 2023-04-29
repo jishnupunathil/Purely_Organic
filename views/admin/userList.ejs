@@ -166,7 +166,7 @@
                                     </form>
                                   <% } else { %>
                                     <form method="POST" action="/admin/blockUser/<%= user._id %>">
-                                      <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-15">Block</button></td>
+                                      <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-15" onclick="blockUser('<%-user._id%>')">Block</button></td>
                                     </form>
                                   <% } %>
                             </tr>
@@ -179,3 +179,29 @@
        
     </section>
     <%-include('../partials/adminFooter.ejs')%>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+
+
+    <script>
+        function blockUser(userId){
+            $.ajax({
+                url:"/admin/blockUser/"+userId,
+                method:"post",
+
+                success:(response)=>{
+                    Swal.fire({
+                        title:"User Block",
+                        text:'user blocked successfully',
+                        icon:'success',
+                        timer:5000
+                    })
+                }
+            })
+        }
+
+    </script>
+
+
+
+

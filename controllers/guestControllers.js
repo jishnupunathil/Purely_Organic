@@ -1,16 +1,17 @@
 const productModel=require('../models/productModel')
 const categoryModel=require('../models/categoryModel')
 const bannerModel = require("../models/bannerModel");
+const jwt=require('jsonwebtoken')
 
 
 module.exports={
     indexPage: async(req, res) => {
     try {
-      let allProduct=await productModel.find()
+      let allProduct=await productModel.find().skip(3).limit(8)
       let allBanner = await bannerModel.find();
       let allCategory=await categoryModel.find()
       // res.render('admin/banners',{allBanner,userlay:false})
-      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner,allProduct,allCategory});
+      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner,allProduct,allCategory,user:false});
       // console.log(allBanner);
     } catch (err) {
       res.json({
@@ -69,8 +70,10 @@ module.exports={
     let allBanner = await bannerModel.find();
     res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false})
   },
-  productPage:async(req,res)=>{
-    let allBanner = await bannerModel.find();
-    res.render('user/productPage',{userlay:true,loggedIn:false,allBanner,user:false})
-  },
+  // productPage:async(req,res)=>{
+  //   let allProduct=await productModel.find().skip(1).limit(8)
+  //   let allBanner = await bannerModel.find();
+  //   let allCategory=await categoryModel.find()
+  //   res.render('user/productPage',{userlay:true,loggedIn:false,allBanner,user:false,allProduct,allCategory})
+  // },
 }

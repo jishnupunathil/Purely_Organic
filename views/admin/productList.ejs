@@ -160,15 +160,15 @@
                             <tr>
                                 <td><%-index+1%></td>
                                 <td width="40%">
-                                    <a href="#" class="itemside">
-                                        <div class="left">
+                                    
+                                        <div class="left itemside">
                                             <img src="<%=product.pimages[0]%>" class="img-sm img-avatar" alt="Userpic">
                                         </div>
                                         <div class="info pl-3">
                                             <h6 class="mb-0 title"><%= product.pname %></h6>
                                             <small class="text-muted"><%= product.pdescription %></small>
                                         </div>
-                                    </a>
+                                    
                                 </td>
                                 <td>₹<%= product.pprice %></td>
                                 <td><span class="badge rounded-pill alert-success"><%=product.pcategory%></span></td>
