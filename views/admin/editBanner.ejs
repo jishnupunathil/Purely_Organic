@@ -5,8 +5,7 @@
             <img src="/assets/imgs/logo.png" class="logo" alt="Evara Dashboard">
         </a>
         <div>
-            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
-            </button>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
         </div>
     </div>
     <nav>
@@ -17,17 +16,17 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="/admin/productList"> <i
-                        class="icon material-icons md-shopping_bag"></i>
+                <a class="menu-link" href="/admin/productList"> <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Products</span>
                 </a>
                 <!-- <div class="submenu">
                     <a href="page-products-list.html">Product List</a>
                     <a href="page-products-grid.html">Product grid</a>
                     <a href="page-products-grid-2.html">Product grid 2</a>
-                    <a href="page-categories.html">Categories</a>
+                    <a href="page-categories.html" class="active">Categories</a>
                 </div> -->
             </li>
+            
             <!-- <li class="menu-item has-submenu">
                 <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
                     <span class="text">Orders</span>
@@ -38,7 +37,7 @@
                     <a href="page-orders-detail.html">Order detail</a>
                 </div>
             </li> -->
-            <li class="menu-item ">
+            <li class="menu-item">
                 <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-store"></i>
                     <span class="text">Categories</span>
                 </a>
@@ -49,13 +48,13 @@
                     <a href="page-categories.html" class="active">Categories</a>
                 </div> -->
             </li>
-            <li class="menu-item  active">
+            <li class="menu-item">
                 <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
                     <span class="text">Users</span>
                 </a>
                 <!-- <div class="submenu">
                     <a href="page-sellers-cards.html">Sellers cards</a>
-                    <a href="page-sellers-list.html" class="active">Sellers list</a>
+                    <a href="page-sellers-list.html">Sellers list</a>
                     <a href="page-seller-detail.html">Seller profile</a>
                 </div> -->
             </li>
@@ -70,12 +69,16 @@
                     <a href="page-form-product-4.html">Add product 4</a>
                 </div>
             </li> -->
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-stars"></i>
+            <li class="menu-item active">
+                <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Banners</span>
                 </a>
-            </li>
-            <!--<li class="menu-item has-submenu">
+                <!-- <div class="submenu">
+                    <a href="page-transactions-1.html">Transaction 1</a>
+                    <a href="page-transactions-2.html">Transaction 2</a>
+                </div> -->
+            <!-- </li>
+            <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
                     <span class="text">Account</span>
                 </a>
@@ -98,10 +101,10 @@
                 <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
                     <span class="text">Statistics</span>
                 </a>
-            </li>
+            </li> -->
         </ul>
-        <hr>
-        <ul class="menu-aside">
+        <!-- <hr> -->
+        <!-- <ul class="menu-aside">
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
                     <span class="text">Settings</span>
@@ -117,128 +120,62 @@
                 </a>
             </li>
         </ul> -->
-        <br>
-        <br>
+        <!-- <br>
+        <br> -->
     </nav>
 </aside>
 <main class="main-wrap">
     <%-include('../partials/adminHeader.ejs')-%>
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">User list</h2>
-        </div>
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover" id="userTable">
-                        <thead>
-                            <tr>
-                                <th>Index</th>
-                                <th>user</th>
-                                <th>Email</th>
-                                <!-- <th>Status</th> -->
-                                <th>Registered</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% allUser.forEach(function(user,index) { %>
-                            <tr>
-                                <td><%=index+1%></td>
-                                <td width="40%">
-                                    <a href="#" class="itemside">
-                                        <div class="left">
-                                            <img src="/assets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                        </div>
-                                        <div class="info pl-3">
-                                            <h6 class="mb-0 title"><%= user.firstname %></h6>
-                                            <small class="text-muted"><%= user._id %></small>
-                                        </div>
-                                    </a>
-                                </td>
-                                <td><%= user.email %></td>
-                                <!-- <td><span class="badge rounded-pill alert-success">Active</span></td> -->
-                                <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
-
-                                <% if (user.isblocked) { %>
-                                    
-                                     <td> <button type="submit" class="btn btn-sm btn-success rounded font-sm mt-15" onclick="unblockUser('<%-user._id%>')">unblock</button></td>
-                                    
-                                  <% } else { %>
-                                    
-                                      <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-15" onclick="blockUser('<%-user._id%>')">Block</button></td>
-                                    
-                                  <% } %>
-                            </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
+            <div>
+                <h2 class="content-title card-title">Banners </h2>
+                <!-- <p>Add, edit or delete a category</p> -->
             </div>
+            <!-- <div>
+                <input type="text" placeholder="Search Banner" class="form-control bg-white">
+            </div> -->
         </div>
-       
-    </section>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="/admin/updateBanner" method="POST" enctype="multipart/form-data">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Banner Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="bname" name="bname"  value="<%=singleBanner.bname%>"/>
+                            </div>
+                            <h4>Media</h4>
+                           
+                            <div>
+                                <label class="form-label">Images</label>
+                                <% singleBanner.bimages.forEach((image)=>{%>
+                                <img
+                                  src="<%=image %>"
+                                  alt=""
+                                  style="width: 100px; height: auto"
+                                />
+                                <%})%>
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="images"
+                                  accept="image/jpeg,image/png"
+                                  onchange="previewImage(event)"
+                                />
+                                <img class="preview" style="width: 100px; height: inherit" />
+                                
+                                
+                               
+                              </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary">Edit Banner</button>
+                            </div>
+                        </form>
+                    </div>
+                     <!-- .col// -->
+                </div> <!-- .row // -->
+            </div> <!-- card body .// -->
+        </div> <!-- card .// -->
+    </section> <!-- content-main end// -->
     <%-include('../partials/adminFooter.ejs')%>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-
-
-    <script>
-     function blockUser(userId){
-     Swal.fire({
-     title: 'Are you sure?',
-     text: "You won't be able to revert this!",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, Block user!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-  
-  $.ajax({
-    url:"/admin/blockUser/"+userId,
-    method:"post",
-    success: function() 
-    {
-
-          // Reload the page
-          location.reload();
-    }
-})
-    }
-})
-}
-            
-        
-function unblockUser(userId){
-     Swal.fire({
-     title: 'Are you sure?',
-     text: "You won't be able to revert this!",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, UnBlock user!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-  
-  $.ajax({
-    url:"/admin/unBlockUser/"+userId,
-    method:"post",
-    success: function() {
-          // Reload the page
-          location.reload();
-        }
-})
-    }
-})
-                }
-
-    </script>
-
-
-
-
-
-

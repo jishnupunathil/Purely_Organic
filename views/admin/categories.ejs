@@ -202,9 +202,9 @@
                                                     <!-- <div class="dropdown-menu"> -->
                                                         <!-- <a class="dropdown-item" href="#">View detail</a> -->
                                                         <!-- <a class="dropdown-item" href="/admin/singleCategory/<%=category._id%>"><button class="btn btn-warning btn-sm font-sm">Edit </button></a> -->
-                                                        <form method="post" action="/admin/deleteCategory/<%=category._id%>">
-                                                            <td class="text-end"> <button type="submit" class="btn btn-danger btn-sm font-sm">Delete </button></td>
-                                                            </form>
+                                                        
+                                                            <td class="text-end"> <button type="submit" class="btn btn-danger btn-sm font-sm" onclick="deleteCategory('<%=category._id%>')">Delete </button></td>
+                                                    
                                                     <!-- </div> -->
                                                 <!-- </div>  -->
                                             <!-- </td> -->
@@ -219,3 +219,32 @@
             </div> <!-- card .// -->
         </section> <!-- content-main end// -->
         <%-include('../partials/adminFooter.ejs')%>
+
+
+        <script>
+            function deleteCategory(categoryId){
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+           confirmButtonText: 'Yes, Delete Category!'
+         }).then((result) => {
+           if (result.isConfirmed) {
+         
+         $.ajax({
+           url:"/admin/deleteCategory/"+categoryId,
+           method:"post",
+           success: function() 
+           {
+       
+                 // Reload the page
+                 location.reload();
+           }
+       })
+           }
+       })
+       }
+       </script>

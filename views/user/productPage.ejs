@@ -9,21 +9,30 @@
                             <i class="fa fa-bars"></i>
                             <span>All departments</span>
                         </div>
-                        <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                        </ul>
+                        <% allCategory.forEach(function(category) { %>
+                            <ul>
+                                <% if (user){%>
+                                    <li><a href="/user/shopping"><%=category.cname%></a></li>
+                                <%}else{%>
+                                    <li><a href="/shopping"><%=category.cname%></a></li>
+                                <%}%>
+                                </ul>
+                                <%})%>
+                        
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
@@ -155,7 +164,11 @@
                             </ul>
                         </div>
                         <div class="product__item__text">
+                            <%if(user){%>
                             <h6><a href="/user/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                            <%}else{%>
+                                <h6><a href="/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                                <%}%>
                             <h5>1 kg</h5>
                             <h5>₹<%=product.pprice%></h5>
                         </div>

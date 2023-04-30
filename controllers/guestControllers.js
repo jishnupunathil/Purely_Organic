@@ -1,7 +1,8 @@
 const productModel=require('../models/productModel')
 const categoryModel=require('../models/categoryModel')
 const bannerModel = require("../models/bannerModel");
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
+const { default: mongoose } = require('mongoose');
 
 
 module.exports={
@@ -66,14 +67,36 @@ module.exports={
   },
 
   shoppingPage:async(req,res)=>{
+    let allProduct=await productModel.find()
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
-    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false})
+    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false,allProduct})
   },
-  // productPage:async(req,res)=>{
-  //   let allProduct=await productModel.find().skip(1).limit(8)
-  //   let allBanner = await bannerModel.find();
-  //   let allCategory=await categoryModel.find()
-  //   res.render('user/productPage',{userlay:true,loggedIn:false,allBanner,user:false,allProduct,allCategory})
-  // },
+  sproductUser: async (req, res) => {
+    let id = req.params.id;
+    console.log(id);
+    let ValidId = mongoose.Types.ObjectId.isValid(id);
+    if (ValidId) {
+      try {
+      let allProduct=await productModel.find().skip(4).limit(4)
+      let allBanner=await bannerModel.find()
+      let allCategory=await categoryModel.find()
+        let singleProduct = await productModel.findById({ _id: id });
+        res.render("user/productPage", { userlay: true,
+           singleProduct,
+           allBanner,
+           loggedIn:false,
+           user:false,
+           allCategory,
+          allProduct });
+      } catch (err) {
+        res.redirect("/user/index");
+      }
+    } else {
+      res.json({
+        success: 0,
+        message: "invalid id",
+      });
+    }
+  },
 }

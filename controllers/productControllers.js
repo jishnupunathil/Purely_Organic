@@ -88,15 +88,12 @@ module.exports = {
   sproductUser: async (req, res) => {
     let id = req.params.id;
     const userId = req.userId;
-    console.log(userId);
-    
     let ValidId = mongoose.Types.ObjectId.isValid(id);
     if (ValidId) {
       try {
-        let allProduct=await productModel.find().skip(4).limit(4)
+      let allProduct=await productModel.find().skip(4).limit(4)
       let allBanner=await bannerModel.find()
       let allCategory=await categoryModel.find()
-      console.log(allCategory);
       let user=await userModel.findById(userId)
         let singleProduct = await productModel.findById({ _id: id });
         res.render("user/productPage", { userlay: true,

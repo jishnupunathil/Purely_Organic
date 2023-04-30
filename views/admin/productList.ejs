@@ -181,9 +181,7 @@
                                 <!-- <td class="text-end">
                                     <a href="/admin/deleteProduct/<%=product._id%>" class="btn btn-sm btn-danger rounded font-sm mt-10">Delete</a>
                                 </td> -->
-                                <form method="POST" action="/admin/deleteProduct/<%=product._id%>">
-                                    <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-10">Delete</button></td>
-                                  </form>
+                                    <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-10" onclick="deleteProduct('<%=product._id%>')">Delete</button></td>
                             </tr>
                             <% }); %>
                         </tbody>
@@ -196,7 +194,32 @@
     <%-include('../partials/adminFooter.ejs')%>
               
 
-
+<script>
+    function deleteProduct(productId){
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes, delete Product!'
+     }).then((result) => {
+       if (result.isConfirmed) {
+     
+     $.ajax({
+       url:"/admin/deleteProduct/"+productId,
+       method:"post",
+       success: function() 
+       {
    
+             // Reload the page
+             location.reload();
+       }
+   })
+       }
+   })
+   }
+</script>
    
 

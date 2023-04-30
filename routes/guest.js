@@ -13,7 +13,7 @@ router.get('/registration',guestControllers.registrationPage)
 
 router.get('/shopping',guestControllers.shoppingPage)
 
-// router.get('/productPage',guestControllers.productPage)
+router.get('/singleProductView/:id',guestControllers.sproductUser)
 
 
 

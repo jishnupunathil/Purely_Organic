@@ -63,7 +63,6 @@
                         <% allCategory.forEach(function(category) { %>
                         <ul>
                             <% if (user){%>
-
                                 <li><a href="/user/shopping"><%=category.cname%></a></li>
                             <%}else{%>
                                 <li><a href="/shopping"><%=category.cname%></a></li>
@@ -162,7 +161,11 @@
                             </ul>
                         </div>
                         <div class="featured__item__text">
+                            <% if(user){%>
                             <h6><a href="/user/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                            <%}else{%>
+                                <h6><a href="/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                                <%}%>
                             <h5>1kg</h5>
                             <h5>₹<%=product.pprice%></h5>
                         </div>

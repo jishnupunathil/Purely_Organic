@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bannerModel = require("../models/bannerModel");
+const categoryModel = require("../models/categoryModel");
 
 
 module.exports={
@@ -39,5 +40,39 @@ module.exports={
             res.render("admin/banners");
           }
         
+      },
+      singleBanner: async (req, res) => {
+        let id = req.params.id;
+        console.log(id);
+        let ValidId = mongoose.Types.ObjectId.isValid(id);
+        if (ValidId) {
+          try {
+            
+            let singleBanner = await bannerModel.findById({ _id: id });
+            console.log(singleBanner);
+            res.render("admin/editBanner", { userlay: false, singleBanner });
+          } catch (err) {
+            res.render("admin/banners", { userlay: false });
+          }
+        } else {
+          res.json({
+            success: 0,
+            message: "invalid id",
+          });
+        }
+      },
+      updateBanner: async (req, res) => {
+        try {
+        let id = req.params.id;
+        console.log(id);
+            await bannerModel.findByIdAndUpdate(id, {
+              bname: req.body.bname,
+              bimages: req.images || req.image    
+            });
+            res.redirect("/admin/banners");
+          // }
+          } catch (err) {
+            res.redirect("/admin/updateBanner/:id");
+          }
       }
 }
