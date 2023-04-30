@@ -21,18 +21,6 @@
                         
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
@@ -90,16 +78,16 @@
                        
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="<%=singleProduct.pimages[0]%>" alt="">
+                                src="<%=singleProduct.pimages[0]%>" alt="" style="height: 400px;width:150px" id="soom">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="img/product/details/product-details-2.jpg"
+                            <img data-imgbigurl="<%=singleProduct.pimages[1]%>"
                                 src="<%=singleProduct.pimages[1]%>" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-3.jpg"
+                            <img data-imgbigurl="<%=singleProduct.pimages[2]%>"
                                 src="<%=singleProduct.pimages[2]%>" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-5.jpg"
+                            <img data-imgbigurl="<%=singleProduct.pimages[3]%>"
                                 src="<%=singleProduct.pimages[3]%>" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-4.jpg"
+                            <img data-imgbigurl="<%=singleProduct.pimages[4]%>"
                                 src="<%=singleProduct.pimages[4]%>" alt="">
                         </div>
                     </div>
@@ -179,4 +167,8 @@
         </div>
     </section>
     <%- include('../partials/userFooter.ejs')%>
-    <!-- Related Product Section End -->
+    <!-- Related Product Section End --> 
+
+    <!-- <script src="/js/zoomsl.js"></script> -->
+ 
+         

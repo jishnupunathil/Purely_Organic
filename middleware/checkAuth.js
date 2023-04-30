@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 module.exports = (req, res, next) => {
   const token = req.cookies.token;
@@ -7,8 +8,11 @@ module.exports = (req, res, next) => {
     return res.redirect("/login");
   }
   try {
-    const decodedToken = jwt.verify(token, "secretOgani");
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
     if (decodedToken.isAdmin) {
+      res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.set("Pragma", "no-cache");
+    res.set("Expires", "0");
       next();
     } else {
       return res.json({
