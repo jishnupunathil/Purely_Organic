@@ -42,6 +42,8 @@ router.post('/addtocart/:id',checkUserAuth,controllers.addtocart)
 
 router.post('/removeFromCart/:id',checkUserAuth,controllers.removeProductFromCart)
 
+router.get('/checkOut',checkUserAuth,controllers.getCheckOut)
+
 module.exports = router;
 
 

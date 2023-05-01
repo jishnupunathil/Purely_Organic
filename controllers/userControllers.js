@@ -238,7 +238,6 @@ for (let i = 0; i < products.length; i++) {
     const productId = req.params.id;
     const userId = req.userId;
     try {
-      let allBanner = await bannerModel.find();
       const user = await userModel.findById(userId);
       if (!user) {
         return res.status(404).json({
@@ -305,4 +304,20 @@ for (let i = 0; i < products.length; i++) {
       });
     }
   },
+
+  getCheckOut:async(req,res)=>{
+    
+    const userId = req.userId;
+    try{
+    let allBanner = await bannerModel.find();
+    let user=await userModel.findById(userId)
+    res.render('user/checkoutPage',{userlay:true,loggedIn:true,user,allBanner})
+  }catch(err){
+    res.json({
+      sucess:0,
+      message:'error from db'
+
+    })
+  }
+}
 }

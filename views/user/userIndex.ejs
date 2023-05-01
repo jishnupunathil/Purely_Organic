@@ -5,7 +5,15 @@
             <% allBanner.forEach(function(banner) { %>
                 <%if(banner.bname==='ogani logo'){%>
                     <div class="header__logo">
-                        <a href="./index.html"><img src="<%=banner.bimages%>" alt=""></a>
+
+                        <% if (user){%>
+
+                            <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
+                        <%}else{%>
+                            
+                            <a href="/"><img src="<%=banner.bimages%>" alt=""></a>
+                        <%}%>
+                        
                     </div>
                     <%}%>
                     <%})%>
@@ -20,16 +28,16 @@
                     <%}else{%>
                         <li><a href="/shopping">Shop</a></li>
                     <%}%>
-                    <li><a href="#">Pages</a>
-                        <ul class="header__menu__dropdown">
+                    <!-- <li><a href="#">Pages</a> -->
+                        <!-- <ul class="header__menu__dropdown"> -->
                             <!-- <li><a href="./shop-details.html">Shop Details</a></li> -->
-                            <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                            <li><a href="./checkout.html">Check Out</a></li>
+                            <!-- <li><a href="./shoping-cart.html">Shoping Cart</a></li> -->
+                            <!-- <li><a href="./checkout.html">Check Out</a></li> -->
                             <!-- <li><a href="./blog-details.html">Blog Details</a></li> -->
-                        </ul>
+                        <!-- </ul> -->
                     </li>
                     <!-- <li><a href="./blog.html">Blog</a></li> -->
-                    <li><a href="./contact.html">Contact</a></li>
+                    <!-- <li><a href="./contact.html">Contact</a></li> -->
                 </ul>
             </nav>
         </div>
@@ -41,7 +49,7 @@
                     <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i>
                          <!-- <span>3</span></a></li> -->
                 </ul>
-                <div class="header__cart__price">item: <span>₹150.00</span></div>
+                <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
             </div>
         </div>
     </div>
@@ -101,7 +109,14 @@
                                 <span>FRUIT FRESH</span>
                                 <h2>Vegetable <br />100% Organic</h2>
                                 <p>Free Delivery Available On Order above ₹150 </p>
-                                <a href="#" class="primary-btn">SHOP NOW</a>
+
+                                <% if (user){%>
+
+                                    <a href="/user/shopping" class="primary-btn">SHOP NOW</a>
+                                <%}else{%>
+                                    
+                                    <a href="/shopping" class="primary-btn">SHOP NOW</a>
+                                <%}%>
                                 <%}%>
                                 <%})%>
                             </div>
@@ -120,7 +135,15 @@
                     <% allCategory.forEach(function(category) { %>
                     <div class="col-lg-3">
                         <div class="categories__item set-bg" data-setbg="<%=category.cimages%>">
-                            <h5><a href="#"><%=category.cname%></a></h5>
+                            <% if (user){%>
+
+                                <h5><a href="/user/shopping"><%=category.cname%></a></h5>
+                            <%}else{%>
+                            
+                                <h5><a href="/shopping"><%=category.cname%></a></h5>
+                            <%}%>
+
+
                         </div>
                     </div>
                     <%})%>
