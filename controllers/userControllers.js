@@ -6,6 +6,7 @@ const bannerModel = require("../models/bannerModel");
 const twilioFunctions=require('../config/twilio')
 const categoryModel=require('../models/categoryModel');
 const productModel = require("../models/productModel");
+const cartModel = require("../models/addtocartModel");
 
 module.exports = {
   
@@ -199,5 +200,109 @@ module.exports = {
     res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false})
     }
   },
+
+  getCart:async(req,res)=>{
+    let userId=req.userId
+    let user=await userModel.findById(userId)
+    let allBanner = await bannerModel.find();
+    let cartProduct=await cartModel.findOne({user:userId})
+    console.log("cartProduct",cartProduct)
+   const products = cartProduct.products;
+   const productDetails = [];
+   let total = 0;
+   let subTotal = 0;
+for (let i = 0; i < products.length; i++) {
+  const product = await productModel.findById(products[i].productId);
+  productDetails.push({
+    id:product._id,
+    name: product.pname,
+    description: product.pdescription,
+    category: product.pcategory,
+    price: product.pprice,
+    image: product.pimages,
+    countInStock: product.pcountInStock,
+    quantity:products[i].quantity,
+    totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity)
+  });
+  total += parseInt(product.pprice) * parseInt(products[i].quantity);
+  subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+}
+    console.log("productDetails",{productDetails,subTotal,total})
+
+    res.render('user/addtocart',{userlay:true,allBanner,loggedIn:true,user,productDetails,subTotal,total})
+
+
+  },
+
+  addtocart:async(req,res)=>{
+    const productId = req.params.id;
+    const userId = req.userId;
+    try {
+      let allBanner = await bannerModel.find();
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({
+          status: "error",
+          message: "User not found",
+        });
+      }
   
+      const product = await productModel.findById(productId);
+      if (!product) {
+        return res.status(404).json({
+          status: "error",
+          message: "Product not found",
+        });
+      }
+      const isProductExist = await cartModel.findOne({
+        user: userId,
+        "products.productId": productId,
+      });
+  
+      if (isProductExist) {
+        await cartModel.updateOne(
+          { user: userId, "products.productId": productId },
+          { $inc: { "products.$.quantity": 1 } }
+        );
+      } else {
+        await cartModel.updateOne(
+          { user: userId },
+          { $push: { products: { productId, quantity: 1 } } },
+          { upsert: true }
+        );
+      }
+      res.redirect('/user/getCart')
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: "error",
+        message: "Something went wrong",
+      });
+    }
+  },
+  removeProductFromCart: async(req,res)=>{
+    console.log("testing..")
+    try{
+      const userId = req.userId;
+      const productId = req.params.id
+      const updatedCart = await cartModel.findOneAndUpdate({user: userId},
+        {$pull: {products:{productId:productId}}},
+        {new:true}
+        );
+
+        if(!updatedCart){
+          throw new Error('cart not found')
+        }
+     res.status(200).json({
+      status: "sucees",
+      message:"Product removed from cart"
+     })
+    }catch(error){
+      console.error(error.message);
+      res.status(500).json({
+        status: "error",
+        message: "Something went wrong",
+      });
+    }
+  },
 }

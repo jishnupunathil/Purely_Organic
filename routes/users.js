@@ -36,6 +36,11 @@ router.get('/singleProductView/:id',checkUserAuth,productControllers.sproductUse
 
 router.get('/shopping',checkUserAuth,controllers.getShopping)
 
+router.get('/getCart',checkUserAuth,controllers.getCart)
+
+router.post('/addtocart/:id',checkUserAuth,controllers.addtocart)
+
+router.post('/removeFromCart/:id',checkUserAuth,controllers.removeProductFromCart)
 
 module.exports = router;
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const addtocartSchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
@@ -20,12 +20,10 @@ const addtocartSchema = new mongoose.Schema({
           },
         },
       ],
-
-    
 },{
     timestamps:true
 })
 
-const addtocartModel = mongoose.model('addtocart', addtocartSchema)
+const cartModel = mongoose.model('cart', cartSchema)
 
-module.exports = addtocartModel
+module.exports = cartModel
