@@ -145,25 +145,25 @@
                             <form action="/admin/addProduct" method="POST" id="addProduct" enctype="multipart/form-data">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="pname" name="pname">
+                                    <input type="text" placeholder="Type here" class="form-control" id="pname" name="pname" required>
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Full description</label>
-                                    <textarea placeholder="Type here" class="form-control" rows="4" id="pdescription" name="pdescription"></textarea>
+                                    <textarea placeholder="Type here" class="form-control" rows="4" id="pdescription" name="pdescription" required></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-4">
                                             <label class="form-label">Regular price</label>
                                             <div class="row gx-2">
-                                                <input placeholder="₹" type="text" class="form-control" name="pprice" id="pprice">
+                                                <input placeholder="₹" type="text" class="form-control" name="pprice" id="pprice" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-4">
                                             <label class="form-label">Stock</label>
-                                            <input placeholder="" type="text" class="form-control" name="pcountInStock" id="pcountInStock">
+                                            <input placeholder="kg" type="text" class="form-control" name="pcountInStock" id="pcountInStock" required>
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-4">
@@ -188,36 +188,7 @@
                         </div>
                     </div> <!-- card end// -->
                     <div class="card mb-4">
-                        <!-- <div class="card-header">
-                            <h4>Shipping</h4>
-                        </div> -->
-                        <!-- <div class="card-body"> -->
-                            <!-- <form action="/admin/addProduct" method="post" id="addProduct">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-4">
-                                            <label for="product_name" class="form-label">Width</label>
-                                            <input type="text" placeholder="inch" class="form-control" id="product_name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-4">
-                                            <label for="product_name" class="form-label">Height</label>
-                                            <input type="text" placeholder="inch" class="form-control" id="product_name">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Weight</label>
-                                    <input type="text" placeholder="gam" class="form-control" id="product_name">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Shipping fees</label>
-                                    <input type="text" placeholder="₹" class="form-control" id="product_name">
-                                </div>
-                                <input type="submit" class="btn btn-brand rounded font-sm hover-up" value="Add Product">
-                            </form> -->
-                        <!-- </div> -->
+                      
                     </div> <!-- card end// -->
                 </div>
                 <div class="col-lg-6">
@@ -236,6 +207,7 @@
                                   accept="image/*"
                                   onchange="previewImage(event)"
                                   multiple
+                                  required
                                 />
                                 <img class="preview" style="width: 100px; height: inherit" />
                                 

@@ -140,7 +140,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <form action="/admin/updateBanner" method="POST" enctype="multipart/form-data">
+                        <form action="/admin/updateBanner/<%=singleBanner._id%>" method="POST" enctype="multipart/form-data">
                             <div class="mb-4">
                                 <label for="product_name" class="form-label">Banner Name</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="bname" name="bname"  value="<%=singleBanner.bname%>"/>
@@ -160,13 +160,11 @@
                                   class="form-control"
                                   type="file"
                                   name="images"
-                                  accept="image/jpeg,image/png"
+                                  accept="image/*"
                                   onchange="previewImage(event)"
+                                  multiple
                                 />
                                 <img class="preview" style="width: 100px; height: inherit" />
-                                
-                                
-                               
                               </div>
                             <div class="d-grid">
                                 <button class="btn btn-primary">Edit Banner</button>
