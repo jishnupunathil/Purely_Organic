@@ -21,11 +21,12 @@
         <div class="col-lg-6">
             <nav class="header__menu">
                 <ul>
-                    <li class="active"><a href="./index.html">Home</a></li>
                     <% if (user){%>
+                        <li class="active"><a href="/user/index">Home</a></li>
 
                         <li><a href="/user/shopping">Shop</a></li>
                     <%}else{%>
+                        <li class="active"><a href="/">Home</a></li>
                         <li><a href="/shopping">Shop</a></li>
                     <%}%>
                     <!-- <li><a href="#">Pages</a> -->
@@ -35,7 +36,7 @@
                             <!-- <li><a href="./checkout.html">Check Out</a></li> -->
                             <!-- <li><a href="./blog-details.html">Blog Details</a></li> -->
                         <!-- </ul> -->
-                    </li>
+                    <!-- </li> -->
                     <!-- <li><a href="./blog.html">Blog</a></li> -->
                     <!-- <li><a href="./contact.html">Contact</a></li> -->
                 </ul>
@@ -44,9 +45,9 @@
         <div class="col-lg-3">
             <div class="header__cart">
                 <ul>
-                    <li><a href="#"><i class="fa fa-heart"></i> 
+                    <li><a href="#"><i class="fa fa-heart"></i> </a></li>
                         <!-- <span>1</span></a></li> -->
-                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i>
+                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i></a></li>
                          <!-- <span>3</span></a></li> -->
                 </ul>
                 <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
@@ -161,15 +162,7 @@
                     <div class="section-title">
                         <h2>Featured Product</h2>
                     </div>
-                    <!-- <div class="featured__controls">
-                        <ul>
-                            <li class="active" data-filter="*">All</li>
-                            <li data-filter=".oranges">fruits&nuts</li>
-                            <li data-filter=".fresh-meat">Fresh Meat</li>
-                            <li data-filter=".vegetables">fresh Vegetables</li>
-                            <li data-filter=".fastfood"></li>
-                        </ul>
-                    </div> -->
+                   
                 </div>
             </div>
             <div class="row featured__filter">
@@ -239,62 +232,30 @@
                         <h4>Latest Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
+                                <% latestproduct.forEach(function(topPrd){%>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="<%=topPrd.pimages%>" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6><%=topPrd.pname%></h6>
+                                            <span>₹<%=topPrd.pprice%></span>
+                                        </div>
+                                    </a>
+                               <% })%>
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
+                                <% topratedProduct.forEach(function(topPrd){%>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="<%=topPrd.pimages%>" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6><%=topPrd.pname%></h6>
+                                            <span>₹<%=topPrd.pprice%></span>
+                                        </div>
+                                    </a>
+                               <% })%>
                             </div>
                         </div>
                     </div>
@@ -304,62 +265,30 @@
                         <h4>Top Rated Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
+                                <% topratedProduct.forEach(function(topPrd){%>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="<%=topPrd.pimages%>" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6><%=topPrd.pname%></h6>
+                                            <span>₹<%=topPrd.pprice%></span>
+                                        </div>
+                                    </a>
+                               <% })%>
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="/img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>₹30.00</span>
-                                    </div>
-                                </a>
+                                <% latestproduct.forEach(function(topPrd){%>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="<%=topPrd.pimages%>" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6><%=topPrd.pname%></h6>
+                                            <span>₹<%=topPrd.pprice%></span>
+                                        </div>
+                                    </a>
+                               <% })%>
                             </div>
                         </div>
                     </div>
@@ -374,22 +303,5 @@
    <%- include('../partials/userFooter.ejs')%>
 
 
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 
-   <script>
-      function addToCart(prodId) {
-          console.log("prodId",prodId);
-    Swal.fire({
-        title:'Added to Cart!',
-  message:'product added to cart',
-  icon:'success'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "/user/addtocart/"+prodId,
-          method: "post"
-        });
-      }
-    });
-  }
-   </script>
+

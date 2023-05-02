@@ -11,27 +11,7 @@
                             <%}%>
                             <%})%>
                 </div>
-                <!-- <div class="col-lg-2">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                        </ul>
-                    </div>
-                </div> -->
+               
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
@@ -45,13 +25,16 @@
                             </form>
                         </div>
                         <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
+                            <div class="header__cart">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-heart"></i> 
+                                        <!-- <span>1</span></a></li> -->
+                                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i>
+                                         <!-- <span>3</span></a></li> -->
+                                </ul>
+                                <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
                             </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+9496959109</h5>
-                                <span>support 24/7 time</span>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -102,7 +85,7 @@
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a href="#" onclick="addToCart('<%=product._id%>')"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">

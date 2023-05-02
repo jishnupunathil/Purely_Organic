@@ -14,6 +14,8 @@ module.exports = {
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
     let allProduct=await productModel.find().skip(3).limit(8)
+    let topratedProduct=await productModel.find().limit(3)
+    let latestproduct=await productModel.find().skip(6).limit(3)
       const userId = req.userId;
       console.log("userId",userId)
       userModel.findById(userId)
@@ -24,7 +26,7 @@ module.exports = {
         }
         
         
-        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory,allProduct });
+        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory,allProduct,topratedProduct,latestproduct });
       }) 
       .catch ((err)=> {
         console.log('error decoding token:', err);
@@ -293,7 +295,7 @@ for (let i = 0; i < products.length; i++) {
           throw new Error('cart not found')
         }
      res.status(200).json({
-      status: "sucees",
+      status: "succees",
       message:"Product removed from cart"
      })
     }catch(error){

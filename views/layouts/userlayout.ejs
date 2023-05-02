@@ -41,6 +41,8 @@
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/validation.js"></script>
     <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+
 
     <script>
         $(function () { 
@@ -93,6 +95,23 @@
       })
     })
     </script>
+       <script>
+        function addToCart(prodId) {
+            console.log("prodId",prodId);
+      Swal.fire({
+          title:'Added to Cart!',
+    message:'product added to cart',
+    icon:'success'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "/user/addtocart/"+prodId,
+            method: "post"
+          });
+        }
+      });
+    }
+     </script>
 
 </body>
 

@@ -14,7 +14,9 @@ module.exports={
       let allProduct=await productModel.find().skip(3).limit(8)
       let allBanner = await bannerModel.find();
       let allCategory=await categoryModel.find()
-      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner,allProduct,allCategory,user:false});
+      let topratedProduct=await productModel.find().limit(3)
+    let latestproduct=await productModel.find().skip(6).limit(3)
+      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner,allProduct,allCategory,user:false,latestproduct,topratedProduct});
     } catch (err) {
       res.json({
         success:0,
@@ -29,7 +31,8 @@ module.exports={
         userlay: true,
         message: false,
         loggedIn: false,
-        allBanner
+        allBanner,
+        user:false
       });
   },
 
