@@ -43,7 +43,7 @@ module.exports={
 
   registrationPage: async(req, res) => {
     let allBanner = await bannerModel.find();
-    res.render("user/userSignup",{userlay:true,loggedIn:false,allBanner});
+    res.render("user/userSignup",{userlay:true,loggedIn:false,allBanner,user:false});
   },
 
   shoppingPage:async(req,res)=>{

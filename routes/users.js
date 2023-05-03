@@ -44,6 +44,10 @@ router.post('/removeFromCart/:id',checkUserAuth,controllers.removeProductFromCar
 
 router.get('/checkOut',checkUserAuth,controllers.getCheckOut)
 
+router.get('/newAddress',checkUserAuth,controllers.getAddress)
+
+router.post('/addAddress',checkUserAuth,controllers.addAddress)
+
 module.exports = router;
 
 

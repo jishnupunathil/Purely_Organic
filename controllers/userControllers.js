@@ -7,16 +7,25 @@ const twilioFunctions=require('../config/twilio')
 const categoryModel=require('../models/categoryModel');
 const productModel = require("../models/productModel");
 const cartModel = require("../models/addtocartModel");
+const addressModel = require("../models/addressModel");
+const userHelper = require("../helper/user-helper");
+
+
+const { OrderItem } = require("../models/orders");
+
 
 module.exports = {
   
   userIndexPage:async (req, res) => {
+    const userId = req.userId;
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
     let allProduct=await productModel.find().skip(3).limit(8)
     let topratedProduct=await productModel.find().limit(3)
     let latestproduct=await productModel.find().skip(6).limit(3)
-      const userId = req.userId;
+    let cartCount = await userHelper.getCartCount(userId)
+    
+      
       console.log("userId",userId)
       userModel.findById(userId)
       .then((user) => {
@@ -26,7 +35,8 @@ module.exports = {
         }
         
         
-        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory,allProduct,topratedProduct,latestproduct });
+        res.render('user/userIndex', { userlay: true, loggedIn: true, user,allBanner,allCategory,
+          allProduct,topratedProduct,latestproduct,cartCount });
       }) 
       .catch ((err)=> {
         console.log('error decoding token:', err);
@@ -76,11 +86,11 @@ module.exports = {
     userModel.findOne({ email })
       .then((user) => {
         if (!user) {
-          return res.render('user/userLogin', { message: "Account does not exist", userlay: true, loggedIn: false,allBanner });
+          return res.render('user/userLogin', { message: "Account does not exist", userlay: true, loggedIn: false,allBanner,user:false });
         }
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
-            return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true,allBanner });
+            return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true,allBanner,user:false });
           }
           if (result) {
             const payload = {
@@ -95,12 +105,12 @@ module.exports = {
               res.redirect('/user/index');
             }
           } else {
-            return res.render('user/userLogin', { message: "Invalid password", loggedIn: false, userlay: true,allBanner });
+            return res.render('user/userLogin', { message: "Invalid password", loggedIn: false, userlay: true,allBanner,user:false });
           }
         });
       })
       .catch((error) => {
-        return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true,allBanner });
+        return res.render('user/userLogin', { message: "Authentication failed", loggedIn: false, userlay: true,allBanner,user:false });
       });
   },
 
@@ -193,9 +203,10 @@ module.exports = {
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
     let allProduct=await productModel.find()
+    let cartCount = await userHelper.getCartCount(userId)
     if(userId){
       let user=await userModel.findById(userId)
-    res.render('user/shoppingPage',{userlay:true,loggedIn:true,allBanner,allCategory,user,allProduct})
+    res.render('user/shoppingPage',{userlay:true,loggedIn:true,allBanner,allCategory,user,allProduct,cartCount})
     }else{
     //   let allCategory=await categoryModel.find()
     // let allBanner = await bannerModel.find();
@@ -208,6 +219,7 @@ module.exports = {
     let user=await userModel.findById(userId)
     let allBanner = await bannerModel.find();
     let cartProduct=await cartModel.findOne({user:userId})
+    let cartCount = await userHelper.getCartCount(userId)
     console.log("cartProduct",cartProduct)
    const products = cartProduct.products;
    const productDetails = [];
@@ -231,7 +243,7 @@ for (let i = 0; i < products.length; i++) {
 }
     console.log("productDetails",{productDetails,subTotal,total})
 
-    res.render('user/addtocart',{userlay:true,allBanner,loggedIn:true,user,productDetails,subTotal,total})
+    res.render('user/addtocart',{userlay:true,allBanner,loggedIn:true,user,productDetails,subTotal,total,cartCount})
 
 
   },
@@ -308,18 +320,107 @@ for (let i = 0; i < products.length; i++) {
   },
 
   getCheckOut:async(req,res)=>{
-    
     const userId = req.userId;
+    console.log(userId);
+    try{
+    
+    let user=await userModel.findById(userId)
+    let allBanner = await bannerModel.find();
+    let addressColl=await addressModel.findOne({user:userId})
+    let cartCount = await userHelper.getCartCount(userId)
+    let separateAddresses = addressColl.addresses.map(address => {
+      return address;
+    });
+    let cartProduct=await cartModel.findOne({user:userId})
+    console.log("cartProduct",cartProduct)
+   const products = cartProduct.products;
+   const productDetails = [];
+   let total = 0;
+   let subTotal = 0;
+for (let i = 0; i < products.length; i++) {
+  const product = await productModel.findById(products[i].productId);
+  productDetails.push({
+    id:product._id,
+    name: product.pname,
+    description: product.pdescription,
+    category: product.pcategory,
+    price: product.pprice,
+    image: product.pimages,
+    countInStock: product.pcountInStock,
+    quantity:products[i].quantity,
+    totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity)
+  });
+  total += parseInt(product.pprice) * parseInt(products[i].quantity);
+  subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+}
+   
+    res.render('user/checkoutPage',{userlay:true,loggedIn:true,user,allBanner,separateAddresses,productDetails,subTotal,total,cartCount})
+  }catch(err){
+    res.json({
+      sucess:0,
+      message:'error from db'+err
+
+    })
+  }
+},
+
+getAddress:async(req,res)=>{
+  const userId = req.userId;
     try{
     let allBanner = await bannerModel.find();
     let user=await userModel.findById(userId)
-    res.render('user/checkoutPage',{userlay:true,loggedIn:true,user,allBanner})
+    res.render('user/newAddress',{userlay:true,loggedIn:true,user,allBanner})
+
   }catch(err){
     res.json({
       sucess:0,
       message:'error from db'
 
     })
+  }
+},
+addAddress: async (req, res) => {
+  const userId = req.userId;
+  const addressInfo = req.body;
+
+  try {
+    let user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // check if the user already has an address document
+    let address = await addressModel.findOne({ user: userId });
+    if (!address) {
+      // create a new address document if the user doesn't have one
+      address = new addressModel({
+        user: userId,
+        addresses: [],
+      });
+    }
+
+    // create a new address object
+    const newAddress = {
+      fname: addressInfo.fname,
+      lname: addressInfo.lname,
+      address: addressInfo.address,
+      city: addressInfo.city,
+      state: addressInfo.state,
+      pincode: addressInfo.pincode,
+      phone: addressInfo.phone,
+      email: addressInfo.email,
+    };
+
+    // add the new address to the addresses array
+    address.addresses.push(newAddress);
+
+    // save the updated address document
+    await address.save();
+
+    res.json({ message: "Address added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 }

@@ -3,6 +3,7 @@ const productModel = require("../models/productModel");
 const mongoose = require("mongoose");
 const userModel = require("../models/userModel");
 const categoryModel = require("../models/categoryModel");
+const userHelper = require("../helper/user-helper");
 
 module.exports = {
   addProduct: async (req, res) => {
@@ -88,29 +89,23 @@ module.exports = {
   sproductUser: async (req, res) => {
     let id = req.params.id;
     const userId = req.userId;
-    let ValidId = mongoose.Types.ObjectId.isValid(id);
-    if (ValidId) {
       try {
       let allProduct=await productModel.find().skip(4).limit(4)
       let allBanner=await bannerModel.find()
       let allCategory=await categoryModel.find()
       let user=await userModel.findById(userId)
+      
         let singleProduct = await productModel.findById({ _id: id });
+        let cartCount = await userHelper.getCartCount(userId)
         res.render("user/productPage", { userlay: true,
            singleProduct,
            allBanner,
            loggedIn:true,
            user,
            allCategory,
-          allProduct });
+          allProduct ,cartCount});
       } catch (err) {
         res.redirect("/user/index");
       }
-    } else {
-      res.json({
-        success: 0,
-        message: "invalid id",
-      });
-    }
   },
 };

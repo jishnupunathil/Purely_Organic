@@ -29,7 +29,7 @@
                                 <ul>
                                     <li><a href="#"><i class="fa fa-heart"></i> </a></li>
                                         <!-- <span>1</span></a></li> -->
-                                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i></a></li>
+                                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
                                          <!-- <span>3</span></a></li> -->
                                 </ul>
                                 <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
@@ -81,7 +81,7 @@
                 <% allProduct.forEach(function(product) { %>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix <%=product.pcategory.replace(' ','_')%>">
                     <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<%=product.pimages%>">
+                        <div class="featured__item__pic set-bg" data-setbg="<%=product.pimages[0]%>">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
