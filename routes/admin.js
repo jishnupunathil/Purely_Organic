@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var productControllers=require('../controllers/productControllers');
-var adminControllers=require('../controllers/adminControllers')
+const express = require('express');
+const router = express.Router();
+const productControllers=require('../controllers/productControllers');
+const adminControllers=require('../controllers/adminControllers')
 const checkAuth=require('../middleware/checkAuth');
 const categoryControllers = require('../controllers/categoryControllers');
 const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload');

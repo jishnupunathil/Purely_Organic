@@ -1,4 +1,5 @@
 const cartModel = require("../models/addtocartModel")
+const userModel = require("../models/userModel")
 
 
 module.exports={
@@ -14,6 +15,44 @@ module.exports={
         })
 
       },
+
+      getProfile: (userId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let profile = await userModel.findById(userId);
+            if (profile) {
+              resolve(profile);
+            } else {
+              // Return a default value or reject with an error message
+              reject(new Error("User profile not found"));
+            }
+          } catch (err) {
+            reject(err);
+          }
+        });
+      },
+      editProfile:(userId,data,picture)=>{
+        console.log(picture);
+        return new Promise(async(resolve,reject)=>{
+          try{
+            let updatedUser=await userModel.findByIdAndUpdate(userId,{
+              firstname:data.firstname,
+              lasttname:data.lastname,
+              email:data.email,
+              phoneNumber:data.phoneNumber,
+              image:picture.image
+            },{new:true})
+            if(updatedUser){
+              resolve(updatedUser)
+            }else{
+              reject(new Error(" profile cannot updated"));
+            }
+          }catch(err){
+            reject(err)
+          }
+        })
+      },
+
       placeOrder: async (
         userId,
         PaymentMethod,

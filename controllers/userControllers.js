@@ -114,6 +114,7 @@ module.exports = {
       });
   },
 
+
  
   otpLogin:async (req,res)=>{
 
@@ -196,6 +197,25 @@ module.exports = {
             console.error(err);
         }
   },
+
+  getProfile:async(req,res)=>{
+    let userId=req.userId
+    console.log(userId);
+    let profileData=await userHelper.getProfile(userId)
+    console.log(profileData);
+    res.render('user/profile',{userlay:false,profileData})
+  },
+
+  editProfile:async(req,res)=>{
+    let userId=req.userId
+    let data=req.body
+    let picture=req.images || req.image
+    // console.log(images);
+    let user=await userHelper.editProfile(userId,data,picture)
+    console.log(user);
+    res.redirect('/user/index')
+  },
+
 
   //shopping
   getShopping:async(req,res)=>{

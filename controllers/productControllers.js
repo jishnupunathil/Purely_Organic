@@ -65,8 +65,6 @@ module.exports = {
           pprice: req.body.pprice,
           pimages: req.images || req.image,
           pcountInStock: req.body.pcountInStock,
-          
-
         });
         res.redirect("/admin/productList");
       // }

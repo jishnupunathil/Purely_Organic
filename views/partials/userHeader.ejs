@@ -95,10 +95,18 @@
                                 </ul>
                             </div> -->
                             <%if(loggedIn){%>
-                            <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i><%=user.firstname%></a>
-                                <a href="/user/logout"><button class="bg-danger" style="margin-top: 10px;">Logout</button></a>
-                            </div>
+                                <div class="header__top__right__auth">
+                                    <div class="dropdown">
+                                      <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="/images/1681999666071-tomato.jpg" alt="User Image" class="rounded-circle" width="30" height="30">
+                                        <%= user.firstname %>
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="/user/editProfile">Edit Profile</a>
+                                        <a class="dropdown-item bg-danger" href="/user/logout">Logout</a>
+                                      </div>
+                                    </div>
+                                  </div>
                             <%} else {%>
                             <div class="header__top__right__auth">
                                 <a href="/login"><i class="fa fa-user"></i> Login</a>
@@ -110,4 +118,10 @@
             </div>
         </div>
     </header>
+
+    <script>
+        $(document).ready(function(){
+          $('.dropdown-toggle').dropdown();
+        });
+      </script>
     <!-- Header Section End -->

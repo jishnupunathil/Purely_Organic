@@ -1,10 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var controllers=require('../controllers/userControllers')
-var productControllers=require('../controllers/productControllers');
+const express = require('express');
+const router = express.Router();
+const controllers=require('../controllers/userControllers')
+const productControllers=require('../controllers/productControllers');
 const checkUserAuth = require('../middleware/checkUserAuth');
-const userControllers = require('../controllers/userControllers');
-// const userControllers = require('../controllers/userControllers');
+const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload');
 
 /* GET users listing. */
 
@@ -25,6 +24,10 @@ router.post('/otpLogin',controllers.otpLogin)
 router.post('/submitOtp',controllers.submitOtp)
 
 router.post('/login',controllers.userLogin)
+
+router.get('/editProfile',checkUserAuth,controllers.getProfile)
+
+router.post('/editProfile',multipleImageUpload,checkUserAuth,controllers.editProfile)
 
 //product section
 

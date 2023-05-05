@@ -1,7 +1,7 @@
-var express = require('express');
+const express = require('express');
 const guestControllers = require('../controllers/guestControllers');
 const verifyToken = require('../middleware/verifyToken');
-var router = express.Router();
+const router = express.Router();
 
 
 router.get('/',verifyToken,guestControllers.indexPage);
