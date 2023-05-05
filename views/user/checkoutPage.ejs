@@ -118,14 +118,14 @@
                 <%separateAddresses.forEach(function(address){%>
                     <%if(address.default===true){%>
                 <h4>Billing Details</h4>
-                <form action="#">
+                <form  id="checkout-form">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>First name<span>*</span></p>
-                                        <input type="text" value="<%=address.fname%>" class="text-dark">
+                                        <input type="text" value="<%=address.fname%>" class="text-dark" name="fname">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -185,8 +185,8 @@
                                     <li><%=prod.name%><span>₹<%=prod.totalPrice%></span></li>
                                 </ul>
                                 <%})%>
-                                <div class="checkout__order__subtotal">Subtotal <span>₹<%=subTotal%></span></div>
-                                <div class="checkout__order__total">Total <span>₹<%=total%></div>
+                                <div class="checkout__order__subtotal" >Subtotal <span>₹<%=subTotal%></span></div>
+                                <div class="checkout__order__total" id="totalPrice">Total <span>₹<%=total%></div>
                                 <div class="custom-control custom-radio">
                                     <input id="cod" value="cash_on_delivery" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="cod">Cash On Delivery</label>
@@ -198,7 +198,7 @@
                                 <button type="submit" class="site-btn">PLACE ORDER</button>
                             </div>
                         </div>
-                    </div>
+                    </div>  
                 </form>
                 <%}%>
                 <%})%>
@@ -208,5 +208,135 @@
         </div>
     </section>
     <!-- Checkout Section End -->
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  // get the radio buttons with name "paymentMethod"
+const paymentMethodRadioButtons = document.querySelectorAll('input[name="paymentMethod"]');
+
+// add event listener to each radio button
+paymentMethodRadioButtons.forEach((radioButton) => {
+  radioButton.addEventListener('change', () => {
+
+    if(radioButton.value==="wallet"){
+      document.getElementsByClassName("wallet-card")[0].style.display = "block";
+
+    }else{
+      document.getElementsByClassName("wallet-card")[0].style.display = "none";
+
+    }
+    // check if the selected value is "stripe"
+    if (radioButton.value === "online_payment") {
+      // show the Stripe pay button
+      document.getElementById("stripe-pay-button").style.display = "block";
+      document.getElementById("order-button").style.display = "none";
+      
+    
+    } else {
+      // hide the Stripe pay button
+      document.getElementById("stripe-pay-button").style.display = "none";
+      document.getElementById("order-button").style.display = "block";
+
+    }
+  });
+});
+
+  $("#checkout-form").on("submit", (event) => {
+    event.preventDefault();
+    var totalAmount = document.getElementById('totalPrice').textContent; 
+    var code =document.getElementById('couponCode').textContent;
+  $("<input>").attr({
+    type: "hidden",
+    name: "totalAmount",
+    value:parseInt(totalAmount.slice(1,8))
+  }).appendTo("#checkout-form");
+    $.ajax({
+      url: "/place-order",
+      method: "post",
+      data: $("#checkout-form").serialize(), //send the entire data from the form
+      success: (response) => {
+        if (response.codstatus) {
+          Swal.fire({
+          title: "Order Placed!",
+          icon: "success",
+
+         confirmButtonText: "OK",
+        }).then((results)=>{
+          if(results.isConfirmed){
+            location.href = "/order-success";
+          }
+        })
+         
+        }else{
+          razorpay(response)
+        }
+      },
+    });
+  });
+
+function  razorpay(order){
+  var options = {
+    "key": "rzp_test_o9pzcjwKBFmvKq", // Enter the Key ID generated from the Dashboard
+    "amount":order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "2 Wheels", //your business name
+    "description": "Test Transaction",
+    "image": "userAssets/images/zyro-image.png",
+    "order_id":order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+    //     alert(response.razorpay_payment_id);
+    //     alert(response.razorpay_order_id);
+    //     alert(response.razorpay_signature)
+        verifyPayment(response,order)
+    },
+    // "prefill": {
+    //     "name":user.name,
+    //     "contact":user.mobileNumber
+    // },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#F05151"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+}
+
+
+function verifyPayment(payment,order){
+  $.ajax({
+    url:"/verify-payment",
+    data:{
+    payment,
+    order
+    },
+    method:"post",
+    success: (response) => {
+        if (response.status) {
+          Swal.fire({
+          title: "Payment Success!",
+          icon: "success",
+         confirmButtonText: "OK",
+        }).then((results)=>{
+          if(results.isConfirmed){
+            location.href = "/order-success"
+          }else{
+            location.href = "/order-failed";
+
+          }
+        })
+         
+        }
+      }
+
+  })
+}
+
+
+</script>
 
     <%- include('../partials/userFooter.ejs')%>

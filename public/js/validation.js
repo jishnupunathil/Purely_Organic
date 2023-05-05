@@ -108,6 +108,49 @@ $(document).ready(function () {
       phoneNumber:"Enter valid phone number ",
     },
   });
+
+  $("#billing").validate({
+    rules: {
+      fname: {
+        required: true,
+        minlength: 5,
+        lettersonly: true,
+      },
+      lname: {
+        required: true,
+        minlength: 1,
+        lettersonly: true,
+      },
+      address:{
+        required:true,
+      },
+      city:{
+        required:true,
+      },
+      state:{
+        required:true,
+      },
+      email: {
+        required: true,
+        email: true,
+      },
+      phone: {
+        required: true,
+        number: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      pincode: {
+        required: true,
+        minlength: 5,
+        maxlength: 15,
+      }
+    },
+    messages: {
+      fname:"this field is required",
+    },
+    city:'please enter your city'
+  });
 });
 
   

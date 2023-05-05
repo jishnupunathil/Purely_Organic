@@ -16,7 +16,8 @@ module.exports={
       let allCategory=await categoryModel.find()
       let topratedProduct=await productModel.find().limit(3)
     let latestproduct=await productModel.find().skip(6).limit(3)
-      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner,allProduct,allCategory,user:false,latestproduct,topratedProduct});
+      res.render("user/userIndex",{userlay:true,loggedIn:false,allBanner,allProduct,
+        allCategory,user:false,latestproduct,topratedProduct,cartCount:0});
     } catch (err) {
       res.json({
         success:0,
@@ -38,7 +39,7 @@ module.exports={
 
   otpPage:async(req,res)=>{
     let allBanner = await bannerModel.find();
-    res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false,allBanner})
+    res.render('user/otpLogin',{userlay:true,loggedIn:false,message:false,allBanner,user:false})
   },
 
   registrationPage: async(req, res) => {
@@ -50,13 +51,10 @@ module.exports={
     let allProduct=await productModel.find()
     let allCategory=await categoryModel.find()
     let allBanner = await bannerModel.find();
-    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false,allProduct})
+    res.render('user/shoppingPage',{userlay:true,loggedIn:false,allBanner,allCategory,user:false,allProduct,cartCount:0})
   },
   sproductUser: async (req, res) => {
     let id = req.params.id;
-    console.log(id);
-    let ValidId = mongoose.Types.ObjectId.isValid(id);
-    if (ValidId) {
       try {
       let allProduct=await productModel.find().skip(4).limit(4)
       let allBanner=await bannerModel.find()
@@ -68,15 +66,11 @@ module.exports={
            loggedIn:false,
            user:false,
            allCategory,
-          allProduct });
+          allProduct,
+          cartCount:0 });
       } catch (err) {
         res.redirect("/user/index");
       }
-    } else {
-      res.json({
-        success: 0,
-        message: "invalid id",
-      });
-    }
+    
   },
 }

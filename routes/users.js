@@ -48,6 +48,8 @@ router.get('/newAddress',checkUserAuth,controllers.getAddress)
 
 router.post('/addAddress',checkUserAuth,controllers.addAddress)
 
+router.post('/placeOrder',checkUserAuth,controllers.placeOrderPost)
+
 module.exports = router;
 
 

@@ -106,7 +106,11 @@
         if (result.isConfirmed) {
           $.ajax({
             url: "/user/addtocart/"+prodId,
-            method: "post"
+            method: "post",
+            success: function() {
+          // Reload the page
+          location.reload();
+        }
           });
         }
       });

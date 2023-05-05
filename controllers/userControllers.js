@@ -144,7 +144,7 @@ module.exports = {
                     })
                     .catch((err) => {
                         console.log(err);
-                        res.render("user/otpLogin", {userlay:true,loggedIn:false,user:false,allBanner,message:"hello"});
+                        res.render("user/otpLogin", {userlay:true,loggedIn:false,user:false,allBanner,message:"error occured while sending otp"});
                     });
             } else if (validUser == undefined) {
                 res.render("user/otpLogin", {userlay:true,loggedIn:false,user:false,allBanner,message:"hello hiiii"});
@@ -369,7 +369,13 @@ getAddress:async(req,res)=>{
     try{
     let allBanner = await bannerModel.find();
     let user=await userModel.findById(userId)
-    res.render('user/newAddress',{userlay:true,loggedIn:true,user,allBanner})
+    let addressColl=await addressModel.findOne({user:userId})
+    let separateAddresses = addressColl.addresses.map(address => {
+      return address;
+    });
+    let cartCount = await userHelper.getCartCount(userId)
+    console.log(cartCount);
+    res.render('user/newAddress',{userlay:true,loggedIn:true,user,allBanner,cartCount,separateAddresses})
 
   }catch(err){
     res.json({
@@ -417,10 +423,36 @@ addAddress: async (req, res) => {
     // save the updated address document
     await address.save();
 
-    res.json({ message: "Address added successfully" });
+    res.redirect('/user/newAddress')
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
+  }
+},
+placeOrderPost: async (req, res) => {
+  try {
+      const { userId, paymentMethod, totalAmount, couponCode } = req.body;
+
+      const response = await userHelper.placeOrder(userId, paymentMethod, totalAmount, couponCode, req.body);
+      if (response.payment_method == "cash_on_delivery") {
+          res.json({ codstatus: "success" });
+      } else if (response.payment_method == "online_payment") {
+          // const order = generatePaymenetGateway(response);
+          const paymentOptions = {
+              amount: response.total_amount * 100,
+              currency: "INR",
+              receipt: "" + response._id,
+              payment_capture: 1,
+          };
+
+          const order = await instance.orders.create(paymentOptions);
+          res.json(order);
+      } else if (response.payment_method == "wallet") {
+          res.json({ codstatus: "success" });
+      }
+  } catch (err) {
+      console.error(err);
+      res.json({ status: "error" });
   }
 }
 }

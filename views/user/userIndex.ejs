@@ -225,7 +225,7 @@
                                 <% latestproduct.forEach(function(topPrd){%>
                                     <a href="#" class="latest-product__item">
                                         <div class="latest-product__item__pic">
-                                            <img src="<%=topPrd.pimages%>" alt="">
+                                            <img src="<%=topPrd.pimages[0]%>" alt="">
                                         </div>
                                         <div class="latest-product__item__text">
                                             <h6><%=topPrd.pname%></h6>
@@ -238,7 +238,7 @@
                                 <% topratedProduct.forEach(function(topPrd){%>
                                     <a href="#" class="latest-product__item">
                                         <div class="latest-product__item__pic">
-                                            <img src="<%=topPrd.pimages%>" alt="">
+                                            <img src="<%=topPrd.pimages[0]%>" alt="">
                                         </div>
                                         <div class="latest-product__item__text">
                                             <h6><%=topPrd.pname%></h6>
