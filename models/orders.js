@@ -17,10 +17,7 @@ const OrderItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  unit_price: {
-    type: Number,
-    required: true,
-  },
+
 });
 
 const OrderItem = mongoose.model("OrderItem", OrderItemSchema);
@@ -41,7 +38,7 @@ const OrderSchema = new mongoose.Schema({
   },
   payment_status: {
     type: String,
-    enum: ["paid", "pending", "cancelled"],
+    enum: ["placed", "pending", "cancelled"],
     default: "pending",
   },
   payment_method: {

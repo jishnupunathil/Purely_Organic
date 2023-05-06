@@ -140,6 +140,7 @@
                 </form>
             </div>
         </div>
+        <%if(separateAddresses){%>
         <div class="container mt-5">
     <h3>Saved Address</h3>
 <table style="width:100%">
@@ -151,12 +152,13 @@
     <%if(address.default===false){%>
   <tr>
     <td><%=address.email%> ,<%=address.phone%> ,<%=address.address%></td>
-    <a href=""><td><button class="btn btn-success">Use this</button></td></a>
-  </tr>
-  <%}%>
-  <%})%>
+    <td><button class="btn btn-light"><a href="/user/addressChange/<%=address._id%>">Deliver here!!</a></button></td>
+</tr>
+<%}%>
+<%})%>
 </table>
 </div>
+<%}%>
         
     </section>
     <!-- Checkout Section End -->

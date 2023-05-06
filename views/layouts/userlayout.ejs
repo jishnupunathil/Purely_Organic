@@ -117,6 +117,25 @@
     }
      </script>
 
+<script>
+  $("#checkout-form").submit((e)=>{
+      e.preventDefault()
+      $.ajax({
+          url:'/user/place-order',
+          method:'post', 
+          data:$('#checkout-form').serialize(),
+          success:(response)=>{
+            Swal.fire({
+          title:'Order Placed Succefuly',
+    message:'product added to cart',
+    icon:'success'
+      }).then((sucess)=>{
+        location.href='/'
+      })
+          }
+      })})
+</script>
+
 </body>
 
 </html>

@@ -242,12 +242,31 @@ module.exports = {
     }
   },
 
-  getProfile: async (req, res) => {
+  viewProfile:async(req,res)=>{
+    const userId = req.userId;
+    const profileData = await userHelper.getProfile(userId);
+    try{
+    const address=await userHelper.getAddress(userId)
+    res.render("user/viewProfile", { userlay: false, profileData,address });
+    }
+    catch(err){
+      res.render("user/viewProfile", { userlay: false, profileData,address:false });
+    }
+  
+  },
+
+
+  getEditProfile: async (req, res) => {
     let userId = req.userId;
-    console.log(userId);
     let profileData = await userHelper.getProfile(userId);
-    console.log(profileData);
-    res.render("user/profile", { userlay: false, profileData });
+    try{
+    let address=await userHelper.getAddress(userId)
+    res.render("user/editProfile", { userlay: false, profileData,address });
+    }
+    catch(err){
+      res.render("user/editProfile", { userlay: false, profileData,address:false });
+    }
+  
   },
 
   editProfile: async (req, res) => {
@@ -296,12 +315,30 @@ module.exports = {
     let user = await userModel.findById(userId);
     let allBanner = await bannerModel.find();
     let cartProduct = await cartModel.findOne({ user: userId });
-    
-    console.log("cartProductkjdslf", cartProduct);
-    const products = cartProduct.products;
+    let cartCount = await userHelper.getCartCount(userId);
     const productDetails = [];
     let total = 0;
     let subTotal = 0;
+    if (!cartProduct) {
+      // create a new address document if the user doesn't have one
+      let cart = new cartModel({
+        user: userId,
+        products:[]
+      });
+      await cart.save()
+      res.render("user/addtocart", {
+        userlay: true,
+        allBanner,
+        loggedIn: true,
+        user,
+        productDetails,
+        subTotal,
+        total,
+        cartCount
+      });
+
+    }else{
+      const products = cartProduct.products;
     for (let i = 0; i < products.length; i++) {
       const product = await productModel.findById(products[i].productId);
       console.log(product);
@@ -319,9 +356,8 @@ module.exports = {
       total += parseInt(product.pprice) * parseInt(products[i].quantity);
       subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
     }
-    let cartCount = await userHelper.getCartCount(userId);
-    console.log("productDetails", { productDetails, subTotal, total });
-
+   
+ 
     res.render("user/addtocart", {
       userlay: true,
       allBanner,
@@ -332,6 +368,8 @@ module.exports = {
       total,
       cartCount
     });
+    }
+
   },
 
   addtocart: async (req, res) => {
@@ -347,6 +385,8 @@ module.exports = {
       }
 
       const product = await productModel.findById(productId);
+      let price=product.pprice
+      console.log(price);
       if (!product) {
         return res.status(404).json({
           status: "error",
@@ -363,10 +403,14 @@ module.exports = {
           { user: userId, "products.productId": productId },
           { $inc: { "products.$.quantity": 1 } }
         );
+        await cartModel.updateOne(
+          { user: userId, "products.productId": productId },
+          { $inc: { "products.$.price": price } }
+        );
       } else {
         await cartModel.updateOne(
           { user: userId },
-          { $push: { products: { productId, quantity: 1 } } },
+          { $push: { products: { productId, quantity: 1,price } } },
           { upsert: true }
         );
       }
@@ -408,18 +452,15 @@ module.exports = {
   },
 
   getCheckOut: async (req, res) => {
-    const userId = req.userId;
-    console.log(userId);
     try {
+      const userId = req.userId
+
       let user = await userModel.findById(userId);
+
       let allBanner = await bannerModel.find();
-      let addressColl = await addressModel.findOne({ user: userId });
-      let cartCount = await userHelper.getCartCount(userId);
-      let separateAddresses = addressColl.addresses.map((address) => {
-        return address;
-      });
+      
       let cartProduct = await cartModel.findOne({ user: userId });
-      console.log("cartProduct", cartProduct);
+  
       const products = cartProduct.products;
       const productDetails = [];
       let total = 0;
@@ -440,18 +481,38 @@ module.exports = {
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
         subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
-
-      res.render("user/checkoutPage", {
-        userlay: true,
-        loggedIn: true,
-        user,
-        allBanner,
-        separateAddresses,
-        productDetails,
-        subTotal,
-        total,
-        cartCount,
+  
+      let cartCount = await userHelper.getCartCount(userId);
+      let addressColl= await addressModel.findOne({ user: userId });
+      if(!addressColl){
+        res.render("user/checkoutPage", {
+          userlay: true,
+          loggedIn: true,
+          user,
+          allBanner,
+          separateAddresses:false,
+          productDetails,
+          subTotal,
+          total,
+          cartCount,
+        });
+      }else{
+        let separateAddresses = addressColl.addresses.map((address) => {
+        return address;
       });
+      
+            res.render("user/checkoutPage", {
+              userlay: true,
+              loggedIn: true,
+              user,
+              allBanner,
+              separateAddresses,
+              productDetails,
+              subTotal,
+              total,
+              cartCount,
+            });
+      }
     } catch (err) {
       res.json({
         sucess: 0,
@@ -465,12 +526,24 @@ module.exports = {
     try {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
+      let cartCount = await userHelper.getCartCount(userId);
       let addressColl = await addressModel.findOne({ user: userId });
+      if(!addressColl){
+        res.render("user/newAddress", {
+          userlay: true,
+          loggedIn: true,
+          user,
+          allBanner,
+          cartCount,
+          separateAddresses:false
+        });
+      }else{
       let separateAddresses = addressColl.addresses.map((address) => {
         return address;
       });
-      let cartCount = await userHelper.getCartCount(userId);
+      // let cartCount = await userHelper.getCartCount(userId);
       console.log(cartCount);
+      console.log(separateAddresses);
       res.render("user/newAddress", {
         userlay: true,
         loggedIn: true,
@@ -479,6 +552,7 @@ module.exports = {
         cartCount,
         separateAddresses,
       });
+    }
     } catch (err) {
       res.json({
         sucess: 0,
@@ -508,6 +582,7 @@ module.exports = {
 
       // create a new address object
       const newAddress = {
+        id:addressInfo._id,
         fname: addressInfo.fname,
         lname: addressInfo.lname,
         address: addressInfo.address,
@@ -530,36 +605,76 @@ module.exports = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
-  placeOrderPost: async (req, res) => {
+
+  getAddressChange:async(req,res)=>{
+
     try {
-      const { userId, paymentMethod, totalAmount, couponCode } = req.body;
+      const userId = req.userId
 
-      const response = await userHelper.placeOrder(
-        userId,
-        paymentMethod,
-        totalAmount,
-        couponCode,
-        req.body
-      );
-      if (response.payment_method == "cash_on_delivery") {
-        res.json({ codstatus: "success" });
-      } else if (response.payment_method == "online_payment") {
-        // const order = generatePaymenetGateway(response);
-        const paymentOptions = {
-          amount: response.total_amount * 100,
-          currency: "INR",
-          receipt: "" + response._id,
-          payment_capture: 1,
-        };
+      let user = await userModel.findById(userId);
 
-        const order = await instance.orders.create(paymentOptions);
-        res.json(order);
-      } else if (response.payment_method == "wallet") {
-        res.json({ codstatus: "success" });
+      let allBanner = await bannerModel.find();
+      
+      let cartProduct = await cartModel.findOne({ user: userId });
+  
+      const products = cartProduct.products;
+      const productDetails = [];
+      let total = 0;
+      let subTotal = 0;
+      for (let i = 0; i < products.length; i++) {
+        const product = await productModel.findById(products[i].productId);
+        productDetails.push({
+          id: product._id,
+          name: product.pname,
+          description: product.pdescription,
+          category: product.pcategory,
+          price: product.pprice,
+          image: product.pimages,
+          countInStock: product.pcountInStock,
+          quantity: products[i].quantity,
+          totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
+        });
+        total += parseInt(product.pprice) * parseInt(products[i].quantity);
+        subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
+  
+      let cartCount = await userHelper.getCartCount(userId);
+      let addressColl= await addressModel.findOne({ user: userId });
+        let separateAddresses = addressColl.addresses.map((address) => {
+        return address;
+      });
+      
+            res.render("user/checkoutPage", {
+              userlay: true,
+              loggedIn: true,
+              user,
+              allBanner,
+              separateAddresses,
+              productDetails,
+              subTotal,
+              total,
+              cartCount,
+            });
+      
     } catch (err) {
-      console.error(err);
-      res.json({ status: "error" });
+      res.json({
+        sucess: 0,
+        message: "error from db" + err,
+      });
     }
+   
   },
+
+  placeOrder:async(req,res)=>{
+    console.log('+++++',req.body);
+    const userId=req.userId
+    let products=await userHelper.getProduct(userId)
+    console.log(products);
+    let totalPrice=await userHelper.getTotalPrice(userId)
+    userHelper.postPlaceOrder(req.body,products,totalPrice).then((response)=>{
+      res.json({
+        status:true
+      })
+    })
+  }
 };

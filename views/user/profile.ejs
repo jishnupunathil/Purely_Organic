@@ -28,10 +28,22 @@
                                                     <label class="form-label">Phone</label>
                                                     <input class="form-control" type="number" name="phoneNumber" value="<%=profileData.phoneNumber%>">
                                                 </div> <!-- col .// -->
-                                                <!-- <div class="col-lg-12  mb-3">
-                                                    <label class="form-label">Address</label>
-                                                    <input class="form-control" type="text" placeholder="Type here">
-                                                </div> col .// -->
+                                                <%if(address){%>
+                                                <div class="col-lg-12  mb-3">
+                                                    <label class="form-label">Saved Address</label>
+                                                       <% address.forEach(function(address,index){%>
+                                                        <div>
+                                                          <label>Home </label> <%=index+1%>
+                                                            <label class="form-control" type="text"><%=address.address%> <%=address.city%></label><br>
+                                                    </div>
+                                                    <%})%>
+                                                    
+                                                </div>
+                                                <%}else{%>
+                                                    <div class="col-lg-12  mb-3">
+                                                        <label class="form-label">Saved Address Empty!</label>
+                                                    </div>
+                                                    <%}%>
                                                 <!-- <div class="col-lg-6  mb-3">
                                                     <label class="form-label">Birthday</label>
                                                     <input class="form-control" type="date">

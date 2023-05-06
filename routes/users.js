@@ -25,7 +25,11 @@ router.post('/submitOtp',controllers.submitOtp)
 
 router.post('/login',controllers.userLogin)
 
-router.get('/editProfile',checkUserAuth,controllers.getProfile)
+router.get('/editProfile',checkUserAuth,controllers.getEditProfile)
+
+router.get('/addressChange/:id',checkUserAuth,controllers.getAddressChange)
+
+router.get('/viewProfile',checkUserAuth,controllers.viewProfile)
 
 router.post('/editProfile',multipleImageUpload,checkUserAuth,controllers.editProfile)
 
@@ -49,9 +53,14 @@ router.get('/checkOut',checkUserAuth,controllers.getCheckOut)
 
 router.get('/newAddress',checkUserAuth,controllers.getAddress)
 
+
 router.post('/addAddress',checkUserAuth,controllers.addAddress)
 
-router.post('/placeOrder',checkUserAuth,controllers.placeOrderPost)
+//payment
+
+router.post('/place-order',checkUserAuth,controllers.placeOrder)
+
+
 
 module.exports = router;
 

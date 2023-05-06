@@ -8,7 +8,10 @@ const addressSchema = new mongoose.Schema({
       },
       addresses: [
         {
-          _id:{type: mongoose.Schema.Types.ObjectId},
+          _id: {
+            type: mongoose.Schema.Types.ObjectId,
+            default: () => new mongoose.Types.ObjectId(),
+          },
           fname: {type: String,},
           lname:{type:String},
           address:{type:String},
