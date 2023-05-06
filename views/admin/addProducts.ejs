@@ -183,7 +183,7 @@
                                     <input class="form-check-input" type="checkbox" value="">
                                     <span class="form-check-label"> Make a template </span>
                                 </label> -->
-                                <button type="submit" class="btn btn-brand rounded font-sm hover-up">Add product</button>
+                                <button type="submit" class="btn btn-brand rounded font-sm hover-up" ondblclick="addProducts()">Add product</button>
                             
                         </div>
                     </div> <!-- card end// -->
@@ -235,6 +235,28 @@
         </section> <!-- content-main end// -->
         <%-include('../partials/adminFooter.ejs')%> 
     </main>
+
+    <script>
+        function addProducts() {
+            // console.log("prodId",prodId);
+      Swal.fire({
+          title:'product added to Store!',
+    message:'product added to Store',
+    icon:'success'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "/admin/addProduct",
+            method: "post",
+            success: function() {
+          // Reload the page
+        //  window.location.href="/admin/"   
+        }
+          });
+        }
+      });
+    }
+    </script>
 
     
 
