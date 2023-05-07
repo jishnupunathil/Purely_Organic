@@ -132,20 +132,35 @@ module.exports={
                 product_id: product.productId,
                 quantity: product.quantity,
                 price: product.price,
+                productName:product.productName,
+                productImage:product.productImage
               })),
             };
-            console.log(orderObj,'dsffasd');
         
             const newOrder = new Order(orderObj);
             await newOrder.save();
-
-            let p=await cartModel.findOneAndRemove({user:order.userId})
+            await cartModel.findOneAndRemove({user:order.userId})
             resolve(newOrder);
           } catch (error) {
             reject(error);
           }
         })
         
+      },
+      getOrderInfo:(orderId)=>{
+
+        return new Promise(async(resolve,reject)=>{
+          try{
+          let orderInfo=await Order.findById(orderId)
+          if(orderInfo){
+            resolve(orderInfo)
+          }else{
+            reject(new Error("error finding order info"))
+          }
+        }catch(err){
+          reject(err)
+        }
+        })
       }
 
 }

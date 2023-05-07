@@ -12,6 +12,7 @@ const userHelper = require("../helper/user-helper");
 
 const { OrderItem } = require("../models/orders");
 
+
 module.exports = {
   userIndexPage: async (req, res) => {
     const userId = req.userId;
@@ -259,12 +260,13 @@ module.exports = {
   getEditProfile: async (req, res) => {
     let userId = req.userId;
     let profileData = await userHelper.getProfile(userId);
+    console.log(profileData);
     try{
     let address=await userHelper.getAddress(userId)
-    res.render("user/editProfile", { userlay: false, profileData,address });
+    res.render("user/profile", { userlay: false, profileData,address });
     }
     catch(err){
-      res.render("user/editProfile", { userlay: false, profileData,address:false });
+      res.render("user/profile", { userlay: false, profileData,address:false });
     }
   
   },
@@ -386,7 +388,12 @@ module.exports = {
 
       const product = await productModel.findById(productId);
       let price=product.pprice
-      console.log(price);
+      let productName=product.pname
+      const productImage=product.pimages[0]
+      console.log('p',productName);
+      console.log('p',price);
+      console.log('heeeeeeee',productImage);
+
       if (!product) {
         return res.status(404).json({
           status: "error",
@@ -410,7 +417,7 @@ module.exports = {
       } else {
         await cartModel.updateOne(
           { user: userId },
-          { $push: { products: { productId, quantity: 1,price } } },
+          { $push: { products: { productId, quantity: 1, price, productName,productImage } } },
           { upsert: true }
         );
       }
@@ -671,10 +678,25 @@ module.exports = {
     let products=await userHelper.getProduct(userId)
     console.log(products);
     let totalPrice=await userHelper.getTotalPrice(userId)
-    userHelper.postPlaceOrder(req.body,products,totalPrice).then((response)=>{
+    await userHelper.postPlaceOrder(req.body,products,totalPrice).then((response)=>{
       res.json({
-        status:true
+        status:true,
+        orderId:response._id
       })
     })
+
+  },
+  orderInfo:async(req,res)=>{
+    console.log('testinggggggggggggggg')
+    const orderId=req.params.id
+    console.log(orderId,'fffffffff');
+    let orderInfo=await userHelper.getOrderInfo(orderId);
+    const address = await addressModel.findOne(orderInfo?.addressId);
+   
+    // console.log(product);
+    const product = await productModel.findOne(orderInfo?.productId)
+    // console.log(address);
+    console.log(orderInfo,'=========1');
+    res.render('user/orderList',{userlay:false,orderInfo,address,product})
   }
 };

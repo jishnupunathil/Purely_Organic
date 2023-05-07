@@ -60,6 +60,8 @@ router.post('/addAddress',checkUserAuth,controllers.addAddress)
 
 router.post('/place-order',checkUserAuth,controllers.placeOrder)
 
+router.get('/orderInfo/:id',checkUserAuth,controllers.orderInfo)
+
 
 
 module.exports = router;
