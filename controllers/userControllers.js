@@ -12,7 +12,6 @@ const userHelper = require("../helper/user-helper");
 
 const { OrderItem } = require("../models/orders");
 
-
 module.exports = {
   userIndexPage: async (req, res) => {
     const userId = req.userId;
@@ -101,6 +100,15 @@ module.exports = {
             user: false,
           });
         }
+        if (user.isblocked) {
+          return res.render("user/userLogin", {
+            message: "Account blocked ! Contact Admin!!!",
+            userlay: true,
+            loggedIn: false,
+            allBanner,
+            user: false,
+          });
+        }
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
             return res.render("user/userLogin", {
@@ -154,6 +162,15 @@ module.exports = {
     try {
       console.log("++++++++++++");
       const validUser = await userModel.findOne({ phoneNumber: mobNumber });
+      if (validUser.isblocked) {
+        return res.render("user/otpLogin", {
+          userlay: true,
+          loggedIn: false,
+          user: false,
+          allBanner,
+          message: "Account blocked ! Contact Admin!!!",
+        });
+      }
       if (validUser !== undefined && validUser !== false) {
         console.log(validUser);
         twilioFunctions
@@ -243,32 +260,35 @@ module.exports = {
     }
   },
 
-  viewProfile:async(req,res)=>{
+  viewProfile: async (req, res) => {
     const userId = req.userId;
     const profileData = await userHelper.getProfile(userId);
-    try{
-    const address=await userHelper.getAddress(userId)
-    res.render("user/viewProfile", { userlay: false, profileData,address });
+    try {
+      const address = await userHelper.getAddress(userId);
+      res.render("user/viewProfile", { userlay: false, profileData, address });
+    } catch (err) {
+      res.render("user/viewProfile", {
+        userlay: false,
+        profileData,
+        address: false,
+      });
     }
-    catch(err){
-      res.render("user/viewProfile", { userlay: false, profileData,address:false });
-    }
-  
   },
-
 
   getEditProfile: async (req, res) => {
     let userId = req.userId;
     let profileData = await userHelper.getProfile(userId);
     console.log(profileData);
-    try{
-    let address=await userHelper.getAddress(userId)
-    res.render("user/profile", { userlay: false, profileData,address });
+    try {
+      let address = await userHelper.getAddress(userId);
+      res.render("user/profile", { userlay: false, profileData, address });
+    } catch (err) {
+      res.render("user/profile", {
+        userlay: false,
+        profileData,
+        address: false,
+      });
     }
-    catch(err){
-      res.render("user/profile", { userlay: false, profileData,address:false });
-    }
-  
   },
 
   editProfile: async (req, res) => {
@@ -325,9 +345,9 @@ module.exports = {
       // create a new address document if the user doesn't have one
       let cart = new cartModel({
         user: userId,
-        products:[]
+        products: [],
       });
-      await cart.save()
+      await cart.save();
       res.render("user/addtocart", {
         userlay: true,
         allBanner,
@@ -336,42 +356,39 @@ module.exports = {
         productDetails,
         subTotal,
         total,
-        cartCount
+        cartCount,
       });
-
-    }else{
+    } else {
       const products = cartProduct.products;
-    for (let i = 0; i < products.length; i++) {
-      const product = await productModel.findById(products[i].productId);
-      console.log(product);
-      productDetails.push({
-        id: product._id,
-        name: product.pname,
-        description: product.pdescription,
-        category: product.pcategory,
-        price: product.pprice,
-        image: product.pimages,
-        countInStock: product.pcountInStock,
-        quantity: products[i].quantity,
-        totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
-      });
-      total += parseInt(product.pprice) * parseInt(products[i].quantity);
-      subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
-    }
-   
- 
-    res.render("user/addtocart", {
-      userlay: true,
-      allBanner,
-      loggedIn: true,
-      user,
-      productDetails,
-      subTotal,
-      total,
-      cartCount
-    });
-    }
+      for (let i = 0; i < products.length; i++) {
+        const product = await productModel.findById(products[i].productId);
+        console.log(product);
+        productDetails.push({
+          id: product._id,
+          name: product.pname,
+          description: product.pdescription,
+          category: product.pcategory,
+          price: product.pprice,
+          image: product.pimages,
+          countInStock: product.pcountInStock,
+          quantity: products[i].quantity,
+          totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
+        });
+        total += parseInt(product.pprice) * parseInt(products[i].quantity);
+        subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+      }
 
+      res.render("user/addtocart", {
+        userlay: true,
+        allBanner,
+        loggedIn: true,
+        user,
+        productDetails,
+        subTotal,
+        total,
+        cartCount,
+      });
+    }
   },
 
   addtocart: async (req, res) => {
@@ -387,12 +404,12 @@ module.exports = {
       }
 
       const product = await productModel.findById(productId);
-      let price=product.pprice
-      let productName=product.pname
-      const productImage=product.pimages[0]
-      console.log('p',productName);
-      console.log('p',price);
-      console.log('heeeeeeee',productImage);
+      let price = product.pprice;
+      let productName = product.pname;
+      const productImage = product.pimages[0];
+      console.log("p", productName);
+      console.log("p", price);
+      console.log("heeeeeeee", productImage);
 
       if (!product) {
         return res.status(404).json({
@@ -417,11 +434,21 @@ module.exports = {
       } else {
         await cartModel.updateOne(
           { user: userId },
-          { $push: { products: { productId, quantity: 1, price, productName,productImage } } },
+          {
+            $push: {
+              products: {
+                productId,
+                quantity: 1,
+                price,
+                productName,
+                productImage,
+              },
+            },
+          },
           { upsert: true }
         );
       }
-    
+
       res.redirect("/user/getCart");
     } catch (error) {
       console.error(error);
@@ -432,7 +459,6 @@ module.exports = {
     }
   },
   removeProductFromCart: async (req, res) => {
-    console.log("testing..");
     try {
       const userId = req.userId;
       const productId = req.params.id;
@@ -460,14 +486,14 @@ module.exports = {
 
   getCheckOut: async (req, res) => {
     try {
-      const userId = req.userId
+      const userId = req.userId;
 
       let user = await userModel.findById(userId);
 
       let allBanner = await bannerModel.find();
-      
+
       let cartProduct = await cartModel.findOne({ user: userId });
-  
+
       const products = cartProduct.products;
       const productDetails = [];
       let total = 0;
@@ -488,37 +514,37 @@ module.exports = {
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
         subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
-  
+
       let cartCount = await userHelper.getCartCount(userId);
-      let addressColl= await addressModel.findOne({ user: userId });
-      if(!addressColl){
+      let addressColl = await addressModel.findOne({ user: userId });
+      if (!addressColl) {
         res.render("user/checkoutPage", {
           userlay: true,
           loggedIn: true,
           user,
           allBanner,
-          separateAddresses:false,
+          separateAddresses: false,
           productDetails,
           subTotal,
           total,
           cartCount,
         });
-      }else{
+      } else {
         let separateAddresses = addressColl.addresses.map((address) => {
-        return address;
-      });
-      
-            res.render("user/checkoutPage", {
-              userlay: true,
-              loggedIn: true,
-              user,
-              allBanner,
-              separateAddresses,
-              productDetails,
-              subTotal,
-              total,
-              cartCount,
-            });
+          return address;
+        });
+
+        res.render("user/checkoutPage", {
+          userlay: true,
+          loggedIn: true,
+          user,
+          allBanner,
+          separateAddresses,
+          productDetails,
+          subTotal,
+          total,
+          cartCount,
+        });
       }
     } catch (err) {
       res.json({
@@ -535,31 +561,31 @@ module.exports = {
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
       let addressColl = await addressModel.findOne({ user: userId });
-      if(!addressColl){
+      if (!addressColl) {
         res.render("user/newAddress", {
           userlay: true,
           loggedIn: true,
           user,
           allBanner,
           cartCount,
-          separateAddresses:false
+          separateAddresses: false,
         });
-      }else{
-      let separateAddresses = addressColl.addresses.map((address) => {
-        return address;
-      });
-      // let cartCount = await userHelper.getCartCount(userId);
-      console.log(cartCount);
-      console.log(separateAddresses);
-      res.render("user/newAddress", {
-        userlay: true,
-        loggedIn: true,
-        user,
-        allBanner,
-        cartCount,
-        separateAddresses,
-      });
-    }
+      } else {
+        let separateAddresses = addressColl.addresses.map((address) => {
+          return address;
+        });
+        // let cartCount = await userHelper.getCartCount(userId);
+        console.log(cartCount);
+        console.log(separateAddresses);
+        res.render("user/newAddress", {
+          userlay: true,
+          loggedIn: true,
+          user,
+          allBanner,
+          cartCount,
+          separateAddresses,
+        });
+      }
     } catch (err) {
       res.json({
         sucess: 0,
@@ -589,7 +615,7 @@ module.exports = {
 
       // create a new address object
       const newAddress = {
-        id:addressInfo._id,
+        id: addressInfo._id,
         fname: addressInfo.fname,
         lname: addressInfo.lname,
         address: addressInfo.address,
@@ -613,17 +639,16 @@ module.exports = {
     }
   },
 
-  getAddressChange:async(req,res)=>{
-
+  getAddressChange: async (req, res) => {
     try {
-      const userId = req.userId
+      const userId = req.userId;
 
       let user = await userModel.findById(userId);
 
       let allBanner = await bannerModel.find();
-      
+
       let cartProduct = await cartModel.findOne({ user: userId });
-  
+
       const products = cartProduct.products;
       const productDetails = [];
       let total = 0;
@@ -644,59 +669,93 @@ module.exports = {
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
         subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
-  
+
       let cartCount = await userHelper.getCartCount(userId);
-      let addressColl= await addressModel.findOne({ user: userId });
-        let separateAddresses = addressColl.addresses.map((address) => {
+      let addressColl = await addressModel.findOne({ user: userId });
+      let separateAddresses = addressColl.addresses.map((address) => {
         return address;
       });
-      
-            res.render("user/checkoutPage", {
-              userlay: true,
-              loggedIn: true,
-              user,
-              allBanner,
-              separateAddresses,
-              productDetails,
-              subTotal,
-              total,
-              cartCount,
-            });
-      
+
+      res.render("user/checkoutPage", {
+        userlay: true,
+        loggedIn: true,
+        user,
+        allBanner,
+        separateAddresses,
+        productDetails,
+        subTotal,
+        total,
+        cartCount,
+      });
     } catch (err) {
       res.json({
         sucess: 0,
         message: "error from db" + err,
       });
     }
-   
   },
 
-  placeOrder:async(req,res)=>{
-    console.log('+++++',req.body);
-    const userId=req.userId
-    let products=await userHelper.getProduct(userId)
+  placeOrder: async (req, res) => {
+    console.log("+++++", req.body);
+    const userId = req.userId;
+    let products = await userHelper.getProduct(userId);
     console.log(products);
-    let totalPrice=await userHelper.getTotalPrice(userId)
-    await userHelper.postPlaceOrder(req.body,products,totalPrice).then((response)=>{
-      res.json({
-        status:true,
-        orderId:response._id
-      })
-    })
-
+    let totalPrice = await userHelper.getTotalPrice(userId);
+    await userHelper
+      .postPlaceOrder(req.body, products, totalPrice)
+      .then((response) => {
+        if (req.body["paymentMethod"] === "cash_on_delivery") {
+          res.json({
+            codSuccess: true,
+            orderId: response._id,
+          });
+        } else {
+          userHelper
+            .generateRazorpay(response._id, totalPrice)
+            .then((response) => {
+              res.json(response);
+            });
+        }
+      });
   },
-  orderInfo:async(req,res)=>{
-    console.log('testinggggggggggggggg')
-    const orderId=req.params.id
-    console.log(orderId,'fffffffff');
-    let orderInfo=await userHelper.getOrderInfo(orderId);
+  orderInfo: async (req, res) => {
+    console.log("testinggggggggggggggg");
+    const orderId = req.params.id;
+    console.log(orderId, "fffffffff");
+    let orderInfo = await userHelper.getOrderInfo(orderId);
     const address = await addressModel.findOne(orderInfo?.addressId);
-   
+
     // console.log(product);
-    const product = await productModel.findOne(orderInfo?.productId)
+    const product = await productModel.findOne(orderInfo?.productId);
     // console.log(address);
-    console.log(orderInfo,'=========1');
-    res.render('user/orderList',{userlay:false,orderInfo,address,product})
-  }
+    console.log(orderInfo, "=========1");
+    res.render("user/orderList", {
+      userlay: false,
+      orderInfo,
+      address,
+      product,
+    });
+  },
+
+  verifyPayment: (req, res) => {
+    userHelper.verifyPayment(req.body).then(() => {
+      console.log(req.body["order[receipt]"]);
+      userHelper.changePaymentStatus(req.body["order[receipt]"]).then(() => {
+        
+        console.log("payment success");
+        res.json({ status: true,
+        orderId:req.body["order[receipt]"] });
+      })
+      .catch((err) => {
+        res.json({ status: false, errMsg: "" });
+        console.log("payment failed");
+      });
+
+    });
+  },
 };
+
+
+
+  
+  

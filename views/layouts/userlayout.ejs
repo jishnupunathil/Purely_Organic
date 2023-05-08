@@ -116,28 +116,98 @@
       });
     }
      </script>
+     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
   $("#checkout-form").submit((e)=>{
       e.preventDefault()
       $.ajax({
           url:'/user/place-order',
-          method:'post', 
+          method:'post',
           data:$('#checkout-form').serialize(),
           success:(response)=>{
-           
-            Swal.fire({
-          title:'Order Placed Succefuly',
-    message:'product added to cart',
-    icon:'success'
-      }).then((success)=>{
-        if(response.orderId){
-          let id=response.orderId
-        location.href="/user/orderInfo/"+id
-      }
+            if(response.codSuccess){
+              let id=response.orderId
+              Swal.fire({
+            title:'Order Placed Succefuly',
+        message:'product added to cart',
+        icon:'success'
       })
+      .then((success)=>{
+  location.href="/user/orderInfo/"+id
+            })
+      }else{
+        razorpayPayment(response)
+      }
           }
-      })})
+      })
+    })
+
+
+    function razorpayPayment (order){
+        var options = {
+    "key": "rzp_test_LlUB5deQFFVcRd", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Jishnu P",
+    "description": "Test Transaction",
+    "image": "/images/logo.jpeg",
+    "order_id": order.id , //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+       
+
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": "Jishnu P",
+        "email": "jishnupunathil000@gmail.com",
+        "contact": "9496959109"
+    },
+    "notes": {
+        "address": "Kochi"
+    },
+    "theme": {
+        "color": "#6a3fc6"
+    }
+    }; 
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata);
+});
+    rzp1.open();
+    }
+
+
+
+
+    
+
+
+    function verifyPayment(payment,order){
+        $.ajax({
+            url:'/user/verify-payment',
+            data:{
+                payment,
+                order
+            },
+            method:'post',
+            success:(response)=>{
+                if(response.status){
+                  let id=response.orderId
+                  location.href="/user/orderInfo/"+id
+                }else{
+                    alert('payment failed')
+                }
+            
+
+        }
+      })
+    }
 </script>
 
 </body>

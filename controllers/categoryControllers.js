@@ -5,7 +5,7 @@ module.exports = {
   categoryList: async (req, res) => {
     try {
       let allCategory = await categoryModel.find();
-      res.render("admin/categories", { allCategory, userlay: false });
+      res.render("admin/categories", { allCategory, userlay: false ,message:false});
     } catch (err) {
       res.json({
         success: 0,
@@ -26,10 +26,8 @@ module.exports = {
 
       res.redirect("/admin/category");
     } catch (err) {
-      res.json({
-        success: 0,
-        message: "error while listing" + err,
-      });
+      let allCategory = await categoryModel.find();
+      res.render("admin/categories", { allCategory, userlay: false,message:"Same Category Exists" });
     }
   },
   singleCategory: async (req, res) => {
@@ -67,15 +65,12 @@ module.exports = {
   },
   deleteCategory: async(req, res) => {
     let id = req.params.id;
-    console.log(id);
-    let validId = mongoose.Types.ObjectId.isValid(id);
-    if (validId) {
       try {
         await categoryModel.deleteOne({ _id: id });
         res.redirect("/admin/category");
       } catch (err) {
         res.render("admin/productList", { userlay: false, allproduct });
       }
-    }
+   
   }
 };
