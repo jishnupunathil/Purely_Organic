@@ -64,11 +64,19 @@ module.exports={
       updateBanner: async (req, res) => {
         try {
         let id = req.params.id;
-        console.log(id);
-            await bannerModel.findByIdAndUpdate(id, {
-              bname: req.body.bname,
-              bimages: req.images || req.image    
-            });
+            if(req.files.length===0){
+
+              await bannerModel.findByIdAndUpdate(id, {
+                bname: req.body.bname,
+               
+              });
+            }else{
+              await bannerModel.findByIdAndUpdate(id, {
+                bname: req.body.bname,
+                bimages: req.images || req.image    
+              });
+            }
+
             res.redirect("/admin/banners");
           // }
           } catch (err) {

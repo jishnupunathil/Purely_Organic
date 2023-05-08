@@ -57,15 +57,30 @@ module.exports = {
   updateProduct: async (req, res) => {
     try {
     let id = req.params.id;
-    console.log(id);
-        await productModel.findByIdAndUpdate(id, {
-          pname: req.body.pname,
-          pdescription:req.body.pdescription,
-          pcategory: req.body.pcategory,
-          pprice: req.body.pprice,
-          pimages: req.images || req.image,
-          pcountInStock: req.body.pcountInStock,
-        });
+    let files=req.files
+    console.log(files,'fileeeeeeeeees');
+    if(files.length===0){
+    
+      await productModel.findByIdAndUpdate(id, {
+        pname: req.body.pname,
+        pdescription:req.body.pdescription,
+        pcategory: req.body.pcategory,
+        pprice: req.body.pprice,
+        pcountInStock: req.body.pcountInStock,
+      });
+    }else{
+
+      await productModel.findByIdAndUpdate(id, {
+        pname: req.body.pname,
+        pdescription:req.body.pdescription,
+        pcategory: req.body.pcategory,
+        pprice: req.body.pprice,
+        pimages: req.images || req.image,
+        pcountInStock: req.body.pcountInStock,
+      });
+
+    }
+
         res.redirect("/admin/productList");
       // }
       } catch (err) {
