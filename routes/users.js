@@ -60,10 +60,12 @@ router.post('/addAddress',checkUserAuth,controllers.addAddress)
 
 router.post('/place-order',checkUserAuth,controllers.placeOrder)
 
-router.get('/orderInfo/:id',checkUserAuth,controllers.orderInfo)
+router.get('/orderInfo/:id/:id1',checkUserAuth,controllers.orderInfo)
+
 
 router.post('/verify-payment',checkUserAuth,controllers.verifyPayment)
 
+router.get('/billing',checkUserAuth,controllers.getBilling)
 
 
 module.exports = router;

@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <div class="row mb-50 mt-20 order-info-wrap">
                         <div class="col-md-4">
-                            <% address.addresses.forEach(function(address){%>
+                           
                             <article class="icontext align-items-start">
                                 <span class="icon icon-sm rounded-circle bg-primary-light">
                                     <i class="text-primary material-icons md-person"></i>
@@ -32,12 +32,12 @@
                                 <div class="text">
                                     <h6 class="mb-1">Customer</h6>
                                     <p class="mb-1">
-                                        <%=address.fname%> <%=address.lname%> <br> <template class="__cf_email__" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br> <%=address.phone%>
+                                        <%=selectedAddress.fname%> <%=selectedAddress.lname%> <br> <template class="__cf_email__" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br> <%=selectedAddress.phone%>
                                     </p>
                                     <a href="#">View profile</a>
                                 </div>
                             </article>
-                            <%})%>
+                          
                         </div> <!-- col// -->
                         <div class="col-md-4">
                             <article class="icontext align-items-start">
@@ -54,7 +54,7 @@
                             </article>
                         </div> <!-- col// -->
                         <div class="col-md-4">
-                            <% address.addresses.forEach(function(address){%>
+                        
                             <article class="icontext align-items-start">
                                 <span class="icon icon-sm rounded-circle bg-primary-light">
                                     <i class="text-primary material-icons md-place"></i>
@@ -63,12 +63,12 @@
                                     <div class="text">
                                         <h6 class="mb-1">Deliver to</h6>
                                         <p class="mb-1">
-                                           <%=address.address%> <br><%=address.city%><br> <%=address.pincode%>
+                                           <%=selectedAddress.address%> <br><%=selectedAddress.city%><br> <%=selectedAddress.pincode%>
                                         </p>
                                         <a href="#">View profile</a>
                                     </div>
                                 </article>
-                                <%})%>
+                               
                         </div> <!-- col// -->
                     </div> <!-- row // -->
                     <div class="row">

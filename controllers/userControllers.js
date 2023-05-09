@@ -708,10 +708,11 @@ module.exports = {
           res.json({
             codSuccess: true,
             orderId: response._id,
+            addressId:response.address
           });
         } else {
           userHelper
-            .generateRazorpay(response._id, totalPrice)
+            .generateRazorpay(response._id, totalPrice,response.address)
             .then((response) => {
               res.json(response);
             });
@@ -720,19 +721,25 @@ module.exports = {
   },
   orderInfo: async (req, res) => {
     console.log("testinggggggggggggggg");
+    const userId=req.userId
     const orderId = req.params.id;
+    const addressId=req.params.id1
     console.log(orderId, "fffffffff");
+    console.log(addressId);
     let orderInfo = await userHelper.getOrderInfo(orderId);
-    const address = await addressModel.findOne(orderInfo?.addressId);
+    let addressColl = await addressModel.findOne({ user: userId });
+    console.log(addressColl);
 
+    let selectedAddress = addressColl.addresses.find(address => address._id.toString() === addressId);
+    console.log(selectedAddress);
     // console.log(product);
     const product = await productModel.findOne(orderInfo?.productId);
-    // console.log(address);
+    // console.log(address,'000000000000000');
     console.log(orderInfo, "=========1");
     res.render("user/orderList", {
       userlay: false,
       orderInfo,
-      address,
+      selectedAddress,
       product,
     });
   },
@@ -740,11 +747,13 @@ module.exports = {
   verifyPayment: (req, res) => {
     userHelper.verifyPayment(req.body).then(() => {
       console.log(req.body["order[receipt]"]);
+      console.log(req.body["order[notes][address]"]);
       userHelper.changePaymentStatus(req.body["order[receipt]"]).then(() => {
         
         console.log("payment success");
         res.json({ status: true,
-        orderId:req.body["order[receipt]"] });
+        orderId:req.body["order[receipt]"],
+         addresId:req.body["order[notes][address]"]});
       })
       .catch((err) => {
         res.json({ status: false, errMsg: "" });
@@ -753,6 +762,9 @@ module.exports = {
 
     });
   },
+  getBilling:(req,res)=>{
+    res.render('user/billing',{userlay:true})
+  }
 };
 
 

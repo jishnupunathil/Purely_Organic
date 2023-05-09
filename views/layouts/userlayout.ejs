@@ -126,15 +126,17 @@
           method:'post',
           data:$('#checkout-form').serialize(),
           success:(response)=>{
+            let id2=response.addressId
             if(response.codSuccess){
               let id=response.orderId
+             
               Swal.fire({
             title:'Order Placed Succefuly',
         message:'product added to cart',
         icon:'success'
       })
       .then((success)=>{
-  location.href="/user/orderInfo/"+id
+  location.href="/user/orderInfo/"+id+"/"+id2
             })
       }else{
         razorpayPayment(response)
@@ -199,7 +201,8 @@
             success:(response)=>{
                 if(response.status){
                   let id=response.orderId
-                  location.href="/user/orderInfo/"+id
+                  let id2=response.addresId
+                  location.href="/user/orderInfo/"+id+"/"+id2
                 }else{
                     alert('payment failed')
                 }

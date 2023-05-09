@@ -171,14 +171,21 @@ module.exports={
         })
       },
 
-      generateRazorpay: (orderId, total) => {
+      generateRazorpay: (orderId, total,addressId) => {
         console.log(total,'dsf');
         console.log(orderId,"heyy");
+       
         return new Promise((resolve, reject) => {
           var options = {
             amount: total * 100,
             currency: "INR",
             receipt: ""+ orderId,
+            notes:{
+              address:""+addressId
+            }
+            
+       
+
           };
           instance.orders.create(options, function (err, order) {
             if (err) {
