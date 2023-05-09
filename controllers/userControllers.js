@@ -155,7 +155,6 @@ module.exports = {
   },
 
   otpLogin: async (req, res) => {
-    // res.render('user/submitOtp',{userlay:true,loggedIn:false,message:false})
     let allBanner = await bannerModel.find();
 
     console.log(req.body);
@@ -271,7 +270,7 @@ module.exports = {
       res.render("user/viewProfile", {
         userlay: false,
         profileData,
-        address: false,
+        address:false
       });
     }
   },
@@ -321,8 +320,6 @@ module.exports = {
         cartCount,
       });
     } else {
-      //   let allCategory=await categoryModel.find()
-      // let allBanner = await bannerModel.find();
       res.render("user/shoppingPage", {
         userlay: true,
         loggedIn: false,
@@ -488,13 +485,9 @@ module.exports = {
   getCheckOut: async (req, res) => {
     try {
       const userId = req.userId;
-
       let user = await userModel.findById(userId);
-
       let allBanner = await bannerModel.find();
-
       let cartProduct = await cartModel.findOne({ user: userId });
-
       const products = cartProduct.products;
       const productDetails = [];
       let total = 0;
@@ -575,6 +568,28 @@ module.exports = {
       });
     }
   },
+
+  getPrfAddress: async (req, res) => {
+    const userId = req.userId;
+    try {
+      let allBanner = await bannerModel.find();
+      let user = await userModel.findById(userId);
+      let cartCount = await userHelper.getCartCount(userId);
+      res.render("user/newPrfAddress", {
+        userlay: true,
+        loggedIn: true,
+        user,
+        allBanner,
+        cartCount,
+      });
+    } catch (err) {
+      res.json({
+        sucess: 0,
+        message: "error from db",
+      });
+    }
+  },
+
   addAddress: async (req, res) => {
     const userId = req.userId;
     const addressInfo = req.body;
@@ -615,6 +630,52 @@ module.exports = {
       await address.save();
 
       res.redirect("/user/checkOut");
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  addPrfAddress: async (req, res) => {
+    const userId = req.userId;
+    const addressInfo = req.body;
+
+    try {
+      let user = await userModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // check if the user already has an address document
+      let address = await addressModel.findOne({ user: userId });
+      if (!address) {
+        // create a new address document if the user doesn't have one
+        address = new addressModel({
+          user: userId,
+          addresses: [],
+        });
+      }
+
+      // create a new address object
+      const newAddress = {
+        id: addressInfo._id,
+        fname: addressInfo.fname,
+        lname: addressInfo.lname,
+        address: addressInfo.address,
+        city: addressInfo.city,
+        state: addressInfo.state,
+        pincode: addressInfo.pincode,
+        phone: addressInfo.phone,
+        email: addressInfo.email,
+      };
+
+      // add the new address to the addresses array
+      address.addresses.push(newAddress);
+
+      // save the updated address document
+      await address.save();
+
+      res.redirect("/user/editProfile");
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
@@ -700,7 +761,6 @@ module.exports = {
       });
   },
   orderInfo: async (req, res) => {
-    console.log("testinggggggggggggggg");
     const userId = req.userId;
     const orderId = req.params.id;
     const addressId = req.params.id1;
@@ -710,9 +770,7 @@ module.exports = {
       (address) => address._id.toString() === addressId
     );
     console.log(selectedAddress);
-    // console.log(product);
     const product = await productModel.findOne(orderInfo?.productId);
-    // console.log(address,'000000000000000');
     console.log(orderInfo, "=========1");
     res.render("user/orderList", {
       userlay: false,
@@ -817,11 +875,11 @@ module.exports = {
   },
 
   deleteAddress: (req, res) => {
+    console.log('testing...');
     const userId = req.userId;
-    let id = req.parms.id;
-
+    let id = req.params.id;
     userHelper.deleteAddress(id, userId).then((response) => {
-      res.redirect("/user/checkOut");
+      res.redirect("/user/editProfile");
     });
   },
 };

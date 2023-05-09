@@ -53,7 +53,11 @@ router.get('/checkOut',checkUserAuth,controllers.getCheckOut)
 
 router.get('/newAddress',checkUserAuth,controllers.getAddress)
 
+router.get('/newPrfAddress',checkUserAuth,controllers.getPrfAddress)
+
 router.post('/addAddress',checkUserAuth,controllers.addAddress)
+
+router.post('/addPrfAddress',checkUserAuth,controllers.addPrfAddress)
 
 router.get('/editAddress/:id',checkUserAuth,controllers.getEditAddress)
 

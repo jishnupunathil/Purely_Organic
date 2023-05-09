@@ -28,7 +28,7 @@
                                             <label class="form-label">Phone</label>
                                             <input class="form-control" type="number" name="phoneNumber" value="<%=profileData.phoneNumber%>">
                                         </div> <!-- col .// -->
-                                        <%if(address){%>
+                                        <%if(address.length>0){%>
                                         <div class="col-lg-12  mb-3">
                                             <label class="form-label">Saved Address</label>
                                                <% address.forEach(function(address,index){%>
@@ -42,6 +42,7 @@
                                         <%}else{%>
                                             <div class="col-lg-12  mb-3">
                                                 <label class="form-label">Saved Address Empty!</label>
+                                           
                                             </div>
                                             <%}%>
                                         <!-- <div class="col-lg-6  mb-3">

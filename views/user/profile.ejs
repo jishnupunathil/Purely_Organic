@@ -28,7 +28,7 @@
                                                     <label class="form-label">Phone</label>
                                                     <input class="form-control" type="number" name="phoneNumber" value="<%=profileData.phoneNumber%>">
                                                 </div> <!-- col .// -->
-                                                <%if(address){%>
+                                                <%if(address.length>0){%>
                                                 <div class="col-lg-12  mb-3">
                                                     <label class="form-label">Saved Address</label>
                                                        <% address.forEach(function(address,index){%>
@@ -37,12 +37,12 @@
                                                             <label class="form-control" type="text"><%=address.address%> <%=address.city%></label><br>
                                                         </div>
                                                         <a href="/user/editPrfAddress/<%=address._id%>" style="text-decoration: none;color:blue">Edit</a>
-                                                       <span class="ml-10"></span> <button class="btn-danger">delete</button>
+                                                       <span class="ml-10"></span> <button type="button" class="btn-danger" onclick="deleteAddress('<%=address._id%>')">delete</button>
                                                     <%})%>
                                                 </div>
                                                 <%}else{%>
                                                     <div class="col-lg-12  mb-3">
-                                                        <label class="form-label">Saved Address Empty!</label>
+                                                        <label class="form-label">Saved Address Empty!<a href="/user/newPrfAddress">Set a new One</a></label>
                                                     </div>
                                                     <%}%>
                                                 <!-- <div class="col-lg-6  mb-3">
@@ -93,3 +93,31 @@
             </div> <!-- card end// -->
         </section> <!-- content-main end// -->
     </main>
+
+    <script>
+        function deleteAddress(addressId){
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+           confirmButtonText: 'Yes, delete Product!'
+         }).then((result) => {
+           if (result.isConfirmed) {
+         
+         $.ajax({
+           url:"/user/deleteAddress/"+addressId,
+           method:"post",
+           success: function() 
+           {
+       
+                 // Reload the page
+                 location.reload();
+           }
+       })
+           }
+       })
+       }
+    </script>
