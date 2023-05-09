@@ -36,8 +36,8 @@
                                                           <label>Home </label> <%=index+1%>
                                                             <label class="form-control" type="text"><%=address.address%> <%=address.city%></label><br>
                                                         </div>
-                                                        <button>Edit</button>
-                                                        <button class="btn-danger">delete</button>
+                                                        <a href="/user/editPrfAddress/<%=address._id%>" style="text-decoration: none;color:blue">Edit</a>
+                                                       <span class="ml-10"></span> <button class="btn-danger">delete</button>
                                                     <%})%>
                                                 </div>
                                                 <%}else{%>

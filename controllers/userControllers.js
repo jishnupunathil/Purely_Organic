@@ -561,13 +561,13 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
-        res.render("user/newAddress", {
-          userlay: true,
-          loggedIn: true,
-          user,
-          allBanner,
-          cartCount
-        });
+      res.render("user/newAddress", {
+        userlay: true,
+        loggedIn: true,
+        user,
+        allBanner,
+        cartCount,
+      });
     } catch (err) {
       res.json({
         sucess: 0,
@@ -624,9 +624,7 @@ module.exports = {
   getAddressChange: async (req, res) => {
     try {
       const userId = req.userId;
-
       let user = await userModel.findById(userId);
-
       let allBanner = await bannerModel.find();
 
       let cartProduct = await cartModel.findOne({ user: userId });
@@ -690,11 +688,11 @@ module.exports = {
           res.json({
             codSuccess: true,
             orderId: response._id,
-            addressId:response.address
+            addressId: response.address,
           });
         } else {
           userHelper
-            .generateRazorpay(response._id, totalPrice,response.address)
+            .generateRazorpay(response._id, totalPrice, response.address)
             .then((response) => {
               res.json(response);
             });
@@ -703,12 +701,14 @@ module.exports = {
   },
   orderInfo: async (req, res) => {
     console.log("testinggggggggggggggg");
-    const userId=req.userId
+    const userId = req.userId;
     const orderId = req.params.id;
-    const addressId=req.params.id1
+    const addressId = req.params.id1;
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let addressColl = await addressModel.findOne({ user: userId });
-    let selectedAddress = addressColl.addresses.find(address => address._id.toString() === addressId);
+    let selectedAddress = addressColl.addresses.find(
+      (address) => address._id.toString() === addressId
+    );
     console.log(selectedAddress);
     // console.log(product);
     const product = await productModel.findOne(orderInfo?.productId);
@@ -726,73 +726,102 @@ module.exports = {
     userHelper.verifyPayment(req.body).then(() => {
       console.log(req.body["order[receipt]"]);
       console.log(req.body["order[notes][address]"]);
-      userHelper.changePaymentStatus(req.body["order[receipt]"]).then(() => {
-        
-        console.log("payment success");
-        res.json({ status: true,
-        orderId:req.body["order[receipt]"],
-         addresId:req.body["order[notes][address]"]});
-      })
-      .catch((err) => {
-        res.json({ status: false, errMsg: "" });
-        console.log("payment failed");
-      });
-
+      userHelper
+        .changePaymentStatus(req.body["order[receipt]"])
+        .then(() => {
+          console.log("payment success");
+          res.json({
+            status: true,
+            orderId: req.body["order[receipt]"],
+            addresId: req.body["order[notes][address]"],
+          });
+        })
+        .catch((err) => {
+          res.json({ status: false, errMsg: "" });
+          console.log("payment failed");
+        });
     });
   },
 
-  getEditAddress:async(req,res)=>{
-
+  getEditAddress: async (req, res) => {
     const userId = req.userId;
-    const addressId=req.params.id
+    const addressId = req.params.id;
     try {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
       let addressColl = await addressModel.findOne({ user: userId });
-      let selectedAddress = addressColl.addresses.find(address => address._id.toString() === addressId);
-        res.render("user/editAddress", {
-          userlay: true,
-          loggedIn: true,
-          user,
-          allBanner,
-          cartCount,
-          selectedAddress
-        });
+      let selectedAddress = addressColl.addresses.find(
+        (address) => address._id.toString() === addressId
+      );
+      res.render("user/editAddress", {
+        userlay: true,
+        loggedIn: true,
+        user,
+        allBanner,
+        cartCount,
+        selectedAddress,
+      });
     } catch (err) {
       res.json({
         sucess: 0,
         message: "error from db",
       });
     }
-
+  },
+  getEditPrfAddress: async (req, res) => {
+    const userId = req.userId;
+    const addressId = req.params.id;
+    try {
+      let allBanner = await bannerModel.find();
+      let user = await userModel.findById(userId);
+      let cartCount = await userHelper.getCartCount(userId);
+      let addressColl = await addressModel.findOne({ user: userId });
+      let selectedAddress = addressColl.addresses.find(
+        (address) => address._id.toString() === addressId
+      );
+      res.render("user/editPrfAddress", {
+        userlay: true,
+        loggedIn: true,
+        user,
+        allBanner,
+        cartCount,
+        selectedAddress,
+      });
+    } catch (err) {
+      res.json({
+        sucess: 0,
+        message: "error from db",
+      });
+    }
   },
 
-  editAddress:async(req,res)=>{
-    console.log('testingggg');
-    const userId=req.userId
-    const addressId=req.params.id
-    const data=req.body
-    await userHelper.editAddress(data,userId,addressId).then((response)=>{
-      res.redirect('/user/checkOut')
-    })
-
+  editAddress: async (req, res) => {
+    console.log("testingggg");
+    const userId = req.userId;
+    const addressId = req.params.id;
+    const data = req.body;
+    await userHelper.editAddress(data, userId, addressId).then((response) => {
+      res.redirect("/user/checkOut");
+    });
   },
 
-  deleteAddress:(req,res)=>{
-    const userId=req.userId
-    let id=req.parms.id
+  editPrfAddress: async (req, res) => {
+    console.log("testingggg");
+    const userId = req.userId;
+    const addressId = req.params.id;
+    const data = req.body;
+    await userHelper.editAddress(data, userId, addressId).then((response) => {
+      res.redirect("/user/editprofile");
+    });
+  },
 
-    userHelper.deleteAddress(id,userId).then((response)=>{
+  deleteAddress: (req, res) => {
+    const userId = req.userId;
+    let id = req.parms.id;
 
-      res.redirect('/user/checkOut')
-
-    })
-  }
-
+    userHelper.deleteAddress(id, userId).then((response) => {
+      res.redirect("/user/checkOut");
+    });
+  },
 };
-
-
-
-  
-  

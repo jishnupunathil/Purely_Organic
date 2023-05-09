@@ -57,7 +57,11 @@ router.post('/addAddress',checkUserAuth,controllers.addAddress)
 
 router.get('/editAddress/:id',checkUserAuth,controllers.getEditAddress)
 
+router.get('/editPrfAddress/:id',checkUserAuth,controllers.getEditPrfAddress)
+
 router.post('/editAddress/:id',checkUserAuth,controllers.editAddress)
+
+router.post('/editPrfAddress/:id',checkUserAuth,controllers.editPrfAddress)
 
 router.post('/deleteAddress/:id',checkUserAuth,controllers.deleteAddress)
 
