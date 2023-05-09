@@ -53,8 +53,13 @@ router.get('/checkOut',checkUserAuth,controllers.getCheckOut)
 
 router.get('/newAddress',checkUserAuth,controllers.getAddress)
 
-
 router.post('/addAddress',checkUserAuth,controllers.addAddress)
+
+router.get('/editAddress/:id',checkUserAuth,controllers.getEditAddress)
+
+router.post('/editAddress/:id',checkUserAuth,controllers.editAddress)
+
+router.post('/deleteAddress/:id',checkUserAuth,controllers.deleteAddress)
 
 //payment
 
@@ -65,7 +70,7 @@ router.get('/orderInfo/:id/:id1',checkUserAuth,controllers.orderInfo)
 
 router.post('/verify-payment',checkUserAuth,controllers.verifyPayment)
 
-router.get('/billing',checkUserAuth,controllers.getBilling)
+
 
 
 module.exports = router;

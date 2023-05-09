@@ -11,6 +11,7 @@ const addressModel = require("../models/addressModel");
 const userHelper = require("../helper/user-helper");
 
 const { OrderItem } = require("../models/orders");
+const { response } = require("express");
 
 module.exports = {
   userIndexPage: async (req, res) => {
@@ -560,32 +561,13 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
-      let addressColl = await addressModel.findOne({ user: userId });
-      if (!addressColl) {
         res.render("user/newAddress", {
           userlay: true,
           loggedIn: true,
           user,
           allBanner,
-          cartCount,
-          separateAddresses: false,
+          cartCount
         });
-      } else {
-        let separateAddresses = addressColl.addresses.map((address) => {
-          return address;
-        });
-        // let cartCount = await userHelper.getCartCount(userId);
-        console.log(cartCount);
-        console.log(separateAddresses);
-        res.render("user/newAddress", {
-          userlay: true,
-          loggedIn: true,
-          user,
-          allBanner,
-          cartCount,
-          separateAddresses,
-        });
-      }
     } catch (err) {
       res.json({
         sucess: 0,
@@ -632,7 +614,7 @@ module.exports = {
       // save the updated address document
       await address.save();
 
-      res.redirect("/user/newAddress");
+      res.redirect("/user/checkOut");
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
@@ -724,12 +706,8 @@ module.exports = {
     const userId=req.userId
     const orderId = req.params.id;
     const addressId=req.params.id1
-    console.log(orderId, "fffffffff");
-    console.log(addressId);
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let addressColl = await addressModel.findOne({ user: userId });
-    console.log(addressColl);
-
     let selectedAddress = addressColl.addresses.find(address => address._id.toString() === addressId);
     console.log(selectedAddress);
     // console.log(product);
@@ -762,9 +740,56 @@ module.exports = {
 
     });
   },
-  getBilling:(req,res)=>{
-    res.render('user/billing',{userlay:true})
+
+  getEditAddress:async(req,res)=>{
+
+    const userId = req.userId;
+    const addressId=req.params.id
+    try {
+      let allBanner = await bannerModel.find();
+      let user = await userModel.findById(userId);
+      let cartCount = await userHelper.getCartCount(userId);
+      let addressColl = await addressModel.findOne({ user: userId });
+      let selectedAddress = addressColl.addresses.find(address => address._id.toString() === addressId);
+        res.render("user/editAddress", {
+          userlay: true,
+          loggedIn: true,
+          user,
+          allBanner,
+          cartCount,
+          selectedAddress
+        });
+    } catch (err) {
+      res.json({
+        sucess: 0,
+        message: "error from db",
+      });
+    }
+
+  },
+
+  editAddress:async(req,res)=>{
+    console.log('testingggg');
+    const userId=req.userId
+    const addressId=req.params.id
+    const data=req.body
+    await userHelper.editAddress(data,userId,addressId).then((response)=>{
+      res.redirect('/user/checkOut')
+    })
+
+  },
+
+  deleteAddress:(req,res)=>{
+    const userId=req.userId
+    let id=req.parms.id
+
+    userHelper.deleteAddress(id,userId).then((response)=>{
+
+      res.redirect('/user/checkOut')
+
+    })
   }
+
 };
 
 

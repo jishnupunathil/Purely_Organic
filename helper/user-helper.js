@@ -84,6 +84,36 @@ module.exports={
           })
       },
 
+      editAddress:(data,userId,addressId)=>{
+
+        return new Promise(async(resolve,reject)=>{
+          try{
+           await addressModel.findOneAndUpdate({ user: userId,"addresses._id": addressId },
+           {
+            $set:{
+
+              "addresses.$.fname":data.fname,
+              "addresses.$.lname":data.lname,
+              "addresses.$.address":data.address,
+              "addresses.$.city":data.city,
+              "addresses.$.state":data.state,
+              "addresses.$.pincode":data.pincode,
+              "addresses.$.phone":data.phone,
+              "addresses.$.email":data.email
+
+           }
+          },
+          {new:true});
+
+          resolve()
+        }catch(err){
+          console.log(err);
+          reject()
+      }
+
+      })
+    },
+
       getProduct:(userId)=>{
 
         return new Promise(async(resolve,reject)=>{
@@ -229,6 +259,32 @@ changePaymentStatus:(orderId)=>{
             }).then(()=>{
               resolve()
             })
+        })
+      },
+
+      deleteAddress:(addressId,userId)=>{
+        return new Promise(async(resolve,reject)=>{
+
+          try{
+
+          const result = await addressModel.findOneAndUpdate(
+            { user: userId },
+            { $pull: { addresses: { _id: addressId } } },
+            { new: true } 
+          )
+
+          if(result){
+            resolve(result)
+          }else{
+            reject(new Error ("cannot delete "))
+          }
+        }catch(err){
+
+          console.log(err);
+
+        }
+
+
         })
       }
 
