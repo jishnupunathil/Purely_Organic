@@ -8,16 +8,10 @@
                 <div class="col-md-9">
                     <div class="card mb-4">
                         <%if(orders.length>0){%>
-                        <header class="card-header">
-                            <div class="row gx-3">
-                                <div class="col-lg-4 col-md-6 me-auto">
-                                    <input type="text" placeholder="Search..." class="form-control">
-                                </div>        
-                            </div>
-                        </header> <!-- card-header end// -->
+                        
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover" id="orderListTable">
                                     <thead>
                                         <tr>
                                             <th>index</th>
@@ -25,7 +19,7 @@
                                             <th>Price</th>
                                             <th>Status</th>
                                             <th>Date</th>
-                                            <th class="text-end"></th>
+                                            <th class="text-end">1</th>
                                         </tr>
                                     </thead>
                                     <tbody>

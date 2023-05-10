@@ -123,56 +123,65 @@
                                 <%if(separateAddresses.length>0){%>
                                 <%separateAddresses.forEach(function(address){%>
                                 <div class="card-header d-flex">
-                                  <div class="form-check">
-                                    <input class="form-check-input" checked value="<%=address._id%>" type="radio" name="address" id="flexRadioDefault1" checked readonly />
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                      <h5 class="mb-0">Billing Address</h5>
-                                    </label>
-                                  </div>
-                  
+                                    <div class="form-check">
+                                        <input class="form-check-input" checked value="<%=address._id%>" type="radio" name="address" id="flexRadioDefault1" checked readonly />
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            <h5 class="mb-0">Billing Address</h5>
+                                        </label>
+                                    </div>
+                                    
                                 </div>
                                 <div class="card-body">
-                                
-                                  <address >
-                                    <%=address.address%> ,
+                                    
+                                    <address >
+                                        <%=address.address%> ,
                                     <%=address.city%> <br>
                                     <%=address.pincode%> ,
                                     <%=address.state%>, <br>
                                     <%=address.phone%> ,
                                     <%=address.email%>
-                  
-                  
-                                  </address>
-        
-                                  <div class="d-flex mt-2">
+                                    
+                                    
+                                </address>
+                                
+                                <div class="d-flex mt-2">
                                     <a href="/user/editAddress/<%=address._id%>" style="text-decoration: none;color:rgb(250, 250, 250);border: 1px solid black;
                                     width:75px;height: 35px;background-color: rgb(57, 102, 236);font-size:large;font-weight: bold;padding-left: 20px;padding-top: 5px;border-radius: 2px;">Edit</a>
                   
                                   </div>
-                  
+                                  
+                                  <label for="diff-acc">
+                                      <!-- <input type="checkbox" id="diff-acc"> -->
+                                      <!-- <span class="checkmark"></span> -->
+                                    </label>
+                                    
                                 </div>
                                 <%})%>
+                                <hr>
+                                <div>
+                                    Shipping to a Different address!<a href="/user/newAddress">Click here</a>
+                                </div>
                             <%}else{%>
                                 <label for="diff-acc">
                                     No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
                                         <!-- <input type="checkbox" id="diff-acc"> -->
                                         <!-- <span class="checkmark"></span> -->
                                     </label>
-                            <%}%>
-                              </div>
-                              <input type="text" value="<%=user._id%>" name="userId" hidden>
-                        
-                            
-                        </div>
+                                    <%}%>
+                                </div>
+                                <input type="text" value="<%=user._id%>" name="userId" hidden>
+                                
+                                
+                            </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
                                 <h4>Your Order</h4>
                                 <div class="checkout__order__products">Products <span>Total</span></div>
                                 <% productDetails.forEach((prod)=>{%>
-                                <ul>
-                                    <li><%=prod.name%><span>₹<%=prod.totalPrice%></span></li>
-                                </ul>
-                                <%})%>
+                                    <ul>
+                                        <li><%=prod.name%><span>₹<%=prod.totalPrice%></span></li>
+                                    </ul>
+                                    <%})%>
                                 <div class="checkout__order__subtotal" >Subtotal <span>₹<%=subTotal%></span></div>
                                 <div class="checkout__order__total" id="totalPrice" name="totalPrice">Total <span>₹<%=total%></div>
                                 <div class="custom-control custom-radio">
