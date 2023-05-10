@@ -64,12 +64,12 @@ const OrderSchema = new mongoose.Schema({
     required: true,
   },
   refund: String,
-  return_status: {
-    type: String,
-    enum: ["pending", "approved", "rejected"],
-    default: "pending",
-  },
-  return_reason: String,
+  // return_status: {
+  //   type: String,
+  //   enum: ["pending", "approved", "rejected"],
+  //   default: "pending",
+  // },
+  // return_reason: String,
   items: [OrderItemSchema],
 });
 

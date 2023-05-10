@@ -47,7 +47,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Order info</h6>
                                     <p class="mb-1">
-                                        Shipping: organi Express <br> Pay method: <%=orderInfo.payment_method%><br> Status: new
+                                        Shipping: organi Express <br> Pay method: <%=orderInfo.payment_method%><br> Status:<b><%=orderInfo.payment_status%></b>
                                     </p>
                                     <!-- <a href="#">Download info</a> -->
                                 </div>
@@ -117,7 +117,7 @@
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
                                                         <dd>
-                                                            <span class="badge rounded-pill alert-success text-success"><%=orderInfo.order_status%></span>
+                                                            <span class="badge rounded-pill <%= orderInfo.order_status === 'pending' ? 'alert-warning' : orderInfo.order_status === 'cancelled' ? 'alert-danger':'alert-success' %>"><%= orderInfo.order_status %></span>
                                                         </dd>
                                                     </dl>
                                                 </article>
@@ -135,12 +135,51 @@
                                    <h3><%=orderInfo.payment_method%></h3>
                                 </p>
                             </div><br>
+                            <%if(!cancelled){%>
+                            <%if(cancel){%>
+                                <div>
+                                    <button type="submit" class="btn btn-danger" onclick="cancelOrder('<%=orderInfo._id%>')">Cancel Order</button>
+                                </div>
+                            <%}else{%>
                             <div>
                                 <a href="/user/index"> <button class="btn btn-success">Continue Shopping</button></a>
                             </div>
+                            <%}%>
+                        <%}else{%>
+                            
+                            <%}%>
                         </div> <!-- col// -->
                         
                     </div>
                 </div> <!-- card-body end// -->
             </div> <!-- card end// -->
         </section> <!-- content-main end// -->
+
+
+        <script>
+            function cancelOrder(orderId){
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+               confirmButtonText: 'Yes, Cancel order!'
+             }).then((result) => {
+               if (result.isConfirmed) {
+             
+             $.ajax({
+               url:"/user/cancelOrder/"+orderId,
+               method:"post",
+               success: function() 
+               {
+           
+                     // Reload the page
+                     location.reload();
+               }
+           })
+               }
+           })
+           }
+        </script>

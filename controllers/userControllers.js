@@ -10,7 +10,7 @@ const cartModel = require("../models/addtocartModel");
 const addressModel = require("../models/addressModel");
 const userHelper = require("../helper/user-helper");
 
-const { OrderItem } = require("../models/orders");
+const { OrderItem, Order } = require("../models/orders");
 const { response } = require("express");
 
 module.exports = {
@@ -517,11 +517,11 @@ module.exports = {
           loggedIn: true,
           user,
           allBanner,
-          separateAddresses: false,
           productDetails,
           subTotal,
           total,
           cartCount,
+          separateAddresses:false
         });
       } else {
         let separateAddresses = addressColl.addresses.map((address) => {
@@ -541,10 +541,7 @@ module.exports = {
         });
       }
     } catch (err) {
-      res.json({
-        sucess: 0,
-        message: "error from db" + err,
-      });
+      res.redirect("/user/getCart")
     }
   },
 
@@ -763,7 +760,9 @@ module.exports = {
   orderInfo: async (req, res) => {
     const userId = req.userId;
     const orderId = req.params.id;
+    console.log(orderId,'aaaaaaaaa');
     const addressId = req.params.id1;
+    console.log(addressId,"bbbbbbbbb")
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let addressColl = await addressModel.findOne({ user: userId });
     let selectedAddress = addressColl.addresses.find(
@@ -771,13 +770,49 @@ module.exports = {
     );
     console.log(selectedAddress);
     const product = await productModel.findOne(orderInfo?.productId);
-    console.log(orderInfo, "=========1");
     res.render("user/orderList", {
       userlay: false,
       orderInfo,
       selectedAddress,
       product,
+      cancel:false,
+      cancelled:false
     });
+  },
+
+  orderInfoc: async (req, res) => {
+    const userId = req.userId;
+    const orderId = req.params.id;
+    console.log(orderId,'aaaaaaaaa');
+    const addressId = req.params.id1;
+    console.log(addressId,"bbbbbbbbb")
+    let orderInfo = await userHelper.getOrderInfo(orderId);
+    let { order_status: orderStatus } = orderInfo;
+    let addressColl = await addressModel.findOne({ user: userId });
+    let selectedAddress = addressColl.addresses.find(
+      (address) => address._id.toString() === addressId
+    );
+    console.log(selectedAddress);
+    const product = await productModel.findOne(orderInfo?.productId);
+    if(orderStatus==='cancelled'){
+      res.render("user/orderList", {
+        userlay: false,
+        orderInfo,
+        selectedAddress,
+        product,
+        cancel:true,
+        cancelled:true
+      });
+    }else{
+      res.render("user/orderList", {
+        userlay: false,
+        orderInfo,
+        selectedAddress,
+        product,
+        cancel:true,
+        cancelled:false
+      });
+    }
   },
 
   verifyPayment: (req, res) => {
@@ -882,4 +917,17 @@ module.exports = {
       res.redirect("/user/editProfile");
     });
   },
+
+  getMyorders:async(req,res)=>{
+    const userId=req.userId
+    let orders=await Order.find({user_id:userId})
+    console.log('orders',orders);
+    res.render('user/myOrder',{userlay:false,orders})
+  },
+  cancelOrder:async(req,res)=>{
+    const orderId=req.params.id
+    await userHelper.cancelStatus(orderId).then((response)=>{
+      res.json({})
+    })
+  }
 };

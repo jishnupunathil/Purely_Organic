@@ -286,7 +286,22 @@ changePaymentStatus:(orderId)=>{
 
 
         })
-      }
+      },
+
+      cancelStatus:(orderId)=>{
+
+        return new Promise(async(resolve,reject)=>{
+  
+             Order.updateOne({_id:orderId},
+              {
+                $set:{
+                  order_status:"cancelled"
+                }
+              }).then(()=>{
+                resolve()
+              })
+          })
+        },
 
 }
 

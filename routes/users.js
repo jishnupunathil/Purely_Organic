@@ -69,12 +69,17 @@ router.post('/editPrfAddress/:id',checkUserAuth,controllers.editPrfAddress)
 
 router.post('/deleteAddress/:id',checkUserAuth,controllers.deleteAddress)
 
+router.get('/myOrders',checkUserAuth,controllers.getMyorders)
+
+router.post('/cancelOrder/:id',checkUserAuth,controllers.cancelOrder)
+
 //payment
 
 router.post('/place-order',checkUserAuth,controllers.placeOrder)
 
 router.get('/orderInfo/:id/:id1',checkUserAuth,controllers.orderInfo)
 
+router.get('/orderInfoc/:id/:id1',checkUserAuth,controllers.orderInfoc)
 
 router.post('/verify-payment',checkUserAuth,controllers.verifyPayment)
 

@@ -120,7 +120,7 @@
                             
                             
                             <div id="" class="card my-3 col-md-8">
-                                <%if(separateAddresses){%>
+                                <%if(separateAddresses.length>0){%>
                                 <%separateAddresses.forEach(function(address){%>
                                 <div class="card-header d-flex">
                                   <div class="form-check">
@@ -153,7 +153,11 @@
                                 </div>
                                 <%})%>
                             <%}else{%>
-                                <div>Add new address</div>
+                                <label for="diff-acc">
+                                    No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
+                                        <!-- <input type="checkbox" id="diff-acc"> -->
+                                        <!-- <span class="checkmark"></span> -->
+                                    </label>
                             <%}%>
                               </div>
                               <input type="text" value="<%=user._id%>" name="userId" hidden>
@@ -193,11 +197,7 @@
     
     
                                 <!-- <div class="checkout__input__checkbox"> -->
-                                    <label for="diff-acc">
-                                    No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
-                                        <!-- <input type="checkbox" id="diff-acc"> -->
-                                        <!-- <span class="checkmark"></span> -->
-                                    </label>
+                                    
                                 <!-- </div> -->
                                 
                             </div>
