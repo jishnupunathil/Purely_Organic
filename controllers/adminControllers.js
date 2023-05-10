@@ -1,6 +1,8 @@
 const { default: mongoose } = require("mongoose");
 const userModel = require("../models/userModel");
 const categoryModel = require("../models/categoryModel");
+const { Order } = require("../models/orders");
+const adminHelper = require("../helper/admin-helper")
 
 module.exports={
     getDashboard:(req,res)=>{     
@@ -90,5 +92,12 @@ module.exports={
                 res.res.redirect('/admin/userList')
         }
     }
+    },
+    getOrdersPage:async(req,res)=>{
+        let orders=await adminHelper.orderPage()
+        console.log(orders);
+        res.render('admin/orderMangement',{userlay:false,orders})
+        
+
     }
 }

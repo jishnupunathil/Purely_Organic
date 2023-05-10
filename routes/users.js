@@ -35,7 +35,6 @@ router.post('/editProfile',multipleImageUpload,checkUserAuth,controllers.editPro
 
 //product section
 
-// router.get('/productList',productControllers.productList)
 
 router.get('/singleProductView/:id',checkUserAuth,productControllers.sproductUser)
 

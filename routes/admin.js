@@ -62,4 +62,8 @@ router.post('/updateBanner/:id',multipleImageUpload,bannerController.updateBanne
 
 router.post('/deleteBanner/:id',bannerController.deleteBanner)
 
+//orders
+
+router.get('/orders',adminControllers.getOrdersPage)
+
 module.exports = router;
