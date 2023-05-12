@@ -158,7 +158,7 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
           try {
             console.log(order.userId);
-            let status = order.paymentMethod === "cash_on_delivery" ? "placed" : "pending";
+            let status = order.paymentMethod === "cash_on_delivery" ? "pending" : "paid";
             let orderObj = {
               user_id: order.userId,
               payment_method: order.paymentMethod,
@@ -254,7 +254,8 @@ changePaymentStatus:(orderId)=>{
            Order.updateOne({_id:orderId},
             {
               $set:{
-                payment_status:"placed"
+                payment_status:"paid",
+                order_status:"placed"
               }
             }).then(()=>{
               resolve()

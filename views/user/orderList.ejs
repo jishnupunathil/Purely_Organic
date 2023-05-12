@@ -47,7 +47,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Order info</h6>
                                     <p class="mb-1">
-                                        Shipping: organi Express <br> Pay method: <%=orderInfo.payment_method%><br> Status:<b><%=orderInfo.payment_status%></b>
+                                        Shipping: organi Express <br> Pay method: <%=orderInfo.payment_method%><br>order Status:<b><%=orderInfo.order_status%></b>
                                     </p>
                                     <!-- <a href="#">Download info</a> -->
                                 </div>
@@ -115,9 +115,9 @@
                                                         <dd> <b class="h5">₹<%=orderInfo.total_amount%></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
-                                                        <dt class="text-muted">Status:</dt>
+                                                        <dt class="text-muted">payment Status:</dt>
                                                         <dd>
-                                                            <span class="badge rounded-pill <%= orderInfo.order_status === 'pending' ? 'alert-warning' : orderInfo.order_status === 'cancelled' ? 'alert-danger':'alert-success' %>"><%= orderInfo.order_status %></span>
+                                                            <span class="badge rounded-pill <%= orderInfo.payment_status === 'pending' ? 'alert-warning' : orderInfo.order_status === 'cancelled' ? 'alert-danger':'alert-success' %>"><%= orderInfo.payment_status %></span>
                                                         </dd>
                                                     </dl>
                                                 </article>

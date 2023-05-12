@@ -93,11 +93,44 @@ module.exports={
         }
     }
     },
-    getOrdersPage:async(req,res)=>{
-        let orders=await adminHelper.orderPage()
-        console.log(orders);
-        res.render('admin/orderMangement',{userlay:false,orders})
-        
 
-    }
+    orderDetails: async (req, res) => {
+        try {
+          let orders = await adminHelper.orderPage()
+            if(orders){  
+                // console.log(orders);
+        res.render('admin/orderMangement',{userlay:false,orders})
+            }
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      viewOrder: async (req, res) => {
+        const orderId=req.params.id
+        try {
+          const SpecificOrder = await adminHelper.getSpecificOrder(orderId);
+          if (SpecificOrder) {
+            const { order, productDetails } = SpecificOrder;
+            res.render("admin/orderList", {userlay:false ,order,productDetails})
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      updateOrderStatus: async (req, res) => {
+        try {
+          const valid = await adminHelper.updateOrderStatus(
+            req.body.orderId,
+            req.body.status
+          );
+          if (!valid) {
+            return res.json({ error: "error" });
+          }
+          res.json({ status: "success" });
+        } catch (err) {
+          console.error(err);
+        }
+      },
 }

@@ -64,6 +64,10 @@ router.post('/deleteBanner/:id',bannerController.deleteBanner)
 
 //orders
 
-router.get('/orders',adminControllers.getOrdersPage)
+router.get('/orders',adminControllers.orderDetails)
+
+router.get('/viewOrders/:id',adminControllers.viewOrder)
+
+router.post("/update-order-status",adminControllers.updateOrderStatus);
 
 module.exports = router;

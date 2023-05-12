@@ -118,11 +118,25 @@
 </aside>
 <main class="main-wrap">
     <%-include('../partials/adminHeader.ejs')-%>
+    <section class="content-main">
+        <div class="content-header">
+          <div>
+            <h2 class="content-title card-title">Order Management.</h2>
+            <p>Manage Orders</p>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <header class="card-header">
+            <div class="row gx-3">
+             
+            </div>
+          </header>
     <div class="card-body">
         <div class="table-responsive">
-          <table id="myTable" class="table table-hover display">
+          <table id="myTableOrder" class="table table-hover display">
             <thead>
               <tr>
+                <th>index</th>
                 <th>#ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Amount</th>
@@ -134,51 +148,53 @@
             </thead>
             <tbody>
              
-                <% orders.forEach(function(order) { %>
-              <tr>
-                <td><%= order._id %></td>
-                <td><b></b></td>
-                <td>&#x20B9;</td>
-                <td></td>
-                <td>
-                  <span class="badge rounded-pill bg-primary">
-                    
-                  </span>
-                  
-                  <span class="badge rounded-pill bg-success">
-                    
-                  </span>
-                
-                  <span class="badge rounded-pill bg-info">
-                    
-                  </span>
-                  
-                  <span class="badge rounded-pill bg-danger">
-                   
-                  </span>
-                 
-                  <span class="badge rounded-pill bg-warning">
-                    Return 
-                  </span>
-         
-                </td>
-                <td>
-               
-                </td>
-                <td class="text-end">
-                  <a
-                    href="/admin/view-order/ order._id %>"
-                    class="btn btn-md rounded font-sm"
-                    >View Order</a
-                  >
-                </td>
-              </tr>
-              <% }) %>
+                <% orders.forEach(function(order,index) { %>
+                    <tr>
+                        <td><%-index+1%></td>
+                      <td><%= order._id %></td>
+                      <td><b><%= order.fname %></b></td>
+                      <td>&#x20B9;<%= order.total_amount %></td>
+                      <td><%= order.payment_method %></td>
+                      <td>
+                        <% if (order.order_status === "pending") { %>
+                        <span class="badge rounded-pill bg-warning">
+                          <%= order.order_status %>
+                        </span>
+                        <% } else if (order.order_status === "Shipped") { %>
+                        <span class="badge rounded-pill bg-success">
+                          <%= order.order_status %>
+                        </span>
+                        <% } else if (order.order_status === "delivered") { %>
+                        <span class="badge rounded-pill bg-info">
+                          <%= order.order_status %>
+                        </span>
+                        <% } else if (order.order_status === "cancelled") { %>
+                        <span class="badge rounded-pill bg-danger">
+                          <%= order.order_status %>
+                        </span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <%= new Date(order.order_date).toLocaleDateString('en-GB', {
+                        day: '2-digit', month: '2-digit', year: 'numeric', hour:
+                        '2-digit', minute: '2-digit', }).replace(/\//g, '-') %>
+                      </td>
+                      <td class="text-end">
+                        <a
+                          href="/admin/viewOrders/<%= order._id %>"
+                          class="btn btn-md rounded font-sm"
+                          >View Order</a
+                        >
+                      </td>
+                    </tr>
+                    <% }); %>
        
             </tbody>
           </table>
         </div>
       </div>
+      </div>
+      </section>
 
 
 

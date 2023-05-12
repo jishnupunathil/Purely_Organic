@@ -46,7 +46,7 @@ const OrderSchema = new mongoose.Schema({
   },
   payment_status: {
     type: String,
-    enum: ["placed", "pending", "cancelled"],
+    enum: ["paid", "pending", "cancelled"],
     default: "pending",
   },
   payment_method: {
@@ -64,12 +64,12 @@ const OrderSchema = new mongoose.Schema({
     required: true,
   },
   refund: String,
-  // return_status: {
-  //   type: String,
-  //   enum: ["pending", "approved", "rejected"],
-  //   default: "pending",
-  // },
-  // return_reason: String,
+  return_status: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
+  },
+  return_reason: String,
   items: [OrderItemSchema],
 });
 
