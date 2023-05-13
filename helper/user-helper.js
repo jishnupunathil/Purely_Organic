@@ -375,5 +375,33 @@ changePaymentStatus:(orderId)=>{
           }
         },
 
+        searchQuery: async (query, userId) => {
+          try {
+            const products = await productModel.find({
+              $or: [
+                { pname: { $regex: query, $options: "i" } },
+                { pdescription: { $regex: query, $options: "i" } },
+              ],
+            }).populate("pcategory");
+        
+            if (products.length > 0) {
+              const cart = await cartModel.findOne({ user: userId });
+        
+              if (cart) {
+                for (const product of products) {
+                  const isProductInCart = cart.products.some((prod) =>
+                    prod.productId.equals(product._id)
+                  );
+                  product.isInCart = isProductInCart;
+                }
+              }
+              return products;
+            }
+            return [];
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
 }
 

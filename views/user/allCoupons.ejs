@@ -80,7 +80,7 @@
                       </div>
                     </div>
                     <div class="card-footer">
-                      <span  style="color: <%=element.days_remaining > 0 ? 'green' : 'red'%> ">
+                      <!-- <span  style="color: <%=element.days_remaining > 0 ? 'green' : 'red'%> "> -->
                         <%= element?.days_remaining <= 0 ? 'Expired': element?.days_remaining + ' days left' %>
                       </div>
                   </div>
@@ -98,8 +98,7 @@
   
     <!-- Shoping Cart Section End -->
     <%- include('../partials/userFooter.ejs')%>
-    <!-- Footer Section Begin -->
-
+   
 
  
 

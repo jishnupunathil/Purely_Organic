@@ -107,7 +107,6 @@ module.exports = {
       let allBanner=await bannerModel.find()
       let allCategory=await categoryModel.find()
       let user=await userModel.findById(userId)
-      
         let singleProduct = await productModel.findById({ _id: id });
         let cartCount = await userHelper.getCartCount(userId)
         res.render("user/productPage", { userlay: true,

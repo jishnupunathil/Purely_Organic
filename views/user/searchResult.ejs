@@ -1,0 +1,145 @@
+<%-include('../partials/userHeader.ejs')%> 
+<section class="hero hero-normal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <% allBanner.forEach(function(banner) { %>
+                    <%if(banner.bname==='ogani logo'){%>
+                        <div class="header__logo">
+                            <a href="./index.html"><img src="<%=banner.bimages%>" alt=""></a>
+                        </div>
+                        <%}%>
+                        <%})%>
+            </div>
+           
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form action="#">
+                            <div class="hero__search__categories">
+                                All Categories
+                                <span class="arrow_carrot-down"></span>
+                            </div>
+                            <input type="text" placeholder="What do yo u need?">
+                            <button type="submit" class="site-btn">SEARCH</button>
+                        </form>
+                    </div>
+                    <div class="hero__search__phone">
+                        <div class="header__cart">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-heart"></i> </a></li>
+                                    <!-- <span>1</span></a></li> -->
+                                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
+                                     <!-- <span>3</span></a></li> -->
+                            </ul>
+                            <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Product</h2>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <%if(products.length<=0){%>
+                    <div class="container">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="jumbotron">
+                              <h1 class="display-4">No search results found</h1>
+                              <hr class="my-4" />
+                              <p class="lead">
+                                Unfortunately, your search did not return any results.
+                                Please try again with a different keyword.
+                              </p>
+                              <a class="btn btn-primary btn-lg" href="/user/index" role="button"
+                                >Back to home</a
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <% }%>  <% products.forEach(function (products,index){ %>
+                <div class="col-lg-6 col-md-12">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="<%=products.pimages[0]%>" alt="" style="height: 400px;width:150px" id="soom">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-imgbigurl="<%=products.pimages[0]%>"
+                                src="<%=products.pimages[0]%>" alt="">
+                            <img data-imgbigurl="<%=products.pimages[1]%>"
+                                src="<%=products.pimages[1]%>" alt="">
+                            <img data-imgbigurl="<%=products.pimages[2]%>"
+                                src="<%=products.pimages[2]%>" alt="">
+                            <img data-imgbigurl="<%=products.pimages[3]%>"
+                                src="<%=products.pimages[3]%>" alt="">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3><%=products.pname%></h3>
+                        
+                        <div class="product__details__price">₹<%=products.pprice%></div>
+                        <%if(products.pcountInStock===0){%>
+                            <button type="button" class="btn btn-danger">Out Of Stock!!</button>
+
+                        <%}else{%>
+
+                            <form method="post" action="/user/addtocart/<%=products._id%>">
+                                <button type="submit" class="primary-btn">ADD TO CART</button>
+                            </form>
+                       <% }%>
+                    <br>
+                        <!-- <a href="#" class="heart-icon"  ><i class="fa fa-heart" style="color:red"></i></span></a> -->
+                        <ul>
+                            <%if(products.pcountInStock===0){%>
+                                <li><b>Availability</b><span class="alert-danger">Out of stock</span></li>
+                            <%}else{%>
+                                <li><b>Availability</b> <span style="font-weight: bold;"><%=products.pcountInStock%> KG </span>left in store</li>
+                                
+                            <%}%>
+                            <li><b>Shipping</b> <span>01 day shipping.</span></li>
+                            <li><b>Weight</b> <span>1 kg</span></li>
+                           
+                        </ul>
+                    </div>
+                </div>
+                <%})%>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+    <!-- Related Product Section Begin -->
+    <%- include('../partials/userFooter.ejs')%>
+    <!-- Related Product Section End --> 
+
+    <!-- <script src="/js/zoomsl.js"></script> -->
+ 
+         

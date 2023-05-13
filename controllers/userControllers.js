@@ -177,8 +177,6 @@ module.exports = {
         twilioFunctions
           .generateOTP(mobNumber, "sms")
           .then((verification) => {
-            console.log(req.body);
-            console.log("=============");
             res.render("user/submitOtp", {
               loggedIn: false,
               userlay: true,
@@ -222,8 +220,6 @@ module.exports = {
   },
   submitOtp: async (req, res) => {
     let mobNumber = req.body.phoneNumber;
-    console.log(req.body);
-    console.log("$$$$$$$$$$$$$", mobNumber);
     try {
       const user = await userModel.findOne({ phoneNumber: mobNumber });
       const enteredOTP = req.body.code;
@@ -803,9 +799,7 @@ module.exports = {
   orderInfo: async (req, res) => {
     const userId = req.userId;
     const orderId = req.params.id;
-    console.log(orderId,'aaaaaaaaa');
     const addressId = req.params.id1;
-    console.log(addressId,"bbbbbbbbb")
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let addressColl = await addressModel.findOne({ user: userId });
     let selectedAddress = addressColl.addresses.find(
@@ -826,9 +820,7 @@ module.exports = {
   orderInfoc: async (req, res) => {
     const userId = req.userId;
     const orderId = req.params.id;
-    console.log(orderId,'aaaaaaaaa');
     const addressId = req.params.id1;
-    console.log(addressId,"bbbbbbbbb")
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let { order_status: orderStatus } = orderInfo;
     let addressColl = await addressModel.findOne({ user: userId });
@@ -933,7 +925,6 @@ module.exports = {
   },
 
   editAddress: async (req, res) => {
-    console.log("testingggg");
     const userId = req.userId;
     const addressId = req.params.id;
     const data = req.body;
@@ -943,7 +934,6 @@ module.exports = {
   },
 
   editPrfAddress: async (req, res) => {
-    console.log("testingggg");
     const userId = req.userId;
     const addressId = req.params.id;
     const data = req.body;
@@ -953,7 +943,6 @@ module.exports = {
   },
 
   deleteAddress: (req, res) => {
-    console.log('testing...');
     const userId = req.userId;
     let id = req.params.id;
     userHelper.deleteAddress(id, userId).then((response) => {
@@ -974,14 +963,11 @@ module.exports = {
     })
   },
   changeProductQuantity: async (req, res) => {
-    console.log('11111111111');
+   
     const userId=req.userId
     const productId = req.body.productId;
-  const count = req.body.quantityChange;
-  const currentQuantity = req.body.currentQuantity;
+    const count = req.body.quantityChange;
     try {
-      console.log('222222');
-      console.log(productId,'----------',);
       const response = await userHelper.updateQuantity(
         userId,
         productId,
@@ -999,15 +985,33 @@ module.exports = {
   },
 
   getAllCoupons:async(req,res)=>{
-
     const userId = req.userId;
     const coupons = await userHelper.getCoupons(userId);
     const allBanner = await bannerModel.find();
     const cartCount = await userHelper.getCartCount(userId)
     const user = await userHelper.getProfile(userId);
-
     res.render('user/allCoupons',{userlay:true,allBanner,cartCount,user,loggedIn:true,coupons})
+  },
 
-
-  }
+  search: async (req, res) => {
+    const userId=req.userId
+    try {
+      let allBanner=await bannerModel.find()
+      let allCategory=await categoryModel.find()
+      let user=await userModel.findById(userId)
+      const cartCount = await userHelper.getCartCount(userId)
+      const search = req.query.search;
+      const products = await userHelper.searchQuery(
+        search,
+        userId
+      );
+      console.log(products,'---------------');
+      res.render("user/searchResult", { userlay:true, products,allBanner,allCategory,loggedIn:true,user,cartCount });
+    } catch (err) {
+      res.render("catchError", {
+        message: err?.message,
+        user: req.userId
+      });
+    }
+  },
 };

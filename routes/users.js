@@ -89,6 +89,8 @@ router.post('/verify-payment',checkUserAuth,controllers.verifyPayment)
 
 router.post('/change-product-quantity',checkUserAuth,controllers.changeProductQuantity);
 
+router.get("/product-search",checkUserAuth, controllers.search);
+
 
 
 
