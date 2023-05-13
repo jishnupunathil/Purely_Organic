@@ -304,5 +304,58 @@ changePaymentStatus:(orderId)=>{
           })
         },
 
+        updateQuantity: async (userId, productId, count) => {
+          console.log('hiiiiiiiiiiii');
+          try {
+            const cart = await cartModel.findOne({ user: userId });
+            const product = cart.products.find(
+              (p) => p.productId.toString() === productId
+            );
+            console.log(product,'---------------------------');
+            if (!product) {
+              throw new Error("Product not found in cart");
+            }
+            // Calculate new quantity
+            const newQuantity = product.quantity + parseInt(count);
+      
+            if (newQuantity < 0) {
+              return false;
+            }
+      
+            // Update product quantity in the database
+            const productToUpdate = await productModel.findById(productId);
+            const updatedProductQuantity =
+              count === "1"
+                ? productToUpdate.pcountInStock - 1
+                : productToUpdate.pcountInStock + 1;
+      
+            if (updatedProductQuantity < 0) {
+              return false;
+            }
+      
+            if (newQuantity === 0) {
+              // If new quantity is 0, remove product from cart
+              await cartModel.findOneAndUpdate(
+                { user: userId },
+                { $pull: { products: { productId: productId } } },
+                { new: true }
+              );
+            } else {
+              // Otherwise, update product quantity in cart and save cart
+              cart.products.id(product._id).quantity = newQuantity;
+              await cart.save();
+            }
+      
+            await productModel.findByIdAndUpdate(productId, {
+              $set: { pcountInStock: updatedProductQuantity },
+            });
+      
+            return true;
+          } catch (err) {
+            console.error(err);
+            return false;
+          }
+        },
+
 }
 

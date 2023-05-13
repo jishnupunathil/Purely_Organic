@@ -12,6 +12,7 @@ const userHelper = require("../helper/user-helper");
 
 const { OrderItem, Order } = require("../models/orders");
 const { response } = require("express");
+const { default: mongoose } = require("mongoose");
 
 module.exports = {
   userIndexPage: async (req, res) => {
@@ -400,54 +401,76 @@ module.exports = {
           message: "User not found",
         });
       }
-
+  
       const product = await productModel.findById(productId);
-      let price = product.pprice;
-      let productName = product.pname;
-      const productImage = product.pimages[0];
-      console.log("p", productName);
-      console.log("p", price);
-      console.log("heeeeeeee", productImage);
-
       if (!product) {
         return res.status(404).json({
           status: "error",
           message: "Product not found",
         });
       }
-      const isProductExist = await cartModel.findOne({
-        user: userId,
-        "products.productId": productId,
-      });
-
-      if (isProductExist) {
-        await cartModel.updateOne(
-          { user: userId, "products.productId": productId },
-          { $inc: { "products.$.quantity": 1 } }
-        );
-        await cartModel.updateOne(
-          { user: userId, "products.productId": productId },
-          { $inc: { "products.$.price": price } }
-        );
-      } else {
-        await cartModel.updateOne(
-          { user: userId },
-          {
-            $push: {
-              products: {
-                productId,
-                quantity: 1,
-                price,
-                productName,
-                productImage,
+  
+      // check if there's enough stock to add to cart
+      if (product.pcountInStock < 1) {
+        return res.status(400).json({
+          status: "error",
+          message: "Product is out of stock",
+        });
+      }
+  
+      let price = product.pprice;
+      let productName = product.pname;
+      const productImage = product.pimages[0];
+  
+      const session = await mongoose.startSession();
+      session.startTransaction();
+  
+      try {
+        // update product countInStock and add to cart
+        await productModel.findByIdAndUpdate(productId, {
+          $inc: { pcountInStock: -1 },
+        }, { session });
+        const isProductExist = await cartModel.findOne({
+          user: userId,
+          "products.productId": productId,
+        });
+  
+        if (isProductExist) {
+          await cartModel.updateOne(
+            { user: userId, "products.productId": productId },
+            { $inc: { "products.$.quantity": 1, "products.$.price": price } },
+            { session }
+          );
+        } else {
+          await cartModel.updateOne(
+            { user: userId },
+            {
+              $push: {
+                products: {
+                  productId,
+                  quantity: 1,
+                  price,
+                  productName,
+                  productImage,
+                },
               },
             },
-          },
-          { upsert: true }
-        );
+            { upsert: true, session }
+          );
+        }
+  
+        await session.commitTransaction();
+        session.endSession();
+        res.redirect("/user/getCart");
+      } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        console.error(error);
+        res.status(500).json({
+          status: "error",
+          message: "Something went wrong",
+        });
       }
-
-      res.redirect("/user/getCart");
     } catch (error) {
       console.error(error);
       res.status(500).json({
@@ -460,17 +483,37 @@ module.exports = {
     try {
       const userId = req.userId;
       const productId = req.params.id;
+  
+      // find the product being removed from the cart
+      const productInCart = await cartModel.findOne(
+        { user: userId, "products.productId": productId },
+        { "products.$": 1 }
+      );
+  
+      if (!productInCart) {
+        throw new Error("product not found in cart");
+      }
+  
+      // update the cart to remove the product
       const updatedCart = await cartModel.findOneAndUpdate(
         { user: userId },
         { $pull: { products: { productId: productId } } },
         { new: true }
       );
-
+  
       if (!updatedCart) {
         throw new Error("cart not found");
       }
+  
+      // update the productModel to add the product quantity back to pcountInstock
+      const product = productInCart.products[0];
+      await productModel.findByIdAndUpdate(
+        productId,
+        { $inc: { pcountInStock: product.quantity } }
+      );
+  
       res.status(200).json({
-        status: "succees",
+        status: "success",
         message: "Product removed from cart",
       });
     } catch (error) {
@@ -929,5 +972,29 @@ module.exports = {
     await userHelper.cancelStatus(orderId).then((response)=>{
       res.json({})
     })
-  }
+  },
+  changeProductQuantity: async (req, res) => {
+    console.log('11111111111');
+    const userId=req.userId
+    const productId = req.body.productId;
+  const count = req.body.quantityChange;
+  const currentQuantity = req.body.currentQuantity;
+    try {
+      console.log('222222');
+      console.log(productId,'----------',);
+      const response = await userHelper.updateQuantity(
+        userId,
+        productId,
+        count
+      );
+      if (response === false) {
+        res.json({ error: "success" });
+        return;
+      }
+      res.json({ status: "success" });
+    } catch (err) {
+      console.error(err);
+      res.json({ status: "error" });
+    }
+  },
 };

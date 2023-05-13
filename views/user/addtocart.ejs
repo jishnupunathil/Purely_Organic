@@ -91,7 +91,11 @@
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty">
+                                                <span class="dec qtybtn" 
+                                                onclick="changeQuantity('<%=prod.id %>', -1,'<%= prod.quantity %>')">-</span>
                                                 <input type="text" value="<%=prod.quantity%>">
+                                                <span class="inc qtybtn"  
+                                                onclick="changeQuantity('<%= prod.id %>', 1,)">+</span>
                                             </div>
                                         </div>
                                     </td>
@@ -184,4 +188,77 @@
     }
   });
 }
+
+
  </script>
+
+<script>
+
+  function changeQuantity(productId, quantityChange, currentQuantity) {
+    
+    if (parseInt(currentQuantity) + parseInt(quantityChange) == 0) {
+      Swal.fire({
+        title: "Are you sure you want to remove?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, remove it!",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "/user/change-product-quantity",
+            method: "post",
+            data: {
+              productId: productId,
+              quantityChange: quantityChange,
+              currentQuantity: currentQuantity,
+            },
+            success: (response) => {
+              if (response) {
+                Swal.fire({
+                  title: `Product removed from cart!`,
+                  icon: "success",
+                  timer: 4000,
+                }).then(() => {
+                  location.reload();
+                });
+              }
+            },
+          });
+        }
+      });
+    } else {
+      console.log('hiiiiiiiiiiiiiiiii');
+    console.log(productId,'dddddddddddd');
+      $.ajax({
+        url: "/user/change-product-quantity",
+        method: "post",
+        data: {
+    productId: productId,
+    quantityChange: quantityChange,
+    currentQuantity: currentQuantity,
+  },
+       
+        success: (response) => {
+          if (response.status) {
+            location.reload();
+          } else {
+            Swal.fire({
+              title: "Out of stock!",
+              icon: "error",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
+            return;
+          }
+        },
+      });
+    }
+  }
+  
+   </script>
+
+ 

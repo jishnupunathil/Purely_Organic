@@ -167,8 +167,11 @@
                                 </td>
                                 <td>₹<%= product.pprice %></td>
                                 <td><span class="badge rounded-pill alert-success"><%=product.pcategory%></span></td>
+                                <%if(product.pcountInStock===0){%>
+                                <td class="alert-danger">Add Stock!!</td>
+                            <%}else{%>
                                 <td><%=product.pcountInStock%> kg</td>
-                                
+                            <%}%>
                                 
                                 <td class="text-end">
                                     <a href="/admin/singleProduct/<%=product._id%>" class="btn btn-sm btn-warning rounded font-sm mt-10">Edit</a>

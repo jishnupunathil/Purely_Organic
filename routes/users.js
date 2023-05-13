@@ -82,6 +82,9 @@ router.get('/orderInfoc/:id/:id1',checkUserAuth,controllers.orderInfoc)
 
 router.post('/verify-payment',checkUserAuth,controllers.verifyPayment)
 
+router.post('/change-product-quantity',checkUserAuth,controllers.changeProductQuantity);
+
+
 
 
 
