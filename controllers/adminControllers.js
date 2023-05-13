@@ -133,4 +133,42 @@ module.exports={
           console.error(err);
         }
       },
+
+      viewCoupon: async (req, res) => {
+        try {
+          const coupons = await adminHelper.getCoupons();
+          console.log(coupons,'-----------');
+          res.render("admin/allCoupons", { userlay:false,coupons });
+        } catch (err) {
+          console.error(err);
+        }
+      },
+    
+
+      getAddCoupon:(req,res)=>{
+        res.render('admin/addCoupon',{userlay:false})
+      },
+
+      addCouponPost: async (req, res) => {
+        try {
+          await adminHelper.generateCoupon(req.body);
+          res.json({ status: "success" });
+        } catch (err) {
+          console.error(err);
+          res.json({ status: "error" });
+        }
+
+
+},
+
+removeCoupon: async (req, res) => {
+  try {
+    await adminHelper.removeCoupon(req.body.id);
+    res.json({ status: "success" });
+  } catch (err) {
+    console.error(err);
+    res.json({ status: "error" });
+  }
+},
+
 }

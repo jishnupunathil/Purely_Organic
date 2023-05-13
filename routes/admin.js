@@ -62,6 +62,17 @@ router.post('/updateBanner/:id',multipleImageUpload,bannerController.updateBanne
 
 router.post('/deleteBanner/:id',bannerController.deleteBanner)
 
+//coupons
+
+router.get('/coupons',adminControllers.viewCoupon)
+
+router.get('/addCoupons',adminControllers.getAddCoupon)
+
+router.post("/add-coupon", adminControllers.addCouponPost);
+
+router.post("/remove-coupon", adminControllers.removeCoupon);
+
+
 //orders
 
 router.get('/orders',adminControllers.orderDetails)

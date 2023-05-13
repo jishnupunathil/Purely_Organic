@@ -2,6 +2,8 @@ const { default: mongoose } = require("mongoose")
 const { Order } = require("../models/orders")
 const productModel = require("../models/productModel")
 const userModel = require("../models/userModel")
+const couponModel = require("../models/coupon")
+const moment = require("moment")
 
 module.exports={
 
@@ -215,7 +217,41 @@ getSpecificOrder: async (orderId) => {
     }
   },
 
+  generateCoupon: async (coupon) => {
+    try {
+      const { couponCode, couponDiscount, expiryDate, maxDiscount } = coupon;
+      const newCoupon = new couponModel({
+        code: couponCode,
+        discount: couponDiscount,
+        maxdiscount: maxDiscount,
+        expirationDate: expiryDate,
+      });
+      await newCoupon.save();
+      return newCoupon;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 
-    
-
+  getCoupons: async () => {
+    try {
+      const coupons = await couponModel.find();
+      const couponsWithDaysRemaining = coupons.map((coupon) => {
+        const current_date = moment();
+        const expiration_date = moment(coupon.expirationDate);
+        coupon.days_remaining = expiration_date.diff(current_date, "days");
+        return coupon;
+      });
+      return couponsWithDaysRemaining;
+    } catch (err) {
+      console.error(err);
+    }
+},
+removeCoupon: async (couponId) => {
+  try {
+    await couponModel.findByIdAndDelete(couponId);
+  } catch (err) {
+    console.error(err);
+  }
+},
 }
