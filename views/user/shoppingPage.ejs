@@ -83,9 +83,14 @@
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg" data-setbg="<%=product.pimages[0]%>">
                             <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
-                                <li><a onclick="addToCart('<%=product._id%>')"><i class="fa fa-shopping-cart"></i></a></li>
+                                <%if(product.pcountInStock===0){%>
+                                    <label style="font-size: large;color: red;font-weight: bolder;">Out of Stock</label>
+                                <%}else{%>
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
+                                    <li><a onclick="addToCart('<%=product._id%>')"><i class="fa fa-shopping-cart"></i></a></li>
+
+                                <%}%>
                             </ul>
                         </div>
                         <div class="featured__item__text">

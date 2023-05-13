@@ -89,23 +89,34 @@
                         <h3><%=singleProduct.pname%></h3>
                         
                         <div class="product__details__price">₹<%=singleProduct.pprice%></div>
-                        <form method="post" action="/user/addtocart/<%=singleProduct._id%>">
-                        <button type="submit" class="primary-btn">ADD TO CART</button>
-                    </form>
+                        <%if(singleProduct.pcountInStock===0){%>
+                            <button type="button" class="btn btn-danger">Out Of Stock!!</button>
+
+                        <%}else{%>
+
+                            <form method="post" action="/user/addtocart/<%=singleProduct._id%>">
+                                <button type="submit" class="primary-btn">ADD TO CART</button>
+                            </form>
+                       <% }%>
                     <br>
-                        <a href="#" class="heart-icon"  ><i class="fa fa-heart" style="color:red"></i></span></a>
+                        <!-- <a href="#" class="heart-icon"  ><i class="fa fa-heart" style="color:red"></i></span></a> -->
                         <ul>
-                            <li><b>Availability</b> <span>In Stock</span></li>
+                            <%if(singleProduct.pcountInStock===0){%>
+                                <li><b>Availability</b><span class="alert-danger">Out of stock</span></li>
+                            <%}else{%>
+                                <li><b>Availability</b> <span style="font-weight: bold;"><%=singleProduct.pcountInStock%> KG </span>left in store</li>
+                                
+                            <%}%>
                             <li><b>Shipping</b> <span>01 day shipping.</span></li>
                             <li><b>Weight</b> <span>1 kg</span></li>
-                            <li><b>Share on</b>
+                            <!-- <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
                                     <a href="#"><i class="fa fa-instagram"></i></a>
                                     <a href="#"><i class="fa fa-pinterest"></i></a>
                                 </div>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
