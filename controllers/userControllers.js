@@ -997,4 +997,17 @@ module.exports = {
       res.json({ status: "error" });
     }
   },
+
+  getAllCoupons:async(req,res)=>{
+
+    const userId = req.userId;
+    const coupons = await userHelper.getCoupons(userId);
+    const allBanner = await bannerModel.find();
+    const cartCount = await userHelper.getCartCount(userId)
+    const user = await userHelper.getProfile(userId);
+
+    res.render('user/allCoupons',{userlay:true,allBanner,cartCount,user,loggedIn:true,coupons})
+
+
+  }
 };

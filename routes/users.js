@@ -72,6 +72,11 @@ router.get('/myOrders',checkUserAuth,controllers.getMyorders)
 
 router.post('/cancelOrder/:id',checkUserAuth,controllers.cancelOrder)
 
+//coupons
+
+router.get('/allCoupons',checkUserAuth,controllers.getAllCoupons)
+
+
 //payment
 
 router.post('/place-order',checkUserAuth,controllers.placeOrder)

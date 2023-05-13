@@ -6,6 +6,8 @@ const productModel = require("../models/productModel")
 const userModel = require("../models/userModel")
 const Razorpay = require("razorpay");
 const { ObjectId } = require("mongodb")
+const couponModel = require("../models/coupon")
+const moment = require("moment")
 
 var instance = new Razorpay({
   key_id: "rzp_test_LlUB5deQFFVcRd",
@@ -354,6 +356,22 @@ changePaymentStatus:(orderId)=>{
           } catch (err) {
             console.error(err);
             return false;
+          }
+        },
+        getCoupons: async (userId) => {
+          try {
+            const coupons = await couponModel.find();
+            const unusedCouponsWithDaysRemaining = coupons
+              .filter((coupon) => !coupon.usedBy.includes(userId)) // Filter out coupons with usedBy field
+              .map((coupon) => {
+                const current_date = moment();
+                const expiration_date = moment(coupon.expirationDate);
+                coupon.days_remaining = expiration_date.diff(current_date, "days");
+                return coupon;
+              });
+            return unusedCouponsWithDaysRemaining;
+          } catch (err) {
+            console.error(err);
           }
         },
 
