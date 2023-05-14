@@ -1,20 +1,22 @@
-const express = require('express');
-const guestControllers = require('../controllers/guestControllers');
-const verifyToken = require('../middleware/verifyToken');
+const express = require("express");
+const guestControllers = require("../controllers/guestControllers");
+const verifyToken = require("../middleware/verifyToken");
 const router = express.Router();
 
+router.get("/", verifyToken, guestControllers.indexPage);
 
-router.get('/',verifyToken,guestControllers.indexPage);
+router.get("/login", verifyToken, guestControllers.loginPage);
 
-router.get('/login',verifyToken,guestControllers.loginPage)
+router.get("/otp", verifyToken, guestControllers.otpPage);
 
-router.get('/otp',verifyToken,guestControllers.otpPage)
+router.get("/registration", verifyToken, guestControllers.registrationPage);
 
-router.get('/registration',verifyToken,guestControllers.registrationPage)
+router.get("/shopping", verifyToken, guestControllers.shoppingPage);
 
-router.get('/shopping',verifyToken,guestControllers.shoppingPage)
-
-router.get('/singleProductView/:id',verifyToken,guestControllers.sproductUser)
+router.get(
+  "/singleProductView/:id",
+  verifyToken,
+  guestControllers.sproductUser
+);
 
 module.exports = router;
-

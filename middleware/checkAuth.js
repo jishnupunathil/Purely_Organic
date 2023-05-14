@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
   }
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    req.adminId = decodedToken.userId
+    req.adminId = decodedToken.userId;
     if (decodedToken.isAdmin) {
       res.set("Cache-Control", "no-cache, no-store, must-revalidate");
       res.set("Pragma", "no-cache");

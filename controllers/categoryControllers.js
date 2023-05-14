@@ -5,7 +5,11 @@ module.exports = {
   categoryList: async (req, res) => {
     try {
       let allCategory = await categoryModel.find();
-      res.render("admin/categories", { allCategory, userlay: false ,message:false});
+      res.render("admin/categories", {
+        allCategory,
+        userlay: false,
+        message: false,
+      });
     } catch (err) {
       res.json({
         success: 0,
@@ -27,7 +31,11 @@ module.exports = {
       res.redirect("/admin/category");
     } catch (err) {
       let allCategory = await categoryModel.find();
-      res.render("admin/categories", { allCategory, userlay: false,message:"Same Category Exists" });
+      res.render("admin/categories", {
+        allCategory,
+        userlay: false,
+        message: "Same Category Exists",
+      });
     }
   },
   singleCategory: async (req, res) => {
@@ -63,14 +71,13 @@ module.exports = {
       }
     }
   },
-  deleteCategory: async(req, res) => {
+  deleteCategory: async (req, res) => {
     let id = req.params.id;
-      try {
-        await categoryModel.deleteOne({ _id: id });
-        res.redirect("/admin/category");
-      } catch (err) {
-        res.render("admin/productList", { userlay: false, allproduct });
-      }
-   
-  }
+    try {
+      await categoryModel.deleteOne({ _id: id });
+      res.redirect("/admin/category");
+    } catch (err) {
+      res.render("admin/productList", { userlay: false, allproduct });
+    }
+  },
 };

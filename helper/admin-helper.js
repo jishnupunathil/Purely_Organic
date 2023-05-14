@@ -1,80 +1,75 @@
-const { default: mongoose } = require("mongoose")
-const { Order } = require("../models/orders")
-const productModel = require("../models/productModel")
-const userModel = require("../models/userModel")
-const couponModel = require("../models/coupon")
-const moment = require("moment")
+const { default: mongoose } = require("mongoose");
+const { Order } = require("../models/orders");
+const productModel = require("../models/productModel");
+const userModel = require("../models/userModel");
+const couponModel = require("../models/coupon");
+const moment = require("moment");
 
-module.exports={
-
-    
-orderPage:()=>{
-
-    return new Promise(async(resolve,reject)=>{
-        try{
-            const orders=await Order.aggregate([
-                {
-                  $lookup: {
-                    from: "addresses",
-                    localField: "address",
-                    foreignField: "addresses._id",
-                    as: "addressDetails"
-                  }
-                },
-                {
-                  $unwind: "$addressDetails"
-                },
-                {
-                  $project: {
-                    _id: 1,
-                    user_id: 1,
-                    total_amount: 1,
-                    payment_status: 1,
-                    payment_method: 1,
-                    order_status: 1,
-                    return_status: 1,
-                    order_date: 1,
-                    fname: { $arrayElemAt: ['$addressDetails.addresses.fname', 0] },
-                    // lname: "$addressDetails.addresses.lname",
-                    // city: "$addressDetails.addresses.city",
-                    // state: "$addressDetails.addresses.state",
-                    // pincode: "$addressDetails.addresses.pincode",
-                    // phone: "$addressDetails.addresses.phone",
-                    // email: "$addressDetails.addresses.email",
-                    // default: "$addressDetails.addresses.default"
-                    id:{$arrayElemAt:['$addressDetails.addresses._id',0]}
-                  }
-                }
-              ])
-                if(orders){
-              resolve(orders)
-                }
-
-        }catch(err){
-        reject(err)
+module.exports = {
+  orderPage: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const orders = await Order.aggregate([
+          {
+            $lookup: {
+              from: "addresses",
+              localField: "address",
+              foreignField: "addresses._id",
+              as: "addressDetails",
+            },
+          },
+          {
+            $unwind: "$addressDetails",
+          },
+          {
+            $project: {
+              _id: 1,
+              user_id: 1,
+              total_amount: 1,
+              payment_status: 1,
+              payment_method: 1,
+              order_status: 1,
+              return_status: 1,
+              order_date: 1,
+              fname: { $arrayElemAt: ["$addressDetails.addresses.fname", 0] },
+              // lname: "$addressDetails.addresses.lname",
+              // city: "$addressDetails.addresses.city",
+              // state: "$addressDetails.addresses.state",
+              // pincode: "$addressDetails.addresses.pincode",
+              // phone: "$addressDetails.addresses.phone",
+              // email: "$addressDetails.addresses.email",
+              // default: "$addressDetails.addresses.default"
+              id: { $arrayElemAt: ["$addressDetails.addresses._id", 0] },
+            },
+          },
+        ]);
+        if (orders) {
+          resolve(orders);
         }
-    })
-
-},
-getSpecificOrder: async (orderId) => {
-    const { ObjectId } = require('mongodb');
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  getSpecificOrder: async (orderId) => {
+    const { ObjectId } = require("mongodb");
     const orderid = new ObjectId(orderId);
-    
+
     try {
       const orders = await Order.aggregate([
         {
-          $match: { _id: orderid }
+          $match: { _id: orderid },
         },
         {
           $lookup: {
             from: "addresses",
             localField: "address",
             foreignField: "addresses._id",
-            as: "addressDetails"
-          }
+            as: "addressDetails",
+          },
         },
         {
-          $unwind: "$addressDetails"
+          $unwind: "$addressDetails",
         },
         {
           $project: {
@@ -87,45 +82,41 @@ getSpecificOrder: async (orderId) => {
             return_status: 1,
             order_date: 1,
             items: 1,
-            fname: { $arrayElemAt: ['$addressDetails.addresses.fname', 0] },
-            lname: { $arrayElemAt: ["$addressDetails.addresses.lname",0]},
-            address: { $arrayElemAt: ["$addressDetails.addresses.address",0]},
-            city: { $arrayElemAt:["$addressDetails.addresses.city",0]},
-            state: { $arrayElemAt:["$addressDetails.addresses.state",0]},
-            pincode: { $arrayElemAt:["$addressDetails.addresses.pincode",0]},
-            phone: { $arrayElemAt:["$addressDetails.addresses.phone",0]},
-            email: { $arrayElemAt:["$addressDetails.addresses.email",0]},
-            id: { $arrayElemAt: ['$addressDetails.addresses._id', 0] }
-          }
+            fname: { $arrayElemAt: ["$addressDetails.addresses.fname", 0] },
+            lname: { $arrayElemAt: ["$addressDetails.addresses.lname", 0] },
+            address: { $arrayElemAt: ["$addressDetails.addresses.address", 0] },
+            city: { $arrayElemAt: ["$addressDetails.addresses.city", 0] },
+            state: { $arrayElemAt: ["$addressDetails.addresses.state", 0] },
+            pincode: { $arrayElemAt: ["$addressDetails.addresses.pincode", 0] },
+            phone: { $arrayElemAt: ["$addressDetails.addresses.phone", 0] },
+            email: { $arrayElemAt: ["$addressDetails.addresses.email", 0] },
+            id: { $arrayElemAt: ["$addressDetails.addresses._id", 0] },
+          },
         },
       ]);
-  
+
       const order = orders[0];
       console.log(order);
 
-  
       const productDetails = [];
       for (const item of order.items) {
-        
-          const productId = item.product_id;
-          const product = await productModel.findOne({ _id: productId });
-          productDetails.push({
-            name: product.pname,
-            price: item.price,
-            quantity: item.quantity,
-            total: item.price * item.quantity,
-            image: product.pimages[0],
-          });
-        
+        const productId = item.product_id;
+        const product = await productModel.findOne({ _id: productId });
+        productDetails.push({
+          name: product.pname,
+          price: item.price,
+          quantity: item.quantity,
+          total: item.price * item.quantity,
+          image: product.pimages[0],
+        });
       }
-      console.log(productDetails,'--------------------');
-  
-      return { order,productDetails};
+      console.log(productDetails, "--------------------");
+
+      return { order, productDetails };
     } catch (err) {
       console.error(err);
     }
   },
-
 
   updateOrderStatus: async (orderId, orderStatus) => {
     try {
@@ -246,12 +237,12 @@ getSpecificOrder: async (orderId) => {
     } catch (err) {
       console.error(err);
     }
-},
-removeCoupon: async (couponId) => {
-  try {
-    await couponModel.findByIdAndDelete(couponId);
-  } catch (err) {
-    console.error(err);
-  }
-},
-}
+  },
+  removeCoupon: async (couponId) => {
+    try {
+      await couponModel.findByIdAndDelete(couponId);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+};

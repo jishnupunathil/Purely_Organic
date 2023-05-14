@@ -19,10 +19,8 @@ module.exports = {
       });
       await productMod.save();
       res.redirect("/admin/productList");
-      
     } catch (err) {
       res.render("admin/addProducts", { userlay: false });
-      
     }
   },
   productList: async (req, res) => {
@@ -41,9 +39,13 @@ module.exports = {
     let ValidId = mongoose.Types.ObjectId.isValid(id);
     if (ValidId) {
       try {
-        let allCategory=await categoryModel.find()
+        let allCategory = await categoryModel.find();
         let singleProduct = await productModel.findById({ _id: id });
-        res.render("admin/editProduct", { userlay: false, singleProduct,allCategory });
+        res.render("admin/editProduct", {
+          userlay: false,
+          singleProduct,
+          allCategory,
+        });
       } catch (err) {
         res.render("admin/productList", { userlay: false });
       }
@@ -56,68 +58,68 @@ module.exports = {
   },
   updateProduct: async (req, res) => {
     try {
-    let id = req.params.id;
-    let files=req.files
-    console.log(files,'fileeeeeeeeees');
-    if(files.length===0){
-    
-      await productModel.findByIdAndUpdate(id, {
-        pname: req.body.pname,
-        pdescription:req.body.pdescription,
-        pcategory: req.body.pcategory,
-        pprice: req.body.pprice,
-        pcountInStock: req.body.pcountInStock,
-      });
-    }else{
-
-      await productModel.findByIdAndUpdate(id, {
-        pname: req.body.pname,
-        pdescription:req.body.pdescription,
-        pcategory: req.body.pcategory,
-        pprice: req.body.pprice,
-        pimages: req.images || req.image,
-        pcountInStock: req.body.pcountInStock,
-      });
-
-    }
-
-        res.redirect("/admin/productList");
-      // }
-      } catch (err) {
-        res.redirect("/admin/singleProduct/:id");
+      let id = req.params.id;
+      let files = req.files;
+      console.log(files, "fileeeeeeeeees");
+      if (files.length === 0) {
+        await productModel.findByIdAndUpdate(id, {
+          pname: req.body.pname,
+          pdescription: req.body.pdescription,
+          pcategory: req.body.pcategory,
+          pprice: req.body.pprice,
+          pcountInStock: req.body.pcountInStock,
+        });
+      } else {
+        await productModel.findByIdAndUpdate(id, {
+          pname: req.body.pname,
+          pdescription: req.body.pdescription,
+          pcategory: req.body.pcategory,
+          pprice: req.body.pprice,
+          pimages: req.images || req.image,
+          pcountInStock: req.body.pcountInStock,
+        });
       }
+
+      res.redirect("/admin/productList");
+      // }
+    } catch (err) {
+      res.redirect("/admin/singleProduct/:id");
+    }
   },
   deleteProduct: async (req, res) => {
     try {
-    let id = req.params.id;
-    console.log(id);
- 
-        await productModel.deleteOne({ _id: id });
-        res.redirect("/admin/productList");
-      } catch (err) {
-        res.render("admin/productList", { userlay: false, allproduct });
-      }
+      let id = req.params.id;
+      console.log(id);
+
+      await productModel.deleteOne({ _id: id });
+      res.redirect("/admin/productList");
+    } catch (err) {
+      res.render("admin/productList", { userlay: false, allproduct });
+    }
     // }
   },
   sproductUser: async (req, res) => {
     let id = req.params.id;
     const userId = req.userId;
-      try {
-      let allProduct=await productModel.find().skip(4).limit(4)
-      let allBanner=await bannerModel.find()
-      let allCategory=await categoryModel.find()
-      let user=await userModel.findById(userId)
-        let singleProduct = await productModel.findById({ _id: id });
-        let cartCount = await userHelper.getCartCount(userId)
-        res.render("user/productPage", { userlay: true,
-           singleProduct,
-           allBanner,
-           loggedIn:true,
-           user,
-           allCategory,
-          allProduct ,cartCount});
-      } catch (err) {
-        res.redirect("/user/index");
-      }
+    try {
+      let allProduct = await productModel.find().skip(4).limit(4);
+      let allBanner = await bannerModel.find();
+      let allCategory = await categoryModel.find();
+      let user = await userModel.findById(userId);
+      let singleProduct = await productModel.findById({ _id: id });
+      let cartCount = await userHelper.getCartCount(userId);
+      res.render("user/productPage", {
+        userlay: true,
+        singleProduct,
+        allBanner,
+        loggedIn: true,
+        user,
+        allCategory,
+        allProduct,
+        cartCount,
+      });
+    } catch (err) {
+      res.redirect("/user/index");
+    }
   },
 };

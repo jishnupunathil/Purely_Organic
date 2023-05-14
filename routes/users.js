@@ -1,104 +1,111 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const controllers=require('../controllers/userControllers')
-const productControllers=require('../controllers/productControllers');
-const checkUserAuth = require('../middleware/checkUserAuth');
-const {singleImageUpload,multipleImageUpload}=require('../middleware/fileUpload');
+const controllers = require("../controllers/userControllers");
+const productControllers = require("../controllers/productControllers");
+const checkUserAuth = require("../middleware/checkUserAuth");
+const {
+  singleImageUpload,
+  multipleImageUpload,
+} = require("../middleware/fileUpload");
 
 /* GET users listing. */
 
+router.get("/index", checkUserAuth, controllers.userIndexPage);
 
-router.get('/index',checkUserAuth,controllers.userIndexPage);
-
-router.get('/logout',controllers.userLogout)
-
-
+router.get("/logout", controllers.userLogout);
 
 //user registration
-router.post('/registration',controllers.userRegistation)
+router.post("/registration", controllers.userRegistation);
 
 //user login
 
-router.post('/otpLogin',controllers.otpLogin)
+router.post("/otpLogin", controllers.otpLogin);
 
-router.post('/submitOtp',controllers.submitOtp)
+router.post("/submitOtp", controllers.submitOtp);
 
-router.post('/login',controllers.userLogin)
+router.post("/login", controllers.userLogin);
 
-router.get('/editProfile',checkUserAuth,controllers.getEditProfile)
+router.get("/editProfile", checkUserAuth, controllers.getEditProfile);
 
-router.get('/addressChange/:id',checkUserAuth,controllers.getAddressChange)
+router.get("/addressChange/:id", checkUserAuth, controllers.getAddressChange);
 
-router.get('/viewProfile',checkUserAuth,controllers.viewProfile)
+router.get("/viewProfile", checkUserAuth, controllers.viewProfile);
 
-router.post('/editProfile',multipleImageUpload,checkUserAuth,controllers.editProfile)
+router.post(
+  "/editProfile",
+  multipleImageUpload,
+  checkUserAuth,
+  controllers.editProfile
+);
 
 //product section
 
-
-router.get('/singleProductView/:id',checkUserAuth,productControllers.sproductUser)
+router.get(
+  "/singleProductView/:id",
+  checkUserAuth,
+  productControllers.sproductUser
+);
 
 //shopping
 
-router.get('/shopping',checkUserAuth,controllers.getShopping)
+router.get("/shopping", checkUserAuth, controllers.getShopping);
 
-router.get('/getCart',checkUserAuth,controllers.getCart)
+router.get("/getCart", checkUserAuth, controllers.getCart);
 
-router.post('/addtocart/:id',checkUserAuth,controllers.addtocart)
+router.post("/addtocart/:id", checkUserAuth, controllers.addtocart);
 
-router.post('/removeFromCart/:id',checkUserAuth,controllers.removeProductFromCart)
+router.post(
+  "/removeFromCart/:id",
+  checkUserAuth,
+  controllers.removeProductFromCart
+);
 
-router.get('/checkOut',checkUserAuth,controllers.getCheckOut)
+router.get("/checkOut", checkUserAuth, controllers.getCheckOut);
 
-router.get('/newAddress',checkUserAuth,controllers.getAddress)
+router.get("/newAddress", checkUserAuth, controllers.getAddress);
 
-router.get('/newPrfAddress',checkUserAuth,controllers.getPrfAddress)
+router.get("/newPrfAddress", checkUserAuth, controllers.getPrfAddress);
 
-router.post('/addAddress',checkUserAuth,controllers.addAddress)
+router.post("/addAddress", checkUserAuth, controllers.addAddress);
 
-router.post('/addPrfAddress',checkUserAuth,controllers.addPrfAddress)
+router.post("/addPrfAddress", checkUserAuth, controllers.addPrfAddress);
 
-router.get('/editAddress/:id',checkUserAuth,controllers.getEditAddress)
+router.get("/editAddress/:id", checkUserAuth, controllers.getEditAddress);
 
-router.get('/editPrfAddress/:id',checkUserAuth,controllers.getEditPrfAddress)
+router.get("/editPrfAddress/:id", checkUserAuth, controllers.getEditPrfAddress);
 
-router.post('/editAddress/:id',checkUserAuth,controllers.editAddress)
+router.post("/editAddress/:id", checkUserAuth, controllers.editAddress);
 
-router.post('/editPrfAddress/:id',checkUserAuth,controllers.editPrfAddress)
+router.post("/editPrfAddress/:id", checkUserAuth, controllers.editPrfAddress);
 
-router.post('/deleteAddress/:id',checkUserAuth,controllers.deleteAddress)
+router.post("/deleteAddress/:id", checkUserAuth, controllers.deleteAddress);
 
-router.get('/myOrders',checkUserAuth,controllers.getMyorders)
+router.get("/myOrders", checkUserAuth, controllers.getMyorders);
 
-router.post('/cancelOrder/:id',checkUserAuth,controllers.cancelOrder)
+router.post("/cancelOrder/:id", checkUserAuth, controllers.cancelOrder);
 
 //coupons
 
-router.get('/allCoupons',checkUserAuth,controllers.getAllCoupons)
+router.get("/allCoupons", checkUserAuth, controllers.getAllCoupons);
 
-router.post('/applyCoupon',checkUserAuth,controllers.applyCoupon)
-
+router.post("/applyCoupon", checkUserAuth, controllers.applyCoupon);
 
 //payment
 
-router.post('/place-order',checkUserAuth,controllers.placeOrder)
+router.post("/place-order", checkUserAuth, controllers.placeOrder);
 
-router.get('/orderInfo/:id/:id1',checkUserAuth,controllers.orderInfo)
+router.get("/orderInfo/:id/:id1", checkUserAuth, controllers.orderInfo);
 
-router.get('/orderInfoc/:id/:id1',checkUserAuth,controllers.orderInfoc)
+router.get("/orderInfoc/:id/:id1", checkUserAuth, controllers.orderInfoc);
 
-router.post('/verify-payment',checkUserAuth,controllers.verifyPayment)
+router.post("/verify-payment", checkUserAuth, controllers.verifyPayment);
 
-router.post('/change-product-quantity',checkUserAuth,controllers.changeProductQuantity);
+router.post(
+  "/change-product-quantity",
+  checkUserAuth,
+  controllers.changeProductQuantity
+);
 
-router.get("/product-search",checkUserAuth, controllers.search);
-
-
-
-
+router.get("/product-search", checkUserAuth, controllers.search);
 
 module.exports = router;
-
-
-
-

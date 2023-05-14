@@ -17,15 +17,14 @@ const OrderItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  price:{
-    type:Number,
-    required:true
+  price: {
+    type: Number,
+    required: true,
   },
-  productImage:{
-    type:String,
-    required:true
-  }
-
+  productImage: {
+    type: String,
+    required: true,
+  },
 });
 
 const OrderItem = mongoose.model("OrderItem", OrderItemSchema);
@@ -75,5 +74,4 @@ const OrderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", OrderSchema);
 
-
-module.exports= { Order, OrderItem };
+module.exports = { Order, OrderItem };

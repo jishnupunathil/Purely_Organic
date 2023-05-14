@@ -1,6 +1,6 @@
 const { request } = require("http");
 const jwt = require("jsonwebtoken");
-require('dotenv').config()
+require("dotenv").config();
 
 module.exports = (req, res, next) => {
   const token = req.cookies.token;
@@ -11,10 +11,10 @@ module.exports = (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
     if (decodedToken.userId) {
-      req.userId = decodedToken.userId
+      req.userId = decodedToken.userId;
       res.set("Cache-Control", "no-cache, no-store, must-revalidate");
-    res.set("Pragma", "no-cache");
-    res.set("Expires", "0");
+      res.set("Pragma", "no-cache");
+      res.set("Expires", "0");
       next();
     } else {
       return res.json({
@@ -29,5 +29,3 @@ module.exports = (req, res, next) => {
     });
   }
 };
-
-

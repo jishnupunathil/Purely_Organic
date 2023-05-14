@@ -373,11 +373,15 @@ module.exports = {
           totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
         });
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
-        if(cartProduct.coupon){
-          discountVal = parseFloat(total * (couponDetails?.discount/100)).toFixed(2);
-          if(discountVal > couponDetails?.maxdiscount) discountVal = couponDetails?.maxdiscount;
+        if (cartProduct.coupon) {
+          discountVal = parseFloat(
+            total * (couponDetails?.discount / 100)
+          ).toFixed(2);
+          if (discountVal > couponDetails?.maxdiscount)
+            discountVal = couponDetails?.maxdiscount;
           subTotal = total - discountVal;
-        } else subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+        } else
+          subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
 
       res.render("user/addtocart", {
@@ -397,7 +401,7 @@ module.exports = {
 
   applyCoupon: async (req, res) => {
     try {
-      const userId = req.userId;  
+      const userId = req.userId;
       const user = await userModel.findById(userId);
       const code = req.body.code;
       if (!user) {
@@ -412,14 +416,14 @@ module.exports = {
       await cartModel.updateOne(
         { user: userId },
         {
-          $set:{
+          $set: {
             coupon: coupon?._id,
-          }
+          },
         }
       );
-      res.redirect('/user/getCart')
+      res.redirect("/user/getCart");
     } catch (error) {
-      console.log("Apply coupon error", error)
+      console.log("Apply coupon error", error);
     }
   },
 
@@ -587,11 +591,15 @@ module.exports = {
           totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
         });
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
-        if(cartProduct.coupon){
-          discountVal = parseFloat(total * (couponDetails?.discount/100)).toFixed(2);
-          if(discountVal > couponDetails?.maxdiscount) discountVal = couponDetails?.maxdiscount;
+        if (cartProduct.coupon) {
+          discountVal = parseFloat(
+            total * (couponDetails?.discount / 100)
+          ).toFixed(2);
+          if (discountVal > couponDetails?.maxdiscount)
+            discountVal = couponDetails?.maxdiscount;
           subTotal = total - discountVal;
-        } else subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+        } else
+          subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
 
       let cartCount = await userHelper.getCartCount(userId);
