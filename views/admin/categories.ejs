@@ -1,258 +1,212 @@
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-            <a href="index.html" class="brand-wrap">
-                <img src="/assets/imgs/logo.png" class="logo" alt="Evara Dashboard">
-            </a>
-            <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
-            </div>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+  <div class="aside-top">
+    <a href="index.html" class="brand-wrap">
+      <img src="/assets/imgs/logo.png" class="logo" alt="Evara Dashboard" />
+    </a>
+    <div>
+      <button class="btn btn-icon btn-aside-minimize">
+        <i class="text-muted material-icons md-menu_open"></i>
+      </button>
+    </div>
+  </div>
+  <nav>
+    <ul class="menu-aside">
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/dashboard">
+          <i class="icon material-icons md-home"></i>
+          <span class="text">Dashboard</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/productList">
+          <i class="icon material-icons md-shopping_bag"></i>
+          <span class="text">Products</span>
+        </a>
+      </li>
+      <li class="menu-item active">
+        <a class="menu-link" href="/admin/category">
+          <i class="icon material-icons md-store"></i>
+          <span class="text">Categories</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/userList">
+          <i class="icon material-icons md-person"></i>
+          <span class="text">Users</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/banners">
+          <i class="icon material-icons md-shopping_bag"></i>
+          <span class="text">Banners</span>
+        </a>
+      </li>
+      <li class="menu-item has-submenu">
+        <a class="menu-link" href="#">
+          <i class="icon material-icons md-stars"></i>
+          <span class="text">Coupons</span>
+        </a>
+        <div class="submenu">
+          <a href="/admin/coupons">Coupons</a>
+          <a href="/admin/addCoupons">Add Coupon</a>
         </div>
-        <nav>
-            <ul class="menu-aside">
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/dashboard"> <i class="icon material-icons md-home"></i>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/productList"> <i class="icon material-icons md-shopping_bag"></i>
-                        <span class="text">Products</span>
-                    </a>
-                    <!-- <div class="submenu">
-                        <a href="page-products-list.html">Product List</a>
-                        <a href="page-products-grid.html">Product grid</a>
-                        <a href="page-products-grid-2.html">Product grid 2</a>
-                        <a href="page-categories.html" class="active">Categories</a>
-                    </div> -->
-                </li>
-                
-                <!-- <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
-                        <span class="text">Orders</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-orders-1.html">Order list 1</a>
-                        <a href="page-orders-2.html">Order list 2</a>
-                        <a href="page-orders-detail.html">Order detail</a>
-                    </div>
-                </li> -->
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-store"></i>
-                        <span class="text">Categories</span>
-                    </a>
-                    <!-- <div class="submenu">
-                        <a href="page-products-list.html">Product List</a>
-                        <a href="page-products-grid.html">Product grid</a>
-                        <a href="page-products-grid-2.html">Product grid 2</a>
-                        <a href="page-categories.html" class="active">Categories</a>
-                    </div> -->
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
-                        <span class="text">Users</span>
-                    </a>
-                    <!-- <div class="submenu">
-                        <a href="page-sellers-cards.html">Sellers cards</a>
-                        <a href="page-sellers-list.html">Sellers list</a>
-                        <a href="page-seller-detail.html">Seller profile</a>
-                    </div> -->
-                </li>
-                <!-- <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
-                        <span class="text">Add product</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-form-product-1.html">Add product 1</a>
-                        <a href="page-form-product-2.html">Add product 2</a>
-                        <a href="page-form-product-3.html">Add product 3</a>
-                        <a href="page-form-product-4.html">Add product 4</a>
-                    </div>
-                </li> -->
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-shopping_bag"></i>
-                        <span class="text">Banners</span>
-                    </a>
-                    <!-- <div class="submenu">
-                        <a href="page-transactions-1.html">Transaction 1</a>
-                        <a href="page-transactions-2.html">Transaction 2</a>
-                    </div> -->
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-stars"></i>
-                        <span class="text">Coupons</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin/coupons">Coupons</a>
-                        <a href="/admin/addCoupons">Add Coupon</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/orders"> <i class="icon material-icons md-shopping_cart"></i>
-                        <span class="text">Orders</span>
-                    </a>
-                </li>
-                <!-- <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
-                        <span class="text">Brands</span> </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
-                    </a>
-                </li> -->
-            </ul>
-            <!-- <hr> -->
-            <!-- <ul class="menu-aside">
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                        <span class="text">Settings</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-settings-1.html">Setting sample 1</a>
-                        <a href="page-settings-2.html">Setting sample 2</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text"> Starter page </span>
-                    </a>
-                </li>
-            </ul>
-            <br>
-            <br> -->
-        </nav>
-    </aside>
-    <main class="main-wrap">
-        <%-include('../partials/adminHeader.ejs')-%>
-        <section class="content-main">
-            <div class="content-header">
-                <div>
-                    <h2 class="content-title card-title">Categories </h2>
-                    <!-- <p>Add, edit or delete a category</p> -->
-                </div>
-                <div>
-                    <input type="text" placeholder="Search Categories" class="form-control bg-white">
-                </div>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/orders">
+          <i class="icon material-icons md-shopping_cart"></i>
+          <span class="text">Orders</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+<main class="main-wrap">
+  <%-include('../partials/adminHeader.ejs')-%>
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Categories</h2>
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Search Categories"
+          class="form-control bg-white"
+        />
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <form
+              action="/admin/addCategory"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="mb-4">
+                <label for="product_name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  class="form-control"
+                  id="cname"
+                  name="cname"
+                  required
+                />
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Description</label>
+                <textarea
+                  placeholder="Type here"
+                  class="form-control"
+                  id="cdescription"
+                  name="cdescription"
+                  required
+                ></textarea>
+              </div>
+              <div class="input-upload">
+                <div id="image-preview"></div>
+                <input
+                  class="form-control"
+                  type="file"
+                  name="images"
+                  id="images"
+                  multiple
+                  accept="image/jpeg,image/png,image/jpg"
+                  onchange="previewImage(event)"
+                  required
+                />
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-primary">Create category</button>
+              </div>
+            </form>
+            <br />
+            <%if(message){%>
+            <h4 class="text-danger"><%=message%></h4>
+            <%}%>
+          </div>
+          <div class="col-md-8">
+            <div class="table-responsive">
+              <table class="table table-hover" id="categoryTable">
+                <thead>
+                  <tr>
+                    <th>index</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th class="text-end">Edit</th>
+                    <th class="text-end">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% allCategory.forEach(function(category,index){ %>
+                  <tr>
+                    <td><%-index+1%></td>
+                    <td><%=category.cname%></td>
+                    <td><b><%=category.cdescription%></b></td>
+                    <form
+                      method="get"
+                      action="/admin/singleCategory/<%=category._id%>"
+                    >
+                      <td class="text-end">
+                        <button
+                          type="submit"
+                          class="btn btn-warning btn-sm font-sm"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    </form>
+                    <td class="text-end">
+                      <button
+                        type="submit"
+                        class="btn btn-danger btn-sm font-sm"
+                        onclick="deleteCategory('<%=category._id%>')"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <%})%>
+                </tbody>
+              </table>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <form action="/admin/addCategory" method="post" enctype="multipart/form-data">
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Name</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="cname" name="cname" required/>
-                                </div>
-    
-                                <div class="mb-4">
-                                    <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" id="cdescription" name="cdescription" required></textarea>
-                                </div>
-                                <div class="input-upload">
-                                    <!-- <img src="/assets/imgs/theme/upload.svg" alt=""> -->
-                                    <div id="image-preview"></div>
-                                    <input class="form-control" type="file" name="images" id="images" multiple accept="image/jpeg,image/png,image/jpg" onchange="previewImage(event)" required>
-                                    <!-- <input class="form-control" type="file"> -->
-                                </div>
-                                <div class="d-grid">
-                                    <button class="btn btn-primary">Create category</button>
-                                </div>
-                            </form><br>
-                            <%if(message){%>
-                                <h4 class="text-danger"><%=message%></h4>
-                                <%}%>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="categoryTable">
-                                    <thead>
-                                        <tr>
-                                            <!-- <th class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </th> -->
-                                            <!-- <th>ID</th> -->
-                                            <th>index</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th class="text-end">Edit</th>
-                                            <th class="text-end">Delete</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% allCategory.forEach(function(category,index){ %>
-                                        <tr>
-                                            <!-- <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td> -->
-                                            <td><%-index+1%></td>
-                                            <td><%=category.cname%></td>
-                                            <td><b><%=category.cdescription%></b></td>
-                                            <!-- <td>Men clothes</td> -->
-                                            <!-- <td>/men</td> -->
-                                            <!-- <td>1</td> -->
-                                            <form method="get" action="/admin/singleCategory/<%=category._id%>">
-                                            <td class="text-end"> <button type="submit" class="btn btn-warning btn-sm font-sm">Edit </button></td>
-                                            </form>
-                                            <!-- <td class="text-end"> -->
-                                                <!-- <div class="dropdown"> -->
-                                                    <!-- <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a> -->
-                                                    <!-- <div class="dropdown-menu"> -->
-                                                        <!-- <a class="dropdown-item" href="#">View detail</a> -->
-                                                        <!-- <a class="dropdown-item" href="/admin/singleCategory/<%=category._id%>"><button class="btn btn-warning btn-sm font-sm">Edit </button></a> -->
-                                                        
-                                                            <td class="text-end"> <button type="submit" class="btn btn-danger btn-sm font-sm" onclick="deleteCategory('<%=category._id%>')">Delete </button></td>
-                                                    
-                                                    <!-- </div> -->
-                                                <!-- </div>  -->
-                                            <!-- </td> -->
-                                        </tr>
-                                    <%})%>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> <!-- .col// -->
-                    </div> <!-- .row // -->
-                </div> <!-- card body .// -->
-            </div> <!-- card .// -->
-        </section> <!-- content-main end// -->
-    </main>
-        <%-include('../partials/adminFooter.ejs')%>
+          </div>
+          <!-- .col// -->
+        </div>
+        <!-- .row // -->
+      </div>
+      <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+  </section>
+  <!-- content-main end// -->
+</main>
+<%-include('../partials/adminFooter.ejs')%>
 
-
-        <script>
-            function deleteCategory(categoryId){
-            Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-           confirmButtonText: 'Yes, Delete Category!'
-         }).then((result) => {
-           if (result.isConfirmed) {
-         
-         $.ajax({
-           url:"/admin/deleteCategory/"+categoryId,
-           method:"post",
-           success: function() 
-           {
-       
-                 // Reload the page
-                 location.reload();
-           }
-       })
-           }
-       })
-       }
-       </script>
+<script>
+  function deleteCategory(categoryId) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delete Category!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/admin/deleteCategory/" + categoryId,
+          method: "post",
+          success: function () {
+            location.reload();
+          },
+        });
+      }
+    });
+  }
+</script>
