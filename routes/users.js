@@ -76,6 +76,8 @@ router.post('/cancelOrder/:id',checkUserAuth,controllers.cancelOrder)
 
 router.get('/allCoupons',checkUserAuth,controllers.getAllCoupons)
 
+router.post('/applyCoupon',checkUserAuth,controllers.applyCoupon)
+
 
 //payment
 

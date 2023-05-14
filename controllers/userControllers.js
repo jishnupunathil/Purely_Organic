@@ -13,6 +13,7 @@ const userHelper = require("../helper/user-helper");
 const { OrderItem, Order } = require("../models/orders");
 const { response } = require("express");
 const { default: mongoose } = require("mongoose");
+const couponModel = require("../models/coupon");
 
 module.exports = {
   userIndexPage: async (req, res) => {
@@ -267,7 +268,7 @@ module.exports = {
       res.render("user/viewProfile", {
         userlay: false,
         profileData,
-        address:false
+        address: false,
       });
     }
   },
@@ -333,9 +334,11 @@ module.exports = {
     let allBanner = await bannerModel.find();
     let cartProduct = await cartModel.findOne({ user: userId });
     let cartCount = await userHelper.getCartCount(userId);
+    const couponDetails = await couponModel.findById(cartProduct?.coupon);
     const productDetails = [];
     let total = 0;
     let subTotal = 0;
+    let discountVal = 0;
     if (!cartProduct) {
       // create a new address document if the user doesn't have one
       let cart = new cartModel({
@@ -370,7 +373,11 @@ module.exports = {
           totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
         });
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
-        subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+        if(cartProduct.coupon){
+          discountVal = parseFloat(total * (couponDetails?.discount/100)).toFixed(2);
+          if(discountVal > couponDetails?.maxdiscount) discountVal = couponDetails?.maxdiscount;
+          subTotal = total - discountVal;
+        } else subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
 
       res.render("user/addtocart", {
@@ -382,7 +389,37 @@ module.exports = {
         subTotal,
         total,
         cartCount,
+        discountVal,
+        coupon: couponDetails?.code || "",
       });
+    }
+  },
+
+  applyCoupon: async (req, res) => {
+    try {
+      const userId = req.userId;  
+      const user = await userModel.findById(userId);
+      const code = req.body.code;
+      if (!user) {
+        return res.status(404).json({
+          status: "error",
+          message: "User not found",
+        });
+      }
+      const coupon = await couponModel.findOne({ code });
+      console.log(coupon);
+
+      await cartModel.updateOne(
+        { user: userId },
+        {
+          $set:{
+            coupon: coupon?._id,
+          }
+        }
+      );
+      res.redirect('/user/getCart')
+    } catch (error) {
+      console.log("Apply coupon error", error)
     }
   },
 
@@ -397,7 +434,7 @@ module.exports = {
           message: "User not found",
         });
       }
-  
+
       const product = await productModel.findById(productId);
       if (!product) {
         return res.status(404).json({
@@ -405,7 +442,7 @@ module.exports = {
           message: "Product not found",
         });
       }
-  
+
       // check if there's enough stock to add to cart
       if (product.pcountInStock < 1) {
         return res.status(400).json({
@@ -413,24 +450,28 @@ module.exports = {
           message: "Product is out of stock",
         });
       }
-  
+
       let price = product.pprice;
       let productName = product.pname;
       const productImage = product.pimages[0];
-  
+
       const session = await mongoose.startSession();
       session.startTransaction();
-  
+
       try {
         // update product countInStock and add to cart
-        await productModel.findByIdAndUpdate(productId, {
-          $inc: { pcountInStock: -1 },
-        }, { session });
+        await productModel.findByIdAndUpdate(
+          productId,
+          {
+            $inc: { pcountInStock: -1 },
+          },
+          { session }
+        );
         const isProductExist = await cartModel.findOne({
           user: userId,
           "products.productId": productId,
         });
-  
+
         if (isProductExist) {
           await cartModel.updateOne(
             { user: userId, "products.productId": productId },
@@ -454,7 +495,7 @@ module.exports = {
             { upsert: true, session }
           );
         }
-  
+
         await session.commitTransaction();
         session.endSession();
         res.redirect("/user/getCart");
@@ -479,35 +520,34 @@ module.exports = {
     try {
       const userId = req.userId;
       const productId = req.params.id;
-  
+
       // find the product being removed from the cart
       const productInCart = await cartModel.findOne(
         { user: userId, "products.productId": productId },
         { "products.$": 1 }
       );
-  
+
       if (!productInCart) {
         throw new Error("product not found in cart");
       }
-  
+
       // update the cart to remove the product
       const updatedCart = await cartModel.findOneAndUpdate(
         { user: userId },
         { $pull: { products: { productId: productId } } },
         { new: true }
       );
-  
+
       if (!updatedCart) {
         throw new Error("cart not found");
       }
-  
+
       // update the productModel to add the product quantity back to pcountInstock
       const product = productInCart.products[0];
-      await productModel.findByIdAndUpdate(
-        productId,
-        { $inc: { pcountInStock: product.quantity } }
-      );
-  
+      await productModel.findByIdAndUpdate(productId, {
+        $inc: { pcountInStock: product.quantity },
+      });
+
       res.status(200).json({
         status: "success",
         message: "Product removed from cart",
@@ -527,10 +567,12 @@ module.exports = {
       let user = await userModel.findById(userId);
       let allBanner = await bannerModel.find();
       let cartProduct = await cartModel.findOne({ user: userId });
+      const couponDetails = await couponModel.findById(cartProduct.coupon);
       const products = cartProduct.products;
       const productDetails = [];
       let total = 0;
       let subTotal = 0;
+      let discountVal = 0;
       for (let i = 0; i < products.length; i++) {
         const product = await productModel.findById(products[i].productId);
         productDetails.push({
@@ -545,7 +587,11 @@ module.exports = {
           totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
         });
         total += parseInt(product.pprice) * parseInt(products[i].quantity);
-        subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
+        if(cartProduct.coupon){
+          discountVal = parseFloat(total * (couponDetails?.discount/100)).toFixed(2);
+          if(discountVal > couponDetails?.maxdiscount) discountVal = couponDetails?.maxdiscount;
+          subTotal = total - discountVal;
+        } else subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
       }
 
       let cartCount = await userHelper.getCartCount(userId);
@@ -560,7 +606,7 @@ module.exports = {
           subTotal,
           total,
           cartCount,
-          separateAddresses:false
+          separateAddresses: false,
         });
       } else {
         let separateAddresses = addressColl.addresses.map((address) => {
@@ -577,10 +623,11 @@ module.exports = {
           subTotal,
           total,
           cartCount,
+          discountVal,
         });
       }
     } catch (err) {
-      res.redirect("/user/getCart")
+      res.redirect("/user/getCart");
     }
   },
 
@@ -812,8 +859,8 @@ module.exports = {
       orderInfo,
       selectedAddress,
       product,
-      cancel:false,
-      cancelled:false
+      cancel: false,
+      cancelled: false,
     });
   },
 
@@ -829,23 +876,23 @@ module.exports = {
     );
     console.log(selectedAddress);
     const product = await productModel.findOne(orderInfo?.productId);
-    if(orderStatus==='cancelled'){
+    if (orderStatus === "cancelled") {
       res.render("user/orderList", {
         userlay: false,
         orderInfo,
         selectedAddress,
         product,
-        cancel:true,
-        cancelled:true
+        cancel: true,
+        cancelled: true,
       });
-    }else{
+    } else {
       res.render("user/orderList", {
         userlay: false,
         orderInfo,
         selectedAddress,
         product,
-        cancel:true,
-        cancelled:false
+        cancel: true,
+        cancelled: false,
       });
     }
   },
@@ -950,21 +997,20 @@ module.exports = {
     });
   },
 
-  getMyorders:async(req,res)=>{
-    const userId=req.userId
-    let orders=await Order.find({user_id:userId})
-    console.log('orders',orders);
-    res.render('user/myOrder',{userlay:false,orders})
+  getMyorders: async (req, res) => {
+    const userId = req.userId;
+    let orders = await Order.find({ user_id: userId });
+    console.log("orders", orders);
+    res.render("user/myOrder", { userlay: false, orders });
   },
-  cancelOrder:async(req,res)=>{
-    const orderId=req.params.id
-    await userHelper.cancelStatus(orderId).then((response)=>{
-      res.json({})
-    })
+  cancelOrder: async (req, res) => {
+    const orderId = req.params.id;
+    await userHelper.cancelStatus(orderId).then((response) => {
+      res.json({});
+    });
   },
   changeProductQuantity: async (req, res) => {
-   
-    const userId=req.userId
+    const userId = req.userId;
     const productId = req.body.productId;
     const count = req.body.quantityChange;
     try {
@@ -984,33 +1030,45 @@ module.exports = {
     }
   },
 
-  getAllCoupons:async(req,res)=>{
+  getAllCoupons: async (req, res) => {
     const userId = req.userId;
     const coupons = await userHelper.getCoupons(userId);
     const allBanner = await bannerModel.find();
-    const cartCount = await userHelper.getCartCount(userId)
+    const cartCount = await userHelper.getCartCount(userId);
     const user = await userHelper.getProfile(userId);
-    res.render('user/allCoupons',{userlay:true,allBanner,cartCount,user,loggedIn:true,coupons})
+    res.render("user/allCoupons", {
+      userlay: true,
+      allBanner,
+      cartCount,
+      user,
+      loggedIn: true,
+      coupons,
+    });
   },
 
   search: async (req, res) => {
-    const userId=req.userId
+    const userId = req.userId;
     try {
-      let allBanner=await bannerModel.find()
-      let allCategory=await categoryModel.find()
-      let user=await userModel.findById(userId)
-      const cartCount = await userHelper.getCartCount(userId)
+      let allBanner = await bannerModel.find();
+      let allCategory = await categoryModel.find();
+      let user = await userModel.findById(userId);
+      const cartCount = await userHelper.getCartCount(userId);
       const search = req.query.search;
-      const products = await userHelper.searchQuery(
-        search,
-        userId
-      );
-      console.log(products,'---------------');
-      res.render("user/searchResult", { userlay:true, products,allBanner,allCategory,loggedIn:true,user,cartCount });
+      const products = await userHelper.searchQuery(search, userId);
+      console.log(products, "---------------");
+      res.render("user/searchResult", {
+        userlay: true,
+        products,
+        allBanner,
+        allCategory,
+        loggedIn: true,
+        user,
+        cartCount,
+      });
     } catch (err) {
       res.render("catchError", {
         message: err?.message,
-        user: req.userId
+        user: req.userId,
       });
     }
   },

@@ -138,9 +138,11 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
           try{
           let cartProduct=await cartModel.findOne({user:userId})
+          const couponDetails = await couponModel.findById(cartProduct.coupon);
           const products = cartProduct.products;
           const productDetails = [];
           let total = 0;
+          let subTotal=0;
           for (let i = 0; i < products.length; i++) {
             const product = await productModel.findById(products[i].productId);
             productDetails.push({
@@ -148,8 +150,13 @@ module.exports={
               totalPrice: parseInt(product.pprice) * parseInt(products[i].quantity),
             });
             total += parseInt(product.pprice) * parseInt(products[i].quantity);
+            if(cartProduct.coupon){
+              discountVal = parseFloat(total * (couponDetails?.discount/100)).toFixed(2);
+              if(discountVal > couponDetails?.maxdiscount) discountVal = couponDetails?.maxdiscount;
+              subTotal = total - discountVal;
+            } else subTotal += parseInt(product.pprice) * parseInt(products[i].quantity);
           }
-          resolve(total)
+          resolve(subTotal)
         }catch(err){
           reject(err)
         }
@@ -358,6 +365,7 @@ changePaymentStatus:(orderId)=>{
             return false;
           }
         },
+        
         getCoupons: async (userId) => {
           try {
             const coupons = await couponModel.find();
