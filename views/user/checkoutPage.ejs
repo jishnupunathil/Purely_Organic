@@ -6,15 +6,11 @@
                 <% allBanner.forEach(function(banner) { %>
                     <%if(banner.bname==='ogani logo'){%>
                         <div class="header__logo">
-    
                             <% if (user){%>
-    
                                 <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
                             <%}else{%>
-                                
                                 <a href="/"><img src="<%=banner.bimages%>" alt=""></a>
                             <%}%>
-                            
                         </div>
                         <%}%>
                         <%})%>
@@ -48,41 +44,14 @@
                 <div class="header__cart">
                     <ul>
                         <li><a href="#"><i class="fa fa-heart"></i> </a></li>
-                            <!-- <span>1</span></a></li> -->
                         <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                             <!-- <span>3</span></a></li> -->
                     </ul>
-                    <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
                 </div>
             </div>
         </div>
         <div class="humberger__open">
             <i class="fa fa-bars"></i>
         </div>
-        
-        
-    
-            <!-- <div class="col-lg-2">
-                <div class="hero__categories">
-                    <div class="hero__categories__all">
-                        <i class="fa fa-bars"></i>
-                        <span>All departments</span>
-                    </div>
-                    <ul>
-                        <li><a href="#">Fresh Meat</a></li>
-                        <li><a href="#">Vegetables</a></li>
-                        <li><a href="#">Fruit & Nut Gifts</a></li>
-                        <li><a href="#">Fresh Berries</a></li>
-                        <li><a href="#">Ocean Foods</a></li>
-                        <li><a href="#">Butter & Eggs</a></li>
-                        <li><a href="#">Fastfood</a></li>
-                        <li><a href="#">Fresh Onion</a></li>
-                        <li><a href="#">Papayaya & Crisps</a></li>
-                        <li><a href="#">Oatmeal</a></li>
-                        <li><a href="#">Fresh Bananas</a></li>
-                    </ul>
-                </div>
-            </div> -->
         </div>
     </div>
 </section>
@@ -103,13 +72,8 @@
     </section>
     <!-- Breadcrumb Section End -->
     <div>
-
-
-
     </div>
-
     <!-- Checkout Section Begin -->
-   
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
@@ -117,8 +81,6 @@
                 <form  id="checkout-form">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
-                            
-                            
                             <div id="" class="card my-3 col-md-8">
                                 <%if(separateAddresses.length>0){%>
                                 <%separateAddresses.forEach(function(address){%>
@@ -129,10 +91,8 @@
                                             <h5 class="mb-0">Billing Address</h5>
                                         </label>
                                     </div>
-                                    
                                 </div>
                                 <div class="card-body">
-                                    
                                     <address >
                                         <%=address.address%> ,
                                     <%=address.city%> <br>
@@ -140,21 +100,14 @@
                                     <%=address.state%>, <br>
                                     <%=address.phone%> ,
                                     <%=address.email%>
-                                    
-                                    
                                 </address>
-                                
                                 <div class="d-flex mt-2">
                                     <a href="/user/editAddress/<%=address._id%>" style="text-decoration: none;color:rgb(250, 250, 250);border: 1px solid black;
                                     width:75px;height: 35px;background-color: rgb(57, 102, 236);font-size:large;font-weight: bold;padding-left: 20px;padding-top: 5px;border-radius: 2px;">Edit</a>
                   
                                   </div>
-                                  
                                   <label for="diff-acc">
-                                      <!-- <input type="checkbox" id="diff-acc"> -->
-                                      <!-- <span class="checkmark"></span> -->
                                     </label>
-                                    
                                 </div>
                                 <%})%>
                                 <hr>
@@ -164,14 +117,10 @@
                             <%}else{%>
                                 <label for="diff-acc">
                                     No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
-                                        <!-- <input type="checkbox" id="diff-acc"> -->
-                                        <!-- <span class="checkmark"></span> -->
                                     </label>
                                     <%}%>
                                 </div>
                                 <input type="text" value="<%=user._id%>" name="userId" hidden>
-                                
-                                
                             </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
@@ -203,15 +152,7 @@
         <div>
         </div>
     </section>
-
-    
-    
-                                <!-- <div class="checkout__input__checkbox"> -->
-                                    
-                                <!-- </div> -->
-                                
-                            </div>
-                            
+      </div>
                             </div>
                         </div>  
                     </form>

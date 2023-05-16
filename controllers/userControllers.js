@@ -1080,4 +1080,96 @@ module.exports = {
       });
     }
   },
+
+  // getWishList:async(req,res)=>{
+  //   const userId=req.userId
+  //   const allBanner=await bannerModel.find()
+  //   const user = await userHelper.getProfile(userId);
+  //   const cartCount = await userHelper.getCartCount(userId);
+  //   res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount})
+  // },
+
+    wishlist: async (req, res) => {
+      const userId=req.userId
+      try {
+        const allBanner=await bannerModel.find()
+        const user = await userHelper.getProfile(userId);
+        const showList = await userHelper.showWishlist(userId);
+        const cartCount = await userHelper.getCartCount(userId);
+        res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount,showList})
+      } catch (err) {
+        console.error(err);
+        res.render("catchError", {
+          message: err?.message,
+          user: req.session.user,
+        });
+      }
+    },
+
+  addToWishList: async (req, res) => {
+    try {
+      const response = await userHelper.addToWishListUpdate(
+        req.userId,
+        req.params.id
+      );
+      if (!response) {
+        res.json({ error: true });
+        return;
+      } else if (response === "removed") {
+        res.json({ removeSuccess: true });
+        return;
+      }
+      res.json({ success: true });
+    } catch (err) {
+      res.render("catchError", {
+        message: err?.message,
+        user: req.session.user,
+      });
+    }
+  },
+
+  addToCartFromWish: async (req, res) => {
+    try {
+      const userId=req.userId
+      const prodId=req.params.id
+      const response = await userHelper.addToCartFromWish(
+        prodId,
+        userId
+      );
+      if (response) {
+        res.json({
+          status: "success",
+          message: "product added to cart",
+        });
+      } else {
+        res.json({
+          error: "error",
+          message: "product not added to cart",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      res.render("catchError", {
+        message: err.message,
+        user: req.session.user,
+      });
+    }
+  },
+  removeProdctFromWishLIst: async (req, res) => {
+    try {
+      await userHelper.removeProdctFromWishLIst(
+        req.userId,
+        req.body.product
+      );
+      res.json({
+        status: "success",
+        message: "product added to cart",
+      });
+    } catch (err) {
+      res.render("catchError", {
+        message: err.message,
+        user: req.session.user,
+      });
+    }
+  },
 };

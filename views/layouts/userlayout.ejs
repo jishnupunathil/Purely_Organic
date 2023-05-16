@@ -123,7 +123,94 @@
         }
       });
     }
+
+    function addToWishlist(prodId) {
+            console.log("prodId",prodId);
+      Swal.fire({
+          title:'Added to Wish List!',
+    message:'product added to wish List',
+    icon:'success'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "/user/wishlist/"+prodId,
+            method: "post",
+            success: function() {
+          // Reload the page
+          location.reload();
+        }
+          });
+        }
+      });
+    }
+
+
      </script>
+
+<script>
+  function addToCartFromWish(product_id) {
+$.ajax({
+url: `/user/add-to-cartFromWishL/${product_id}`,
+method: "PUT",
+success: function (response) {
+  if (response.status) {
+    Swal.fire({
+      title: "Product added to cart!",
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1000,
+    }).then(() => {
+      location.reload();
+    });
+  } else {
+    Swal.fire({
+      title: "Out of stock!",
+      icon: "error",
+      showConfirmButton: false,
+      timer: 4000,
+    });
+  }
+},
+error: function (error) {
+  console.log(error);
+},
+});
+}
+
+
+function removeFromWishList(product_id) {
+  Swal.fire({
+    title: `Are you sure you want to remove?`,
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Yes, remove it!",
+    cancelButtonText: "Cancel",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/user/remove-product-from-wishList",
+        data: {
+          product: product_id,
+        },
+        method: "delete",
+        success: (response) => {
+          if (response) {
+            Swal.fire({
+              title: `Product removed !`,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(() => {
+              location.reload();
+            });
+          }
+        },
+      });
+    }
+  });
+}
+</script>
+
      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>

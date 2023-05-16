@@ -108,4 +108,20 @@ router.post(
 
 router.get("/product-search", checkUserAuth, controllers.search);
 
+router.get('/wishList',checkUserAuth,controllers.wishlist)
+
+router.post('/wishlist/:id',checkUserAuth,controllers.addToWishList)
+
+router.put(
+  "/add-to-cartFromWishL/:id",
+  checkUserAuth,
+  controllers.addToCartFromWish
+);
+
+router.delete(
+  "/remove-product-from-wishList",
+  checkUserAuth,
+  controllers.removeProdctFromWishLIst
+);
+
 module.exports = router;

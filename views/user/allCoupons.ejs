@@ -11,7 +11,6 @@
                         <%}%>
                         <%})%>
             </div>
-           
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
@@ -28,11 +27,8 @@
                         <div class="header__cart">
                             <ul>
                                 <li><a href="#"><i class="fa fa-heart"></i> </a></li>
-                                    <!-- <span>1</span></a></li> -->
                                 <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                                     <!-- <span>3</span></a></li> -->
                             </ul>
-                            <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
                         </div>
                         
                     </div>
@@ -80,7 +76,6 @@
                       </div>
                     </div>
                     <div class="card-footer">
-                      <!-- <span  style="color: <%=element.days_remaining > 0 ? 'green' : 'red'%> "> -->
                         <%= element?.days_remaining <= 0 ? 'Expired': element?.days_remaining + ' days left' %>
                       </div>
                   </div>

@@ -8,6 +8,7 @@ const Razorpay = require("razorpay");
 const { ObjectId } = require("mongodb");
 const couponModel = require("../models/coupon");
 const moment = require("moment");
+const wishModel = require("../models/wishListModel");
 
 var instance = new Razorpay({
   key_id: "rzp_test_LlUB5deQFFVcRd",
@@ -333,7 +334,7 @@ module.exports = {
         // If new quantity is 0, remove product from cart
         await cartModel.findOneAndUpdate(
           { user: userId },
-          { $pull: { products: { productId: productId } } },
+          { $pull: { products: { productId} } },
           { new: true }
         );
       } else {
@@ -395,6 +396,120 @@ module.exports = {
         return products;
       }
       return [];
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  addToWishListUpdate: async (userId, productId) => {
+    console.log(userId,productId,'---------------');
+    try {
+      const wishlistDoc = await wishModel.findOne({ userId: userId });
+      if (!wishlistDoc) {
+        // If wishlist doesn't exist for user, create a new one
+        const newWishlist = new wishModel({
+          userId: userId,
+          items: [
+            {
+              productId: productId,
+              addedAt: new Date(),
+            },
+          ],
+        });
+        await newWishlist.save();
+      } else {
+        // Check if the product is already present in the wishlist
+        const productIndex = wishlistDoc.items.findIndex(
+          (item) => item.productId.toString() === productId
+        );
+
+        if (productIndex !== -1) {
+          // If the product is already present, remove it and return 'removed' status
+          await wishModel.findOneAndUpdate(
+            { userId: userId },
+            { $pull: { items: { productId: productId } } },
+            { new: true }
+          );
+          return "removed";
+        }
+
+        // If the product is not already present, add it to the wishlist
+        wishlistDoc.items.push({
+          productId: productId,
+          addedAt: new Date(),
+        });
+        await wishlistDoc.save();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  showWishlist: async (userId) => {
+    try {
+      const wishlistDoc = await wishModel.findOne({ userId: userId }).populate({
+        path: "items.productId",
+        select:
+          "pname  pprice pcountInStock pimages _id",
+        populate: {
+          path: "pcategory",
+          select: "cname _id",
+        },
+
+      });
+
+      console.log(wishlistDoc,'----');
+
+      if (!wishlistDoc) {
+        // If wishlist doesn't exist for user, return an empty array
+        return [];
+      } else {
+        // If wishlist exists, return the items array with product details
+        return wishlistDoc.items;
+      }
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  },
+
+  addToCartFromWish: async (productId, userId) => {
+    // Find product
+    const product = await productModel.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    const quantity = product.pcountInStock;
+
+    if (quantity <= 0) {
+      return false;
+    }
+
+    await cartModel.updateOne(
+      { user: userId },
+      { $push: { products: { productId, quantity: 1 } } },
+      { upsert: true }
+    ).then(() => {
+      return wishModel.findOneAndUpdate(
+        { userId: userId },
+        { $pull: { items: { productId: productId } } },
+        { new: true }
+      );
+    });
+    return true;
+  },
+
+  removeProdctFromWishLIst: async (userId, productId) => {
+    try {
+      const response = await wishModel.findOneAndUpdate(
+        { userId: userId },
+        { $pull: { items: { productId: productId } } },
+        { new: true }
+      );
+
+      return;
     } catch (err) {
       console.error(err);
     }
