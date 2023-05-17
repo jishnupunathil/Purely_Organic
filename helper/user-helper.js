@@ -514,4 +514,15 @@ module.exports = {
       console.error(err);
     }
   },
+
+  countWish: async (userId) => {
+    try {
+      const wishCount = await wishModel.findOne({ userId: userId });
+      const productCount = wishCount?.items.length;
+      if (!productCount) return 0;
+      return productCount;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };

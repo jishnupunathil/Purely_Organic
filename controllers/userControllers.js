@@ -24,6 +24,7 @@ module.exports = {
     let topratedProduct = await productModel.find().limit(3);
     let latestproduct = await productModel.find().skip(6).limit(3);
     let cartCount = await userHelper.getCartCount(userId);
+    let wishCount = await userHelper.countWish(userId); // count items in cart for user
 
     console.log("userId", userId);
     userModel
@@ -44,6 +45,7 @@ module.exports = {
           topratedProduct,
           latestproduct,
           cartCount,
+          wishCount
         });
       })
       .catch((err) => {
@@ -306,6 +308,7 @@ module.exports = {
     let allBanner = await bannerModel.find();
     let allProduct = await productModel.find();
     let cartCount = await userHelper.getCartCount(userId);
+    let wishCount = await userHelper.countWish(userId); // count items in cart for user
     if (userId) {
       let user = await userModel.findById(userId);
       res.render("user/shoppingPage", {
@@ -316,6 +319,7 @@ module.exports = {
         user,
         allProduct,
         cartCount,
+        wishCount
       });
     } else {
       res.render("user/shoppingPage", {
@@ -334,6 +338,7 @@ module.exports = {
     let allBanner = await bannerModel.find();
     let cartProduct = await cartModel.findOne({ user: userId });
     let cartCount = await userHelper.getCartCount(userId);
+    let wishCount = await userHelper.countWish(userId); // count items in cart for user
     const couponDetails = await couponModel.findById(cartProduct?.coupon);
     const productDetails = [];
     let total = 0;
@@ -355,6 +360,7 @@ module.exports = {
         subTotal,
         total,
         cartCount,
+        wishCount
       });
     } else {
       const products = cartProduct.products;
@@ -395,6 +401,7 @@ module.exports = {
         cartCount,
         discountVal,
         coupon: couponDetails?.code || "",
+        wishCount
       });
     }
   },
@@ -571,6 +578,7 @@ module.exports = {
       let user = await userModel.findById(userId);
       let allBanner = await bannerModel.find();
       let cartProduct = await cartModel.findOne({ user: userId });
+      let wishCount = await userHelper.countWish(userId); // count items in cart for user
       const couponDetails = await couponModel.findById(cartProduct.coupon);
       const products = cartProduct.products;
       const productDetails = [];
@@ -615,6 +623,7 @@ module.exports = {
           total,
           cartCount,
           separateAddresses: false,
+          wishCount
         });
       } else {
         let separateAddresses = addressColl.addresses.map((address) => {
@@ -632,6 +641,7 @@ module.exports = {
           total,
           cartCount,
           discountVal,
+          wishCount
         });
       }
     } catch (err) {
@@ -645,12 +655,14 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
+      let wishCount = await userHelper.countWish(userId); 
       res.render("user/newAddress", {
         userlay: true,
         loggedIn: true,
         user,
         allBanner,
         cartCount,
+        wishCount
       });
     } catch (err) {
       res.json({
@@ -666,12 +678,14 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
+      let wishCount = await userHelper.countWish(userId); 
       res.render("user/newPrfAddress", {
         userlay: true,
         loggedIn: true,
         user,
         allBanner,
         cartCount,
+        wishCount
       });
     } catch (err) {
       res.json({
@@ -778,7 +792,7 @@ module.exports = {
       const userId = req.userId;
       let user = await userModel.findById(userId);
       let allBanner = await bannerModel.find();
-
+      let wishCount = await userHelper.countWish(userId); 
       let cartProduct = await cartModel.findOne({ user: userId });
 
       const products = cartProduct.products;
@@ -818,6 +832,7 @@ module.exports = {
         subTotal,
         total,
         cartCount,
+        wishCount
       });
     } catch (err) {
       res.json({
@@ -933,6 +948,7 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
+      let wishCount = await userHelper.countWish(userId); 
       let addressColl = await addressModel.findOne({ user: userId });
       let selectedAddress = addressColl.addresses.find(
         (address) => address._id.toString() === addressId
@@ -944,6 +960,7 @@ module.exports = {
         allBanner,
         cartCount,
         selectedAddress,
+        wishCount
       });
     } catch (err) {
       res.json({
@@ -959,6 +976,7 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
+      let wishCount = await userHelper.countWish(userId); 
       let addressColl = await addressModel.findOne({ user: userId });
       let selectedAddress = addressColl.addresses.find(
         (address) => address._id.toString() === addressId
@@ -970,6 +988,7 @@ module.exports = {
         allBanner,
         cartCount,
         selectedAddress,
+        wishCount
       });
     } catch (err) {
       res.json({
@@ -1044,6 +1063,7 @@ module.exports = {
     const allBanner = await bannerModel.find();
     const cartCount = await userHelper.getCartCount(userId);
     const user = await userHelper.getProfile(userId);
+    let wishCount = await userHelper.countWish(userId); // count items in cart for user
     res.render("user/allCoupons", {
       userlay: true,
       allBanner,
@@ -1051,6 +1071,7 @@ module.exports = {
       user,
       loggedIn: true,
       coupons,
+      wishCount
     });
   },
 
@@ -1081,13 +1102,7 @@ module.exports = {
     }
   },
 
-  // getWishList:async(req,res)=>{
-  //   const userId=req.userId
-  //   const allBanner=await bannerModel.find()
-  //   const user = await userHelper.getProfile(userId);
-  //   const cartCount = await userHelper.getCartCount(userId);
-  //   res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount})
-  // },
+    
 
     wishlist: async (req, res) => {
       const userId=req.userId
@@ -1096,7 +1111,8 @@ module.exports = {
         const user = await userHelper.getProfile(userId);
         const showList = await userHelper.showWishlist(userId);
         const cartCount = await userHelper.getCartCount(userId);
-        res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount,showList})
+        let wishCount = await userHelper.countWish(userId); // count items in cart for user
+        res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount,showList,wishCount})
       } catch (err) {
         console.error(err);
         res.render("catchError", {

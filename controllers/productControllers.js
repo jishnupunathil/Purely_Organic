@@ -108,6 +108,7 @@ module.exports = {
       let user = await userModel.findById(userId);
       let singleProduct = await productModel.findById({ _id: id });
       let cartCount = await userHelper.getCartCount(userId);
+      let wishCount = await userHelper.countWish(userId); 
       res.render("user/productPage", {
         userlay: true,
         singleProduct,
@@ -117,6 +118,7 @@ module.exports = {
         allCategory,
         allProduct,
         cartCount,
+        wishCount
       });
     } catch (err) {
       res.redirect("/user/index");
