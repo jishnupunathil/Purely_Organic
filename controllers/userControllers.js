@@ -9,11 +9,13 @@ const productModel = require("../models/productModel");
 const cartModel = require("../models/addtocartModel");
 const addressModel = require("../models/addressModel");
 const userHelper = require("../helper/user-helper");
+const adminHelper = require("../helper/admin-helper");
 
 const { OrderItem, Order } = require("../models/orders");
 const { response } = require("express");
 const { default: mongoose } = require("mongoose");
 const couponModel = require("../models/coupon");
+const { generateInvoice } = require("../config/pdfKit");
 
 module.exports = {
   userIndexPage: async (req, res) => {
@@ -1184,6 +1186,36 @@ module.exports = {
     } catch (err) {
       res.render("catchError", {
         message: err.message,
+        user: req.session.user,
+      });
+    }
+  },
+  downloadInvoice: async (req, res) => {
+    try {
+      const order_id = req.params.id;
+      console.log(order_id,'------------');
+      // Generate the PDF invoice
+      const order = await adminHelper.getSpecificOrder(order_id);
+
+      const { order: invoiceData, productDetails } = order;
+      console.log(invoiceData,'++++++++++++++++');
+      const invoicePath = await generateInvoice(invoiceData, productDetails);
+
+
+      // Download the generated PDF
+      res.download(invoicePath, (err) => {
+        if (err) {
+          console.error("Failed to download invoice:", err);
+          res.render("catchError", {
+            message: err.message,
+            user: req.session.user,
+          });
+        }
+      });
+    } catch (error) {
+      console.error("Failed to download invoice:", error);
+      res.render("catchError", {
+        message: err?.message,
         user: req.session.user,
       });
     }

@@ -15,10 +15,11 @@
                             </span> <br>
                             <small class="text-muted">Order ID:<%=orderInfo._id%></small>
                         </div>
+                        <%if(orderInfo.order_status === 'delivered'){%>
                         <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                            
-                            <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                            <a class="btn btn-secondary print ms-2 " href="/user/download-invoice/<%=orderInfo._id %>"><i class="icon material-icons md-print"></i></a>
                         </div>
+                        <%}%>
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
@@ -34,7 +35,7 @@
                                     <p class="mb-1">
                                         <%=selectedAddress.fname%> <%=selectedAddress.lname%> <br> <template class="__cf_email__" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br> <%=selectedAddress.phone%>
                                     </p>
-                                    <a href="#">View profile</a>
+                                    <a href="/user/viewProfile">View profile</a>
                                 </div>
                             </article>
                           
@@ -65,7 +66,7 @@
                                         <p class="mb-1">
                                            <%=selectedAddress.address%> <br><%=selectedAddress.city%><br> <%=selectedAddress.pincode%>
                                         </p>
-                                        <a href="#">View profile</a>
+                                        <a href="/user/viewProfile">View profile</a>
                                     </div>
                                 </article>
                                
@@ -136,7 +137,7 @@
                                 </p>
                             </div><br>
                             <%if(!cancelled){%>
-                            <%if(cancel){%>
+                            <%if(cancel && orderInfo.order_status != 'delivered') {%>
                                 <div>
                                     <button type="submit" class="btn btn-danger" onclick="cancelOrder('<%=orderInfo._id%>')">Cancel Order</button>
                                 </div>

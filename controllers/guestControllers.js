@@ -22,7 +22,6 @@ module.exports = {
         user: false,
         latestproduct,
         topratedProduct,
-        cartCount: 0,
       });
     } catch (err) {
       res.json({
@@ -75,6 +74,7 @@ module.exports = {
       user: false,
       allProduct,
       cartCount: 0,
+      wishCount:0
     });
   },
   sproductUser: async (req, res) => {
@@ -93,6 +93,7 @@ module.exports = {
         allCategory,
         allProduct,
         cartCount: 0,
+        wishCount:0
       });
     } catch (err) {
       res.redirect("/user/index");

@@ -83,7 +83,7 @@
                                         <%if(element?.productId?.pcountInStock != 0){%>
                                             <a
                                             class="btn btn-block btn-success"
-                                            onclick="addToCartFromWish('<%=element?.productId?._id %>');event.preventDefault();">
+                                            onclick="addToCart('<%=element?.productId?._id %>');event.preventDefault();">
                                              <i class="icon-cart-plus"></i>Add to Cart
                 </a>
                                     <%}else{%>

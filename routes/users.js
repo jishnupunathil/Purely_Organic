@@ -82,6 +82,8 @@ router.post("/deleteAddress/:id", checkUserAuth, controllers.deleteAddress);
 
 router.get("/myOrders", checkUserAuth, controllers.getMyorders);
 
+router.get("/download-invoice/:id",checkUserAuth, controllers.downloadInvoice);
+
 router.post("/cancelOrder/:id", checkUserAuth, controllers.cancelOrder);
 
 //coupons
