@@ -14,12 +14,17 @@ module.exports = {
       const productsCount = products.length;
       const users = await adminHelper.getAllUsers();
       const usersCount = users.length;
-      
+      const orderData = await adminHelper.orderStatusData();
+      console.log(orderData);
+      const paymentStatitics = await adminHelper.paymentStatitics();
+      console.log(paymentStatitics);
     res.render("admin/dashboard", { userlay: false,
       totalRevenue,
       orderCount,
       productsCount,
-      usersCount
+      usersCount,
+      orderData,
+      paymentStatitics
        });
     }catch(err){
       console.log(err);

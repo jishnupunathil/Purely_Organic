@@ -28,7 +28,7 @@
                                           }).forEach(function(order, index) { %>
                                          <tr>
                                            <td><%-index+1%></td>
-                                           <td><b><%=order._id%></b></td>
+                                           <td><b><%=order._id.toString().substr(0, 10)%></b></td>
                                            <td>₹<%=order.total_amount%></td>
                                            <td>
                                             <span class="badge rounded-pill <%= order.order_status === 'pending' ? 'alert-warning' : order.order_status === 'cancelled' ? 'alert-danger' : 'alert-success' %>">

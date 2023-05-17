@@ -141,7 +141,7 @@
       <div class="card mb-4">
         <article class="card-body">
           <h5 class="card-title">Payment statistics</h5>
-          <canvas id="myGraph" height="120px"></canvas>
+          <canvas id="myGraph" height="100px"></canvas>
         </article>
       </div>
     </div>
@@ -156,7 +156,7 @@
   </div>
 </section>
 <!-- content-main end// -->
-%-include('../partials/adminFooter.ejs')%>
+<%-include('../partials/adminFooter.ejs')%>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -169,5 +169,80 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
 
+<script>
 
+
+$(document).ready(function() {
+      // Bar Chart
+const ctx1 = document.getElementById('myGraph').getContext('2d');
+var categorie = ["COD", "ONLINE PAYMENTS"];
+var count = ['<%=paymentStatitics?.cash_on_delivery%>', '<%=paymentStatitics?.online_payment%>'];
+var barColors = ["#e74c3c", "#2ecc71"];
+new Chart(ctx1, {
+  type: "polarArea",
+  data: {
+    labels: categorie,
+    datasets: [{
+    
+      data: count,
+      backgroundColor: barColors,
+      borderWidth: 1,
+      datalabels: {
+        align: 'end',
+        anchor: 'end',
+        color: 'black',
+        font: {
+          weight: 'bold'
+        },
+        formatter: function(value, context) {
+          return value;
+        }
+      }
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Ogani Product Statistics"
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+// Pie Chart
+const ctx2 = document.getElementById('myPie').getContext('2d');
+let orderStatus = ["delivered", "placed", "Cancelled", "Shipped"];
+let orderCount = [ '<%= orderData?.delivered %>', '<%= orderData?.placed %>', '<%= orderData?.cancelled %>', '<%= orderData?.Shipped %>' ];
+var pieColors = [
+  "#e74c3c",
+  "#2ecc71",
+  "#3498db",
+  "#f1c40f",
+]; // Updated color palette
+new Chart(ctx2, {
+  type: "pie",
+  data: {
+    labels: orderStatus,
+    datasets: [{
+      backgroundColor: pieColors,
+      data: orderCount
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Ogani Order Statistics"
+    }
+  }
+});
+  } );
+
+
+  
+
+
+
+</script>
 

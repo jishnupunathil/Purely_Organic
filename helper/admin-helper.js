@@ -301,5 +301,45 @@ module.exports = {
           reject(err);
         }
     });
-  }
+  },
+  paymentStatitics: async () => {
+    try {
+      const paymentData = await Order.aggregate([
+        {
+          $group: {
+            _id: "$payment_method",
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+      const counts = {};
+      for (const payment of paymentData) {
+        counts[payment._id] = payment.count;
+      }
+
+      return counts;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  orderStatusData: async () => {
+    try {
+      const orderData = await Order.aggregate([
+        {
+          $group: {
+            _id: "$order_status",
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+      const counts = {};
+      for (const order of orderData) {
+        counts[order._id] = order.count;
+      }
+
+      return counts;
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

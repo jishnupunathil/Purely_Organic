@@ -88,12 +88,16 @@
                 <% orders.forEach(function(order,index) { %>
                     <tr>
                         <td><%-index+1%></td>
-                      <td><%= order._id %></td>
+                      <td><%= order._id.toString().substr(0, 10) %></td>
                       <td><b><%= order.fname %></b></td>
                       <td>&#x20B9;<%= order.total_amount %></td>
                       <td><%= order.payment_method %></td>
                       <td>
-                        <% if (order.order_status === "pending") { %>
+                        <% if (order.order_status === "placed") { %>
+                          <span class="badge rounded-pill bg-success">
+                            <%= order.order_status %>
+                          </span>
+                        <% }else if (order.order_status === "pending") { %>
                         <span class="badge rounded-pill bg-warning">
                           <%= order.order_status %>
                         </span>
