@@ -160,74 +160,56 @@ module.exports = {
       });
   },
 
-  otpLogin: async (req, res) => {
-    let allBanner = await bannerModel.find();
-
-    console.log(req.body);
-    const mobNumber = req.body.phoneNumber;
+  otpLoginPost: async (req, res) => {
+    
     try {
-      console.log("++++++++++++");
-      const validUser = await userModel.findOne({ phoneNumber: mobNumber });
-      if (validUser.isblocked) {
-        return res.render("user/otpLogin", {
-          userlay: true,
-          loggedIn: false,
-          user: false,
-          allBanner,
-          message: "Account blocked ! Contact Admin!!!",
-        });
-      }
+      const mobNumber = req.body.phoneNumber;
+      const allBanner = await bannerModel.find();
+      const validUser = await userHelper.getMobileNumber(mobNumber);
+  
       if (validUser !== undefined && validUser !== false) {
-        console.log(validUser);
         twilioFunctions
           .generateOTP(mobNumber, "sms")
           .then((verification) => {
             res.render("user/submitOtp", {
-              loggedIn: false,
-              userlay: true,
+              userlay:true,
               user: false,
-              phoneNumber: mobNumber,
-              message: false,
-              allBanner,
+              loggedIn:false,
+              mobNumber: mobNumber,
+              message:false,
+              allBanner
             });
             console.log(verification.status);
           })
           .catch((err) => {
-            console.log(err);
-            res.render("user/otpLogin", {
-              userlay: true,
-              loggedIn: false,
-              user: false,
-              allBanner,
-              message: "error occured while sending otp",
-            });
+            console.error(err);
+
           });
       } else if (validUser == undefined) {
         res.render("user/otpLogin", {
-          userlay: true,
-          loggedIn: false,
+          userlay:true,
           user: false,
-          allBanner,
-          message: "hello hiiii",
+          loggedIn:false,
+          mobNumber: mobNumber,
+          message:'user is undefinded',
+          allBanner
         });
       } else {
-        res.render("user/otpLogin", {
-          userlay: true,
-          loggedIn: false,
-          user: false,
-          allBanner,
-          message: "hii",
-        });
+        console.log('errorrrrrrrrrrrrr2222222');
       }
     } catch (err) {
       console.error(err);
+     
     }
   },
-  submitOtp: async (req, res) => {
-    let mobNumber = req.body.phoneNumber;
+  verifyOtp: async (req, res) => {
     try {
-      const user = await userModel.findOne({ phoneNumber: mobNumber });
+      const allBanner = await bannerModel.find();
+      const mobNumber = req.body.mobNumber;
+      console.log(mobNumber,'---------------');
+      const user = await userHelper.getMobileNumber(mobNumber);
       const enteredOTP = req.body.code;
+      console.log(enteredOTP,'-------');
       twilioFunctions.client.verify.v2
         .services(twilioFunctions.verifySid)
         .verificationChecks.create({ to: `+91${mobNumber}`, code: enteredOTP })
@@ -245,22 +227,52 @@ module.exports = {
               res.redirect("/user/index");
             }
           } else {
-            res.render("../views/user/verify-mobile", {
-              loginErr: true,
+            res.render("user/submitOtp", {
+              userlay:true,
               user: false,
-              mobile: mobNumber,
-              message: false,
+              loggedIn:false,
+              mobNumber: mobNumber,
+              message:'enter valid Otp',
+              allBanner
             });
           }
         })
         .catch((error) => {
           console.error(error);
-          res.status(500).send("internal server error");
+          res.render("user/submitOtp", {
+            userlay:true,
+            user: false,
+            loggedIn:false,
+            mobNumber: mobNumber,
+            message:'enter valid Otp',
+            allBanner
+          });
         });
     } catch (err) {
       console.error(err);
+      
     }
   },
+
+  resendOTp: async (req, res) => {
+    const mobNumber = req.query.mobNumber;
+    console.log(mobNumber);
+    twilioFunctions
+      .generateOTP(mobNumber, "sms")
+      .then((verification) => {
+        if (verification.status === "pending") {
+          res.json({ status: "success" });
+          return;
+        } else {
+          res.json({ status: "error" });
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
+
 
   viewProfile: async (req, res) => {
     const userId = req.userId;

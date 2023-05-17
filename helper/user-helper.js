@@ -16,6 +16,19 @@ var instance = new Razorpay({
 });
 
 module.exports = {
+
+  getMobileNumber: async (mobNumber) => {
+    try {
+      const user = await userModel.findOne({ phoneNumber: mobNumber });
+      if (!user.isblocked) {
+        return user;
+      } else {
+        return user.isblocked;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getCartCount: (userId) => {
     return new Promise(async (resolve, reject) => {
       let count = 0;

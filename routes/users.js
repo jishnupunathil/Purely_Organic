@@ -7,6 +7,7 @@ const {
   singleImageUpload,
   multipleImageUpload,
 } = require("../middleware/fileUpload");
+const verifyToken = require("../middleware/verifyToken");
 
 /* GET users listing. */
 
@@ -19,9 +20,12 @@ router.post("/registration", controllers.userRegistation);
 
 //user login
 
-router.post("/otpLogin", controllers.otpLogin);
+router.post("/otpLogin",verifyToken, controllers.otpLoginPost);
 
-router.post("/submitOtp", controllers.submitOtp);
+router.get("/resendOTP",verifyToken,controllers.resendOTp)
+
+router.post("/submitOtp",verifyToken, controllers.verifyOtp);
+
 
 router.post("/login", controllers.userLogin);
 

@@ -29,7 +29,7 @@
                                 <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="number" name="code" id="code" placeholder="6-digit Code" />
                             </div>
-                            <input type="tel" name="phoneNumber" id="mobile" placeholder="otp" value="<%=locals.phoneNumber%>" style="display: none;" />
+                           <input name="mobNumber" value="<%= mobNumber %>" hidden>
                             <!-- <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password" id="password"placeholder="Password"/>
@@ -44,19 +44,32 @@
                             <%if(message){%>
                                 <p style="color: red;"> <%=message%></p>
                             <%}%>
-                        </form>
-                        <form action="/user/otpLogin" method="POST" class="register-form" id="otpLogin">
-                            <input name="phoneNumber" value="9496959109" hidden>
-                            <button type="submit" class="btn">Resend Otp</button>
-                             </form>
+                        
+                        
+                        <div id="countdown-timer" style="display: inline">
+                            Time Left: 1:00
+                          </div>
+                            
+                            <div class="float-right">
+                                <label
+                                  class="text-end"
+                                  for="register-policy-2"
+                                  style="font-size: smaller"
+                                >
+                                  <a
+                                    id="resendOTP"
+                            
+                                    class="resend-link text-secondary fw-bold"
+                                    style="display: none"
+                                    onclick="resendOTP() "
+                                    >Resend OTP</a>
+                                </label>
+                              </div>
+                             
+                            </form>
     
                         <div class="social-login">
-                            <!-- <span class="social-label">Or login with <a href="/user/login">EMAIL</a></span> -->
-                            <!-- <ul class="socials">
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                            </ul> -->
+                        
                         </div>
                     </div>
                 </div>
@@ -65,3 +78,82 @@
     </div>
 
     <%- include('../partials/userFooter.ejs')%>
+
+    <script>
+          // Set the time limit for the OTP verification (in seconds)
+  const timeLimit = 60;
+
+// Get the countdown timer element
+const countdownTimer = document.getElementById("countdown-timer");
+const resendLink = document.getElementById("resendOTP");
+
+// Initialize the timer value
+let timerValue = timeLimit;
+
+// Update the timer value every second
+const countdownInterval = setInterval(() => {
+  timerValue--;
+  const minutes = Math.floor(timerValue / 60);
+  const seconds = timerValue % 60;
+  countdownTimer.innerHTML = `Time Left: ${minutes}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+
+  // If the timer reaches zero, clear the interval and disable the form
+  if (timerValue === 0) {
+    clearInterval(countdownInterval);
+    resendLink.style.display = "inline";
+    // document.querySelector('button[type="submit"]').disabled = true;
+    countdownTimer.style.display = "none";
+    Swal.fire({
+      title: "Time's up!",
+      icon: "warning",
+      timer: 3000,
+    });
+  }
+}, 1000);
+
+
+function resendOTP() {
+  Swal.fire({
+    title: 'Do you want to resend?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: '/user/resendOTP',
+        data: { mobNumber: '<%= mobNumber %>' },
+        method: 'get',
+        success: function (response) {
+          if (response.status === 'success') {
+            Swal.fire({
+              title: 'OTP Resent!',
+              icon: 'success',
+              timer: 4000,
+            });
+          } else {
+            Swal.fire({
+              title: 'OTP resend failed!',
+              text: response.message,
+              icon: 'error',
+              timer: 4000,
+            });
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          Swal.fire({
+            title: 'Error occurred!',
+            text: error.message,
+            icon: 'error',
+            timer: 2000,
+          });
+        },
+      });
+    }
+  });
+}
+    </script>
