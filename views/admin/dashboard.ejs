@@ -58,6 +58,13 @@
           <span class="text">Orders</span>
         </a>
       </li>
+      <hr>
+          <li class="menu-item ">
+            <a class="menu-link" href="/admin/sales-report">
+              <i class="icon material-icons md-settings"></i>
+              <span class="text">Sales Report</span>
+            </a>
+          </li>
     </ul>
   </nav>
 </aside>
@@ -213,7 +220,7 @@ new Chart(ctx1, {
 
 // Pie Chart
 const ctx2 = document.getElementById('myPie').getContext('2d');
-let orderStatus = ["delivered", "placed", "Cancelled", "Shipped"];
+let orderStatus = ["delivered", "placed", "cancelled", "Shipped"];
 let orderCount = [ '<%= orderData?.delivered %>', '<%= orderData?.placed %>', '<%= orderData?.cancelled %>', '<%= orderData?.Shipped %>' ];
 var pieColors = [
   "#e74c3c",

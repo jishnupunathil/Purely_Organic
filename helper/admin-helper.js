@@ -342,4 +342,46 @@ module.exports = {
       console.log(err);
     }
   },
+
+  getReportDetails: async () => {
+    try {
+      // Query the orders collection based on the order_date field
+      const query = { order_status: "delivered" };
+      const orders = await Order.find(query).populate("address");
+      return orders;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  getReport: async (startDate, endDate) => {
+    try {
+      const query = [
+        {
+          $match: {
+            order_status: "delivered",
+          },
+        },
+        {
+          $match: {
+            $and: [
+              { order_date: { $gte: new Date(startDate) } },
+              { order_date: { $lte: new Date(endDate) } },
+            ],
+          },
+        },
+        {
+          $sort: {
+            date: -1,
+          },
+        },
+      ];
+
+      const orders = await Order.aggregate(query);
+
+      return orders;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 };

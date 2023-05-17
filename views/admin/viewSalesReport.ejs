@@ -1,0 +1,217 @@
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+  <div class="aside-top">
+    <a href="index.html" class="brand-wrap">
+      <img src="/assets/imgs/logo.png" class="logo" alt="Evara Dashboard" />
+    </a>
+    <div>
+      <button class="btn btn-icon btn-aside-minimize">
+        <i class="text-muted material-icons md-menu_open"></i>
+      </button>
+    </div>
+  </div>
+  <nav>
+    <ul class="menu-aside">
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/dashboard">
+          <i class="icon material-icons md-home"></i>
+          <span class="text">Dashboard</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/productList">
+          <i class="icon material-icons md-shopping_bag"></i>
+          <span class="text">Products</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/category">
+          <i class="icon material-icons md-store"></i>
+          <span class="text">Categories</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/userList">
+          <i class="icon material-icons md-person"></i>
+          <span class="text">Users</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/banners">
+          <i class="icon material-icons md-shopping_bag"></i>
+          <span class="text">Banners</span>
+        </a>
+      </li>
+      <li class="menu-item has-submenu">
+        <a class="menu-link" href="#">
+          <i class="icon material-icons md-stars"></i>
+          <span class="text">Coupons</span>
+        </a>
+        <div class="submenu">
+          <a href="/admin/coupons">Coupons</a>
+          <a href="/admin/addCoupons">Add Coupon</a>
+        </div>
+      </li>
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/orders">
+          <i class="icon material-icons md-shopping_cart"></i>
+          <span class="text">Orders</span>
+        </a>
+      </li>
+      <hr >
+          <li class="menu-item active">
+            <a class="menu-link" href="/admin/sales-report">
+              <i class="icon material-icons md-settings"></i>
+              <span class="text">Sales Report</span>
+            </a>
+          </li>
+    </ul>
+  </nav>
+</aside>
+<main class="main-wrap">
+  <%-include('../partials/adminHeader.ejs')-%>
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Sales Report.</h2>
+      <p></p>
+    </div>
+    <div>
+      <a
+        href="#"
+        class="btn btn-primary"
+        onclick="createReport(); event.preventDefault();"
+        ><i class="text-muted material-icons md-post_add"></i>Create report</a
+      >
+    </div>
+  </div>
+  <div class="card mb-4">
+    <header class="card-header">
+      <div class="row gx-3">
+        
+      </div>
+    </header>
+    <form method="POST" action="/admin/sales-report">
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" name="startDate" />
+
+      <label for="end-date">End Date:</label>
+      <input type="date" id="end-date" name="endDate" />
+
+      <button class="btn btn-primary" type="submit">Filter</button>
+    </form>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="mySalesTable" class="table table-hover display">
+          <thead>
+            <tr>
+              <th>#Order Id</th>
+              <th scope="col">User Id</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Payment Method</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(function(order) { %>
+            <tr>
+              <td><%= order._id.toString().substr(0,10) %></td>
+              <td><b><%= order?.user_id.toString().substr(0,10) %></b></td>
+              <td>&#x20B9;<%= order.total_amount %></td>
+              <td><%= order.payment_method %></td>
+              <td>
+                <% if (order.order_status === "placed") { %>
+                <span class="badge rounded-pill bg-primary">
+                  <%= order.order_status %>
+                </span>
+                <% } else if (order.order_status === "Shipped") { %>
+                <span class="badge rounded-pill bg-success">
+                  <%= order.order_status %>
+                </span>
+                <% } else if (order.order_status === "delivered") { %>
+                <span class="badge rounded-pill bg-info">
+                  <%= order.order_status %>
+                </span>
+                <% } else if (order.order_status === "cancelled") { %>
+                <span class="badge rounded-pill bg-danger">
+                  <%= order.order_status %>
+                </span>
+                <% } else if (order.order_status === "Returned" && (
+                order.return_status === "pending"|| order.return_status ===
+                "approved"|| order.return_status === "rejected")) { %>
+                <span class="badge rounded-pill bg-warning">
+                  Return <%=order.return_status %>
+                </span>
+                <% } %>
+              </td>
+              <td>
+                <%= new Date(order.order_date).toLocaleDateString('en-GB', {
+                day: '2-digit', month: '2-digit', year: 'numeric', hour:
+                '2-digit', minute: '2-digit', }).replace(/\//g, '-') %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<%-include('../partials/adminFooter.ejs')%>
+</main>
+<!-- content-main end// -->
+
+<!--  sales-report cdn-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.3/dist/xlsx.full.min.js"></script>
+
+<script>
+function createReport() {
+    // Show SweetAlert popup
+    Swal.fire({
+      title: "Select report format",
+      icon: "info",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+      confirmButtonText: "Create",
+      html:
+        '<select id="reportFormat">' +
+        '<option value="pdf">PDF</option>' +
+        '<option value="excel">Excel</option>' +
+        "</select>",
+      preConfirm: function () {
+        // Get selected option value
+        var reportFormat = document.getElementById("reportFormat").value;
+        // Get start and end dates
+  
+        // Make AJAX call based on selected option and date range
+        let data = document.getElementById("mySalesTable");
+  
+        switch (reportFormat) {
+          case "pdf":
+            var opt = {
+              margin: 0,
+              filename: "Sales_Report.pdf",
+              html2canvas: { scale: 10 },
+            };
+  
+            html2pdf().set(opt).from(data).save();
+            break;
+          case "excel":
+            // Generate Excel file
+            var fp = XLSX.utils.table_to_book(data, { sheet: "Purely Organic" });
+            XLSX.write(fp, {
+              bookType: "xlsx",
+              type: "base64",
+            });
+            XLSX.writeFile(fp, "Sales_Report.xlsx");
+            break;
+          default:
+            console.log("Invalid report format");
+        }
+      },
+    });
+  }
+  </script>

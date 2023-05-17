@@ -188,4 +188,25 @@ module.exports = {
       res.json({ status: "error" });
     }
   },
+
+  viewReport: async (req, res) => {
+    try {
+      const orders = await adminHelper.getReportDetails();
+
+      res.render("admin/viewSalesReport", {userlay:false, orders });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  viewReportByDate: async (req, res) => {
+    try {
+      const { startDate, endDate } = req.body;
+      console.log(req.body);
+      const orders = await adminHelper.getReport(startDate, endDate);
+
+      res.render("admin/viewSalesReport", {userlay:false, orders });
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
