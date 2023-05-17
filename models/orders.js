@@ -7,7 +7,7 @@ const OrderItemSchema = new mongoose.Schema({
   },
   product_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
+    ref: "product",
     required: true,
   },
   productName: {
@@ -55,7 +55,7 @@ const OrderSchema = new mongoose.Schema({
   },
   address: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
+    ref: "address",
     required: true,
   },
   order_status: {

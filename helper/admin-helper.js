@@ -245,4 +245,61 @@ module.exports = {
       console.error(err);
     }
   },
+
+  //dashboard
+
+  findTotalRevenue: async () => {
+    try {
+      const result = await Order.aggregate([
+        {
+          $match: {
+            order_status: "delivered", // Filter only delivered orders
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalRevenue: { $sum: "$total_amount" }, // Calculate the sum of total_amount field
+          },
+        },
+      ]);
+      return result[0].totalRevenue;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  getOrderDetails: async () => {
+    try {
+      const order = await Order.find({})
+        .populate("address")
+        .populate("items.product_id")
+        .exec();
+      if (order.length === 0) {
+        console.log("No orders found for user");
+      } else {
+        return order;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  getAllProducts: async () => {
+    try {
+      const products = await productModel.find({});
+      return products;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  getAllUsers: () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+          let users = await userModel.find({ isblocked: false });
+          resolve(users);
+        } catch (err) {
+          console.error(err);
+          reject(err);
+        }
+    });
+  }
 };

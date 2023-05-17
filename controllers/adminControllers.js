@@ -5,8 +5,25 @@ const { Order } = require("../models/orders");
 const adminHelper = require("../helper/admin-helper");
 
 module.exports = {
-  getDashboard: (req, res) => {
-    res.render("admin/dashboard", { userlay: false });
+  getDashboard:async (req, res) => {
+    try{
+      const totalRevenue = await adminHelper.findTotalRevenue();
+      const orders = await adminHelper.getOrderDetails();
+      const orderCount = orders.length;
+      const products = await adminHelper.getAllProducts();
+      const productsCount = products.length;
+      const users = await adminHelper.getAllUsers();
+      const usersCount = users.length;
+      
+    res.render("admin/dashboard", { userlay: false,
+      totalRevenue,
+      orderCount,
+      productsCount,
+      usersCount
+       });
+    }catch(err){
+      console.log(err);
+    }
   },
   getAddProductPage: async (req, res) => {
     let allCategory = await categoryModel.find();
