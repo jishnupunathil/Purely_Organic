@@ -1,0 +1,159 @@
+<%-include('../partials/userHeader.ejs') %>
+<head>
+<!-- Font Icon -->
+      <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+      <!-- Main css -->
+      <link rel="stylesheet" href="/cssSL/style.css">
+ </head>
+ <% allBanner.forEach(function(banner) { %>
+    <%if(banner.bname==='login bg'){%>
+    <div class="main"  style="background-image: url('<%=banner.bimages[1]%>');">
+
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container2">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="<%=banner.bimages[2]%>" alt="sing up image"></figure>
+                        <%}%>
+        <%})%>
+                        <!-- <a href="#" class="signup-image-link">Forgot Password?</a> -->
+                        <!-- <a href="/user/registration" class="signup-image-link">Create an account?</a> -->
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Otp for password Change</h2>
+                        <form action="/user/verify-mobileNumberForPassword" method="POST" class="register-form" id="otpLoginSubmit">
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="number" name="code" id="code" placeholder="6-digit Code" />
+                            </div>
+                           <input name="mobNumber" value="<%=MobileNo%>" hidden>
+                            <!-- <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password"placeholder="Password"/>
+                            </div> -->
+                            <div class="form-group">
+                                <!-- <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" /> -->
+                                <!-- <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label> -->
+                            <!-- </div> -->
+                            <div class="form-group form-button">
+                                <button type="submit" class="btn btn-success">Submit otp</button>
+                            </div>
+                            <%if(message){%>
+                                <p style="color: red;"> <%=message%></p>
+                            <%}%>
+                        
+                        
+                        <div id="countdown-timer" style="display: inline">
+                            Time Left: 1:00
+                          </div>
+                            
+                            <div class="float-right">
+                                <label
+                                  class="text-end"
+                                  for="register-policy-2"
+                                  style="font-size: smaller"
+                                >
+                                  <a
+                                    id="resendOTP"
+                            
+                                    class="resend-link text-secondary fw-bold"
+                                    style="display: none"
+                                    herf="/user/resendOTP/?MobileNo=<%= MobileNo %>"
+                                    >Resend OTP</a>
+                                </label>
+                              </div>
+                             
+                            </form>
+    
+                        <div class="social-login">
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <%- include('../partials/userFooter.ejs')%>
+
+    <script>
+          // Set the time limit for the OTP verification (in seconds)
+  const timeLimit = 60;
+
+// Get the countdown timer element
+const countdownTimer = document.getElementById("countdown-timer");
+const resendLink = document.getElementById("resendOTP");
+
+// Initialize the timer value
+let timerValue = timeLimit;
+
+// Update the timer value every second
+const countdownInterval = setInterval(() => {
+  timerValue--;
+  const minutes = Math.floor(timerValue / 60);
+  const seconds = timerValue % 60;
+  countdownTimer.innerHTML = `Time Left: ${minutes}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+
+  // If the timer reaches zero, clear the interval and disable the form
+  if (timerValue === 0) {
+    clearInterval(countdownInterval);
+    resendLink.style.display = "inline";
+    // document.querySelector('button[type="submit"]').disabled = true;
+    countdownTimer.style.display = "none";
+    Swal.fire({
+      title: "Time's up!",
+      icon: "warning",
+      timer: 3000,
+    });
+  }
+}, 1000);
+
+
+function resendOTP() {
+  Swal.fire({
+    title: 'Do you want to resend?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: '/user/resendOTP',
+        data: { MobileNo: '<%=MobileNo%>' },
+        method: 'get',
+        success: function (response) {
+          if (response.status === 'success') {
+            Swal.fire({
+              title: 'OTP Resent!',
+              icon: 'success',
+              timer: 4000,
+            });
+          } else {
+            Swal.fire({
+              title: 'OTP resend failed!',
+              text: response.message,
+              icon: 'error',
+              timer: 4000,
+            });
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          Swal.fire({
+            title: 'Error occurred!',
+            text: error.message,
+            icon: 'error',
+            timer: 2000,
+          });
+        },
+      });
+    }
+  });
+}
+    </script>

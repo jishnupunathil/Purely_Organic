@@ -19,4 +19,5 @@ router.get(
   guestControllers.sproductUser
 );
 
+router.get("/forgotpassword", guestControllers.forgotPassword);
 module.exports = router;

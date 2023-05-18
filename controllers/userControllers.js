@@ -2,6 +2,7 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { token } = require("morgan");
+require("dotenv").config();
 const bannerModel = require("../models/bannerModel");
 const twilioFunctions = require("../config/twilio");
 const categoryModel = require("../models/categoryModel");
@@ -131,7 +132,7 @@ module.exports = {
               userId: user._id,
               isAdmin: user.isAdmin,
             };
-            const token = jwt.sign(payload, "secretOgani");
+            const token = jwt.sign(payload, process.env.SECRET_KEY);
             res.cookie("token", token, { httpOnly: true });
             if (user.isAdmin) {
               res.redirect("/admin/dashboard");
@@ -219,7 +220,7 @@ module.exports = {
               userId: user._id,
               isAdmin: user.isAdmin,
             };
-            const token = jwt.sign(payload, "secretOgani");
+            const token = jwt.sign(payload, process.env.SECRET_KEY);
             res.cookie("token", token, { httpOnly: true });
             if (user.isAdmin) {
               res.redirect("/admin/dashboard");
@@ -271,6 +272,133 @@ module.exports = {
       .catch((error) => {
         console.error(error);
       });
+  },
+
+  generateOTP: async (req, res) => {
+    try {
+      const MobileNo = req.body.MobileNo;
+      const allBanner=await bannerModel.find()
+      const validUser = await userHelper.getUser(MobileNo);
+      console.log(validUser,'0000000000');
+      if (validUser) {
+        twilioFunctions
+          .generateOTP(MobileNo, "sms")
+          .then((verification) => {
+            if (verification.status)
+            res.render("user/veriOtpPass", {
+              userlay:true,
+              user: false,
+              loggedIn:false,
+              MobileNo: MobileNo,
+              message:false,
+              allBanner
+            });
+          })
+          .catch((error) => {
+            console.error(error,'---------------');
+            res.render("user/veriOtpPass", {
+              userlay:true,
+              user: false,
+              loggedIn:false,
+              MobileNo: MobileNo,
+              message:'error',
+              allBanner
+            });
+          });
+      } else
+      res.render("user/veriOtpPass", {
+        userlay:true,
+        user: false,
+        loggedIn:false,
+        MobileNo: MobileNo,
+        message:false,
+        allBanner
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("user/veriOtpPass", {
+        userlay:true,
+        user: false,
+        loggedIn:false,
+        MobileNo: MobileNo,
+        message:false,
+        allBanner
+      });
+    }
+  },
+
+  verifyOtpForPassword: async (req, res) => {
+    try {
+      const allBanner=await bannerModel.find()
+      const MobileNo = req.body.MobileNo;
+      const user = await userHelper.getUser(MobileNo);
+      const enteredOTP = req.body.code;
+      twilioFunctions.client.verify.v2
+        .services(twilioFunctions.verifySid)
+        .verificationChecks.create({ to: `+91${MobileNo}`, code: enteredOTP })
+        .then((verification_check) => {
+          if (verification_check.status === "approved") {
+            const payload = {
+              userId: user._id,
+              isAdmin: user.isAdmin,
+            };
+            const token = jwt.sign(payload, process.env.SECRET_KEY);
+            res.cookie("token", token, { httpOnly: true });
+      res.render("user/changePassword", {
+        userlay:true,
+        user: false,
+        loggedIn:false,
+        MobileNo: MobileNo,
+        message:false,
+        allBanner
+      });
+          } else {
+            res.render("user/veriOtpPass", {
+            userlay:true,
+            user: false,
+            loggedIn:false,
+            MobileNo: MobileNo,
+            message:false,
+            allBanner
+          });;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          res.render("user/veriOtpPass", {
+            userlay:true,
+            user: false,
+            loggedIn:false,
+            MobileNo: MobileNo,
+            message:false,
+            allBanner
+          });;
+        });
+    } catch (err) {
+      console.error(err);
+      
+    }
+  },
+
+  changePassword: async (req, res) => {
+    try {
+      const userId = req.userId;
+      console.log(userId,'---------------');
+      await userHelper.updatePassword(userId, req.body.changedPassword);
+      res.cookie("token", "", { expires: new Date(0) });
+      res.redirect("/");
+    } catch (err) {
+      const allBanner=await bannerModel.find()
+      res.render("user/changePassword", {
+        userlay:true,
+        user: false,
+        loggedIn:false,
+        MobileNo: MobileNo,
+        message:'error',
+        allBanner
+      });
+      console.error(err);
+    }
   },
 
 

@@ -9,6 +9,7 @@ const { ObjectId } = require("mongodb");
 const couponModel = require("../models/coupon");
 const moment = require("moment");
 const wishModel = require("../models/wishListModel");
+const bcrypt = require("bcrypt");
 
 var instance = new Razorpay({
   key_id: "rzp_test_LlUB5deQFFVcRd",
@@ -16,6 +17,19 @@ var instance = new Razorpay({
 });
 
 module.exports = {
+
+  getUser: async (mob) => {
+    try {
+      const user = await userModel.findOne({ phoneNumber: mob });
+      console.log(user,'99999999999');
+      if (user && !user.isblocked) {
+        return user;
+      }
+      return false;
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
   getMobileNumber: async (mobNumber) => {
     try {
@@ -55,6 +69,16 @@ module.exports = {
       }
     });
   },
+
+  updatePassword: async (id, newPassword) => {
+    try {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await userModel.findOneAndUpdate(id, { password: hashedPassword }, { new: true });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   editProfile: (userId, data, picture) => {
     console.log(picture);
     return new Promise(async (resolve, reject) => {

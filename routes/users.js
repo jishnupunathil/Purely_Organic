@@ -42,6 +42,16 @@ router.post(
   controllers.editProfile
 );
 
+router.post("/verify-forgotPassword", controllers.generateOTP);
+
+router.post(
+  "/verify-mobileNumberForPassword",
+  controllers.verifyOtpForPassword
+);
+
+router.post("/change-password",checkUserAuth,controllers.changePassword);
+
+
 //product section
 
 router.get(

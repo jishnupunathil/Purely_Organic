@@ -52,6 +52,8 @@ module.exports = {
     });
   },
 
+
+
   registrationPage: async (req, res) => {
     let allBanner = await bannerModel.find();
     res.render("user/userSignup", {
@@ -98,5 +100,15 @@ module.exports = {
     } catch (err) {
       res.redirect("/user/index");
     }
+  },
+  forgotPassword: async(req, res) => {
+    let allBanner = await bannerModel.find();
+    res.render("user/frgtPass", {
+      userlay: true,
+      loggedIn: false,
+      message: false,
+      allBanner,
+      user: false,
+    });
   },
 };
