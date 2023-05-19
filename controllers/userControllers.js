@@ -450,7 +450,12 @@ module.exports = {
     let userId = req.userId;
     let allCategory = await categoryModel.find();
     let allBanner = await bannerModel.find();
-    let allProduct = await productModel.find();
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 8;
+    const skip = (page - 1) * pageSize;
+    const allProduct = await productModel.find().skip(skip).limit(pageSize);
+    const count = await productModel.countDocuments();const totalPages = Math.ceil(count / pageSize);
+    const currentPage = page > totalPages ? totalPages : page;
     let cartCount = await userHelper.getCartCount(userId);
     let wishCount = await userHelper.countWish(userId); // count items in cart for user
     if (userId) {
@@ -462,6 +467,9 @@ module.exports = {
         allCategory,
         user,
         allProduct,
+        totalPages,
+        currentPage,
+        pageSize,
         cartCount,
         wishCount
       });
