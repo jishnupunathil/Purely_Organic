@@ -330,7 +330,8 @@ module.exports = {
   verifyOtpForPassword: async (req, res) => {
     try {
       const allBanner=await bannerModel.find()
-      const MobileNo = req.body.MobileNo;
+      const MobileNo = req.params.id
+      console.log(MobileNo,'---------------');
       const user = await userHelper.getUser(MobileNo);
       const enteredOTP = req.body.code;
       twilioFunctions.client.verify.v2
@@ -384,6 +385,7 @@ module.exports = {
     try {
       const userId = req.userId;
       console.log(userId,'---------------');
+      console.log(req.body.changedPassword,'+++++++++++++');
       await userHelper.updatePassword(userId, req.body.changedPassword);
       res.cookie("token", "", { expires: new Date(0) });
       res.redirect("/");

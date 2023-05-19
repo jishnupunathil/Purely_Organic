@@ -73,7 +73,7 @@ module.exports = {
   updatePassword: async (id, newPassword) => {
     try {
       const hashedPassword = await bcrypt.hash(newPassword, 10);
-      await userModel.findOneAndUpdate(id, { password: hashedPassword }, { new: true });
+      await userModel.findByIdAndUpdate(id, { password: hashedPassword }, { new: true });
     } catch (err) {
       console.error(err);
     }

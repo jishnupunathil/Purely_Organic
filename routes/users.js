@@ -45,7 +45,7 @@ router.post(
 router.post("/verify-forgotPassword", controllers.generateOTP);
 
 router.post(
-  "/verify-mobileNumberForPassword",
+  "/verify-mobileNumberForPassword/:id",
   controllers.verifyOtpForPassword
 );
 

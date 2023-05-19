@@ -24,12 +24,12 @@
 
                     <div class="signin-form">
                         <h2 class="form-title">Otp for password Change</h2>
-                        <form action="/user/verify-mobileNumberForPassword" method="POST" class="register-form" id="otpLoginSubmit">
+                        <form action="/user/verify-mobileNumberForPassword/<%=MobileNo%>" method="POST" class="register-form" id="otpLoginSubmit">
                             <div class="form-group">
                                 <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="number" name="code" id="code" placeholder="6-digit Code" />
                             </div>
-                           <input name="mobNumber" value="<%=MobileNo%>" hidden>
+                           <!-- <input name="mobNumber" value="<%=MobileNo%>" hidden> -->
                             <!-- <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password" id="password"placeholder="Password"/>
