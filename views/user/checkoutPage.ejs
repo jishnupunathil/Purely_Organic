@@ -131,8 +131,10 @@
                                         <li><%=prod.name%><span>₹<%=prod.totalPrice%></span></li>
                                     </ul>
                                     <%})%>
-                                <div class="checkout__order__subtotal" >Subtotal <span>₹<%=total%></span></div>
-                                <div class="checkout__order__subtotal" >Discount <span>₹<%=discountVal%></span></div>
+                                <div class="checkout__order__subtotal" id="subTotal" name="subTotal">Subtotal <span>₹<%=total%></span></div>
+                                <input type="text" value="<%=discountVal%>" name="discount" hidden>
+                                <input type="text" value="<%=total%>" name="subTotal" hidden>
+                                <div class="checkout__order__subtotal" id="discount" name="discount">Discount <span>₹<%=discountVal%></span></div>
                                 <div class="checkout__order__total" id="totalPrice" name="totalPrice">Total <span>₹<%=subTotal%></div>
                                 <div class="custom-control custom-radio">
                                     <input id="cod" value="cash_on_delivery" name="paymentMethod" type="radio" class="custom-control-input"/>

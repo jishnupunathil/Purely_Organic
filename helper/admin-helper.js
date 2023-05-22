@@ -25,6 +25,8 @@ module.exports = {
             $project: {
               _id: 1,
               user_id: 1,
+              discount:1,
+              subTotal:1,
               total_amount: 1,
               payment_status: 1,
               payment_method: 1,
@@ -78,6 +80,8 @@ module.exports = {
             total_amount: 1,
             payment_status: 1,
             payment_method: 1,
+            discount:1,
+            subTotal:1,
             order_status: 1,
             return_status: 1,
             order_date: 1,

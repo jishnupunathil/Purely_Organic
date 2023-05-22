@@ -93,7 +93,7 @@
             </thead>
             <tbody>
              
-                <% orders.forEach(function(order,index) { %>
+                <% orders.reverse().forEach(function(order,index) { %>
                     <tr>
                         <td><%-index+1%></td>
                       <td><%= order._id.toString().substr(0, 10) %></td>

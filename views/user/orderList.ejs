@@ -112,6 +112,16 @@
                                                         <dd>₹10.00</dd>
                                                     </dl> -->
                                                     <dl class="dlist">
+                                                        <dt>Sub total:</dt>
+                                                        <dd class="h6">₹<%=orderInfo.subTotal%> </dd>
+                                                    </dl>
+                                                    <%if(orderInfo.discount != 0){%>
+                                                    <dl class="dlist">
+                                                          <dt>discount:</dt>
+                                                          <dd> <b class="h6">-₹<%=orderInfo.discount%> </b> </dd>
+                                                        </dl>
+                                                        <%}%>
+                                                    <dl class="dlist">
                                                         <dt>Grand total:</dt>
                                                         <dd> <b class="h5">₹<%=orderInfo.total_amount%></b> </dd>
                                                     </dl>

@@ -45,8 +45,10 @@ module.exports.generateInvoice = async (invoiceData, productDetails) => {
       doc.text(`${item.name} - ${item.quantity}kg - Rs ${item.price} per Kg `);
     });
     doc.text("------------------------------").moveDown();
-    doc.fontSize(10).text(`payment_Method: ${invoiceData?.payment_method}`).moveDown();
+    doc.fontSize(10).text(`Subtotal: ${invoiceData?.subTotal}`).moveDown();
+    doc.fontSize(10).text(`Discount: - Rs${invoiceData?.discount}`).moveDown();
     doc.fontSize(16).text(`Total: Rs ${invoiceData?.total_amount}`).moveDown();
+    doc.fontSize(10).text(`payment_Method: ${invoiceData?.payment_method}`).moveDown();
 
     // End the PDF document
     doc.end();

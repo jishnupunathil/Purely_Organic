@@ -197,8 +197,9 @@ module.exports = {
       }
     });
   },
+  
 
-  postPlaceOrder: (order, products, total) => {
+  postPlaceOrder: (order, products, total,discount,subTotal) => {
     return new Promise(async (resolve, reject) => {
       try {
         console.log(order.userId);
@@ -208,6 +209,8 @@ module.exports = {
           user_id: order.userId,
           payment_method: order.paymentMethod,
           total_amount: total,
+          subTotal:subTotal,
+          discount:discount,
           payment_status: status,
           order_status: status,
           address: order.address, // ensure this is a valid ObjectId
@@ -563,3 +566,5 @@ module.exports = {
     }
   },
 };
+
+

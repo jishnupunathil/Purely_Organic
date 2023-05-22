@@ -118,12 +118,20 @@
                   <td colspan="4">
                     <article class="float-end">
                       
+                      <!-- <dl class="dlist">
+                        <dt>Sub total:</dt>
+                        <dd class="h6">₹<%=order.subTotal%> </dd>
+                    </dl> -->
+                    <%if(order.discount != 0){%>
                       <dl class="dlist">
+                            <dt>discount:</dt>
+                            <dd> <b class="h6">-₹<%=order.discount%></b> </dd>
+                          </dl>
+                          <%}%>
+                    <dl class="dlist">
                         <dt>Grand total:</dt>
-                        <dd>
-                          <b class="h5">&#x20B9; <%= order.total_amount%></b>
-                        </dd>
-                      </dl>
+                        <dd> <b class="h5">₹<%=order.total_amount%></b> </dd>
+                    </dl>
                       <dl class="dlist">
                         <dt class="text-muted">payment Status:</dt>
                         <dd>
@@ -192,7 +200,7 @@
                       Change Status
                     </button>
       
-                    <% } else { %>
+                    <% } else if(order.order_status != "cancelled"){ %>
                     <input type="text" id="orderId" value="<%=order._id%>" hidden />
                     <label
                       class="mb-2 form-check form-check-inline"
@@ -241,7 +249,9 @@
                   >
                     Change Status
                   </button>
-                  <% } %>
+                  <% }else{ %>
+                    <div></div>
+                    <%}%>
             
           </div>
         </div>

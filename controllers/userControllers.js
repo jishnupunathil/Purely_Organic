@@ -997,11 +997,15 @@ module.exports = {
   placeOrder: async (req, res) => {
     console.log("+++++", req.body);
     const userId = req.userId;
+    const subTotal=req.body.subTotal
+    const discount=req.body.discount
+    console.log(subTotal,'---');
+  
     let products = await userHelper.getProduct(userId);
     console.log(products);
     let totalPrice = await userHelper.getTotalPrice(userId);
     await userHelper
-      .postPlaceOrder(req.body, products, totalPrice)
+      .postPlaceOrder(req.body, products, totalPrice,discount,subTotal)
       .then((response) => {
         if (req.body["paymentMethod"] === "cash_on_delivery") {
           res.json({
@@ -1236,6 +1240,7 @@ module.exports = {
       const cartCount = await userHelper.getCartCount(userId);
       const search = req.query.search;
       const products = await userHelper.searchQuery(search, userId);
+      const wishCount = await userHelper.countWish(userId);
       console.log(products, "---------------");
       res.render("user/searchResult", {
         userlay: true,
@@ -1245,6 +1250,7 @@ module.exports = {
         loggedIn: true,
         user,
         cartCount,
+        wishCount
       });
     } catch (err) {
       res.render("catchError", {
@@ -1314,10 +1320,6 @@ module.exports = {
       }
     } catch (err) {
       console.error(err);
-      res.render("catchError", {
-        message: err.message,
-        user: req.session.user,
-      });
     }
   },
   removeProdctFromWishLIst: async (req, res) => {
@@ -1331,10 +1333,7 @@ module.exports = {
         message: "product added to cart",
       });
     } catch (err) {
-      res.render("catchError", {
-        message: err.message,
-        user: req.session.user,
-      });
+     
     }
   },
   downloadInvoice: async (req, res) => {

@@ -39,6 +39,14 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  subTotal: {
+    type: Number,
+    required: true,
+  },
+  discount: {
+    type: Number,
+    required: true,
+  },
   total_amount: {
     type: Number,
     required: true,
