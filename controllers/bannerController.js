@@ -4,7 +4,6 @@ const categoryModel = require("../models/categoryModel");
 
 module.exports = {
   addBanner: async (req, res) => {
-    console.log("body", req.body);
     try {
       const bannerMod = new bannerModel({
         bname: req.body.bname,
@@ -30,7 +29,6 @@ module.exports = {
   deleteBanner: async (req, res) => {
     try {
       let id = req.params.id;
-      console.log(id);
       await bannerModel.deleteOne({ _id: id });
       res.redirect("/admin/banners");
     } catch (err) {
@@ -39,12 +37,10 @@ module.exports = {
   },
   singleBanner: async (req, res) => {
     let id = req.params.id;
-    console.log(id);
     let ValidId = mongoose.Types.ObjectId.isValid(id);
     if (ValidId) {
       try {
         let singleBanner = await bannerModel.findById({ _id: id });
-        console.log(singleBanner);
         res.render("admin/editBanner", { userlay: false, singleBanner });
       } catch (err) {
         res.render("admin/banners", { userlay: false });

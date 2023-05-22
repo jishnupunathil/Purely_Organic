@@ -18,7 +18,6 @@ module.exports = {
     }
   },
   addCategory: async (req, res) => {
-    console.log("body", req.body);
     try {
       const categoryMod = new categoryModel({
         cname: req.body.cname,
@@ -57,7 +56,6 @@ module.exports = {
   },
   updateCategory: async (req, res) => {
     let id = req.params.id;
-    console.log(id);
     validId = mongoose.Types.ObjectId.isValid(id);
     if (validId) {
       try {

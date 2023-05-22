@@ -7,7 +7,6 @@ const userHelper = require("../helper/user-helper");
 
 module.exports = {
   addProduct: async (req, res) => {
-    console.log("body", req.body);
     try {
       const productMod = new productModel({
         pname: req.body.pname,
@@ -60,7 +59,6 @@ module.exports = {
     try {
       let id = req.params.id;
       let files = req.files;
-      console.log(files, "fileeeeeeeeees");
       if (files.length === 0) {
         await productModel.findByIdAndUpdate(id, {
           pname: req.body.pname,
@@ -89,7 +87,6 @@ module.exports = {
   deleteProduct: async (req, res) => {
     try {
       let id = req.params.id;
-      console.log(id);
 
       await productModel.deleteOne({ _id: id });
       res.redirect("/admin/productList");

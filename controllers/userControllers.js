@@ -28,13 +28,10 @@ module.exports = {
     let latestproduct = await productModel.find().skip(6).limit(3);
     let cartCount = await userHelper.getCartCount(userId);
     let wishCount = await userHelper.countWish(userId); // count items in cart for user
-
-    console.log("userId", userId);
     userModel
       .findById(userId)
       .then((user) => {
         if (!user) {
-          console.log("user not found");
           return res.redirect("/login");
         }
 
@@ -81,7 +78,6 @@ module.exports = {
           .save()
           .then((data) => {
             res.redirect("/login");
-            console.log(data);
           })
           .catch((err) => {
             res.json({
@@ -207,10 +203,8 @@ module.exports = {
     try {
       const allBanner = await bannerModel.find();
       const mobNumber = req.body.mobNumber;
-      console.log(mobNumber,'---------------');
       const user = await userHelper.getMobileNumber(mobNumber);
       const enteredOTP = req.body.code;
-      console.log(enteredOTP,'-------');
       twilioFunctions.client.verify.v2
         .services(twilioFunctions.verifySid)
         .verificationChecks.create({ to: `+91${mobNumber}`, code: enteredOTP })
@@ -257,7 +251,6 @@ module.exports = {
 
   resendOTp: async (req, res) => {
     const mobNumber = req.query.mobNumber;
-    console.log(mobNumber);
     twilioFunctions
       .generateOTP(mobNumber, "sms")
       .then((verification) => {
@@ -279,7 +272,6 @@ module.exports = {
       const MobileNo = req.body.MobileNo;
       const allBanner=await bannerModel.find()
       const validUser = await userHelper.getUser(MobileNo);
-      console.log(validUser,'0000000000');
       if (validUser) {
         twilioFunctions
           .generateOTP(MobileNo, "sms")
@@ -331,7 +323,6 @@ module.exports = {
     try {
       const allBanner=await bannerModel.find()
       const MobileNo = req.params.id
-      console.log(MobileNo,'---------------');
       const user = await userHelper.getUser(MobileNo);
       const enteredOTP = req.body.code;
       twilioFunctions.client.verify.v2
@@ -384,8 +375,6 @@ module.exports = {
   changePassword: async (req, res) => {
     try {
       const userId = req.userId;
-      console.log(userId,'---------------');
-      console.log(req.body.changedPassword,'+++++++++++++');
       await userHelper.updatePassword(userId, req.body.changedPassword);
       res.cookie("token", "", { expires: new Date(0) });
       res.redirect("/");
@@ -422,7 +411,6 @@ module.exports = {
   getEditProfile: async (req, res) => {
     let userId = req.userId;
     let profileData = await userHelper.getProfile(userId);
-    console.log(profileData);
     try {
       let address = await userHelper.getAddress(userId);
       res.render("user/profile", { userlay: false, profileData, address });
@@ -439,9 +427,7 @@ module.exports = {
     let userId = req.userId;
     let data = req.body;
     let picture = req.images || req.image;
-    // console.log(images);
     let user = await userHelper.editProfile(userId, data, picture);
-    console.log(user);
     res.redirect("/user/index");
   },
 
@@ -518,7 +504,6 @@ module.exports = {
       const products = cartProduct.products;
       for (let i = 0; i < products.length; i++) {
         const product = await productModel.findById(products[i].productId);
-        console.log(product);
         productDetails.push({
           id: product._id,
           name: product.pname,
@@ -570,7 +555,6 @@ module.exports = {
         });
       }
       const coupon = await couponModel.findOne({ code });
-      console.log(coupon);
 
       await cartModel.updateOne(
         { user: userId },
@@ -582,7 +566,7 @@ module.exports = {
       );
       res.redirect("/user/getCart");
     } catch (error) {
-      console.log("Apply coupon error", error);
+      console.log(error);
     }
   },
 
@@ -995,14 +979,11 @@ module.exports = {
   },
 
   placeOrder: async (req, res) => {
-    console.log("+++++", req.body);
     const userId = req.userId;
     const subTotal=req.body.subTotal
     const discount=req.body.discount
-    console.log(subTotal,'---');
   
     let products = await userHelper.getProduct(userId);
-    console.log(products);
     let totalPrice = await userHelper.getTotalPrice(userId);
     await userHelper
       .postPlaceOrder(req.body, products, totalPrice,discount,subTotal)
@@ -1031,7 +1012,6 @@ module.exports = {
     let selectedAddress = addressColl.addresses.find(
       (address) => address._id.toString() === addressId
     );
-    console.log(selectedAddress);
     const product = await productModel.findOne(orderInfo?.productId);
     res.render("user/orderList", {
       userlay: false,
@@ -1053,7 +1033,6 @@ module.exports = {
     let selectedAddress = addressColl.addresses.find(
       (address) => address._id.toString() === addressId
     );
-    console.log(selectedAddress);
     const product = await productModel.findOne(orderInfo?.productId);
     if (orderStatus === "cancelled") {
       res.render("user/orderList", {
@@ -1078,12 +1057,9 @@ module.exports = {
 
   verifyPayment: (req, res) => {
     userHelper.verifyPayment(req.body).then(() => {
-      console.log(req.body["order[receipt]"]);
-      console.log(req.body["order[notes][address]"]);
       userHelper
         .changePaymentStatus(req.body["order[receipt]"])
         .then(() => {
-          console.log("payment success");
           res.json({
             status: true,
             orderId: req.body["order[receipt]"],
@@ -1092,7 +1068,6 @@ module.exports = {
         })
         .catch((err) => {
           res.json({ status: false, errMsg: "" });
-          console.log("payment failed");
         });
     });
   },
@@ -1183,7 +1158,6 @@ module.exports = {
   getMyorders: async (req, res) => {
     const userId = req.userId;
     let orders = await Order.find({ user_id: userId });
-    console.log("orders", orders);
     res.render("user/myOrder", { userlay: false, orders });
   },
   cancelOrder: async (req, res) => {
@@ -1241,7 +1215,6 @@ module.exports = {
       const search = req.query.search;
       const products = await userHelper.searchQuery(search, userId);
       const wishCount = await userHelper.countWish(userId);
-      console.log(products, "---------------");
       res.render("user/searchResult", {
         userlay: true,
         products,
@@ -1339,12 +1312,10 @@ module.exports = {
   downloadInvoice: async (req, res) => {
     try {
       const order_id = req.params.id;
-      console.log(order_id,'------------');
       // Generate the PDF invoice
       const order = await adminHelper.getSpecificOrder(order_id);
 
       const { order: invoiceData, productDetails } = order;
-      console.log(invoiceData,'++++++++++++++++');
       const invoicePath = await generateInvoice(invoiceData, productDetails);
 
 

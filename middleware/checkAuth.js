@@ -4,7 +4,6 @@ require("dotenv").config();
 module.exports = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    console.log("no token");
     return res.redirect("/login");
   }
   try {

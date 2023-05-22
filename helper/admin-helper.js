@@ -100,7 +100,6 @@ module.exports = {
       ]);
 
       const order = orders[0];
-      console.log(order);
 
       const productDetails = [];
       for (const item of order.items) {
@@ -114,7 +113,6 @@ module.exports = {
           image: product.pimages[0],
         });
       }
-      console.log(productDetails, "--------------------");
 
       return { order, productDetails };
     } catch (err) {
@@ -279,7 +277,6 @@ module.exports = {
         .populate("items.product_id")
         .exec();
       if (order.length === 0) {
-        console.log("No orders found for user");
       } else {
         return order;
       }

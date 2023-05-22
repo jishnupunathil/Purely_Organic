@@ -21,7 +21,6 @@ module.exports = {
   getUser: async (mob) => {
     try {
       const user = await userModel.findOne({ phoneNumber: mob });
-      console.log(user,'99999999999');
       if (user && !user.isblocked) {
         return user;
       }
@@ -80,7 +79,6 @@ module.exports = {
   },
 
   editProfile: (userId, data, picture) => {
-    console.log(picture);
     return new Promise(async (resolve, reject) => {
       try {
         let updatedUser = await userModel.findByIdAndUpdate(
@@ -202,7 +200,6 @@ module.exports = {
   postPlaceOrder: (order, products, total,discount,subTotal) => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(order.userId);
         let status =
           order.paymentMethod === "cash_on_delivery" ? "pending" : "paid";
         let orderObj = {
@@ -248,8 +245,6 @@ module.exports = {
   },
 
   generateRazorpay: (orderId, total, addressId) => {
-    console.log(total, "dsf");
-    console.log(orderId, "heyy");
 
     return new Promise((resolve, reject) => {
       var options = {
@@ -264,7 +259,6 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          console.log("new order", order);
           resolve(order);
         }
       });
@@ -342,13 +336,11 @@ module.exports = {
   },
 
   updateQuantity: async (userId, productId, count) => {
-    console.log("hiiiiiiiiiiii");
     try {
       const cart = await cartModel.findOne({ user: userId });
       const product = cart.products.find(
         (p) => p.productId.toString() === productId
       );
-      console.log(product, "---------------------------");
       if (!product) {
         throw new Error("Product not found in cart");
       }
@@ -442,7 +434,6 @@ module.exports = {
   },
 
   addToWishListUpdate: async (userId, productId) => {
-    console.log(userId,productId,'---------------');
     try {
       const wishlistDoc = await wishModel.findOne({ userId: userId });
       if (!wishlistDoc) {
@@ -497,8 +488,6 @@ module.exports = {
         },
 
       });
-
-      console.log(wishlistDoc,'----');
 
       if (!wishlistDoc) {
         // If wishlist doesn't exist for user, return an empty array

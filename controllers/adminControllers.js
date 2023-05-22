@@ -15,9 +15,7 @@ module.exports = {
       const users = await adminHelper.getAllUsers();
       const usersCount = users.length;
       const orderData = await adminHelper.orderStatusData();
-      console.log(orderData);
       const paymentStatitics = await adminHelper.paymentStatitics();
-      console.log(paymentStatitics);
     res.render("admin/dashboard", { userlay: false,
       totalRevenue,
       orderCount,
@@ -79,7 +77,6 @@ module.exports = {
   },
   blockUser: async (req, res) => {
     let id = req.params.id;
-    console.log(id);
     validId = mongoose.Types.ObjectId.isValid(id);
     if (validId) {
       try {
@@ -115,7 +112,6 @@ module.exports = {
     try {
       let orders = await adminHelper.orderPage();
       if (orders) {
-        // console.log(orders);
         res.render("admin/orderMangement", { userlay: false, orders });
       }
     } catch (err) {
@@ -158,7 +154,6 @@ module.exports = {
   viewCoupon: async (req, res) => {
     try {
       const coupons = await adminHelper.getCoupons();
-      console.log(coupons, "-----------");
       res.render("admin/allCoupons", { userlay: false, coupons });
     } catch (err) {
       console.error(err);
@@ -201,7 +196,6 @@ module.exports = {
   viewReportByDate: async (req, res) => {
     try {
       const { startDate, endDate } = req.body;
-      console.log(req.body);
       const orders = await adminHelper.getReport(startDate, endDate);
 
       res.render("admin/viewSalesReport", {userlay:false, orders });
