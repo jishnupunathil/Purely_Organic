@@ -20,12 +20,11 @@ router.post("/registration", controllers.userRegistation);
 
 //user login
 
-router.post("/otpLogin",verifyToken, controllers.otpLoginPost);
+router.post("/otpLogin", verifyToken, controllers.otpLoginPost);
 
-router.get("/resendOTP",verifyToken,controllers.resendOTp)
+router.get("/resendOTP", verifyToken, controllers.resendOTp);
 
-router.post("/submitOtp",verifyToken, controllers.verifyOtp);
-
+router.post("/submitOtp", verifyToken, controllers.verifyOtp);
 
 router.post("/login", controllers.userLogin);
 
@@ -49,8 +48,7 @@ router.post(
   controllers.verifyOtpForPassword
 );
 
-router.post("/change-password",checkUserAuth,controllers.changePassword);
-
+router.post("/change-password", checkUserAuth, controllers.changePassword);
 
 //product section
 
@@ -96,7 +94,7 @@ router.post("/deleteAddress/:id", checkUserAuth, controllers.deleteAddress);
 
 router.get("/myOrders", checkUserAuth, controllers.getMyorders);
 
-router.get("/download-invoice/:id",checkUserAuth, controllers.downloadInvoice);
+router.get("/download-invoice/:id", checkUserAuth, controllers.downloadInvoice);
 
 router.post("/cancelOrder/:id", checkUserAuth, controllers.cancelOrder);
 
@@ -124,9 +122,9 @@ router.post(
 
 router.get("/product-search", checkUserAuth, controllers.search);
 
-router.get('/wishList',checkUserAuth,controllers.wishlist)
+router.get("/wishList", checkUserAuth, controllers.wishlist);
 
-router.post('/wishlist/:id',checkUserAuth,controllers.addToWishList)
+router.post("/wishlist/:id", checkUserAuth, controllers.addToWishList);
 
 router.put(
   "/add-to-cartFromWishL/:id",

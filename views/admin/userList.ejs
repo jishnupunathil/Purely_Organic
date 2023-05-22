@@ -77,7 +77,6 @@
                                 <th>Index</th>
                                 <th>user</th>
                                 <th>Email</th>
-                                <!-- <th>Status</th> -->
                                 <th>Registered</th>
                                 <th class="text-end">Action</th>
                             </tr>
@@ -98,7 +97,6 @@
                                     </a>
                                 </td>
                                 <td><%= user.email %></td>
-                                <!-- <td><span class="badge rounded-pill alert-success">Active</span></td> -->
                                 <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
 
                                 <% if (user.isblocked) { %>

@@ -58,112 +58,112 @@
           <span class="text">Orders</span>
         </a>
       </li>
-      <hr>
-          <li class="menu-item ">
-            <a class="menu-link" href="/admin/sales-report">
-              <i class="icon material-icons md-settings"></i>
-              <span class="text">Sales Report</span>
-            </a>
-          </li>
+      <hr />
+      <li class="menu-item">
+        <a class="menu-link" href="/admin/sales-report">
+          <i class="icon material-icons md-settings"></i>
+          <span class="text">Sales Report</span>
+        </a>
+      </li>
     </ul>
   </nav>
 </aside>
 <main class="main-wrap">
   <%-include('../partials/adminHeader.ejs')-%>
-<section class="content-main">
-  <div class="content-header">
-    <div>
-      <h2 class="content-title card-title">Dashboard.</h2>
-      <p>Whole data about Ogani business here</p>
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Dashboard.</h2>
+        <p>Whole data about Ogani business here</p>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-3">
-      <div class="card card-body mb-4">
-        <article class="icontext">
-          <span class="icon icon-sm rounded-circle bg-primary-light"
-            ><i class="text-primary material-icons md-monetization_on"></i
-          ></span>
-          <div class="text">
-            <h6 class="mb-1 card-title">Total Revenue</h6>
-            <span>&#x20B9;<%=totalRevenue%></span>
-            <span class="text-sm"> Shipping fees are not included </span>
-          </div>
-        </article>
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card card-body mb-4">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-primary-light"
+              ><i class="text-primary material-icons md-monetization_on"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Total Revenue</h6>
+              <span>&#x20B9;<%=totalRevenue%></span>
+              <span class="text-sm"> Shipping fees are not included </span>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="card card-body mb-4">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-success-light"
+              ><i class="text-success material-icons md-local_shipping"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Orders</h6>
+              <span><%=orderCount%></span>
+              <br />
+              <span class="text-sm"> Excluding orders in transit </span>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="card card-body mb-4">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-warning-light"
+              ><i class="text-warning material-icons md-qr_code"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Products Instock</h6>
+              <span><%=productsCount%></span>
+              <br />
+              <span class="text-sm"> In 4 Categories </span>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="card card-body mb-4">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-info-light"
+              ><i class="text-info material-icons md-shopping_basket"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Number of Customers</h6>
+              <span><%=usersCount%></span>
+              <br />
+              <br />
+              <span class="text-sm"> </span>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
 
-    <div class="col-lg-3">
-      <div class="card card-body mb-4">
-        <article class="icontext">
-          <span class="icon icon-sm rounded-circle bg-success-light"
-            ><i class="text-success material-icons md-local_shipping"></i
-          ></span>
-          <div class="text">
-            <h6 class="mb-1 card-title">Orders</h6>
-            <span><%=orderCount%></span>
-            <br>
-            <span class="text-sm"> Excluding orders in transit </span>
-          </div>
-        </article>
+    <div class="row">
+      <div class="col-xl-8 col-lg-12">
+        <div class="card mb-4">
+          <article class="card-body">
+            <h5 class="card-title">Payment statistics</h5>
+            <canvas id="myGraph" height="100px"></canvas>
+          </article>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-12">
+        <div class="card mb-4">
+          <article class="card-body">
+            <h5 class="card-title">Order statistics</h5>
+            <canvas id="myPie" height="100px"></canvas>
+          </article>
+        </div>
       </div>
     </div>
-
-    <div class="col-lg-3">
-      <div class="card card-body mb-4">
-        <article class="icontext">
-          <span class="icon icon-sm rounded-circle bg-warning-light"
-            ><i class="text-warning material-icons md-qr_code"></i
-          ></span>
-          <div class="text">
-            <h6 class="mb-1 card-title">Products Instock</h6>
-            <span><%=productsCount%></span>
-            <br>
-            <span class="text-sm"> In 4 Categories </span>
-          </div>
-        </article>
-      </div>
-    </div>
-
-    <div class="col-lg-3">
-      <div class="card card-body mb-4">
-        <article class="icontext">
-          <span class="icon icon-sm rounded-circle bg-info-light"
-            ><i class="text-info material-icons md-shopping_basket"></i
-          ></span>
-          <div class="text">
-            <h6 class="mb-1 card-title">Number of Customers</h6>
-            <span><%=usersCount%></span>
-            <br>
-            <br>
-            <span class="text-sm"> </span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xl-8 col-lg-12">
-      <div class="card mb-4">
-        <article class="card-body">
-          <h5 class="card-title">Payment statistics</h5>
-          <canvas id="myGraph" height="100px"></canvas>
-        </article>
-      </div>
-    </div>
-    <div class="col-xl-4 col-lg-12">
-      <div class="card mb-4">
-        <article class="card-body">
-          <h5 class="card-title">Order statistics</h5>
-          <canvas id="myPie" height="100px"></canvas>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- content-main end// -->
-<%-include('../partials/adminFooter.ejs')%>
+  </section>
+  <!-- content-main end// -->
+  <%-include('../partials/adminFooter.ejs')%>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -172,84 +172,90 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsreport-browser-client-dist/2.10.0/jsreport.browser-client.min.js"></script>
 
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+<script
+  type="text/javascript"
+  src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"
+></script>
 
 <script>
-
-
-$(document).ready(function() {
-      // Bar Chart
-const ctx1 = document.getElementById('myGraph').getContext('2d');
-var categorie = ["COD", "ONLINE PAYMENTS"];
-var count = ['<%=paymentStatitics?.cash_on_delivery%>', '<%=paymentStatitics?.online_payment%>'];
-var barColors = ["#e74c3c", "#2ecc71"];
-new Chart(ctx1, {
-  type: "polarArea",
-  data: {
-    labels: categorie,
-    datasets: [{
-    
-      data: count,
-      backgroundColor: barColors,
-      borderWidth: 1,
-      datalabels: {
-        align: 'end',
-        anchor: 'end',
-        color: 'black',
-        font: {
-          weight: 'bold'
+  $(document).ready(function () {
+    // Bar Chart
+    const ctx1 = document.getElementById("myGraph").getContext("2d");
+    var categorie = ["COD", "ONLINE PAYMENTS"];
+    var count = [
+      "<%=paymentStatitics?.cash_on_delivery%>",
+      "<%=paymentStatitics?.online_payment%>",
+    ];
+    var barColors = ["#e74c3c", "#2ecc71"];
+    new Chart(ctx1, {
+      type: "polarArea",
+      data: {
+        labels: categorie,
+        datasets: [
+          {
+            data: count,
+            backgroundColor: barColors,
+            borderWidth: 1,
+            datalabels: {
+              align: "end",
+              anchor: "end",
+              color: "black",
+              font: {
+                weight: "bold",
+              },
+              formatter: function (value, context) {
+                return value;
+              },
+            },
+          },
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Ogani Product Statistics",
         },
-        formatter: function(value, context) {
-          return value;
-        }
-      }
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-      text: "Ogani Product Statistics"
-    },
-    legend: {
-      display: false
-    }
-  }
-});
+        legend: {
+          display: false,
+        },
+      },
+    });
 
-// Pie Chart
-const ctx2 = document.getElementById('myPie').getContext('2d');
-let orderStatus = ["delivered", "placed", "cancelled", "Shipped"];
-let orderCount = [ '<%= orderData?.delivered %>', '<%= orderData?.placed %>', '<%= orderData?.cancelled %>', '<%= orderData?.Shipped %>' ];
-var pieColors = [
-  "#e74c3c",
-  "#2ecc71",
-  "#3498db",
-  "#f1c40f",
-]; // Updated color palette
-new Chart(ctx2, {
-  type: "pie",
-  data: {
-    labels: orderStatus,
-    datasets: [{
-      backgroundColor: pieColors,
-      data: orderCount
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-      text: "Ogani Order Statistics"
-    }
-  }
-});
-  } );
-
-
-  
-
-
-
+    // Pie Chart
+    const ctx2 = document.getElementById("myPie").getContext("2d");
+    let orderStatus = ["delivered", "placed", "cancelled", "Shipped"];
+    let orderCount = [
+      "<%= orderData?.delivered %>",
+      "<%= orderData?.placed %>",
+      "<%= orderData?.cancelled %>",
+      "<%= orderData?.Shipped %>",
+    ];
+    var pieColors = ["#e74c3c", "#2ecc71", "#3498db", "#f1c40f"]; // Updated color palette
+    new Chart(ctx2, {
+      type: "pie",
+      data: {
+        labels: orderStatus,
+        datasets: [
+          {
+            backgroundColor: pieColors,
+            data: orderCount,
+          },
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Ogani Order Statistics",
+        },
+      },
+    });
+  });
 </script>
-

@@ -1,105 +1,119 @@
-<%-include('../partials/userHeader.ejs')%> 
+<%-include('../partials/userHeader.ejs')%>
 <section class="hero hero-normal">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2">
-                <% allBanner.forEach(function(banner) { %>
-                    <%if(banner.bname==='ogani logo'){%>
-                        <div class="header__logo">
-                            <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                        </div>
-                        <%}%>
-                        <%})%>
-            </div>
-            <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                        <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                            <div class="hero__search__categories">
-                                All Categories
-                                <span class="arrow_carrot-down"></span>
-                            </div>
-                            <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                            <button type="submit" class="site-btn">SEARCH</button>
-                        </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="header__cart">
-                            <ul>
-                                <li><a href="/user/wishList"><i class="fa fa-heart"></i><span><%=wishCount%></span>  </a></li>
-                                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                            </ul>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2">
+        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='ogani
+        logo'){%>
+        <div class="header__logo">
+          <a href="/user/index"><img src="<%=banner.bimages%>" alt="" /></a>
         </div>
+        <%}%> <%})%>
+      </div>
+      <div class="col-lg-9">
+        <div class="hero__search">
+          <div class="hero__search__form">
+            <form
+              action="/user/product-search/?search"
+              method="get"
+              onsubmit="return validateForm()"
+            >
+              <div class="hero__search__categories">
+                All Categories
+                <span class="arrow_carrot-down"></span>
+              </div>
+              <input
+                type="search"
+                placeholder="What do yo u need?"
+                name="search"
+                id="product-search"
+              />
+              <button type="submit" class="site-btn">SEARCH</button>
+            </form>
+          </div>
+          <div class="hero__search__phone">
+            <div class="header__cart">
+              <ul>
+                <li>
+                  <a href="/user/wishList"
+                    ><i class="fa fa-heart"></i><span><%=wishCount%></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/user/getCart"
+                    ><i class="fa fa-shopping-bag"></i
+                    ><span><%=cartCount%></span></a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 <!-- Hero Section End -->
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>All Coupons</h2>
-                        <!-- <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Shopping Cart</span>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="breadcrumb__text">
+          <h2>All Coupons</h2>
         </div>
-        <div>
-        </div>
-    </section><br>
-    <section>
-        <div class="page-content">
-        <div class="dashboard">
-          <div class="container">
-            <div class="header-left">
-              <div class="row">
-                <% coupons.forEach(function(element) { %>
-                    <% if (element.days_remaining > 0) { %> <!-- Check if the coupon has not expired -->
-                <div class="col-lg-4 mb-4">
-                  <div class="card h-100 card-dashboard" style="background-color:rgb(228, 226, 223);">
-                    <div class="address-section">
-                      <div class="existing-address">
-                        <h5 class="card-title text-center pt-3"><b><%=element?.days_remaining <= 0 ?"Expired":element?.code%></b></h5>
-                        <p class="card-text text-center">Discount: <%=element?.discount %>%<br>
-                        Max Discount: &#x20B9;<%=element?.maxdiscount %><br>
-                        Expiry Date: <%= new Date(element.expirationDate).toLocaleString('en-IN', { dateStyle: 'short'}).split('T')[0]%><br>
-                          
-                      </div>
-                    </div>
-                    <div class="card-footer">
-                        <%= element?.days_remaining <= 0 ? 'Expired': element?.days_remaining + ' days left' %>
-                      </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</section>
+<br />
+<section>
+  <div class="page-content">
+    <div class="dashboard">
+      <div class="container">
+        <div class="header-left">
+          <div class="row">
+            <% coupons.forEach(function(element) { %> <% if
+            (element.days_remaining > 0) { %>
+            <!-- Check if the coupon has not expired -->
+            <div class="col-lg-4 mb-4">
+              <div
+                class="card h-100 card-dashboard"
+                style="background-color: rgb(228, 226, 223)"
+              >
+                <div class="address-section">
+                  <div class="existing-address">
+                    <h5 class="card-title text-center pt-3">
+                      <b
+                        ><%=element?.days_remaining <= 0
+                        ?"Expired":element?.code%></b
+                      >
+                    </h5>
+                    <p class="card-text text-center">
+                      Discount: <%=element?.discount %>%<br />
+                      Max Discount: &#x20B9;<%=element?.maxdiscount %><br />
+                      Expiry Date: <%= new
+                      Date(element.expirationDate).toLocaleString('en-IN', {
+                      dateStyle: 'short'}).split('T')[0]%><br />
+                    </p>
                   </div>
                 </div>
-                <%}%>
-                <% }); %>
+                <div class="card-footer">
+                  <%= element?.days_remaining <= 0 ? 'Expired':
+                  element?.days_remaining + ' days left' %>
+                </div>
               </div>
             </div>
+            <%}%> <% }); %>
           </div>
-        </div><!-- End .container -->
-      </div><!-- End .dashboard -->
-    </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Shoping Cart Section Begin -->
-  
-    <!-- Shoping Cart Section End -->
-    <%- include('../partials/userFooter.ejs')%>
-   
-
- 
-
-
-
-
- 
+        </div>
+      </div>
+    </div>
+    <!-- End .container -->
+  </div>
+  <!-- End .dashboard -->
+</section>
+<!-- Breadcrumb Section End -->
+<%- include('../partials/userFooter.ejs')%>

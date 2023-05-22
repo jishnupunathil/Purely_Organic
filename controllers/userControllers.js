@@ -45,7 +45,7 @@ module.exports = {
           topratedProduct,
           latestproduct,
           cartCount,
-          wishCount
+          wishCount,
         });
       })
       .catch((err) => {
@@ -158,45 +158,42 @@ module.exports = {
   },
 
   otpLoginPost: async (req, res) => {
-    
     try {
       const mobNumber = req.body.phoneNumber;
       const allBanner = await bannerModel.find();
       const validUser = await userHelper.getMobileNumber(mobNumber);
-  
+
       if (validUser !== undefined && validUser !== false) {
         twilioFunctions
           .generateOTP(mobNumber, "sms")
           .then((verification) => {
             res.render("user/submitOtp", {
-              userlay:true,
+              userlay: true,
               user: false,
-              loggedIn:false,
+              loggedIn: false,
               mobNumber: mobNumber,
-              message:false,
-              allBanner
+              message: false,
+              allBanner,
             });
             console.log(verification.status);
           })
           .catch((err) => {
             console.error(err);
-
           });
       } else if (validUser == undefined) {
         res.render("user/otpLogin", {
-          userlay:true,
+          userlay: true,
           user: false,
-          loggedIn:false,
+          loggedIn: false,
           mobNumber: mobNumber,
-          message:'user is undefinded',
-          allBanner
+          message: "user is undefinded",
+          allBanner,
         });
       } else {
-        console.log('errorrrrrrrrrrrrr2222222');
+        console.log("errorrrrrrrrrrrrr2222222");
       }
     } catch (err) {
       console.error(err);
-     
     }
   },
   verifyOtp: async (req, res) => {
@@ -223,29 +220,28 @@ module.exports = {
             }
           } else {
             res.render("user/submitOtp", {
-              userlay:true,
+              userlay: true,
               user: false,
-              loggedIn:false,
+              loggedIn: false,
               mobNumber: mobNumber,
-              message:'enter valid Otp',
-              allBanner
+              message: "enter valid Otp",
+              allBanner,
             });
           }
         })
         .catch((error) => {
           console.error(error);
           res.render("user/submitOtp", {
-            userlay:true,
+            userlay: true,
             user: false,
-            loggedIn:false,
+            loggedIn: false,
             mobNumber: mobNumber,
-            message:'enter valid Otp',
-            allBanner
+            message: "enter valid Otp",
+            allBanner,
           });
         });
     } catch (err) {
       console.error(err);
-      
     }
   },
 
@@ -270,59 +266,59 @@ module.exports = {
   generateOTP: async (req, res) => {
     try {
       const MobileNo = req.body.MobileNo;
-      const allBanner=await bannerModel.find()
+      const allBanner = await bannerModel.find();
       const validUser = await userHelper.getUser(MobileNo);
       if (validUser) {
         twilioFunctions
           .generateOTP(MobileNo, "sms")
           .then((verification) => {
             if (verification.status)
-            res.render("user/veriOtpPass", {
-              userlay:true,
-              user: false,
-              loggedIn:false,
-              MobileNo: MobileNo,
-              message:false,
-              allBanner
-            });
+              res.render("user/veriOtpPass", {
+                userlay: true,
+                user: false,
+                loggedIn: false,
+                MobileNo: MobileNo,
+                message: false,
+                allBanner,
+              });
           })
           .catch((error) => {
-            console.error(error,'---------------');
+            console.error(error, "---------------");
             res.render("user/veriOtpPass", {
-              userlay:true,
+              userlay: true,
               user: false,
-              loggedIn:false,
+              loggedIn: false,
               MobileNo: MobileNo,
-              message:'error',
-              allBanner
+              message: "error",
+              allBanner,
             });
           });
       } else
-      res.render("user/veriOtpPass", {
-        userlay:true,
-        user: false,
-        loggedIn:false,
-        MobileNo: MobileNo,
-        message:false,
-        allBanner
-      });
+        res.render("user/veriOtpPass", {
+          userlay: true,
+          user: false,
+          loggedIn: false,
+          MobileNo: MobileNo,
+          message: false,
+          allBanner,
+        });
     } catch (err) {
       console.log(err);
       res.render("user/veriOtpPass", {
-        userlay:true,
+        userlay: true,
         user: false,
-        loggedIn:false,
+        loggedIn: false,
         MobileNo: MobileNo,
-        message:false,
-        allBanner
+        message: false,
+        allBanner,
       });
     }
   },
 
   verifyOtpForPassword: async (req, res) => {
     try {
-      const allBanner=await bannerModel.find()
-      const MobileNo = req.params.id
+      const allBanner = await bannerModel.find();
+      const MobileNo = req.params.id;
       const user = await userHelper.getUser(MobileNo);
       const enteredOTP = req.body.code;
       twilioFunctions.client.verify.v2
@@ -336,39 +332,38 @@ module.exports = {
             };
             const token = jwt.sign(payload, process.env.SECRET_KEY);
             res.cookie("token", token, { httpOnly: true });
-      res.render("user/changePassword", {
-        userlay:true,
-        user: false,
-        loggedIn:false,
-        MobileNo: MobileNo,
-        message:false,
-        allBanner
-      });
+            res.render("user/changePassword", {
+              userlay: true,
+              user: false,
+              loggedIn: false,
+              MobileNo: MobileNo,
+              message: false,
+              allBanner,
+            });
           } else {
             res.render("user/veriOtpPass", {
-            userlay:true,
-            user: false,
-            loggedIn:false,
-            MobileNo: MobileNo,
-            message:false,
-            allBanner
-          });;
+              userlay: true,
+              user: false,
+              loggedIn: false,
+              MobileNo: MobileNo,
+              message: false,
+              allBanner,
+            });
           }
         })
         .catch((error) => {
           console.error(error);
           res.render("user/veriOtpPass", {
-            userlay:true,
+            userlay: true,
             user: false,
-            loggedIn:false,
+            loggedIn: false,
             MobileNo: MobileNo,
-            message:false,
-            allBanner
-          });;
+            message: false,
+            allBanner,
+          });
         });
     } catch (err) {
       console.error(err);
-      
     }
   },
 
@@ -379,19 +374,18 @@ module.exports = {
       res.cookie("token", "", { expires: new Date(0) });
       res.redirect("/");
     } catch (err) {
-      const allBanner=await bannerModel.find()
+      const allBanner = await bannerModel.find();
       res.render("user/changePassword", {
-        userlay:true,
+        userlay: true,
         user: false,
-        loggedIn:false,
+        loggedIn: false,
         MobileNo: MobileNo,
-        message:'error',
-        allBanner
+        message: "error",
+        allBanner,
       });
       console.error(err);
     }
   },
-
 
   viewProfile: async (req, res) => {
     const userId = req.userId;
@@ -440,7 +434,8 @@ module.exports = {
     const pageSize = parseInt(req.query.pageSize) || 8;
     const skip = (page - 1) * pageSize;
     const allProduct = await productModel.find().skip(skip).limit(pageSize);
-    const count = await productModel.countDocuments();const totalPages = Math.ceil(count / pageSize);
+    const count = await productModel.countDocuments();
+    const totalPages = Math.ceil(count / pageSize);
     const currentPage = page > totalPages ? totalPages : page;
     let cartCount = await userHelper.getCartCount(userId);
     let wishCount = await userHelper.countWish(userId); // count items in cart for user
@@ -457,7 +452,7 @@ module.exports = {
         currentPage,
         pageSize,
         cartCount,
-        wishCount
+        wishCount,
       });
     } else {
       res.render("user/shoppingPage", {
@@ -498,7 +493,7 @@ module.exports = {
         subTotal,
         total,
         cartCount,
-        wishCount
+        wishCount,
       });
     } else {
       const products = cartProduct.products;
@@ -538,7 +533,7 @@ module.exports = {
         cartCount,
         discountVal,
         coupon: couponDetails?.code || "",
-        wishCount
+        wishCount,
       });
     }
   },
@@ -759,7 +754,7 @@ module.exports = {
           total,
           cartCount,
           separateAddresses: false,
-          wishCount
+          wishCount,
         });
       } else {
         let separateAddresses = addressColl.addresses.map((address) => {
@@ -777,7 +772,7 @@ module.exports = {
           total,
           cartCount,
           discountVal,
-          wishCount
+          wishCount,
         });
       }
     } catch (err) {
@@ -791,14 +786,14 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
-      let wishCount = await userHelper.countWish(userId); 
+      let wishCount = await userHelper.countWish(userId);
       res.render("user/newAddress", {
         userlay: true,
         loggedIn: true,
         user,
         allBanner,
         cartCount,
-        wishCount
+        wishCount,
       });
     } catch (err) {
       res.json({
@@ -814,14 +809,14 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
-      let wishCount = await userHelper.countWish(userId); 
+      let wishCount = await userHelper.countWish(userId);
       res.render("user/newPrfAddress", {
         userlay: true,
         loggedIn: true,
         user,
         allBanner,
         cartCount,
-        wishCount
+        wishCount,
       });
     } catch (err) {
       res.json({
@@ -928,7 +923,7 @@ module.exports = {
       const userId = req.userId;
       let user = await userModel.findById(userId);
       let allBanner = await bannerModel.find();
-      let wishCount = await userHelper.countWish(userId); 
+      let wishCount = await userHelper.countWish(userId);
       let cartProduct = await cartModel.findOne({ user: userId });
 
       const products = cartProduct.products;
@@ -968,7 +963,7 @@ module.exports = {
         subTotal,
         total,
         cartCount,
-        wishCount
+        wishCount,
       });
     } catch (err) {
       res.json({
@@ -980,13 +975,13 @@ module.exports = {
 
   placeOrder: async (req, res) => {
     const userId = req.userId;
-    const subTotal=req.body.subTotal
-    const discount=req.body.discount
-  
+    const subTotal = req.body.subTotal;
+    const discount = req.body.discount;
+
     let products = await userHelper.getProduct(userId);
     let totalPrice = await userHelper.getTotalPrice(userId);
     await userHelper
-      .postPlaceOrder(req.body, products, totalPrice,discount,subTotal)
+      .postPlaceOrder(req.body, products, totalPrice, discount, subTotal)
       .then((response) => {
         if (req.body["paymentMethod"] === "cash_on_delivery") {
           res.json({
@@ -1079,7 +1074,7 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
-      let wishCount = await userHelper.countWish(userId); 
+      let wishCount = await userHelper.countWish(userId);
       let addressColl = await addressModel.findOne({ user: userId });
       let selectedAddress = addressColl.addresses.find(
         (address) => address._id.toString() === addressId
@@ -1091,7 +1086,7 @@ module.exports = {
         allBanner,
         cartCount,
         selectedAddress,
-        wishCount
+        wishCount,
       });
     } catch (err) {
       res.json({
@@ -1107,7 +1102,7 @@ module.exports = {
       let allBanner = await bannerModel.find();
       let user = await userModel.findById(userId);
       let cartCount = await userHelper.getCartCount(userId);
-      let wishCount = await userHelper.countWish(userId); 
+      let wishCount = await userHelper.countWish(userId);
       let addressColl = await addressModel.findOne({ user: userId });
       let selectedAddress = addressColl.addresses.find(
         (address) => address._id.toString() === addressId
@@ -1119,7 +1114,7 @@ module.exports = {
         allBanner,
         cartCount,
         selectedAddress,
-        wishCount
+        wishCount,
       });
     } catch (err) {
       res.json({
@@ -1201,7 +1196,7 @@ module.exports = {
       user,
       loggedIn: true,
       coupons,
-      wishCount
+      wishCount,
     });
   },
 
@@ -1223,7 +1218,7 @@ module.exports = {
         loggedIn: true,
         user,
         cartCount,
-        wishCount
+        wishCount,
       });
     } catch (err) {
       res.render("catchError", {
@@ -1233,22 +1228,27 @@ module.exports = {
     }
   },
 
-    
-
-    wishlist: async (req, res) => {
-      const userId=req.userId
-      try {
-        const allBanner=await bannerModel.find()
-        const user = await userHelper.getProfile(userId);
-        const showList = await userHelper.showWishlist(userId);
-        const cartCount = await userHelper.getCartCount(userId);
-        let wishCount = await userHelper.countWish(userId); // count items in cart for user
-        res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount,showList,wishCount})
-      } catch (err) {
-        console.error(err);
-        
-      }
-    },
+  wishlist: async (req, res) => {
+    const userId = req.userId;
+    try {
+      const allBanner = await bannerModel.find();
+      const user = await userHelper.getProfile(userId);
+      const showList = await userHelper.showWishlist(userId);
+      const cartCount = await userHelper.getCartCount(userId);
+      let wishCount = await userHelper.countWish(userId); // count items in cart for user
+      res.render("user/wishList", {
+        userlay: true,
+        user,
+        loggedIn: true,
+        allBanner,
+        cartCount,
+        showList,
+        wishCount,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
 
   addToWishList: async (req, res) => {
     try {
@@ -1274,12 +1274,9 @@ module.exports = {
 
   addToCartFromWish: async (req, res) => {
     try {
-      const userId=req.userId
-      const prodId=req.params.id
-      const response = await userHelper.addToCartFromWish(
-        prodId,
-        userId
-      );
+      const userId = req.userId;
+      const prodId = req.params.id;
+      const response = await userHelper.addToCartFromWish(prodId, userId);
       if (response) {
         res.json({
           status: "success",
@@ -1297,17 +1294,12 @@ module.exports = {
   },
   removeProdctFromWishLIst: async (req, res) => {
     try {
-      await userHelper.removeProdctFromWishLIst(
-        req.userId,
-        req.body.product
-      );
+      await userHelper.removeProdctFromWishLIst(req.userId, req.body.product);
       res.json({
         status: "success",
         message: "product added to cart",
       });
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   },
   downloadInvoice: async (req, res) => {
     try {
@@ -1317,7 +1309,6 @@ module.exports = {
 
       const { order: invoiceData, productDetails } = order;
       const invoicePath = await generateInvoice(invoiceData, productDetails);
-
 
       // Download the generated PDF
       res.download(invoicePath, (err) => {

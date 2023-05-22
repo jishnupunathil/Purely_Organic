@@ -97,7 +97,7 @@ router.post("/update-order-status", adminControllers.updateOrderStatus);
 
 //sales Report
 
-router.get("/sales-report", adminControllers.viewReport)
+router.get("/sales-report", adminControllers.viewReport);
 
 router.post("/sales-report", adminControllers.viewReportByDate);
 

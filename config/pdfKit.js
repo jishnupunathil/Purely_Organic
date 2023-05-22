@@ -1,6 +1,6 @@
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
-const path = require('path');
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+const path = require("path");
 
 module.exports.generateInvoice = async (invoiceData, productDetails) => {
   return new Promise((resolve, reject) => {
@@ -11,12 +11,12 @@ module.exports.generateInvoice = async (invoiceData, productDetails) => {
     doc.pipe(fs.createWriteStream(invoicePath));
 
     // Set font styles
-    doc.font('Helvetica');
+    doc.font("Helvetica");
     doc.fontSize(12);
 
     // Add content to the PDF
     doc.text("Invoice", { underline: true }).moveDown();
-    doc.font('Helvetica-Bold').fontSize(25).fillColor("black");
+    doc.font("Helvetica-Bold").fontSize(25).fillColor("black");
     doc.text("Purely Organic", { align: "center" }).moveDown();
 
     // Add delivery address field
@@ -48,7 +48,10 @@ module.exports.generateInvoice = async (invoiceData, productDetails) => {
     doc.fontSize(10).text(`Subtotal: ${invoiceData?.subTotal}`).moveDown();
     doc.fontSize(10).text(`Discount: - Rs${invoiceData?.discount}`).moveDown();
     doc.fontSize(16).text(`Total: Rs ${invoiceData?.total_amount}`).moveDown();
-    doc.fontSize(10).text(`payment_Method: ${invoiceData?.payment_method}`).moveDown();
+    doc
+      .fontSize(10)
+      .text(`payment_Method: ${invoiceData?.payment_method}`)
+      .moveDown();
 
     // End the PDF document
     doc.end();
@@ -57,8 +60,6 @@ module.exports.generateInvoice = async (invoiceData, productDetails) => {
     resolve(invoicePath);
   });
 };
-
-  
 
 module.exports.generateSalesReport = async (orders) => {
   return new Promise((resolve, reject) => {
@@ -102,7 +103,7 @@ module.exports.generateSalesReport = async (orders) => {
         .fontSize(12)
         .text(`Return Status: ${order?.return_status}`);
       doc.font("Helvetica").fontSize(12).text(`Refund: ${order?.refund}`);
-     doc.font("Helvetica").fontSize(12).text(`Items:`, { underline: true });
+      doc.font("Helvetica").fontSize(12).text(`Items:`, { underline: true });
 
       // Loop through each item in the order's items array
       order.items.forEach((item) => {

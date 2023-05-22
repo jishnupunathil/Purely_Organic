@@ -52,8 +52,6 @@ module.exports = {
     });
   },
 
-
-
   registrationPage: async (req, res) => {
     let allBanner = await bannerModel.find();
     res.render("user/userSignup", {
@@ -76,7 +74,7 @@ module.exports = {
       user: false,
       allProduct,
       cartCount: 0,
-      wishCount:0
+      wishCount: 0,
     });
   },
   sproductUser: async (req, res) => {
@@ -95,13 +93,13 @@ module.exports = {
         allCategory,
         allProduct,
         cartCount: 0,
-        wishCount:0
+        wishCount: 0,
       });
     } catch (err) {
       res.redirect("/user/index");
     }
   },
-  forgotPassword: async(req, res) => {
+  forgotPassword: async (req, res) => {
     let allBanner = await bannerModel.find();
     res.render("user/frgtPass", {
       userlay: true,
