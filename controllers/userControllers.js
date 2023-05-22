@@ -1267,10 +1267,7 @@ module.exports = {
         res.render('user/wishList',{userlay:true,user,loggedIn:true,allBanner,cartCount,showList,wishCount})
       } catch (err) {
         console.error(err);
-        res.render("catchError", {
-          message: err?.message,
-          user: req.session.user,
-        });
+        
       }
     },
 
