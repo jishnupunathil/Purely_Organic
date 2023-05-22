@@ -64,6 +64,7 @@
             <div class="header-left">
               <div class="row">
                 <% coupons.forEach(function(element) { %>
+                    <% if (element.days_remaining > 0) { %> <!-- Check if the coupon has not expired -->
                 <div class="col-lg-4 mb-4">
                   <div class="card h-100 card-dashboard" style="background-color:rgb(228, 226, 223);">
                     <div class="address-section">
@@ -80,6 +81,7 @@
                       </div>
                   </div>
                 </div>
+                <%}%>
                 <% }); %>
               </div>
             </div>
