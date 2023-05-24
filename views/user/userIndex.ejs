@@ -1,345 +1,314 @@
-<%-include('../partials/userHeader.ejs')%>
+<%-include('../partials/userHeader.ejs')%> 
 <div class="container">
-  <div class="row">
-    <div class="col-lg-3">
-      <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='ogani
-      logo'){%>
-      <div class="header__logo">
-        <% if (user){%>
+   <div class="row">
+       <div class="col-lg-3">
+           <% allBanner.forEach(function(banner) { %>
+               <%if(banner.bname==='ogani logo'){%>
+                   <div class="header__logo">
 
-        <a href="/user/index"><img src="<%=banner.bimages%>" alt="" /></a>
-        <%}else{%>
+                       <% if (user){%>
 
-        <a href="/"><img src="<%=banner.bimages%>" alt="" /></a>
-        <%}%>
-      </div>
-      <%}%> <%})%>
-    </div>
-    <div class="col-lg-6">
-      <nav class="header__menu">
-        <ul>
-          <% if (user){%>
-          <li class="active"><a href="/user/index">Home</a></li>
+                           <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
+                       <%}else{%>
+                           
+                           <a href="/"><img src="<%=banner.bimages%>" alt=""></a>
+                       <%}%>
+                       
+                   </div>
+                   <%}%>
+                   <%})%>
+       </div>
+       <div class="col-lg-6">
+           <nav class="header__menu">
+               <ul>
+                   <% if (user){%>
+                       <li class="active"><a href="/user/index">Home</a></li>
 
-          <li><a href="/user/shopping">Shop</a></li>
-          <%}else{%>
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="/shopping">Shop</a></li>
-          <%}%>
-        </ul>
-      </nav>
-    </div>
-    <div class="col-lg-3">
-      <div class="header__cart">
-        <ul>
-          <%if(user){%>
-          <li>
-            <a href="/user/wishList"
-              ><i class="fa fa-heart"></i><span><%=wishCount%></span></a
-            >
-          </li>
-          <li>
-            <a href="/user/getCart"
-              ><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a
-            >
-          </li>
-          <%}else{%>
-          <li>
-            <a href="/user/wishList"><i class="fa fa-heart"></i></a>
-          </li>
-          <li>
-            <a href="/user/getCart"><i class="fa fa-shopping-bag"></i></a>
-          </li>
-          <%}%>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="humberger__open">
-    <i class="fa fa-bars"></i>
-  </div>
+                       <li><a href="/user/shopping">Shop</a></li>
+                   <%}else{%>
+                       <li class="active"><a href="/">Home</a></li>
+                       <li><a href="/shopping">Shop</a></li>
+                   <%}%>
+               </ul>
+           </nav>
+       </div>
+       <div class="col-lg-3">
+           <div class="header__cart">
+               <ul>
+                   <%if(user){%>
+                       <li><a href="/user/wishList"><i class="fa fa-heart"></i><span><%=wishCount%></span></a></li>
+                       <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
+                       <%}else{%>
+                           <li><a href="/user/wishList"><i class="fa fa-heart"></i></a></li>
+                       <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i></a></li>
+                       <%}%>
+               </ul>
+           </div>
+       </div>
+   </div>
+   <div class="humberger__open">
+       <i class="fa fa-bars"></i>
+   </div>
+   
 </div>
 <!-- Hero Section Begin -->
-<section class="hero">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3">
-        <div class="hero__categories">
-          <div class="hero__categories__all">
-            <i class="fa fa-bars"></i>
-            <span>All departments</span>
-          </div>
-          <% allCategory.forEach(function(category) { %>
-          <ul>
-            <% if (user){%>
-            <li><a href="/user/shopping"><%=category.cname%></a></li>
-            <%}else{%>
-            <li><a href="/shopping"><%=category.cname%></a></li>
-            <%}%>
-          </ul>
-          <%})%>
-        </div>
-      </div>
-      <div class="col-lg-9">
-        <div class="hero__search">
-          <div class="hero__search__form">
-            <form
-              action="/user/product-search/?search"
-              method="get"
-              onsubmit="return validateForm()"
-            >
-              <div class="hero__search__categories">
-                All Categories
-                <span class="arrow_carrot-down"></span>
-              </div>
-              <input
-                type="search"
-                placeholder="What do yo u need?"
-                name="search"
-                id="product-search"
-              />
-              <button type="submit" class="site-btn">SEARCH</button>
-            </form>
-          </div>
-          <div class="hero__search__phone">
-            <div class="hero__search__phone__icon">
-              <i class="fa fa-phone"></i>
-            </div>
-            <div class="hero__search__phone__text">
-              <h5>+919496959109</h5>
-              <span>support 24/7 time</span>
-            </div>
-          </div>
-        </div>
-        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='index
-        Hero'){%>
-        <div class="hero__item set-bg" data-setbg="<%=banner.bimages%>">
-          <div class="hero__text">
-            <span>FRUIT FRESH</span>
-            <h2>Vegetable <br />100% Organic</h2>
-            <p>Free Delivery Available On Order above ₹150</p>
+   <section class="hero">
+       <div class="container">
+           <div class="row">
+               <div class="col-lg-3">
+                   <div class="hero__categories">
+                       <div class="hero__categories__all">
+                           <i class="fa fa-bars"></i>
+                           <span>All departments</span>
+                       </div>
+                       <% allCategory.forEach(function(category) { %>
+                       <ul>
+                           <% if (user){%>
+                               <li><a href="/user/shopping"><%=category.cname%></a></li>
+                           <%}else{%>
+                               <li><a href="/shopping"><%=category.cname%></a></li>
+                           <%}%>
+                           </ul>
+                           <%})%>
+                       </div>
 
-            <% if (user){%>
+                   </div>
+                   <div class="col-lg-9">
+                       <div class="hero__search">
+                           <div class="hero__search__form">
+                               <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
+                                   <div class="hero__search__categories">
+                                       All Categories
+                                       <span class="arrow_carrot-down"></span>
+                                   </div>
+                                   <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
+                                   <button type="submit" class="site-btn">SEARCH</button>
+                               </form>
+                           </div>
+                           <div class="hero__search__phone">
+                               <div class="hero__search__phone__icon">
+                                   <i class="fa fa-phone"></i>
+                               </div>
+                               <div class="hero__search__phone__text">
+                                   <h5>+919496959109</h5>
+                                   <span>support 24/7 time</span>
+                               </div>
+                           </div>
+                       </div>
+                       <% allBanner.forEach(function(banner) { %>
+                       <%if(banner.bname==='index Hero'){%>
+                       <div class="hero__item set-bg" data-setbg="<%=banner.bimages%>">
+                           <div class="hero__text">
+                               <span>FRUIT FRESH</span>
+                               <h2>Vegetable <br />100% Organic</h2>
+                               <p>Free Delivery Available On Order above ₹150 </p>
 
-            <a href="/user/shopping" class="primary-btn">SHOP NOW</a>
-            <%}else{%>
+                               <% if (user){%>
 
-            <a href="/shopping" class="primary-btn">SHOP NOW</a>
-            <%}%> <%}%> <%})%>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Hero Section End -->
+                                   <a href="/user/shopping" class="primary-btn">SHOP NOW</a>
+                               <%}else{%>
+                                   
+                                   <a href="/shopping" class="primary-btn">SHOP NOW</a>
+                               <%}%>
+                               <%}%>
+                               <%})%>
+                           </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </section>
+   <!-- Hero Section End -->
 
-<!-- Categories Section Begin -->
-<section class="categories">
-  <div class="container">
-    <div class="row">
-      <div class="categories__slider owl-carousel">
-        <% allCategory.forEach(function(category) { %>
-        <div class="col-lg-3">
-          <div
-            class="categories__item set-bg"
-            data-setbg="<%=category.cimages%>"
-          >
-            <% if (user){%>
+   <!-- Categories Section Begin -->
+   <section class="categories">
+       <div class="container">
+           <div class="row">
+               <div class="categories__slider owl-carousel">
+                   <% allCategory.forEach(function(category) { %>
+                   <div class="col-lg-3">
+                       <div class="categories__item set-bg" data-setbg="<%=category.cimages%>">
+                           <% if (user){%>
 
-            <h5><a href="/user/shopping"><%=category.cname%></a></h5>
-            <%}else{%>
+                               <h5><a href="/user/shopping"><%=category.cname%></a></h5>
+                           <%}else{%>
+                           
+                               <h5><a href="/shopping"><%=category.cname%></a></h5>
+                           <%}%>
 
-            <h5><a href="/shopping"><%=category.cname%></a></h5>
-            <%}%>
-          </div>
-        </div>
-        <%})%>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Categories Section End -->
 
-<!-- Featured Section Begin -->
-<section class="featured spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section-title">
-          <h2>Featured Product</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row featured__filter">
-      <% allProduct.forEach(function(product) { %>
-      <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-        <div class="featured__item">
-          <div
-            class="featured__item__pic set-bg"
-            data-setbg="<%=product.pimages[0]%>"
-          >
-            <ul class="featured__item__pic__hover">
-              <%if(product.pcountInStock===0){%>
-              <label style="font-size: large; color: red; font-weight: bolder"
-                >Out of Stock</label
-              >
-              <%}else{%>
-              <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
-              <% if (user){%>
+                       </div>
+                   </div>
+                   <%})%>
+               </div>
+           </div>
+       </div>
+   </section>
+   <!-- Categories Section End -->
 
-              <li>
-                <a onclick="AddToWishList('<%=product._id%>')"
-                  ><i class="fa fa-heart"></i
-                ></a>
-              </li>
+   <!-- Featured Section Begin -->
+   <section class="featured spad">
+       <div class="container">
+           <div class="row">
+               <div class="col-lg-12">
+                   <div class="section-title">
+                       <h2>Featured Product</h2>
+                   </div>
+                  
+               </div>
+           </div>
+           <div class="row featured__filter">
+               <% allProduct.forEach(function(product) { %>
+               <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                   <div class="featured__item">
+                       <div class="featured__item__pic set-bg" data-setbg="<%=product.pimages[0]%>">
+                           <ul class="featured__item__pic__hover">
+                               <%if(product.pcountInStock===0){%>
+                                   <label style="font-size: large;color: red;font-weight: bolder;">Out of Stock</label>
+                               <%}else{%>
+                                   <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
+                                   <% if (user){%>
+                                       
+                                       <li><a onclick="AddToWishList('<%=product._id%>')"><i class="fa fa-heart"></i></a></li>
 
-              <li>
-                <a onclick="addToCart('<%=product._id%>')"
-                  ><i class="fa fa-shopping-cart"></i
-                ></a>
-              </li>
-              <%}else{%>
-              <li>
-                <a href="/user/wishList"><i class="fa fa-heart"></i></a>
-              </li>
-              <li>
-                <a href="/user/getCart"><i class="fa fa-shopping-cart"></i></a>
-              </li>
-              <%}%> <%}%>
-            </ul>
-          </div>
-          <div class="featured__item__text">
-            <% if(user){%>
-            <h6>
-              <a href="/user/singleProductView/<%=product._id%>"
-                ><%=product.pname%></a
-              >
-            </h6>
-            <%}else{%>
-            <h6>
-              <a href="/singleProductView/<%=product._id%>"
-                ><%=product.pname%></a
-              >
-            </h6>
-            <%}%>
-            <h5>1kg</h5>
-            <h5>₹<%=product.pprice%></h5>
-          </div>
-        </div>
-      </div>
-      <%})%>
-    </div>
-  </div>
-</section>
-<!-- Featured Section End -->
+                                   <li><a onclick="addToCart('<%=product._id%>')"><i class="fa fa-shopping-cart" ></i></a></li>
+                               <%}else{%>
+                                   <li><a href="/user/wishList"><i class="fa fa-heart"></i></a></li>
+                                   <li><a href="/user/getCart"><i class="fa fa-shopping-cart" ></i></a></li>
+                               <%}%>
+                               <%}%>
+                               
+                           </ul>
+                       </div>
+                       <div class="featured__item__text">
+                           <% if(user){%>
+                           <h6><a href="/user/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                           <%}else{%>
+                               <h6><a href="/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                               <%}%>
+                           <h5>1kg</h5>
+                           <h5>₹<%=product.pprice%></h5>
+                       </div>
+                   </div>
+               </div>
+               <%})%>
+           </div>
+       </div>
+   </section>
+   <!-- Featured Section End -->
 
-<!-- Banner Begin -->
-<div class="banner">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='index
-        hero1'){%>
-        <div class="banner__pic">
-          <img src="<%=banner.bimages[0]%>" alt="" />
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="banner__pic">
-          <img src="<%=banner.bimages[1]%>" alt="" />
-        </div>
-        <%}%> <%})%>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Banner End -->
+   <!-- Banner Begin -->
+   <div class="banner">
+       <div class="container">
+           <div class="row">
+               <div class="col-lg-6 col-md-6 col-sm-6">
+                   <% allBanner.forEach(function(banner) { %>
+                       <%if(banner.bname==='index hero1'){%>
+                   <div class="banner__pic">
+                       <img src="<%=banner.bimages[0]%>" alt="">
+                   </div>
+               </div>
+               <div class="col-lg-6 col-md-6 col-sm-6">
+                   <div class="banner__pic">
+                       <img src="<%=banner.bimages[1]%>" alt="">
+                   </div>
+                   <%}%>
+                   <%})%>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Banner End -->
 
-<!-- Latest Product Section Begin -->
-<section class="latest-product spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 col-md-6">
-        <div class="latest-product__text">
-          <h4>Latest Products</h4>
-          <div class="latest-product__slider owl-carousel">
-            <div class="latest-prdouct__slider__item">
-              <% latestproduct.forEach(function(topPrd){%>
-              <a href="#" class="latest-product__item">
-                <div class="latest-product__item__pic">
-                  <img src="<%=topPrd.pimages[0]%>" alt="" />
-                </div>
-                <div class="latest-product__item__text">
-                  <h6><%=topPrd.pname%></h6>
-                  <span>₹<%=topPrd.pprice%></span>
-                </div>
-              </a>
-              <% })%>
-            </div>
-            <div class="latest-prdouct__slider__item">
-              <% topratedProduct.forEach(function(topPrd){%>
-              <a href="#" class="latest-product__item">
-                <div class="latest-product__item__pic">
-                  <img src="<%=topPrd.pimages[0]%>" alt="" />
-                </div>
-                <div class="latest-product__item__text">
-                  <h6><%=topPrd.pname%></h6>
-                  <span>₹<%=topPrd.pprice%></span>
-                </div>
-              </a>
-              <% })%>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="latest-product__text">
-          <h4>Top Rated Products</h4>
-          <div class="latest-product__slider owl-carousel">
-            <div class="latest-prdouct__slider__item">
-              <% topratedProduct.forEach(function(topPrd){%>
-              <a href="#" class="latest-product__item">
-                <div class="latest-product__item__pic">
-                  <img src="<%=topPrd.pimages%>" alt="" />
-                </div>
-                <div class="latest-product__item__text">
-                  <h6><%=topPrd.pname%></h6>
-                  <span>₹<%=topPrd.pprice%></span>
-                </div>
-              </a>
-              <% })%>
-            </div>
-            <div class="latest-prdouct__slider__item">
-              <% latestproduct.forEach(function(topPrd){%>
-              <a href="#" class="latest-product__item">
-                <div class="latest-product__item__pic">
-                  <img src="<%=topPrd.pimages%>" alt="" />
-                </div>
-                <div class="latest-product__item__text">
-                  <h6><%=topPrd.pname%></h6>
-                  <span>₹<%=topPrd.pprice%></span>
-                </div>
-              </a>
-              <% })%>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Latest Product Section End -->
+   <!-- Latest Product Section Begin -->
+   <section class="latest-product spad">
+       <div class="container">
+           <div class="row">
+               <div class="col-lg-6 col-md-6">
+                   <div class="latest-product__text">
+                       <h4>Latest Products</h4>
+                       <div class="latest-product__slider owl-carousel">
+                           <div class="latest-prdouct__slider__item">
+                               <% latestproduct.forEach(function(topPrd){%>
+                                   <a href="#" class="latest-product__item">
+                                       <div class="latest-product__item__pic">
+                                           <img src="<%=topPrd.pimages[0]%>" alt="">
+                                       </div>
+                                       <div class="latest-product__item__text">
+                                           <h6><%=topPrd.pname%></h6>
+                                           <span>₹<%=topPrd.pprice%></span>
+                                       </div>
+                                   </a>
+                              <% })%>
+                           </div>
+                           <div class="latest-prdouct__slider__item">
+                               <% topratedProduct.forEach(function(topPrd){%>
+                                   <a href="#" class="latest-product__item">
+                                       <div class="latest-product__item__pic">
+                                           <img src="<%=topPrd.pimages[0]%>" alt="">
+                                       </div>
+                                       <div class="latest-product__item__text">
+                                           <h6><%=topPrd.pname%></h6>
+                                           <span>₹<%=topPrd.pprice%></span>
+                                       </div>
+                                   </a>
+                              <% })%>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-lg-6 col-md-6">
+                   <div class="latest-product__text">
+                       <h4>Top Rated Products</h4>
+                       <div class="latest-product__slider owl-carousel">
+                           <div class="latest-prdouct__slider__item">
+                               <% topratedProduct.forEach(function(topPrd){%>
+                                   <a href="#" class="latest-product__item">
+                                       <div class="latest-product__item__pic">
+                                           <img src="<%=topPrd.pimages%>" alt="">
+                                       </div>
+                                       <div class="latest-product__item__text">
+                                           <h6><%=topPrd.pname%></h6>
+                                           <span>₹<%=topPrd.pprice%></span>
+                                       </div>
+                                   </a>
+                              <% })%>
+                           </div>
+                           <div class="latest-prdouct__slider__item">
+                               <% latestproduct.forEach(function(topPrd){%>
+                                   <a href="#" class="latest-product__item">
+                                       <div class="latest-product__item__pic">
+                                           <img src="<%=topPrd.pimages%>" alt="">
+                                       </div>
+                                       <div class="latest-product__item__text">
+                                           <h6><%=topPrd.pname%></h6>
+                                           <span>₹<%=topPrd.pprice%></span>
+                                       </div>
+                                   </a>
+                              <% })%>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               
+           </div>
+       </div>
+   </section>
+   <!-- Latest Product Section End -->
+  
 
-<%- include('../partials/userFooter.ejs')%>
+  <%- include('../partials/userFooter.ejs')%>
 
-<script>
-  function validateForm() {
-    var searchInput = document.getElementById("product-search").value;
-    if (searchInput == "") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-</script>
+  <script>
+
+function validateForm() {
+ var searchInput = document.getElementById("product-search").value;
+ if (searchInput == "") {
+   return false;
+ } else {
+   return true;
+ }
+}
+
+  </script>
+   <!-- Header Section End -->
