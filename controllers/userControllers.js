@@ -1188,7 +1188,7 @@ module.exports = {
     const allBanner = await bannerModel.find();
     const cartCount = await userHelper.getCartCount(userId);
     const user = await userHelper.getProfile(userId);
-    let wishCount = await userHelper.countWish(userId); // count items in cart for user
+    const wishCount = await userHelper.countWish(userId); // count items in cart for user
     res.render("user/allCoupons", {
       userlay: true,
       allBanner,

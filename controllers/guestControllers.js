@@ -63,20 +63,29 @@ module.exports = {
   },
 
   shoppingPage: async (req, res) => {
-    let allProduct = await productModel.find();
     let allCategory = await categoryModel.find();
     let allBanner = await bannerModel.find();
-    res.render("user/shoppingPage", {
-      userlay: true,
-      loggedIn: false,
-      allBanner,
-      allCategory,
-      user: false,
-      allProduct,
-      cartCount: 0,
-      wishCount: 0,
-    });
-  },
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 8;
+    const skip = (page - 1) * pageSize;
+    const allProduct = await productModel.find().skip(skip).limit(pageSize);
+    const count = await productModel.countDocuments();
+    const totalPages = Math.ceil(count / pageSize);
+    const currentPage = page > totalPages ? totalPages : page;
+      res.render("user/shoppingPage", {
+        userlay: true,
+        loggedIn: false,
+        allBanner,
+        allCategory,
+        user:false,
+        allProduct,
+        totalPages,
+        currentPage,
+        pageSize,
+        cartCount:0,
+        wishCount:0
+      });
+    },
   sproductUser: async (req, res) => {
     let id = req.params.id;
     try {

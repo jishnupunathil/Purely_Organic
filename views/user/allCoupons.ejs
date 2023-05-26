@@ -3,8 +3,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-2">
-        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='ogani
-        logo'){%>
+        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='ogani logo'){%>
         <div class="header__logo">
           <a href="/user/index"><img src="<%=banner.bimages%>" alt="" /></a>
         </div>
@@ -75,8 +74,8 @@
       <div class="container">
         <div class="header-left">
           <div class="row">
-            <% coupons.forEach(function(element) { %> <% if
-            (element.days_remaining > 0) { %>
+            <% coupons.forEach(function(element) { %>
+               <% if (element?.days_remaining > 0) { %>
             <!-- Check if the coupon has not expired -->
             <div class="col-lg-4 mb-4">
               <div
@@ -106,7 +105,8 @@
                 </div>
               </div>
             </div>
-            <%}%> <% }); %>
+            <%}%> 
+            <% }) %>
           </div>
         </div>
       </div>
