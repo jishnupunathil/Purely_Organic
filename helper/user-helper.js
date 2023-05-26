@@ -433,6 +433,26 @@ module.exports = {
     }
   },
 
+  guestSearchQuery: async (query) => {
+    try {
+      const products = await productModel
+        .find({
+          $or: [
+            { pname: { $regex: query, $options: "i" } },
+            { pdescription: { $regex: query, $options: "i" } },
+          ],
+        })
+        .populate("pcategory");
+
+      if (products.length > 0) {
+        return products;
+      }
+      return [];
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   addToWishListUpdate: async (userId, productId) => {
     try {
       const wishlistDoc = await wishModel.findOne({ userId: userId });

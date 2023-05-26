@@ -3,6 +3,7 @@ const categoryModel = require("../models/categoryModel");
 const bannerModel = require("../models/bannerModel");
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
+const userHelper = require("../helper/user-helper");
 require("dotenv").config();
 
 module.exports = {
@@ -117,5 +118,25 @@ module.exports = {
       allBanner,
       user: false,
     });
+  },
+
+  guestSearch: async (req, res) => {
+    try {
+      let allBanner = await bannerModel.find();
+      let allCategory = await categoryModel.find();
+      const search = req.query.search;
+      const products = await userHelper.guestSearchQuery(search);
+      res.render("user/searchResult", {
+        userlay: true,
+        products,
+        allBanner,
+        allCategory,
+        loggedIn: false,
+        user:false,
+        cartCount:0,
+        wishCount:0,
+      });
+    } catch (err) {
+    }
   },
 };

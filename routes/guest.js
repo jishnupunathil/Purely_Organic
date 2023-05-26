@@ -21,4 +21,6 @@ router.get(
 
 router.get("/forgotpassword", guestControllers.forgotPassword);
 
+router.get("/product-search",guestControllers.guestSearch);
+
 module.exports = router;

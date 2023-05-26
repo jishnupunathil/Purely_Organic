@@ -75,6 +75,7 @@
                    </div>
                    <div class="col-lg-9">
                        <div class="hero__search">
+                        <%if(user){%>
                            <div class="hero__search__form">
                                <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
                                    <div class="hero__search__categories">
@@ -85,6 +86,18 @@
                                    <button type="submit" class="site-btn">SEARCH</button>
                                </form>
                            </div>
+                        <%}else{%>
+                            <div class="hero__search__form">
+                                <form action="/product-search/?search"  method="get" onsubmit="return validateForm()">
+                                    <div class="hero__search__categories">
+                                        All Categories
+                                        <span class="arrow_carrot-down"></span>
+                                    </div>
+                                    <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
+                                    <button type="submit" class="site-btn">SEARCH</button>
+                                </form>
+                            </div>
+                        <%}%>
                            <div class="hero__search__phone">
                                <div class="hero__search__phone__icon">
                                    <i class="fa fa-phone"></i>
