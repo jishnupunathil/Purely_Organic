@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <div id="" class="card my-3 col-md-8">
-                                <% if(separateAddresses){%>
+                                
                                 <%if(separateAddresses.length>0){%>
                                 <%separateAddresses.forEach(function(address){%>
                                 <div class="card-header d-flex">
@@ -120,11 +120,6 @@
                                     No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
                                     </label>
                                     <%}%>
-                               <% } else{ %>
-                                <label for="diff-acc">
-                                    No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
-                                    </label>
-                                <%}%>
                                 </div>
                                 <input type="text" value="<%=user._id%>" name="userId" hidden>
                             </div>
@@ -150,13 +145,8 @@
                                     <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="online-payment">Online Payment</label>
                                   </div>
-                                  <%if(separateAddresses){%>
                                   <%if(separateAddresses.length>0){%>
                                 <button type="submit" class="site-btn">PLACE ORDER</button>
-                                  <%}else{%>
-                                    <button type="submit" class="site-btn" disabled>PLACE</button>
-                                    <p class="text-danger">Add Address to proceed!</p>
-                                  <%}%>
                                   <%}else{%>
                                     <button type="submit" class="site-btn" disabled>PLACE</button>
                                     <p class="text-danger">Add Address to proceed!</p>

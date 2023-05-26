@@ -266,6 +266,7 @@ module.exports = {
   generateOTP: async (req, res) => {
     try {
       const MobileNo = req.body.MobileNo;
+      console.log(MobileNo,'ssssssssssssss');
       const allBanner = await bannerModel.find();
       const validUser = await userHelper.getUser(MobileNo);
       if (validUser) {
@@ -755,6 +756,7 @@ module.exports = {
           cartCount,
           separateAddresses: false,
           wishCount,
+          discountVal
         });
       } else {
         let separateAddresses = addressColl.addresses.map((address) => {
