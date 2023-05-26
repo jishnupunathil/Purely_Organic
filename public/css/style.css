@@ -3145,12 +3145,6 @@ ol {
 	.humberger__menu__overlay.active {
 		visibility: visible;
 	}
-	.header__top {
-		display: none;
-	}
-	.header__menu {
-		display: none;
-	}
 	.header__cart {
 		text-align: center;
 		padding: 10px 0 24px;
@@ -3403,12 +3397,7 @@ ol {
 	.humberger__menu__overlay.active {
 		visibility: visible;
 	}
-	.header__top {
-		display: none;
-	}
-	.header__menu {
-		display: none;
-	}
+	
 	.header__cart {
 		text-align: center;
 		padding: 10px 0 24px;
