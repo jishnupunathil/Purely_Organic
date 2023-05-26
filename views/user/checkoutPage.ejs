@@ -150,7 +150,17 @@
                                     <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="online-payment">Online Payment</label>
                                   </div>
+                                  <%if(separateAddresses){%>
+                                  <%if(separateAddresses.length>0){%>
                                 <button type="submit" class="site-btn">PLACE ORDER</button>
+                                  <%}else{%>
+                                    <button type="submit" class="site-btn" disabled>PLACE</button>
+                                    <p class="text-danger">Add Address to proceed!</p>
+                                  <%}%>
+                                  <%}else{%>
+                                    <button type="submit" class="site-btn" disabled>PLACE</button>
+                                    <p class="text-danger">Add Address to proceed!</p>
+                                  <%}%>
                             </div>
                         </div>
                     </div>  
