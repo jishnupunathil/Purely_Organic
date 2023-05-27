@@ -32,6 +32,7 @@ module.exports = {
     }
   },
   loginPage: async (req, res) => {
+    try{
     let allBanner = await bannerModel.find();
     res.render("user/userLogin", {
       userlay: true,
@@ -40,6 +41,9 @@ module.exports = {
       allBanner,
       user: false,
     });
+  }catch(err){
+    res.redirect("/");
+  }
   },
 
   otpPage: async (req, res) => {
@@ -54,16 +58,22 @@ module.exports = {
   },
 
   registrationPage: async (req, res) => {
+    try{
     let allBanner = await bannerModel.find();
     res.render("user/userSignup", {
       userlay: true,
       loggedIn: false,
       allBanner,
       user: false,
+      message: false,
     });
+  }catch(err){
+    res.redirect("/");
+  }
   },
 
   shoppingPage: async (req, res) => {
+    try{
     let allCategory = await categoryModel.find();
     let allBanner = await bannerModel.find();
     const page = parseInt(req.query.page) || 1;
@@ -86,10 +96,13 @@ module.exports = {
         cartCount:0,
         wishCount:0
       });
+    }catch(err){
+      res.redirect("/");
+    }
     },
   sproductUser: async (req, res) => {
-    let id = req.params.id;
     try {
+      const id = req.params.id;
       let allProduct = await productModel.find().skip(4).limit(4);
       let allBanner = await bannerModel.find();
       let allCategory = await categoryModel.find();

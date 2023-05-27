@@ -16,7 +16,7 @@ router.get("/index", checkUserAuth, controllers.userIndexPage);
 router.get("/logout", controllers.userLogout);
 
 //user registration
-router.post("/registration", controllers.userRegistation);
+router.post("/registration", controllers.userRegistration);
 
 //user login
 

@@ -20,6 +20,7 @@ const { generateInvoice } = require("../config/pdfKit");
 
 module.exports = {
   userIndexPage: async (req, res) => {
+    try{
     const userId = req.userId;
     let allCategory = await categoryModel.find();
     let allBanner = await bannerModel.find();
@@ -52,6 +53,10 @@ module.exports = {
         console.log("error decoding token:", err);
         return res.redirect("/login");
       });
+    }catch(err){
+      console.log(err)
+    
+    }
   },
 
   userLogout: (req, res) => {
@@ -59,36 +64,48 @@ module.exports = {
     res.redirect("/");
   },
 
-  userRegistation: (req, res) => {
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-      if (err) {
-        return res.json({
-          success: 0,
-          message: "Hashing issue",
+  userRegistration: async (req, res) => {
+    try {
+      let allBanner = await bannerModel.find();
+      const { firstname, lastname, email, phoneNumber, password } = req.body;
+  
+      // Check if user with the same email or phone number already exists
+      const existingUser = await userModel.findOne({
+        $or: [{ email: email }, { phoneNumber: phoneNumber }],
+      });
+  
+      if (existingUser) {
+        res.render("user/userSignup", {
+          userlay: true,
+          loggedIn: false,
+          allBanner,
+          user: false,
+          message: "User exists!",
         });
-      } else {
-        const userMod = new userModel({
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          email: req.body.email,
-          phoneNumber: req.body.phoneNumber,
-          password: hash,
-        });
-        userMod
-          .save()
-          .then((data) => {
-            res.redirect("/login");
-          })
-          .catch((err) => {
-            res.json({
-              success: 0,
-              message: "error occuured while saving" + err,
-            });
-          });
       }
-    });
+  
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Create a new user instance
+      const userMod = new userModel({
+        firstname,
+        lastname,
+        email,
+        phoneNumber,
+        password: hashedPassword,
+      });
+  
+      // Save the user to the database
+      const savedUser = await userMod.save();
+  
+      res.redirect("/login");
+    } catch (err) {
+      console.log(err);
+    }
   },
   userLogin: async (req, res) => {
+    try{
     let allBanner = await bannerModel.find();
     const email = req.body.email;
     const password = req.body.password;
@@ -155,6 +172,9 @@ module.exports = {
           user: false,
         });
       });
+    }catch(err){
+      console.log(err)
+    }
   },
 
   otpLoginPost: async (req, res) => {
@@ -1316,18 +1336,10 @@ module.exports = {
       res.download(invoicePath, (err) => {
         if (err) {
           console.error("Failed to download invoice:", err);
-          res.render("catchError", {
-            message: err.message,
-            user: req.session.user,
-          });
         }
       });
     } catch (error) {
       console.error("Failed to download invoice:", error);
-      res.render("catchError", {
-        message: err?.message,
-        user: req.session.user,
-      });
     }
   },
 };

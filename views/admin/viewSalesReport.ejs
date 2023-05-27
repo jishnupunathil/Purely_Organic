@@ -89,14 +89,16 @@
       <header class="card-header">
         <div class="row gx-3"></div>
       </header>
-      <form method="POST" action="/admin/sales-report">
+      <form method="POST" action="/admin/sales-report" onsubmit="return validateDates()">
         <label for="start-date">Start Date:</label>
         <input type="date" id="start-date" name="startDate" />
-
+      
         <label for="end-date">End Date:</label>
         <input type="date" id="end-date" name="endDate" />
-
+        
+        
         <button class="btn btn-primary" type="submit">Filter</button>
+        <div id="validation-message" style="color: red;"></div>
       </form>
       <div class="card-body">
         <div class="table-responsive">
@@ -213,5 +215,30 @@
         }
       },
     });
+  }
+
+
+
+</script>
+
+<script>
+  function validateDates() {
+    var startDate = document.getElementById('start-date').value;
+    var endDate = document.getElementById('end-date').value;
+    var validationMessage = document.getElementById('validation-message');
+
+    // Basic validations
+    if (!startDate || !endDate) {
+      validationMessage.textContent = 'Please provide both start date and end date.';
+      return false; // Prevent form submission
+    }
+
+    if (endDate < startDate) {
+      validationMessage.textContent = 'End date cannot be before the start date.';
+      return false; // Prevent form submission
+    }
+
+    validationMessage.textContent = ''; // Clear any previous validation message
+    return true; // Allow form submission
   }
 </script>

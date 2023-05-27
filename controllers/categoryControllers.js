@@ -38,27 +38,18 @@ module.exports = {
     }
   },
   singleCategory: async (req, res) => {
-    let id = req.params.id;
-    let ValidId = mongoose.Types.ObjectId.isValid(id);
-    if (ValidId) {
-      try {
+    try {
+        const id = req.params.id;
         let singleCategory = await categoryModel.findById({ _id: id });
         res.render("admin/updateCategory", { userlay: false, singleCategory });
       } catch (err) {
         res.render("admin/categories", { userlay: false });
       }
-    } else {
-      res.json({
-        success: 0,
-        message: "invalid id",
-      });
-    }
+    
   },
   updateCategory: async (req, res) => {
-    let id = req.params.id;
-    validId = mongoose.Types.ObjectId.isValid(id);
-    if (validId) {
-      try {
+    try {
+        const id = req.params.id;
         await categoryModel.findByIdAndUpdate(id, {
           cname: req.body.cname,
           cdescription: req.body.cdescription,
@@ -67,7 +58,7 @@ module.exports = {
       } catch (err) {
         res.redirect("/admin/singleCategory/:id");
       }
-    }
+    
   },
   deleteCategory: async (req, res) => {
     let id = req.params.id;

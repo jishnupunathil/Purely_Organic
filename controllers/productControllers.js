@@ -35,8 +35,6 @@ module.exports = {
   },
   singleProduct: async (req, res) => {
     let id = req.params.id;
-    let ValidId = mongoose.Types.ObjectId.isValid(id);
-    if (ValidId) {
       try {
         let allCategory = await categoryModel.find();
         let singleProduct = await productModel.findById({ _id: id });
@@ -48,12 +46,6 @@ module.exports = {
       } catch (err) {
         res.render("admin/productList", { userlay: false });
       }
-    } else {
-      res.json({
-        success: 0,
-        message: "invalid id",
-      });
-    }
   },
   updateProduct: async (req, res) => {
     try {
