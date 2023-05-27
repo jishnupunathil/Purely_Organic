@@ -196,7 +196,7 @@
                       Change Status
                     </button>
       
-                    <% } else if(order.order_status != "cancelled"){ %>
+                    <% } else if(order.order_status != "cancelled" && order.order_status != "delivered"){ %>
                     <input type="text" id="orderId" value="<%=order._id%>" hidden />
                     <label
                       class="mb-2 form-check form-check-inline"

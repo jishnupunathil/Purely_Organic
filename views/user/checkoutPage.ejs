@@ -145,6 +145,25 @@
                                     <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="online-payment">Online Payment</label>
                                   </div>
+                                  <div class="custom-control custom-radio">
+                                    <input
+                                      id="wallet"
+                                      value="wallet"
+                                      name="paymentMethod"
+                                      type="radio"
+                                      class="custom-control-input"
+                                    />
+                                    <label class="custom-control-label" for="wallet"
+                                      >Wallet</label
+                                    >
+                                  </div>
+                                  <div class="wallet-card">
+                                    <h3>Wallet Balance</h3>
+                                    
+                                      <p>Use Wallet</p>
+                                      <p class="wallet-amount">&#x20B9;0 </p>
+                
+                                  </div>
                                   <%if(separateAddresses.length>0){%>
                                 <button type="submit" class="site-btn">PLACE ORDER</button>
                                   <%}else{%>
@@ -181,6 +200,35 @@
     <%- include('../partials/userFooter.ejs')%>
 
     <script>
+  // get the radio buttons with name "paymentMethod"
+const paymentMethodRadioButtons = document.querySelectorAll('input[name="paymentMethod"]');
+
+// add event listener to each radio button
+paymentMethodRadioButtons.forEach((radioButton) => {
+  radioButton.addEventListener('change', () => {
+
+    if(radioButton.value==="wallet"){
+      document.getElementsByClassName("wallet-card")[0].style.display = "block";
+
+    }else{
+      document.getElementsByClassName("wallet-card")[0].style.display = "none";
+
+    }
+    // check if the selected value is "stripe"
+    if (radioButton.value === "online_payment") {
+      // show the Stripe pay button
+      document.getElementById("stripe-pay-button").style.display = "block";
+      document.getElementById("order-button").style.display = "none";
+      
+    
+    } else {
+      // hide the Stripe pay button
+      document.getElementById("stripe-pay-button").style.display = "none";
+      document.getElementById("order-button").style.display = "block";
+
+    }
+  });
+});
         $("#checkout-form").submit((e)=>{
             e.preventDefault()
             $.ajax({
