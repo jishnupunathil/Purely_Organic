@@ -1,4 +1,9 @@
-  <section class="content-main">
+<%-include('../partials/userHeader.ejs') %>
+<head>
+    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<section class="content-main">
             <div class="content-header">
                 <h2 class="content-title">Profile setting </h2>
             </div>
@@ -51,7 +56,7 @@
                                     <br>
                                     <button class="btn btn-primary" type="submit">Save changes</button>
                                 </form>
-                                <hr class="my-5">
+                                
                             </section> <!-- content-body .// -->
                         </div> <!-- col.// -->
                     </div> <!-- row.// -->
@@ -59,6 +64,7 @@
             </div> <!-- card end// -->
         </section> <!-- content-main end// -->
     </main>
+    <%- include('../partials/userFooter.ejs')%>
 
     <script>
         function deleteAddress(addressId){

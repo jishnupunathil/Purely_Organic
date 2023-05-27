@@ -1,3 +1,8 @@
+<%-include('../partials/userHeader.ejs') %>
+
+<head>
+       <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
 <section class="content-main">
     <div class="content-header">
         <h2 class="content-title">My Profile </h2>
@@ -52,7 +57,7 @@
                             <a href="/user/editProfile" style="text-decoration: none;color:rgb(250, 250, 250);border: 1px solid black;
                             width:75px;height: 35px;background-color: rgb(57, 102, 236);font-size:large;font-weight: bold;padding: 10px 20px 10px 20px;border-radius: 2px;">Edit my Profile</a>
                        
-                        <hr class="my-5">
+                        
                     </section> <!-- content-body .// -->
                 </div> <!-- col.// -->
             </div> <!-- row.// -->
@@ -60,3 +65,5 @@
     </div> <!-- card end// -->
 </section> <!-- content-main end// -->
 </main>
+
+<%- include('../partials/userFooter.ejs')%>

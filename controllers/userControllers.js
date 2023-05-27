@@ -410,13 +410,26 @@ module.exports = {
 
   viewProfile: async (req, res) => {
     const userId = req.userId;
-    const profileData = await userHelper.getProfile(userId);
+    const user = await userModel.findById(userId);
+    const allBanner = await bannerModel.find();
     try {
+      const profileData = await userHelper.getProfile(userId);
       const address = await userHelper.getAddress(userId);
-      res.render("user/viewProfile", { userlay: false, profileData, address });
+      res.render("user/viewProfile", { userlay: true, profileData, address,
+        user,
+        loggedIn:true,
+        allBanner,
+        wishCount:0,
+        cartCount:0,
+       });
     } catch (err) {
       res.render("user/viewProfile", {
-        userlay: false,
+        userlay: true,
+        user,
+        loggedIn:true,
+        allBanner,
+        wishCount:0,
+        cartCount:0,
         profileData,
         address: false,
       });
@@ -424,16 +437,29 @@ module.exports = {
   },
 
   getEditProfile: async (req, res) => {
-    let userId = req.userId;
+    const userId = req.userId;
+    const user = await userModel.findById(userId);
+    const allBanner = await bannerModel.find();
     let profileData = await userHelper.getProfile(userId);
     try {
       let address = await userHelper.getAddress(userId);
-      res.render("user/profile", { userlay: false, profileData, address });
+      res.render("user/profile", { userlay: true, profileData, address,
+        user,
+        loggedIn:true,
+        allBanner,
+        wishCount:0,
+        cartCount:0,
+       });
     } catch (err) {
       res.render("user/profile", {
-        userlay: false,
+        userlay: true,
         profileData,
         address: false,
+        user,
+        loggedIn:true,
+        allBanner,
+        wishCount:0,
+        cartCount:0,
       });
     }
   },
@@ -1044,6 +1070,8 @@ module.exports = {
     const userId = req.userId;
     const orderId = req.params.id;
     const addressId = req.params.id1;
+    const allBanner = await bannerModel.find();
+    const user = await userModel.findById(userId);
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let { order_status: orderStatus } = orderInfo;
     let addressColl = await addressModel.findOne({ user: userId });
@@ -1053,7 +1081,12 @@ module.exports = {
     const product = await productModel.findOne(orderInfo?.productId);
     if (orderStatus === "cancelled") {
       res.render("user/orderList", {
-        userlay: false,
+        userlay: true,
+        user,
+        loggedIn:true,
+        wishCount:0,
+        cartCount:0,
+        allBanner,
         orderInfo,
         selectedAddress,
         product,
@@ -1062,7 +1095,12 @@ module.exports = {
       });
     } else {
       res.render("user/orderList", {
-        userlay: false,
+        userlay: true,
+        user,
+        loggedIn:true,
+        wishCount:0,
+        cartCount:0,
+        allBanner,
         orderInfo,
         selectedAddress,
         product,
@@ -1174,8 +1212,10 @@ module.exports = {
 
   getMyorders: async (req, res) => {
     const userId = req.userId;
-    let orders = await Order.find({ user_id: userId });
-    res.render("user/myOrder", { userlay: false, orders });
+    const user = await userModel.findById(userId);
+    const allBanner = await bannerModel.find();
+    const orders = await Order.find({ user_id: userId });
+    res.render("user/myOrder", { userlay: true, loggedIn: true,user, orders ,allBanner,wishCount:0,cartCount:0});
   },
   cancelOrder: async (req, res) => {
     const orderId = req.params.id;
