@@ -28,6 +28,39 @@
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
+                    <!-- Visual Order Status Timeline -->
+                    <% if(orderInfo.order_status !== 'cancelled') { %>
+                        <% 
+                          let stepNum = 1;
+                          if (orderInfo.order_status === 'confirmed' || orderInfo.order_status === 'processing') stepNum = 2;
+                          else if (orderInfo.order_status === 'shipped') stepNum = 3;
+                          else if (orderInfo.order_status === 'delivered') stepNum = 4;
+                        %>
+                        <div class="order-status-timeline">
+                            <div class="timeline-step <%= stepNum >= 1 ? 'completed' : '' %>">
+                                <div class="timeline-icon"><i class="fa fa-shopping-cart"></i></div>
+                                <div class="timeline-label">Order Placed</div>
+                            </div>
+                            <div class="timeline-step <%= stepNum >= 2 ? 'completed' : '' %>">
+                                <div class="timeline-icon"><i class="fa fa-check"></i></div>
+                                <div class="timeline-label">Confirmed</div>
+                            </div>
+                            <div class="timeline-step <%= stepNum >= 3 ? 'completed' : '' %>">
+                                <div class="timeline-icon"><i class="fa fa-truck"></i></div>
+                                <div class="timeline-label">Shipped</div>
+                            </div>
+                            <div class="timeline-step <%= stepNum >= 4 ? 'completed' : '' %>">
+                                <div class="timeline-icon"><i class="fa fa-home"></i></div>
+                                <div class="timeline-label">Delivered</div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-danger rounded-3 text-center my-3">
+                            <i class="fa fa-times-circle fa-2x mb-2"></i>
+                            <h5 class="mb-0">This order was Cancelled</h5>
+                        </div>
+                    <% } %>
+
                     <div class="row mb-50 mt-20 order-info-wrap">
                         <div class="col-md-4">
                            

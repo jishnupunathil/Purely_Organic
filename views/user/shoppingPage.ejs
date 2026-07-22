@@ -41,12 +41,9 @@
                         <div class="hero__search__phone">
                             <div class="header__cart">
                                 <ul>
-                                    <li><a href="/user/wishList"><i class="fa fa-heart"></i> <span><%=wishCount%></span> </a></li>
-                                        <!-- <span>1</span></a></li> -->
-                                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                                         <!-- <span>3</span></a></li> -->
+                                    <li><a href="/user/wishList"><i class="fa fa-heart"></i> <span class="wish-badge"><%=wishCount%></span> </a></li>
+                                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge"><%=cartCount%></span></a></li>
                                 </ul>
-                                <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
                             </div>
                             
                         </div>
@@ -91,33 +88,50 @@
                     </div>
                 </div>
             </div>
-            <div class="row featured__filter">
+            <div class="row featured__filter g-4">
                 <% allProduct.forEach(function(product) { %>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix <%=product.pcategory.replace(' ','_')%>">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<%=product.pimages[0]%>">
-                            <ul class="featured__item__pic__hover">
-                                <%if(product.pcountInStock===0){%>
-                                    <label style="font-size: large;color: red;font-weight: bolder;">Out of Stock</label>
-                                <%}else{%>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mix <%=product.pcategory.replace(' ','_')%>">
+                    <div class="product-card-modern">
+                        <div class="product-card-image-wrap">
+                            <span class="badge-organic-seal">🌿 100% Organic</span>
+                            <img src="<%=product.pimages[0]%>" alt="<%=product.pname%>" loading="lazy">
+                            
+                            <div class="product-card-actions">
+                                <%if(product.pcountInStock > 0){%>
                                     <% if (user){%>
-                                    <li><a onclick="AddToWishList('<%=product._id%>')"><i class="fa fa-heart"></i></a></li>
-                                    <li><a onclick="addToCart('<%=product._id%>')"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <button type="button" class="btn-action-icon" onclick="AddToWishList('<%=product._id%>')" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+                                        <button type="button" class="btn-action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart"><i class="fa fa-shopping-cart"></i></button>
                                     <%}else{%>
-                                        <li><a href="/user/wishList"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="/user/getCart"><i class="fa fa-shopping-cart" ></i></a></li>
+                                        <a href="/user/wishList" class="btn-action-icon"><i class="fa fa-heart"></i></a>
+                                        <a href="/user/getCart" class="btn-action-icon"><i class="fa fa-shopping-cart"></i></a>
+                                    <%}%>
                                 <%}%>
-                                <%}%>
-                            </ul>
+                            </div>
                         </div>
-                        <div class="featured__item__text">
-                            <%if(user){%>
-                            <h6><a href="/user/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
-                            <%}else{%>
-                                <h6><a href="/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
+                        <div class="product-card-body">
+                            <div>
+                                <div class="rating-stars">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>
+                                    <span class="text-muted ml-1" style="font-size: 11px;">(4.8)</span>
+                                </div>
+                                <%if(user){%>
+                                    <a href="/user/singleProductView/<%=product._id%>" class="product-title"><%=product.pname%></a>
+                                <%}else{%>
+                                    <a href="/singleProductView/<%=product._id%>" class="product-title"><%=product.pname%></a>
                                 <%}%>
-                            <h5>1kg</h5>
-                            <h5>₹<%=product.pprice%></h5>
+                            </div>
+                            
+                            <div class="product-price-row">
+                                <div>
+                                    <span class="product-price">₹<%=product.pprice%></span>
+                                    <span class="text-muted" style="font-size: 12px; font-weight: 500;"> / 1kg</span>
+                                </div>
+                                <%if(product.pcountInStock === 0){%>
+                                    <span class="badge out-of-stock-badge">Out of Stock</span>
+                                <%}else{%>
+                                    <span class="organic-badge" style="font-size: 10px;">In Stock</span>
+                                <%}%>
+                            </div>
                         </div>
                     </div>
                 </div>

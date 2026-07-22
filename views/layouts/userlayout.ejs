@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/modern-organic.css" type="text/css">
     <!-- Data Table -->
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
@@ -119,45 +120,93 @@
     })
     </script>
        <script>
+        const OrganicToast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          customClass: {
+            popup: 'swal2-toast-organic'
+          }
+        });
+
+        function bumpBadge(badgeSelector) {
+          const badges = $(badgeSelector);
+          badges.addClass('badge-bump');
+          setTimeout(() => badges.removeClass('badge-bump'), 400);
+        }
+
         function addToCart(prodId) {
-      Swal.fire({
-          title:'Added to Cart!',
-    message:'product added to cart',
-    icon:'success'
-      }).then((result) => {
-        if (result.isConfirmed) {
           $.ajax({
-            url: "/user/addtocart/"+prodId,
-            method: "post",
-            success: function() {
-          // Reload the page
-          location.reload();
-        }
+            url: "/user/addtocart/" + prodId,
+            method: "POST",
+            headers: { 'Accept': 'application/json' },
+            success: function(response) {
+              if (response.status) {
+                OrganicToast.fire({
+                  icon: 'success',
+                  title: 'Added to Cart! 🌿'
+                });
+                if (typeof response.cartCount !== 'undefined') {
+                  $('.cart-badge').text(response.cartCount);
+                } else {
+                  const curr = parseInt($('.cart-badge').first().text() || '0');
+                  $('.cart-badge').text(curr + 1);
+                }
+                bumpBadge('.cart-badge');
+              } else {
+                OrganicToast.fire({
+                  icon: 'error',
+                  title: response.message || 'Could not add to cart'
+                });
+              }
+            },
+            error: function(err) {
+              OrganicToast.fire({
+                icon: 'error',
+                title: err.responseJSON?.message || 'Something went wrong'
+              });
+            }
           });
         }
-      });
-    }
 
-    function AddToWishList(prodId) {
-      Swal.fire({
-          title:'Added to Wish List!',
-    message:'product added to wish List',
-    icon:'success'
-      }).then((result) => {
-        if (result.isConfirmed) {
+        function AddToWishList(prodId) {
           $.ajax({
-            url: "/user/wishlist/"+prodId,
-            method: "post",
-            success: function() {
-          // Reload the page
-          location.reload();
-        }
+            url: "/user/wishlist/" + prodId,
+            method: "POST",
+            success: function(response) {
+              if (response.removeSuccess) {
+                OrganicToast.fire({
+                  icon: 'info',
+                  title: 'Removed from Wishlist'
+                });
+                const curr = parseInt($('.wish-badge').first().text() || '1');
+                $('.wish-badge').text(Math.max(0, curr - 1));
+                bumpBadge('.wish-badge');
+              } else if (response.success) {
+                OrganicToast.fire({
+                  icon: 'success',
+                  title: 'Added to Wishlist! ❤️'
+                });
+                const curr = parseInt($('.wish-badge').first().text() || '0');
+                $('.wish-badge').text(curr + 1);
+                bumpBadge('.wish-badge');
+              } else {
+                OrganicToast.fire({
+                  icon: 'error',
+                  title: 'Could not update wishlist'
+                });
+              }
+            },
+            error: function(err) {
+              OrganicToast.fire({
+                icon: 'error',
+                title: 'Please login to add to wishlist'
+              });
+            }
           });
         }
-      });
-    }
-
-
      </script>
 
 <script>
@@ -225,6 +274,50 @@ function removeFromWishList(product_id) {
 </script>
 
      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+     <script>
+const paymentMethodRadioButtons = document.querySelectorAll('input[name="paymentMethod"]');
+const walletCard = document.getElementsByClassName("wallet-card")[0];
+const stripePayButton = document.getElementById("stripe-pay-button");
+const orderButton = document.getElementById("order-button");
+
+// Function to toggle wallet details based on radio button selection
+function toggleWalletDetails() {
+  if (this.value === "wallet") {
+    walletCard.style.display = "block";
+  } else {
+    walletCard.style.display = "none";
+  }
+}
+
+// Function to handle payment method selection
+function handlePaymentMethod() {
+  if (this.value === "online_payment") {
+    stripePayButton.style.display = "block";
+    orderButton.style.display = "none";
+  } else {
+    stripePayButton.style.display = "none";
+    orderButton.style.display = "block";
+  }
+}
+
+// Add event listeners to each radio button
+paymentMethodRadioButtons.forEach((radioButton) => {
+  radioButton.addEventListener('change', () => {
+    toggleWalletDetails();
+    handlePaymentMethod();
+  });
+});
+
+// Initial check for the selected radio button
+const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+if (selectedPaymentMethod) {
+  toggleWalletDetails.call(selectedPaymentMethod);
+  handlePaymentMethod.call(selectedPaymentMethod);
+}
+
+ </script>
 
 <script>
   $("#checkout-form").submit((e)=>{
@@ -315,6 +408,8 @@ function removeFromWishList(product_id) {
       })
     }
 </script>
+
+
 
 
 

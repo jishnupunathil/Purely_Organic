@@ -3,67 +3,66 @@
 <head>
        <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
 </head>
-<section class="content-main">
-    <div class="content-header">
-        <h2 class="content-title">My Profile </h2>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="row gx-5">
-                
-                <div class="col-lg-9">
-                    <section class="content-body p-xl-4">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="profile-card">
+                <div class="d-flex align-items-center gap-4 mb-4 pb-4 border-bottom">
+                    <div class="profile-avatar">
+                        <%= (profileData.firstname || 'U').charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                        <h3 class="mb-1" style="font-weight: 700; color: var(--primary-green);"><%=profileData.firstname%> <%=profileData.lastname%></h3>
+                        <p class="text-muted mb-0"><i class="fa fa-envelope mr-2"></i><%=profileData.email%> | <i class="fa fa-phone mr-2"></i><%=profileData.phoneNumber%></p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">First Name</label>
+                        <input class="form-control" readonly value="<%=profileData.firstname%>" style="background: var(--bg-organic);">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">Last Name</label>
+                        <input class="form-control" readonly value="<%=profileData.lastname%>" style="background: var(--bg-organic);">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">Email Address</label>
+                        <input class="form-control" readonly value="<%=profileData.email%>" style="background: var(--bg-organic);">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">Phone Number</label>
+                        <input class="form-control" readonly value="<%=profileData.phoneNumber%>" style="background: var(--bg-organic);">
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <h5 class="mb-3" style="font-weight: 700; color: var(--primary-green);">Saved Addresses</h5>
+                        <%if(address.length > 0){%>
                             <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="row gx-3">
-                                        <div class="col-6  mb-3">
-                                            <label class="form-label">First name</label>
-                                            <input class="form-control" name="firstname" type="text" placeholder="Type here" value="<%=profileData.firstname%>">
-                                        </div> <!-- col .// -->
-                                        <div class="col-6  mb-3">
-                                            <label class="form-label">Last name</label>
-                                            <input class="form-control" name="lastname" type="text" value="<%=profileData.lastname%>">
-                                        </div> <!-- col .// -->
-                                        <div class="col-lg-6  mb-3">
-                                            <label class="form-label">Email</label>
-                                            <input class="form-control"name="email" type="email" value="<%=profileData.email%>">
-                                        </div> <!-- col .// -->
-                                        <div class="col-lg-6  mb-3">
-                                            <label class="form-label">Phone</label>
-                                            <input class="form-control" type="number" name="phoneNumber" value="<%=profileData.phoneNumber%>">
-                                        </div> <!-- col .// -->
-                                        <%if(address.length>0){%>
-                                        <div class="col-lg-12  mb-3">
-                                            <label class="form-label">Saved Address</label>
-                                               <% address.forEach(function(address,index){%>
-                                                <div>
-                                                  <label>Home </label> <%=index+1%>
-                                                    <label class="form-control" type="text"><%=address.address%> <%=address.city%></label><br>
-                                            </div>
-                                            <%})%>
-                                            
+                                <% address.forEach(function(addr, index){%>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="p-3 border rounded-3" style="background: var(--bg-organic);">
+                                            <span class="address-tag">Address <%=index+1%></span>
+                                            <p class="mb-1"><strong><%=addr.address%></strong>, <%=addr.city%></p>
+                                            <p class="text-muted small mb-0"><%=addr.state%> - <%=addr.pincode%></p>
                                         </div>
-                                        <%}else{%>
-                                            <div class="col-lg-12  mb-3">
-                                                <label class="form-label" style="font-size: larger;">Saved Address Empty!</label>
-                                           
-                                            </div>
-                                            <%}%>
-                                    </div> <!-- row.// -->
-                                </div> <!-- col.// -->
-                            </div> 
-                            <br>
-                            
-                            <a href="/user/editProfile" style="text-decoration: none;color:rgb(250, 250, 250);border: 1px solid black;
-                            width:75px;height: 35px;background-color: rgb(57, 102, 236);font-size:large;font-weight: bold;padding: 10px 20px 10px 20px;border-radius: 2px;">Edit my Profile</a>
-                       
-                        
-                    </section> <!-- content-body .// -->
-                </div> <!-- col.// -->
-            </div> <!-- row.// -->
-        </div> <!-- card body end// -->
-    </div> <!-- card end// -->
-</section> <!-- content-main end// -->
+                                    </div>
+                                <%})%>
+                            </div>
+                        <%}else{%>
+                            <div class="alert alert-light border text-muted">No saved addresses found.</div>
+                        <%}%>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3 mt-4 pt-3 border-top">
+                    <a href="/user/editProfile" class="btn site-btn-organic">Edit Profile</a>
+                    <a href="/user/myOrders" class="btn btn-outline-secondary site-btn-organic" style="background: transparent !important; color: var(--text-dark) !important; border: 1px solid var(--border-light) !important;">My Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </main>
 
 <%- include('../partials/userFooter.ejs')%>

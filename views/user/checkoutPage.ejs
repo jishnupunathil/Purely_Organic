@@ -76,53 +76,62 @@
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
+            <!-- Step Indicator -->
+            <div class="checkout-steps">
+                <div class="step-item active">
+                    <div class="step-number">1</div>
+                    <span>Cart</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item active">
+                    <div class="step-number">2</div>
+                    <span>Shipping Address</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item active">
+                    <div class="step-number">3</div>
+                    <span>Payment & Place Order</span>
+                </div>
+            </div>
+
             <div class="checkout__form">
-                <h4>Billing Details</h4>
-                <form  id="checkout-form">
+                <h4 style="font-family: 'Playfair Display', serif; color: var(--primary-green); font-weight: 700;">Select Delivery Address</h4>
+                <form id="checkout-form">
                     <div class="row">
-                        <div class="col-lg-8 col-md-6">
-                            <div id="" class="card my-3 col-md-8">
-                                
-                                <%if(separateAddresses.length>0){%>
-                                <%separateAddresses.forEach(function(address){%>
-                                <div class="card-header d-flex">
-                                    <div class="form-check">
-                                        <input class="form-check-input" checked value="<%=address._id%>" type="radio" name="address" id="flexRadioDefault1" checked readonly />
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            <h5 class="mb-0">Billing Address</h5>
-                                        </label>
+                        <div class="col-lg-8 col-md-6 mb-4">
+                            <div class="address-radio-group">
+                                <%if(separateAddresses.length > 0){%>
+                                    <%separateAddresses.forEach(function(address, index){%>
+                                        <div class="address-radio-card <%= index === 0 ? 'selected' : '' %>">
+                                            <input class="form-check-input" value="<%=address._id%>" type="radio" name="address" id="addressRadio_<%=address._id%>" <%= index === 0 ? 'checked' : '' %> />
+                                            <div class="address-content-wrapper">
+                                                <span class="address-tag">Saved Address <%=index+1%></span>
+                                                <h5 style="font-weight: 700; color: var(--text-dark); margin-bottom: 6px;"><%=address.name || user.firstname%></h5>
+                                                <p style="color: var(--text-muted); margin-bottom: 8px;">
+                                                    <%=address.address%>, <%=address.city%>, <%=address.state%> - <%=address.pincode%>
+                                                </p>
+                                                <p style="font-size: 13px; color: var(--text-dark); margin-bottom: 12px;">
+                                                    <strong>Phone:</strong> <%=address.phone%> | <strong>Email:</strong> <%=address.email%>
+                                                </p>
+                                                <div>
+                                                    <a href="/user/editAddress/<%=address._id%>" class="btn btn-sm site-btn-organic" style="padding: 4px 14px !important; font-size: 13px;">Edit Address</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <%})%>
+                                    <div class="mt-3">
+                                        <a href="/user/newAddress" class="btn btn-outline-success site-btn-organic" style="background: transparent !important; color: var(--primary-green) !important; border: 2px solid var(--primary-green) !important;">+ Add New Shipping Address</a>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <address >
-                                    <%=address.address%> ,
-                                    <%=address.city%> <br>
-                                    <%=address.pincode%> ,
-                                    <%=address.state%>, <br>
-                                    <%=address.phone%> ,
-                                    <%=address.email%>
-                                </address>
-                                <div class="d-flex mt-2">
-                                    <a href="/user/editAddress/<%=address._id%>" style="text-decoration: none;color:rgb(250, 250, 250);border: 1px solid black;
-                                    width:75px;height: 35px;background-color: rgb(57, 102, 236);font-size:large;font-weight: bold;padding-left: 20px;padding-top: 5px;border-radius: 2px;">Edit</a>
-                  
-                                  </div>
-                                  <label for="diff-acc">
-                                    </label>
-                                </div>
-                                <%})%>
-                                <hr>
-                                <div>
-                                    Shipping to a Different address!<a href="/user/newAddress">Click here</a>
-                                </div>
-                            <%}else{%>
-                                <label for="diff-acc">
-                                    No Saved address Found! To add One  <a href="/user/newAddress">Click here</a>
-                                    </label>
-                                    <%}%>
-                                </div>
-                                <input type="text" value="<%=user._id%>" name="userId" hidden>
+                                <%}else{%>
+                                    <div class="alert alert-warning p-4 rounded-3 text-center">
+                                        <h5>No Saved Address Found!</h5>
+                                        <p>Please add a shipping address to complete your order.</p>
+                                        <a href="/user/newAddress" class="btn site-btn-organic mt-2">+ Add New Address</a>
+                                    </div>
+                                <%}%>
                             </div>
+                            <input type="text" value="<%=user._id%>" name="userId" hidden>
+                        </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
                                 <h4>Your Order</h4>
@@ -144,7 +153,7 @@
                                 <div class="custom-control custom-radio">
                                     <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="online-payment">Online Payment</label>
-                                  </div>
+                                </div>
                                   <div class="custom-control custom-radio">
                                     <input
                                       id="wallet"
@@ -199,36 +208,9 @@
 
     <%- include('../partials/userFooter.ejs')%>
 
+
     <script>
-  // get the radio buttons with name "paymentMethod"
-const paymentMethodRadioButtons = document.querySelectorAll('input[name="paymentMethod"]');
-
-// add event listener to each radio button
-paymentMethodRadioButtons.forEach((radioButton) => {
-  radioButton.addEventListener('change', () => {
-
-    if(radioButton.value==="wallet"){
-      document.getElementsByClassName("wallet-card")[0].style.display = "block";
-
-    }else{
-      document.getElementsByClassName("wallet-card")[0].style.display = "none";
-
-    }
-    // check if the selected value is "stripe"
-    if (radioButton.value === "online_payment") {
-      // show the Stripe pay button
-      document.getElementById("stripe-pay-button").style.display = "block";
-      document.getElementById("order-button").style.display = "none";
-      
-    
-    } else {
-      // hide the Stripe pay button
-      document.getElementById("stripe-pay-button").style.display = "none";
-      document.getElementById("order-button").style.display = "block";
-
-    }
-  });
-});
+ 
         $("#checkout-form").submit((e)=>{
             e.preventDefault()
             $.ajax({

@@ -1,3 +1,2 @@
-<% if (userlay){%> <%-include('layouts/userlayout.ejs')-%>
-
+<% if (typeof userlay !== 'undefined' && userlay){%> <%-include('layouts/userlayout.ejs')-%>
     <%} else {%> <%-include('layouts/adminlayout.ejs')-%> <% }%>

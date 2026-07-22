@@ -105,6 +105,10 @@
                           <span class="badge rounded-pill bg-success">
                             <%= order.order_status %>
                           </span>
+                          <% }else if (order.order_status === "paid") { %>
+                            <span class="badge rounded-pill bg-warning">
+                              <%= order.order_status %>
+                            </span>
                         <% }else if (order.order_status === "pending") { %>
                         <span class="badge rounded-pill bg-warning">
                           <%= order.order_status %>

@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema(
     image: [{ type: String }],
     isAdmin: { type: Boolean, default: false },
     isblocked: { type: Boolean, default: false },
+    wallet: {
+      type: Number,
+      default: 0,
+    },
+
   },
   { timestamps: true }
 );

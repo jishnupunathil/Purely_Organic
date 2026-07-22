@@ -12,14 +12,13 @@
         <div class="humberger__menu__cart">
             <ul>
                 <%if(user){%>
-                <li><a href="/user/wishList"><i class="fa fa-heart"></i><span><%=wishCount%></span></a></li>
-                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
+                <li><a href="/user/wishList"><i class="fa fa-heart"></i><span class="wish-badge"><%=wishCount%></span></a></li>
+                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge"><%=cartCount%></span></a></li>
                 <%}else{%>
-                    <li><a href="/user/wishList"><i class="fa fa-heart"></i></a></li>
-                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i></a></li>
+                    <li><a href="/user/wishList"><i class="fa fa-heart"></i><span class="wish-badge">0</span></a></li>
+                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge">0</span></a></li>
                 <%}%>
             </ul>
-            <!-- <div class="header__cart__price">item: <span>₹150.00</span></div> -->
         </div>
         <div class="humberger__menu__widget">
           <!--   <div class="header__top__right__language">

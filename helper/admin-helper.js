@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose");
 const { Order } = require("../models/orders");
 const productModel = require("../models/productModel");
 const userModel = require("../models/userModel");
@@ -34,13 +33,6 @@ module.exports = {
               return_status: 1,
               order_date: 1,
               fname: { $arrayElemAt: ["$addressDetails.addresses.fname", 0] },
-              // lname: "$addressDetails.addresses.lname",
-              // city: "$addressDetails.addresses.city",
-              // state: "$addressDetails.addresses.state",
-              // pincode: "$addressDetails.addresses.pincode",
-              // phone: "$addressDetails.addresses.phone",
-              // email: "$addressDetails.addresses.email",
-              // default: "$addressDetails.addresses.default"
               id: { $arrayElemAt: ["$addressDetails.addresses._id", 0] },
             },
           },

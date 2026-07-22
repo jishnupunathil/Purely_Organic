@@ -412,8 +412,8 @@ module.exports = {
     const userId = req.userId;
     const user = await userModel.findById(userId);
     const allBanner = await bannerModel.find();
+    let profileData = await userHelper.getProfile(userId);
     try {
-      const profileData = await userHelper.getProfile(userId);
       const address = await userHelper.getAddress(userId);
       res.render("user/viewProfile", { userlay: true, profileData, address,
         user,
@@ -687,6 +687,11 @@ module.exports = {
 
         await session.commitTransaction();
         session.endSession();
+
+        const cartCount = await userHelper.getCartCount(userId);
+        if (req.xhr || req.headers['x-requested-with'] === 'XMLHttpRequest' || (req.headers.accept && req.headers.accept.includes('json'))) {
+          return res.json({ status: true, message: "Product added to cart", cartCount });
+        }
         res.redirect("/user/getCart");
       } catch (error) {
         await session.abortTransaction();
@@ -1014,10 +1019,7 @@ module.exports = {
         wishCount,
       });
     } catch (err) {
-      res.json({
-        sucess: 0,
-        message: "error from db" + err,
-      });
+  
     }
   },
 
@@ -1047,17 +1049,32 @@ module.exports = {
       });
   },
   orderInfo: async (req, res) => {
+    console.log('working');
     const userId = req.userId;
+    console.log("🚀 ~ orderInfo: ~ userId:", userId)
     const orderId = req.params.id;
+    console.log("🚀 ~ orderInfo: ~ orderId:", orderId)
     const addressId = req.params.id1;
+    console.log("🚀 ~ orderInfo: ~ addressId:", addressId)
+    const allBanner = await bannerModel.find();
+    console.log("🚀 ~ orderInfo: ~ allBanner:", allBanner)
+    const user = await userModel.findById(userId);
+    console.log("🚀 ~ orderInfo: ~ user:", user)
     let orderInfo = await userHelper.getOrderInfo(orderId);
+    console.log("🚀 ~ orderInfo: ~ orderInfo:", orderInfo)
     let addressColl = await addressModel.findOne({ user: userId });
+    console.log("🚀 ~ orderInfo: ~ addressColl:", addressColl)
     let selectedAddress = addressColl.addresses.find(
       (address) => address._id.toString() === addressId
     );
     const product = await productModel.findOne(orderInfo?.productId);
     res.render("user/orderList", {
-      userlay: false,
+      userlay: true,
+      user,
+      loggedIn:true,
+      wishCount:0,
+      cartCount:0,
+      allBanner,
       orderInfo,
       selectedAddress,
       product,
@@ -1068,13 +1085,20 @@ module.exports = {
 
   orderInfoc: async (req, res) => {
     const userId = req.userId;
+    console.log("🚀 ~ orderInfoc: ~ userId:", userId)
     const orderId = req.params.id;
+    console.log("🚀 ~ orderInfoc: ~ orderId:", orderId)
     const addressId = req.params.id1;
+    console.log("🚀 ~ orderInfoc: ~ addressId:", addressId)
     const allBanner = await bannerModel.find();
+    console.log("🚀 ~ orderInfoc: ~ allBanner:", allBanner)
     const user = await userModel.findById(userId);
+    console.log("🚀 ~ orderInfoc: ~ user:", user)
     let orderInfo = await userHelper.getOrderInfo(orderId);
     let { order_status: orderStatus } = orderInfo;
+    console.log("🚀 ~ orderInfoc: ~ orderStatus:", orderStatus)
     let addressColl = await addressModel.findOne({ user: userId });
+    console.log("🚀 ~ orderInfoc: ~ addressColl:", addressColl)
     let selectedAddress = addressColl.addresses.find(
       (address) => address._id.toString() === addressId
     );
