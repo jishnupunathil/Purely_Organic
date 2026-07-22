@@ -1,142 +1,69 @@
-<div class="screen-overlay"></div>
-<aside class="navbar-aside" id="offcanvas_aside">
-  <div class="aside-top">
-    <a href="index.html" class="brand-wrap">
-      <img src="/assets/imgs/logo.png" class="logo" alt="Evara Dashboard" />
-    </a>
-    <div>
-      <button class="btn btn-icon btn-aside-minimize">
-        <i class="text-muted material-icons md-menu_open"></i>
-      </button>
-    </div>
-  </div>
-  <nav>
-    <ul class="menu-aside">
-      <li class="menu-item active">
-        <a class="menu-link" href="/admin/dashboard">
-          <i class="icon material-icons md-home"></i>
-          <span class="text">Dashboard</span>
-        </a>
-      </li>
-      <li class="menu-item">
-        <a class="menu-link" href="/admin/productList">
-          <i class="icon material-icons md-shopping_bag"></i>
-          <span class="text">Products</span>
-        </a>
-      </li>
-      <li class="menu-item">
-        <a class="menu-link" href="/admin/category">
-          <i class="icon material-icons md-store"></i>
-          <span class="text">Categories</span>
-        </a>
-      </li>
-      <li class="menu-item">
-        <a class="menu-link" href="/admin/userList">
-          <i class="icon material-icons md-person"></i>
-          <span class="text">Users</span>
-        </a>
-      </li>
-      <li class="menu-item">
-        <a class="menu-link" href="/admin/banners">
-          <i class="icon material-icons md-shopping_bag"></i>
-          <span class="text">Banners</span>
-        </a>
-      </li>
-      <li class="menu-item has-submenu">
-        <a class="menu-link" href="#">
-          <i class="icon material-icons md-stars"></i>
-          <span class="text">Coupons</span>
-        </a>
-        <div class="submenu">
-          <a href="/admin/coupons">Coupons</a>
-          <a href="/admin/addCoupons">Add Coupon</a>
-        </div>
-      </li>
-      <li class="menu-item">
-        <a class="menu-link" href="/admin/orders">
-          <i class="icon material-icons md-shopping_cart"></i>
-          <span class="text">Orders</span>
-        </a>
-      </li>
-      <hr />
-      <li class="menu-item">
-        <a class="menu-link" href="/admin/sales-report">
-          <i class="icon material-icons md-settings"></i>
-          <span class="text">Sales Report</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</aside>
+<%-include('../partials/adminSidebar.ejs')-%>
 <main class="main-wrap">
   <%-include('../partials/adminHeader.ejs')-%>
-  <section class="content-main">
-    <div class="content-header">
+  <section class="content-main p-4">
+    <div class="content-header mb-4">
       <div>
-        <h2 class="content-title card-title">Dashboard.</h2>
-        <p>Whole data about Ogani business here</p>
+        <h2 class="content-title card-title" style="font-family: 'Playfair Display', serif; font-weight: 700; color: #0F4C3A;">Purely Organic Dashboard</h2>
+        <p class="text-muted">Real-time store overview, sales metrics & business analytics</p>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-3">
-        <div class="card card-body mb-4">
-          <article class="icontext">
-            <span class="icon icon-sm rounded-circle bg-primary-light"
-              ><i class="text-primary material-icons md-monetization_on"></i
-            ></span>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #0F4C3A !important;">
+          <article class="icontext d-flex align-items-center">
+            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #E6F4EA; color: #0F4C3A;">
+              <i class="material-icons md-monetization_on" style="font-size: 24px;"></i>
+            </span>
             <div class="text">
-              <h6 class="mb-1 card-title">Total Revenue</h6>
-              <span>&#x20B9;<%=totalRevenue%></span>
-              <span class="text-sm"> Shipping fees are not included </span>
+              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Total Revenue</h6>
+              <h3 class="mb-0 font-weight-bold" style="color: #0F4C3A;">₹<%=totalRevenue%></h3>
+              <span class="text-xs text-muted">Net gross revenue</span>
             </div>
           </article>
         </div>
       </div>
 
-      <div class="col-lg-3">
-        <div class="card card-body mb-4">
-          <article class="icontext">
-            <span class="icon icon-sm rounded-circle bg-success-light"
-              ><i class="text-success material-icons md-local_shipping"></i
-            ></span>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #10B981 !important;">
+          <article class="icontext d-flex align-items-center">
+            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #D1FAE5; color: #10B981;">
+              <i class="material-icons md-local_shipping" style="font-size: 24px;"></i>
+            </span>
             <div class="text">
-              <h6 class="mb-1 card-title">Orders</h6>
-              <span><%=orderCount%></span>
-              <br />
-              <span class="text-sm"> Excluding orders in transit </span>
+              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Total Orders</h6>
+              <h3 class="mb-0 font-weight-bold" style="color: #10B981;"><%=orderCount%></h3>
+              <span class="text-xs text-muted">Processed transactions</span>
             </div>
           </article>
         </div>
       </div>
 
-      <div class="col-lg-3">
-        <div class="card card-body mb-4">
-          <article class="icontext">
-            <span class="icon icon-sm rounded-circle bg-warning-light"
-              ><i class="text-warning material-icons md-qr_code"></i
-            ></span>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #F59E0B !important;">
+          <article class="icontext d-flex align-items-center">
+            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #FEF3C7; color: #F59E0B;">
+              <i class="material-icons md-qr_code" style="font-size: 24px;"></i>
+            </span>
             <div class="text">
-              <h6 class="mb-1 card-title">Products Instock</h6>
-              <span><%=productsCount%></span>
-              <br />
-              <span class="text-sm"> In 4 Categories </span>
+              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Products Instock</h6>
+              <h3 class="mb-0 font-weight-bold" style="color: #D97706;"><%=productsCount%></h3>
+              <span class="text-xs text-muted">Active items catalog</span>
             </div>
           </article>
         </div>
       </div>
 
-      <div class="col-lg-3">
-        <div class="card card-body mb-4">
-          <article class="icontext">
-            <span class="icon icon-sm rounded-circle bg-info-light"
-              ><i class="text-info material-icons md-shopping_basket"></i
-            ></span>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #3B82F6 !important;">
+          <article class="icontext d-flex align-items-center">
+            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #DBEAFE; color: #3B82F6;">
+              <i class="material-icons md-group" style="font-size: 24px;"></i>
+            </span>
             <div class="text">
-              <h6 class="mb-1 card-title">Number of Customers</h6>
-              <span><%=usersCount%></span>
-              <br />
-              <br />
-              <span class="text-sm"> </span>
+              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Registered Users</h6>
+              <h3 class="mb-0 font-weight-bold" style="color: #2563EB;"><%=usersCount%></h3>
+              <span class="text-xs text-muted">Active customer base</span>
             </div>
           </article>
         </div>
