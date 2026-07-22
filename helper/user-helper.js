@@ -16,7 +16,7 @@ var instance = new Razorpay({
   key_secret: "mAJMBqsQKKjiYEALwXlN6hsr",
 });
 
-module.exports = {
+const userHelper = {
 
   getUser: async (mob) => {
     try {
@@ -219,6 +219,23 @@ module.exports = {
             productImage: product.productImage,
           })),
         };
+
+        if (order.paymentMethod === "wallet") {
+          // Handle wallet payment logic here
+          const walletAmount = await walletHelper.getWalletBalance(order.userId);
+          if (walletAmount >= total) {
+            // Sufficient wallet balance
+            // Deduct the amount from the wallet
+            await walletHelper.deductAmountFromWallet(order.userId, total);
+            // Update order and payment status as paid
+            orderObj.payment_status = "paid";
+            orderObj.order_status = "placed";
+          } else {
+            // Insufficient wallet balance
+            reject(new Error("Insufficient Wallet Balance"));
+            return;
+          }
+        }
 
         const newOrder = new Order(orderObj);
         await newOrder.save();
@@ -575,5 +592,53 @@ module.exports = {
     }
   },
 };
+
+ // Example implementation of getWalletBalance function
+ const walletHelper={
+  getWalletBalance: async (userId) => {
+    // Retrieve the user's wallet balance from the database or any other data source
+    // based on the provided userId
+    // Perform necessary database queries or calculations
+    // and return the wallet balance
+    // Example:
+    const user = await userModel.findById(userId);
+    const walletBalance = user.wallet;
+    return walletBalance;
+  },
+  
+  // Example implementation of deductAmountFromWallet function
+  deductAmountFromWallet: async (userId, amount) => {
+    // Deduct the specified amount from the user's wallet
+    // Update the user's wallet balance in the database or any other data source
+    // based on the provided userId
+    // Perform necessary database queries or calculations to deduct the amount
+    // Example:
+    const user = await userModel.findById(userId);
+    user.walletBalance -= amount;
+    await user.save();
+    // Optionally, you may also log the transaction or update a transaction history
+  },
+  updateOrderPaymentStatus: async (orderId, paymentStatus) => {
+    try {
+      // Find the order document in the database based on the provided orderId
+      const order = await Order.findById(orderId);
+      
+      // Update the payment_status field of the order document
+      order.payment_status = paymentStatus;
+      
+      // Save the updated order document
+      await order.save();
+    } catch (error) {
+      // Handle any errors that occur during the update process
+      throw new Error("Failed to update order payment status");
+    }
+  },
+  }
+
+
+  module.exports = {
+    userHelper,
+    walletHelper,
+  };
 
 

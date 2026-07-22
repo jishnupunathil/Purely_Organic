@@ -150,7 +150,7 @@
                                     <input id="cod" value="cash_on_delivery" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="cod">Cash On Delivery</label>
                                 </div>
-                                <div class="custom-control custom-radio">
+                                <div class="custom-control custom-radio"> 
                                     <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="custom-control-input"/>
                                     <label class="custom-control-label" for="online-payment">Online Payment</label>
                                 </div>
@@ -166,12 +166,10 @@
                                       >Wallet</label
                                     >
                                   </div>
-                                  <div class="wallet-card">
+                                  <div class="wallet-card" style="display: none;">
                                     <h3>Wallet Balance</h3>
-                                    
                                       <p>Use Wallet</p>
-                                      <p class="wallet-amount">&#x20B9;0 </p>
-                
+                                      <p class="wallet-amount">&#x20B9;<%=user.wallet || 0%> </p>
                                   </div>
                                   <%if(separateAddresses.length>0){%>
                                 <button type="submit" class="site-btn">PLACE ORDER</button>

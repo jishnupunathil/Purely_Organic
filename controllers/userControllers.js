@@ -9,7 +9,7 @@ const categoryModel = require("../models/categoryModel");
 const productModel = require("../models/productModel");
 const cartModel = require("../models/addtocartModel");
 const addressModel = require("../models/addressModel");
-const userHelper = require("../helper/user-helper");
+const {userHelper,walletHelper} = require("../helper/user-helper");
 const adminHelper = require("../helper/admin-helper");
 
 const { OrderItem, Order } = require("../models/orders");
