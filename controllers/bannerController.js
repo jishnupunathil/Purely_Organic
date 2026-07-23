@@ -32,7 +32,7 @@ module.exports = {
       await bannerModel.deleteOne({ _id: id });
       res.redirect("/admin/banners");
     } catch (err) {
-      res.render("admin/banners");
+      res.redirect("/admin/banners");
     }
   },
   singleBanner: async (req, res) => {
@@ -40,10 +40,13 @@ module.exports = {
     let ValidId = mongoose.Types.ObjectId.isValid(id);
     if (ValidId) {
       try {
-        let singleBanner = await bannerModel.findById({ _id: id });
+        let singleBanner = await bannerModel.findById(id);
+        if (!singleBanner) {
+          return res.redirect("/admin/banners");
+        }
         res.render("admin/editBanner", { userlay: false, singleBanner });
       } catch (err) {
-        res.render("admin/banners", { userlay: false });
+        res.redirect("/admin/banners");
       }
     } else {
       res.json({
@@ -53,9 +56,9 @@ module.exports = {
     }
   },
   updateBanner: async (req, res) => {
+    let id = req.params.id;
     try {
-      let id = req.params.id;
-      if (req.files.length === 0) {
+      if (!req.files || req.files.length === 0) {
         await bannerModel.findByIdAndUpdate(id, {
           bname: req.body.bname,
         });
@@ -67,9 +70,8 @@ module.exports = {
       }
 
       res.redirect("/admin/banners");
-      // }
     } catch (err) {
-      res.redirect("/admin/updateBanner/:id");
+      res.redirect("/admin/updateBanner/" + id);
     }
   },
 };

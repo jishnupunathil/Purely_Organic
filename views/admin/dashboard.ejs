@@ -1,188 +1,364 @@
 <%-include('../partials/adminSidebar.ejs')-%>
-<main class="main-wrap">
+<main class="main-wrap bg-light" style="min-height: 100vh;">
   <%-include('../partials/adminHeader.ejs')-%>
+
   <section class="content-main p-4">
-    <div class="content-header mb-4">
-      <div>
-        <h2 class="content-title card-title" style="font-family: 'Playfair Display', serif; font-weight: 700; color: #0F4C3A;">Purely Organic Dashboard</h2>
-        <p class="text-muted">Real-time store overview, sales metrics & business analytics</p>
+    <!-- Hero Header / Welcome Banner -->
+    <div class="card border-0 mb-4 rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0F4C3A 0%, #166534 100%); color: #ffffff;">
+      <div class="card-body p-4 p-lg-5">
+        <div class="row align-items-center">
+          <div class="col-lg-8 mb-3 mb-lg-0">
+            <span class="badge bg-success bg-opacity-25 text-white px-3 py-1.5 rounded-3 text-uppercase font-weight-bold tracking-wider text-xs mb-2">Store Management Console</span>
+            <h2 class="mb-2 font-weight-bold text-white" style="font-family: 'Playfair Display', serif; font-size: 32px;">Welcome back, Administrator!</h2>
+            <p class="mb-0 text-white-50 text-sm">Here is a real-time overview of your store's performance, payment breakdowns, and recent dispatches.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+              <a href="/admin/addProductPage" class="btn btn-light rounded-3 font-weight-bold px-3 py-2 text-sm shadow-sm text-success">
+                <i class="material-icons md-add font-18 align-middle"></i> Add Product
+              </a>
+              <a href="/admin/addCoupons" class="btn btn-outline-light rounded-3 font-weight-bold px-3 py-2 text-sm">
+                <i class="material-icons md-local_offer font-18 align-middle"></i> Add Coupon
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row g-4">
-      <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #0F4C3A !important;">
-          <article class="icontext d-flex align-items-center">
-            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #E6F4EA; color: #0F4C3A;">
+
+    <!-- KPI Metric Cards (Row 1) -->
+    <div class="row g-3 mb-4">
+      <div class="col-xl-3 col-sm-6">
+        <div class="card border-0 shadow-sm rounded-3 h-100 p-3 bg-white" style="border-left: 4px solid #0F4C3A !important;">
+          <div class="d-flex align-items-center">
+            <div class="rounded-3 p-3 me-3 d-flex align-items-center justify-content-center bg-light text-success" style="width: 48px; height: 48px;">
               <i class="material-icons md-monetization_on" style="font-size: 24px;"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Total Revenue</h6>
-              <h3 class="mb-0 font-weight-bold" style="color: #0F4C3A;">₹<%=totalRevenue%></h3>
-              <span class="text-xs text-muted">Net gross revenue</span>
             </div>
-          </article>
+            <div>
+              <span class="text-uppercase text-muted font-weight-bold d-block text-xs" style="letter-spacing: 0.5px;">Net Revenue</span>
+              <h3 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">₹<%= Number(totalRevenue || 0).toLocaleString('en-IN') %></h3>
+              <small class="text-success font-weight-bold text-xs"><i class="material-icons md-check_circle align-middle text-xs"></i> Delivered sales</small>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #10B981 !important;">
-          <article class="icontext d-flex align-items-center">
-            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #D1FAE5; color: #10B981;">
-              <i class="material-icons md-local_shipping" style="font-size: 24px;"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Total Orders</h6>
-              <h3 class="mb-0 font-weight-bold" style="color: #10B981;"><%=orderCount%></h3>
-              <span class="text-xs text-muted">Processed transactions</span>
+      <div class="col-xl-3 col-sm-6">
+        <div class="card border-0 shadow-sm rounded-3 h-100 p-3 bg-white" style="border-left: 4px solid #10B981 !important;">
+          <div class="d-flex align-items-center">
+            <div class="rounded-3 p-3 me-3 d-flex align-items-center justify-content-center bg-light text-success" style="width: 48px; height: 48px;">
+              <i class="material-icons md-shopping_bag" style="font-size: 24px;"></i>
             </div>
-          </article>
+            <div>
+              <span class="text-uppercase text-muted font-weight-bold d-block text-xs" style="letter-spacing: 0.5px;">Total Orders</span>
+              <h3 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;"><%= orderCount || 0 %></h3>
+              <small class="text-muted text-xs">Customer dispatches</small>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #F59E0B !important;">
-          <article class="icontext d-flex align-items-center">
-            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #FEF3C7; color: #F59E0B;">
-              <i class="material-icons md-qr_code" style="font-size: 24px;"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Products Instock</h6>
-              <h3 class="mb-0 font-weight-bold" style="color: #D97706;"><%=productsCount%></h3>
-              <span class="text-xs text-muted">Active items catalog</span>
+      <div class="col-xl-3 col-sm-6">
+        <div class="card border-0 shadow-sm rounded-3 h-100 p-3 bg-white" style="border-left: 4px solid #F59E0B !important;">
+          <div class="d-flex align-items-center">
+            <div class="rounded-3 p-3 me-3 d-flex align-items-center justify-content-center bg-light text-warning" style="width: 48px; height: 48px;">
+              <i class="material-icons md-inventory_2" style="font-size: 24px;"></i>
             </div>
-          </article>
+            <div>
+              <span class="text-uppercase text-muted font-weight-bold d-block text-xs" style="letter-spacing: 0.5px;">Products Instock</span>
+              <h3 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;"><%= productsCount || 0 %></h3>
+              <small class="text-muted text-xs">Active catalog items</small>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card card-body shadow-sm border-0 rounded-3" style="background: #ffffff; border-left: 4px solid #3B82F6 !important;">
-          <article class="icontext d-flex align-items-center">
-            <span class="icon icon-sm rounded-circle mr-3 p-3" style="background: #DBEAFE; color: #3B82F6;">
+      <div class="col-xl-3 col-sm-6">
+        <div class="card border-0 shadow-sm rounded-3 h-100 p-3 bg-white" style="border-left: 4px solid #3B82F6 !important;">
+          <div class="d-flex align-items-center">
+            <div class="rounded-3 p-3 me-3 d-flex align-items-center justify-content-center bg-light text-primary" style="width: 48px; height: 48px;">
               <i class="material-icons md-group" style="font-size: 24px;"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1 text-muted text-uppercase" style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">Registered Users</h6>
-              <h3 class="mb-0 font-weight-bold" style="color: #2563EB;"><%=usersCount%></h3>
-              <span class="text-xs text-muted">Active customer base</span>
             </div>
-          </article>
+            <div>
+              <span class="text-uppercase text-muted font-weight-bold d-block text-xs" style="letter-spacing: 0.5px;">Registered Users</span>
+              <h3 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;"><%= usersCount || 0 %></h3>
+              <small class="text-muted text-xs">Customer accounts</small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-xl-8 col-lg-12">
-        <div class="card mb-4">
-          <article class="card-body">
-            <h5 class="card-title">Payment statistics</h5>
-            <canvas id="myGraph" height="100px"></canvas>
-          </article>
+    <!-- Analytics & Payment Statistics Section (Row 2) -->
+    <div class="row g-4 mb-4">
+      <!-- Payment Statistics Chart & Breakdown -->
+      <div class="col-xl-7 col-lg-12">
+        <div class="card border-0 shadow-sm rounded-3 h-100 bg-white">
+          <div class="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex align-items-center justify-content-between">
+            <div>
+              <h5 class="card-title mb-1 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">Payment Method Analytics</h5>
+              <p class="text-muted text-xs mb-0">Distribution of transactions by Cash on Delivery, Online Payment & Wallet</p>
+            </div>
+            <span class="badge bg-light text-dark font-weight-bold border rounded-3 px-3 py-1.5 text-xs">Live Metrics</span>
+          </div>
+
+          <div class="card-body p-4">
+            <div class="row align-items-center">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <div style="position: relative; height: 230px;">
+                  <canvas id="paymentMethodChart"></canvas>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <!-- Payment Breakdown Cards -->
+                <div class="payment-method-stats p-3 rounded-3 mb-2 bg-light border">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <span class="d-flex align-items-center gap-2 font-weight-bold text-sm text-dark">
+                      <span class="rounded-1 d-inline-block" style="width: 10px; height: 10px; background: #10B981;"></span> Cash On Delivery (COD)
+                    </span>
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill font-weight-bold text-xs"><%= paymentStatitics?.cod?.percent || 0 %>%</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-xs text-muted">
+                    <span><%= paymentStatitics?.cod?.count || paymentStatitics?.cash_on_delivery || 0 %> orders</span>
+                    <span class="font-weight-bold text-dark">₹<%= Number(paymentStatitics?.cod?.amount || 0).toLocaleString('en-IN') %></span>
+                  </div>
+                </div>
+
+                <div class="payment-method-stats p-3 rounded-3 mb-2 bg-light border">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <span class="d-flex align-items-center gap-2 font-weight-bold text-sm text-dark">
+                      <span class="rounded-1 d-inline-block" style="width: 10px; height: 10px; background: #3B82F6;"></span> Online Payments (Razorpay)
+                    </span>
+                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill font-weight-bold text-xs"><%= paymentStatitics?.online?.percent || 0 %>%</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-xs text-muted">
+                    <span><%= paymentStatitics?.online?.count || paymentStatitics?.online_payment || 0 %> orders</span>
+                    <span class="font-weight-bold text-dark">₹<%= Number(paymentStatitics?.online?.amount || 0).toLocaleString('en-IN') %></span>
+                  </div>
+                </div>
+
+                <div class="payment-method-stats p-3 rounded-3 bg-light border">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <span class="d-flex align-items-center gap-2 font-weight-bold text-sm text-dark">
+                      <span class="rounded-1 d-inline-block" style="width: 10px; height: 10px; background: #F59E0B;"></span> Organic Wallet
+                    </span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill font-weight-bold text-xs"><%= paymentStatitics?.wallet?.percent || 0 %>%</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-xs text-muted">
+                    <span><%= paymentStatitics?.wallet?.count || paymentStatitics?.wallet || 0 %> orders</span>
+                    <span class="font-weight-bold text-dark">₹<%= Number(paymentStatitics?.wallet?.amount || 0).toLocaleString('en-IN') %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-12">
-        <div class="card mb-4">
-          <article class="card-body">
-            <h5 class="card-title">Order statistics</h5>
-            <canvas id="myPie" height="100px"></canvas>
-          </article>
+
+      <!-- Order Status Analytics Chart -->
+      <div class="col-xl-5 col-lg-12">
+        <div class="card border-0 shadow-sm rounded-3 h-100 bg-white">
+          <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+            <h5 class="card-title mb-1 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">Order Status Distribution</h5>
+            <p class="text-muted text-xs mb-0">Delivery pipeline breakdown by status</p>
+          </div>
+          <div class="card-body p-4">
+            <div style="position: relative; height: 220px;">
+              <canvas id="orderStatusChart"></canvas>
+            </div>
+            <div class="row text-center mt-3 pt-3 border-top g-2">
+              <div class="col-4">
+                <span class="d-block text-muted text-xs font-weight-bold">Delivered</span>
+                <span class="font-weight-bold text-success text-sm"><%= orderData?.delivered || 0 %></span>
+              </div>
+              <div class="col-4">
+                <span class="d-block text-muted text-xs font-weight-bold">Shipped</span>
+                <span class="font-weight-bold text-primary text-sm"><%= orderData?.Shipped || 0 %></span>
+              </div>
+              <div class="col-4">
+                <span class="d-block text-muted text-xs font-weight-bold">Cancelled</span>
+                <span class="font-weight-bold text-danger text-sm"><%= orderData?.cancelled || 0 %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders Table Section (Row 3) -->
+    <div class="card border-0 shadow-sm rounded-3 bg-white">
+      <div class="card-header bg-white border-0 pt-4 px-4 pb-3 d-flex align-items-center justify-content-between">
+        <div>
+          <h5 class="card-title mb-1 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">Recent Order Transactions</h5>
+          <p class="text-muted text-xs mb-0">Latest customer dispatches and payment statuses</p>
+        </div>
+        <a href="/admin/orders" class="btn btn-sm btn-outline-success rounded-3 font-weight-bold px-3">
+          View All Orders <i class="material-icons md-arrow_forward text-xs align-middle"></i>
+        </a>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th class="ps-4">Order ID</th>
+                <th>Customer</th>
+                <th>Payment Method</th>
+                <th>Delivery Status</th>
+                <th>Order Date</th>
+                <th>Total Amount</th>
+                <th class="text-end pe-4">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (recentOrders && recentOrders.length > 0) { %>
+                <% recentOrders.forEach(function(ord) { %>
+                  <tr>
+                    <td class="ps-4 font-weight-bold text-dark text-sm">
+                      #<%= ord._id.toString().substr(0, 8) %>
+                    </td>
+                    <td>
+                      <span class="font-weight-bold text-dark d-block text-sm"><%= ord.user_id?.name || 'Customer' %></span>
+                      <small class="text-muted text-xs"><%= ord.user_id?.phone || ord.user_id?.email || '' %></small>
+                    </td>
+                    <td>
+                      <% if (ord.payment_method === 'cash_on_delivery') { %>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 text-xs font-weight-bold">COD</span>
+                      <% } else if (ord.payment_method === 'online_payment') { %>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1 text-xs font-weight-bold">Online</span>
+                      <% } else { %>
+                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2.5 py-1 text-xs font-weight-bold">Wallet</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (ord.order_status === 'delivered') { %>
+                        <span class="badge bg-success rounded-pill px-2.5 py-1 text-xs">Delivered</span>
+                      <% } else if (ord.order_status === 'Shipped') { %>
+                        <span class="badge bg-primary rounded-pill px-2.5 py-1 text-xs">Shipped</span>
+                      <% } else if (ord.order_status === 'cancelled') { %>
+                        <span class="badge bg-danger rounded-pill px-2.5 py-1 text-xs">Cancelled</span>
+                      <% } else if (ord.order_status === 'Returned') { %>
+                        <span class="badge bg-warning text-dark rounded-pill px-2.5 py-1 text-xs">Returned</span>
+                      <% } else { %>
+                        <span class="badge bg-info text-dark rounded-pill px-2.5 py-1 text-xs"><%= ord.order_status %></span>
+                      <% } %>
+                    </td>
+                    <td class="text-muted text-xs">
+                      <%= new Date(ord.order_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                    </td>
+                    <td class="font-weight-bold text-dark text-sm">
+                      ₹<%= ord.total_amount %>
+                    </td>
+                    <td class="text-end pe-4">
+                      <a href="/admin/viewOrders/<%= ord._id %>" class="btn btn-sm btn-light border rounded-3 font-weight-bold px-3 py-1 text-xs">
+                        Details
+                      </a>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td colspan="7" class="text-center py-4 text-muted">No recent orders found.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
-  <!-- content-main end// -->
+
   <%-include('../partials/adminFooter.ejs')%>
 </main>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsreport-browser-client-dist/2.10.0/jsreport.browser-client.min.js"></script>
 
-<script
-  type="text/javascript"
-  src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"
-></script>
-<script
-  type="text/javascript"
-  src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"
-></script>
-<script
-  type="text/javascript"
-  src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"
-></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   $(document).ready(function () {
-    // Bar Chart
-    const ctx1 = document.getElementById("myGraph").getContext("2d");
-    var categorie = ["COD", "ONLINE PAYMENTS"];
-    var count = [
-      "<%=paymentStatitics?.cash_on_delivery%>",
-      "<%=paymentStatitics?.online_payment%>",
-    ];
-    var barColors = ["#e74c3c", "#2ecc71"];
-    new Chart(ctx1, {
-      type: "polarArea",
-      data: {
-        labels: categorie,
-        datasets: [
-          {
-            data: count,
-            backgroundColor: barColors,
-            borderWidth: 1,
-            datalabels: {
-              align: "end",
-              anchor: "end",
-              color: "black",
-              font: {
-                weight: "bold",
-              },
-              formatter: function (value, context) {
-                return value;
-              },
-            },
-          },
-        ],
-      },
-      options: {
-        title: {
-          display: true,
-          text: "Ogani Product Statistics",
-        },
-        legend: {
-          display: false,
-        },
-      },
-    });
+    // 1. Payment Method Donut Chart
+    const ctxPayment = document.getElementById("paymentMethodChart")?.getContext("2d");
+    if (ctxPayment) {
+      const codCount = Number("<%= paymentStatitics?.cod?.count || paymentStatitics?.cash_on_delivery || 0 %>");
+      const onlineCount = Number("<%= paymentStatitics?.online?.count || paymentStatitics?.online_payment || 0 %>");
+      const walletCount = Number("<%= paymentStatitics?.wallet?.count || paymentStatitics?.wallet || 0 %>");
 
-    // Pie Chart
-    const ctx2 = document.getElementById("myPie").getContext("2d");
-    let orderStatus = ["delivered", "placed", "cancelled", "Shipped"];
-    let orderCount = [
-      "<%= orderData?.delivered %>",
-      "<%= orderData?.placed %>",
-      "<%= orderData?.cancelled %>",
-      "<%= orderData?.Shipped %>",
-    ];
-    var pieColors = ["#e74c3c", "#2ecc71", "#3498db", "#f1c40f"]; // Updated color palette
-    new Chart(ctx2, {
-      type: "pie",
-      data: {
-        labels: orderStatus,
-        datasets: [
-          {
-            backgroundColor: pieColors,
-            data: orderCount,
-          },
-        ],
-      },
-      options: {
-        title: {
-          display: true,
-          text: "Ogani Order Statistics",
+      new Chart(ctxPayment, {
+        type: "doughnut",
+        data: {
+          labels: ["Cash On Delivery", "Online Payments", "Organic Wallet"],
+          datasets: [
+            {
+              data: [codCount, onlineCount, walletCount],
+              backgroundColor: ["#10B981", "#3B82F6", "#F59E0B"],
+              borderWidth: 3,
+              borderColor: "#ffffff",
+              hoverOffset: 6
+            },
+          ],
         },
-      },
-    });
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return " " + context.label + ": " + context.raw + " orders";
+                }
+              }
+            }
+          },
+          cutout: "70%",
+        },
+      });
+    }
+
+    // 2. Order Status Doughnut Chart
+    const ctxStatus = document.getElementById("orderStatusChart")?.getContext("2d");
+    if (ctxStatus) {
+      const placed = Number("<%= orderData?.placed || 0 %>");
+      const processing = Number("<%= orderData?.processing || 0 %>");
+      const shipped = Number("<%= orderData?.Shipped || 0 %>");
+      const delivered = Number("<%= orderData?.delivered || 0 %>");
+      const cancelled = Number("<%= orderData?.cancelled || 0 %>");
+      const returned = Number("<%= orderData?.Returned || 0 %>");
+
+      new Chart(ctxStatus, {
+        type: "doughnut",
+        data: {
+          labels: ["Placed", "Processing", "Shipped", "Delivered", "Cancelled", "Returned"],
+          datasets: [
+            {
+              data: [placed, processing, shipped, delivered, cancelled, returned],
+              backgroundColor: ["#6366F1", "#8B5CF6", "#3B82F6", "#10B981", "#EF4444", "#F59E0B"],
+              borderWidth: 2,
+              borderColor: "#ffffff",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                boxWidth: 12,
+                font: {
+                  size: 11
+                }
+              }
+            }
+          },
+          cutout: "60%",
+        },
+      });
+    }
   });
 </script>

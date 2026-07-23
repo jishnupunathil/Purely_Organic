@@ -1,81 +1,83 @@
 <%-include('../partials/userHeader.ejs') %>
-<head>
-  <!-- Font Icon -->
 
-  <link
-    rel="stylesheet"
-    href="/fonts/material-icon/css/material-design-iconic-font.min.css"
-  />
-
-  <!-- Main css -->
-  <link rel="stylesheet" href="/cssSL/style.css" />
-</head>
-<% allBanner.forEach(function(banner) { %> <%if(banner.bname==='login bg'){%>
-<div class="main" style="background-image: url('<%=banner.bimages[1]%>')">
-  <!-- Sing in  Form -->
-  <section class="sign-in">
-    <div class="container2">
-      <div class="signin-content">
-        <div class="signin-image">
-          <figure>
-            <img src="<%=banner.bimages[2]%>" alt="sing up image" />
-          </figure>
-          <%}%> <%})%>
-          <a href="/registration" class="signup-image-link"
-            >Create an account?</a
-          >
-          <a href="/forgotpassword" class="signup-image-link"
-            >Forgot Password?</a
-          >
+<div class="auth-wrapper py-5" style="min-height: 85vh; background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 45%), radial-gradient(circle at bottom left, rgba(15, 76, 58, 0.06), transparent 45%);">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg border-0" style="max-width: 900px; width: 100%; border-radius: 24px; overflow: hidden; background: #ffffff;">
+      <div class="row no-gutters">
+        <!-- Banner Side -->
+        <div class="col-lg-5 d-none d-lg-flex align-items-center justify-content-center p-5 text-white" style="background: linear-gradient(135deg, #0F4C3A 0%, #10B981 100%); position: relative;">
+          <div class="text-center z-index-1">
+            <div class="mb-4">
+              <span class="badge badge-light px-3 py-2 text-uppercase font-weight-bold" style="border-radius: 50px; color: #0F4C3A; font-size: 11px; letter-spacing: 1px;">🌱 Purely Organic</span>
+            </div>
+            <h2 class="font-weight-bold mb-3" style="font-family: 'Playfair Display', serif; color: #ffffff;">Welcome Back!</h2>
+            <p class="small text-white-50 mb-4">Access your organic farm fresh orders, track deliveries, and manage your wishlist.</p>
+            <div class="p-3 rounded-lg" style="background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2);">
+              <small class="d-block font-italic">"100% Certified Organic Harvest delivered right to your doorstep."</small>
+            </div>
+          </div>
         </div>
 
-        <div class="signin-form">
-          <h2 class="form-title">Sign In</h2>
-          <form
-            action="/user/login"
-            method="POST"
-            class="register-form"
-            id="login"
-          >
-            <div class="form-group">
-              <label for="email"
-                ><i class="zmdi zmdi-account material-icons-name"></i
-              ></label>
-              <input type="email" name="email" id="email" placeholder="Email" />
+        <!-- Form Side -->
+        <div class="col-lg-7 p-4 p-md-5">
+          <div class="auth-header mb-4">
+            <h3 class="font-weight-bold" style="font-family: 'Playfair Display', serif; color: #0F4C3A; font-size: 28px;">Sign In to Your Account</h3>
+            <p class="text-muted small">Enter your credentials below to access your account</p>
+          </div>
+
+          <form action="/user/login" method="POST" id="login">
+            <div class="form-group mb-3">
+              <label for="email" class="font-weight-bold small text-dark">Email Address</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-envelope text-muted"></i></span>
+                </div>
+                <input type="email" name="email" id="email" class="form-control bg-light border-left-0" placeholder="name@example.com" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 12px;">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-              />
+
+            <div class="form-group mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label for="password" class="font-weight-bold small text-dark mb-0">Password</label>
+                <a href="/forgotpassword" class="small font-weight-bold" style="color: #10B981;">Forgot Password?</a>
+              </div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-lock text-muted"></i></span>
+                </div>
+                <input type="password" name="password" id="password" class="form-control bg-light border-left-0" placeholder="••••••••" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 12px;">
+              </div>
             </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="remember-me"
-                id="remember-me"
-                class="agree-term"
-              />
-            </div>
-            <div class="form-group form-button">
-              <button type="submit" class="btn btn-success">submit</button>
-            </div>
+
             <%if(message){%>
-            <p style="color: red"><%=message%></p>
+              <div class="alert alert-danger py-2 px-3 small rounded-lg mb-3" style="border-radius: 10px;">
+                <i class="fa fa-exclamation-circle mr-1"></i> <%=message%>
+              </div>
             <%}%>
+
+            <button type="submit" class="btn btn-block text-white font-weight-bold py-3 mt-4" style="background: linear-gradient(135deg, #0F4C3A 0%, #10B981 100%); border-radius: 50px; border: none; box-shadow: 0 6px 18px rgba(15, 76, 58, 0.25); transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+              SIGN IN <i class="fa fa-arrow-right ml-2"></i>
+            </button>
           </form>
-          <div class="social-login">
-            <span class="social-label"
-              >Or login with <a href="/otp">OTP</a></span
-            >
+
+          <div class="text-center my-4">
+            <span class="text-muted small px-2 bg-white" style="position: relative; z-index: 1;">OR LOGIN WITH</span>
+            <hr class="mt-neg-2" style="margin-top: -10px; border-color: #E2E8F0;">
+          </div>
+
+          <div class="d-flex gap-2 justify-content-center">
+            <a href="/otp" class="btn btn-outline-success btn-block py-2 rounded-pill font-weight-bold small" style="border-color: #10B981; color: #0F4C3A;">
+              <i class="fa fa-mobile mr-2"></i> Login with OTP
+            </a>
+          </div>
+
+          <div class="text-center mt-4">
+            <p class="small text-muted mb-0">Don't have an account? <a href="/registration" class="font-weight-bold" style="color: #10B981;">Create an Account</a></p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </div>
 
 <%- include('../partials/userFooter.ejs')%>

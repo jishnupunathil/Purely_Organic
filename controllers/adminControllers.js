@@ -1,37 +1,55 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const userModel = require("../models/userModel");
 const categoryModel = require("../models/categoryModel");
 const { Order } = require("../models/orders");
 const adminHelper = require("../helper/admin-helper");
 
 module.exports = {
-  getDashboard:async (req, res) => {
-    try{
+  getDashboard: async (req, res) => {
+    try {
       const totalRevenue = await adminHelper.findTotalRevenue();
-      const orders = await adminHelper.getOrderDetails();
+      const orders = (await adminHelper.getOrderDetails()) || [];
       const orderCount = orders.length;
-      const products = await adminHelper.getAllProducts();
+      const products = (await adminHelper.getAllProducts()) || [];
       const productsCount = products.length;
-      const users = await adminHelper.getAllUsers();
+      const users = (await adminHelper.getAllUsers()) || [];
       const usersCount = users.length;
-      const orderData = await adminHelper.orderStatusData();
-      const paymentStatitics = await adminHelper.paymentStatitics();
-    res.render("admin/dashboard", { userlay: false,
-      totalRevenue,
-      orderCount,
-      productsCount,
-      usersCount,
-      orderData,
-      paymentStatitics
-       });
-    }catch(err){
-      console.log(err);
+      const orderData = (await adminHelper.orderStatusData()) || {};
+      const paymentStatitics = (await adminHelper.paymentStatitics()) || {};
+      const recentOrders = (await adminHelper.getRecentOrders(5)) || [];
+
+      res.render("admin/dashboard", {
+        userlay: false,
+        totalRevenue,
+        orderCount,
+        productsCount,
+        usersCount,
+        orderData,
+        paymentStatitics,
+        recentOrders,
+      });
+    } catch (err) {
+      console.error(err);
+      res.render("admin/dashboard", {
+        userlay: false,
+        totalRevenue: 0,
+        orderCount: 0,
+        productsCount: 0,
+        usersCount: 0,
+        orderData: {},
+        paymentStatitics: {},
+        recentOrders: [],
+      });
     }
   },
   getAddProductPage: async (req, res) => {
-    let allCategory = await categoryModel.find();
-
-    res.render("admin/addProducts", { userlay: false, allCategory });
+    try {
+      let allCategory = await categoryModel.find();
+      res.render("admin/addProducts", { userlay: false, allCategory });
+    } catch (err) {
+      console.error(err);
+      res.redirect("/admin/dashboard");
+    }
   },
   logout: (req, res) => {
     res.cookie("token", "", { expires: new Date(0) });
@@ -40,8 +58,6 @@ module.exports = {
   userList: async (req, res) => {
     try {
       const allUser = await userModel.find();
-      // const count = await userModel.countDocuments();
-
       res.render("admin/userList", {
         userlay: false,
         allUser,
@@ -56,7 +72,7 @@ module.exports = {
     let validId = mongoose.Types.ObjectId.isValid(id);
     if (validId) {
       try {
-        let singleUser = await userModel.findById({ _id: id });
+        let singleUser = await userModel.findById(id);
         res.json({
           success: 1,
           message: "single user listed",
@@ -65,57 +81,59 @@ module.exports = {
       } catch (err) {
         res.json({
           success: 0,
-          message: "error while listing single user" + err,
+          message: "error while listing single user: " + err,
         });
       }
     } else {
       res.json({
-        sucess: 0,
+        success: 0,
         message: "invalid Id",
       });
     }
   },
   blockUser: async (req, res) => {
     let id = req.params.id;
-    validId = mongoose.Types.ObjectId.isValid(id);
+    let validId = mongoose.Types.ObjectId.isValid(id);
     if (validId) {
       try {
         await userModel.findByIdAndUpdate(id, {
           isblocked: true,
         });
-
         res.redirect("/admin/userList");
       } catch (err) {
         res.redirect("/admin/userList");
       }
+    } else {
+      res.redirect("/admin/userList");
     }
   },
   unBlockUser: async (req, res) => {
     let id = req.params.id;
-    validId = mongoose.Types.ObjectId.isValid(id);
+    let validId = mongoose.Types.ObjectId.isValid(id);
     if (validId) {
       try {
         await userModel.findByIdAndUpdate(
-          { _id: id },
+          id,
           {
             isblocked: false,
           }
         );
         res.redirect("/admin/userList");
       } catch (err) {
-        res.res.redirect("/admin/userList");
+        res.redirect("/admin/userList");
       }
+    } else {
+      res.redirect("/admin/userList");
     }
   },
 
   orderDetails: async (req, res) => {
     try {
       let orders = await adminHelper.orderPage();
-      if (orders) {
-        res.render("admin/orderMangement", { userlay: false, orders });
-      }
+      res.render("admin/orderMangement", { userlay: false, orders: orders || [] });
     } catch (err) {
       console.error(err);
+      res.render("admin/orderMangement", { userlay: false, orders: [] });
     }
   },
 
@@ -130,9 +148,12 @@ module.exports = {
           order,
           productDetails,
         });
+      } else {
+        res.redirect("/admin/orders");
       }
     } catch (err) {
       console.error(err);
+      res.redirect("/admin/orders");
     }
   },
 
@@ -148,15 +169,17 @@ module.exports = {
       res.json({ status: "success" });
     } catch (err) {
       console.error(err);
+      res.status(500).json({ error: err.message || "Failed to update order status" });
     }
   },
 
   viewCoupon: async (req, res) => {
     try {
-      const coupons = await adminHelper.getCoupons();
+      const coupons = (await adminHelper.getCoupons()) || [];
       res.render("admin/allCoupons", { userlay: false, coupons });
     } catch (err) {
       console.error(err);
+      res.render("admin/allCoupons", { userlay: false, coupons: [] });
     }
   },
 
@@ -186,21 +209,21 @@ module.exports = {
 
   viewReport: async (req, res) => {
     try {
-      const orders = await adminHelper.getReportDetails();
-
-      res.render("admin/viewSalesReport", {userlay:false, orders });
+      const orders = (await adminHelper.getReportDetails()) || [];
+      res.render("admin/viewSalesReport", { userlay: false, orders });
     } catch (err) {
       console.error(err);
+      res.render("admin/viewSalesReport", { userlay: false, orders: [] });
     }
   },
   viewReportByDate: async (req, res) => {
     try {
       const { startDate, endDate } = req.body;
-      const orders = await adminHelper.getReport(startDate, endDate);
-
-      res.render("admin/viewSalesReport", {userlay:false, orders });
+      const orders = (await adminHelper.getReport(startDate, endDate)) || [];
+      res.render("admin/viewSalesReport", { userlay: false, orders });
     } catch (err) {
       console.error(err);
+      res.render("admin/viewSalesReport", { userlay: false, orders: [] });
     }
   },
 };

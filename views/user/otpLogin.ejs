@@ -1,48 +1,52 @@
 <%-include('../partials/userHeader.ejs') %>
-<head>
-<!-- Font Icon -->
-      <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-      <!-- Main css -->
-      <link rel="stylesheet" href="/cssSL/style.css">
- </head>
- <% allBanner.forEach(function(banner) { %>
-    <%if(banner.bname==='login bg'){%>
-    <div class="main"  style="background-image: url('<%=banner.bimages[1]%>');">
+<div class="auth-wrapper py-5" style="min-height: 85vh; background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 45%), radial-gradient(circle at bottom left, rgba(15, 76, 58, 0.06), transparent 45%);">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg border-0" style="max-width: 500px; width: 100%; border-radius: 24px; overflow: hidden; background: #ffffff;">
+      <div class="p-4 p-md-5">
+        <div class="text-center mb-4">
+          <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: #10B981;">
+            <i class="fa fa-mobile fa-3x"></i>
+          </div>
+          <h3 class="font-weight-bold" style="font-family: 'Playfair Display', serif; color: #0F4C3A; font-size: 26px;">OTP Instant Login</h3>
+          <p class="text-muted small">Enter your registered mobile number to receive a 6-digit verification code</p>
+        </div>
 
-        <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container2">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="<%=banner.bimages[2]%>" alt="sing up image"></figure>
-                        <%}%>
-        <%})%>
-                    </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Login with otp</h2>
-                        <form action="/user/otpLogin" method="POST" class="register-form" id="otpLogin">
-                            <div class="form-group">
-                                <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="number" name="phoneNumber" id="phoneNumber" placeholder="Phone number" />
-                            </div>
-                            <div class="form-group">
-                            <div class="form-group form-button">
-                                <button type="submit" class="btn btn-success">send otp</button>
-                            </div>
-                            <%if(message){%>
-                                <p style="color: red;"> <%=message%></p>
-                            <%}%>
-                        </form>
-                        
-                        <div class="social-login">
-                            <span class="social-label">Or login with <a href="/login">EMAIL</a></span>
-                        </div>
-                    </div>
-                </div>
+        <form action="/user/otpLogin" method="POST" id="otpLogin">
+          <div class="form-group mb-3">
+            <label for="phoneNumber" class="font-weight-bold small text-dark">Mobile Number</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-phone text-muted"></i></span>
+              </div>
+              <input type="number" name="phoneNumber" id="phoneNumber" class="form-control bg-light border-left-0" placeholder="e.g. 9496959109" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 12px;">
             </div>
-        </section>
-    </div>
+          </div>
 
-    <%- include('../partials/userFooter.ejs')%>
+          <%if(message){%>
+            <div class="alert alert-danger py-2 px-3 small rounded-lg mb-3" style="border-radius: 10px;">
+              <i class="fa fa-exclamation-circle mr-1"></i> <%=message%>
+            </div>
+          <%}%>
+
+          <button type="submit" class="btn btn-block text-white font-weight-bold py-3 mt-4" style="background: linear-gradient(135deg, #0F4C3A 0%, #10B981 100%); border-radius: 50px; border: none; box-shadow: 0 6px 18px rgba(15, 76, 58, 0.25); transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            SEND OTP <i class="fa fa-paper-plane ml-2"></i>
+          </button>
+        </form>
+
+        <div class="text-center my-4">
+          <span class="text-muted small px-2 bg-white" style="position: relative; z-index: 1;">OR LOGIN WITH EMAIL</span>
+          <hr class="mt-neg-2" style="margin-top: -10px; border-color: #E2E8F0;">
+        </div>
+
+        <div class="text-center">
+          <a href="/login" class="btn btn-outline-success btn-block py-2 rounded-pill font-weight-bold small" style="border-color: #10B981; color: #0F4C3A;">
+            <i class="fa fa-envelope mr-2"></i> Login with Email & Password
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/userFooter.ejs')%>

@@ -75,7 +75,7 @@ module.exports = {
       });
   
       if (existingUser) {
-        res.render("user/userSignup", {
+        return res.render("user/userSignup", {
           userlay: true,
           loggedIn: false,
           allBanner,

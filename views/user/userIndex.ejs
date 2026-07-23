@@ -1,327 +1,302 @@
 <%-include('../partials/userHeader.ejs')%> 
-<div class="container">
-   <div class="row">
-       <div class="col-lg-3">
-           <% allBanner.forEach(function(banner) { %>
-               <%if(banner.bname==='ogani logo'){%>
-                   <div class="header__logo">
 
-                       <% if (user){%>
-
-                           <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                       <%}else{%>
-                           
-                           <a href="/"><img src="<%=banner.bimages%>" alt=""></a>
-                       <%}%>
-                       
-                   </div>
-                   <%}%>
-                   <%})%>
-       </div>
-       <div class="col-lg-6">
-           <nav class="header__menu">
-               <ul>
-                   <% if (user){%>
-                       <li class="active"><a href="/user/index">Home</a></li>
-
-                       <li><a href="/user/shopping">Shop</a></li>
-                   <%}else{%>
-                       <li class="active"><a href="/">Home</a></li>
-                       <li><a href="/shopping">Shop</a></li>
-                   <%}%>
-               </ul>
-           </nav>
-       </div>
-       <div class="col-lg-3">
-            <div class="header__cart">
-                <ul>
-                    <%if(user){%>
-                        <li><a href="/user/wishList"><i class="fa fa-heart"></i><span class="wish-badge"><%=wishCount%></span></a></li>
-                        <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge"><%=cartCount%></span></a></li>
-                        <%}else{%>
-                            <li><a href="/user/wishList"><i class="fa fa-heart"></i><span class="wish-badge">0</span></a></li>
-                        <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge">0</span></a></li>
-                        <%}%>
-                </ul>
+<main class="bg-light pb-5">
+  <!-- Hero Section -->
+  <section class="hero-section py-4">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Categories Sidebar -->
+        <div class="col-lg-3 d-none d-lg-block">
+          <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100 bg-white">
+            <div class="card-header border-0 py-3 px-4 text-white d-flex align-items-center gap-2" style="background: #0F4C3A;">
+              <i class="fa fa-bars text-success"></i>
+              <span class="font-weight-bold text-sm text-uppercase tracking-wider">All Categories</span>
             </div>
-       </div>
-   </div>
-   <div class="humberger__open">
-       <i class="fa fa-bars"></i>
-   </div>
-   
-</div>
-<!-- Hero Section Begin -->
-   <section class="hero">
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-3">
-                   <div class="hero__categories">
-                       <div class="hero__categories__all">
-                           <i class="fa fa-bars"></i>
-                           <span>All departments</span>
-                       </div>
-                       <% allCategory.forEach(function(category) { %>
-                       <ul>
-                           <% if (user){%>
-                               <li><a href="/user/shopping"><%=category.cname%></a></li>
-                           <%}else{%>
-                               <li><a href="/shopping"><%=category.cname%></a></li>
-                           <%}%>
-                           </ul>
-                           <%})%>
-                       </div>
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush border-0">
+                <% if (typeof allCategory !== 'undefined' && allCategory && allCategory.length > 0) { %>
+                  <% allCategory.forEach(function(category) { %>
+                    <li class="list-group-item border-light px-4 py-3 bg-transparent">
+                      <a href="<%= (typeof user !== 'undefined' && user) ? '/user/shopping' : '/shopping' %>" class="d-flex align-items-center justify-content-between text-dark font-weight-bold text-decoration-none transition-fast hover-text-success">
+                        <span><i class="fa fa-angle-right text-success mr-2"></i><%= category.cname %></span>
+                        <i class="fa fa-chevron-right text-muted" style="font-size: 11px;"></i>
+                      </a>
+                    </li>
+                  <% }); %>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-                   </div>
-                   <div class="col-lg-9">
-                       <div class="hero__search">
-                        <%if(user){%>
-                           <div class="hero__search__form">
-                               <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                                   <div class="hero__search__categories">
-                                       All Categories
-                                       <span class="arrow_carrot-down"></span>
-                                   </div>
-                                   <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                                   <button type="submit" class="site-btn">SEARCH</button>
-                               </form>
-                           </div>
-                        <%}else{%>
-                            <div class="hero__search__form">
-                                <form action="/product-search/?search"  method="get" onsubmit="return validateForm()">
-                                    <div class="hero__search__categories">
-                                        All Categories
-                                        <span class="arrow_carrot-down"></span>
-                                    </div>
-                                    <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                                    <button type="submit" class="site-btn">SEARCH</button>
-                                </form>
-                            </div>
-                        <%}%>
-                           <div class="hero__search__phone">
-                               <div class="hero__search__phone__icon">
-                                   <i class="fa fa-phone"></i>
-                               </div>
-                               <div class="hero__search__phone__text">
-                                   <h5>+919496959109</h5>
-                                   <span>support 24/7 time</span>
-                               </div>
-                           </div>
-                       </div>
-                       <% allBanner.forEach(function(banner) { %>
-                       <%if(banner.bname==='index Hero'){%>
-                       <div class="hero__item set-bg" data-setbg="<%=banner.bimages%>">
-                           <div class="hero__text">
-                               <span>FRUIT FRESH</span>
-                               <h2>Vegetable <br />100% Organic</h2>
-                               <p>Free Delivery Available On Order above ₹150 </p>
+        <!-- Search Bar & Hero Showcase -->
+        <div class="col-lg-9">
+          <!-- Search Bar Row -->
+          <div class="card border-0 shadow-sm rounded-3 p-3 bg-white mb-4">
+            <div class="row align-items-center g-3">
+              <div class="col-md-8">
+                <form action="<%= (typeof user !== 'undefined' && user) ? '/user/product-search/?search' : '/product-search/?search' %>" method="get" onsubmit="return validateForm()" class="d-flex align-items-center gap-2">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light border-0 text-muted ps-3"><i class="fa fa-search"></i></span>
+                    <input type="search" class="form-control bg-light border-0 text-sm shadow-none" placeholder="Search fresh vegetables, fruits, natural dairy, spices..." name="search" id="product-search" style="padding-top: 10px; padding-bottom: 10px;">
+                    <button type="submit" class="btn btn-primary-organic px-4 rounded-3 font-weight-bold text-sm">Search</button>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-4 text-md-right d-none d-md-block">
+                <div class="d-inline-flex align-items-center gap-2">
+                  <div class="rounded-3 bg-light border p-2 text-success d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                    <i class="fa fa-phone"></i>
+                  </div>
+                  <div class="text-left">
+                    <span class="d-block font-weight-bold text-dark text-sm">+91 9496959109</span>
+                    <small class="text-muted text-xs">24/7 Organic Support</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                               <% if (user){%>
+          <!-- Hero Banner Box -->
+          <div class="hero-banner-box position-relative rounded-3 overflow-hidden shadow-md" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 60%, #166534 100%); min-height: 380px; display: flex; align-items: center;">
+            <div class="p-4 p-md-5 text-white z-index-2 position-relative" style="max-width: 580px;">
+              <span class="badge bg-success bg-opacity-25 text-white px-3 py-1.5 rounded-3 text-uppercase font-weight-bold text-xs mb-3 d-inline-block tracking-wider">
+                <i class="fa fa-check-circle text-success mr-1"></i> 100% Certified Organic Harvest
+              </span>
+              <h1 class="mb-3 font-weight-bold text-white" style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); line-height: 1.15;">
+                Farm Fresh <span class="text-success">Organic Harvest</span> Delivered Daily
+              </h1>
+              <p class="text-white-50 text-sm mb-4">Directly picked from certified local organic farms. Free express delivery available on orders above ₹149.</p>
 
-                                   <a href="/user/shopping" class="primary-btn">SHOP NOW</a>
-                               <%}else{%>
-                                   
-                                   <a href="/shopping" class="primary-btn">SHOP NOW</a>
-                               <%}%>
-                               <%}%>
-                               <%})%>
-                           </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </section>
-   <!-- Hero Section End -->
+              <a href="<%= (typeof user !== 'undefined' && user) ? '/user/shopping' : '/shopping' %>" class="btn btn-light rounded-3 font-weight-bold px-4 py-2.5 text-success text-sm shadow-sm transition-smooth d-inline-flex align-items-center gap-2">
+                <span>Explore Harvest Catalog</span>
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-   <!-- Categories Section Begin -->
-   <section class="categories">
-       <div class="container">
-           <div class="row">
-               <div class="categories__slider owl-carousel">
-                   <% allCategory.forEach(function(category) { %>
-                   <div class="col-lg-3">
-                       <div class="categories__item set-bg" data-setbg="<%=category.cimages%>">
-                           <% if (user){%>
+  <!-- 4 Feature Highlights Section -->
+  <section class="py-3">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-lg-3 col-sm-6">
+          <div class="card border-0 shadow-sm rounded-3 p-3 h-100 bg-white d-flex flex-row align-items-center gap-3 transition-smooth hover-translate-y">
+            <div class="rounded-3 p-3 border d-flex align-items-center justify-content-center bg-light text-success" style="width: 48px; height: 48px; font-size: 18px;">
+              <i class="fa fa-truck"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 font-weight-bold text-dark text-sm">Express Shipping</h6>
+              <small class="text-muted text-xs">Free delivery over ₹149</small>
+            </div>
+          </div>
+        </div>
 
-                               <h5><a href="/user/shopping"><%=category.cname%></a></h5>
-                           <%}else{%>
-                           
-                               <h5><a href="/shopping"><%=category.cname%></a></h5>
-                           <%}%>
+        <div class="col-lg-3 col-sm-6">
+          <div class="card border-0 shadow-sm rounded-3 p-3 h-100 bg-white d-flex flex-row align-items-center gap-3 transition-smooth hover-translate-y">
+            <div class="rounded-3 p-3 border d-flex align-items-center justify-content-center bg-light text-success" style="width: 48px; height: 48px; font-size: 18px;">
+              <i class="fa fa-leaf"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 font-weight-bold text-dark text-sm">100% Non-GMO</h6>
+              <small class="text-muted text-xs">Certified pesticide-free</small>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-lg-3 col-sm-6">
+          <div class="card border-0 shadow-sm rounded-3 p-3 h-100 bg-white d-flex flex-row align-items-center gap-3 transition-smooth hover-translate-y">
+            <div class="rounded-3 p-3 border d-flex align-items-center justify-content-center bg-light text-warning" style="width: 48px; height: 48px; font-size: 18px;">
+              <i class="fa fa-headphones"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 font-weight-bold text-dark text-sm">24/7 Organic Care</h6>
+              <small class="text-muted text-xs">Direct farmer support</small>
+            </div>
+          </div>
+        </div>
 
-                       </div>
-                   </div>
-                   <%})%>
-               </div>
-           </div>
-       </div>
-   </section>
-   <!-- Categories Section End -->
+        <div class="col-lg-3 col-sm-6">
+          <div class="card border-0 shadow-sm rounded-3 p-3 h-100 bg-white d-flex flex-row align-items-center gap-3 transition-smooth hover-translate-y">
+            <div class="rounded-3 p-3 border d-flex align-items-center justify-content-center bg-light text-primary" style="width: 48px; height: 48px; font-size: 18px;">
+              <i class="fa fa-shield"></i>
+            </div>
+            <div>
+              <h6 class="mb-0 font-weight-bold text-dark text-sm">100% Secure Pay</h6>
+              <small class="text-muted text-xs">Razorpay & SSL Protected</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-   <!-- Featured Section Begin -->
-   <section class="featured spad">
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-12">
-                   <div class="section-title">
-                       <h2>Featured Product</h2>
-                   </div>
+  <!-- Categories Grid Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">Explore Organic Categories</h2>
+        <p class="text-muted text-sm">Hand-picked fresh produce grouped by harvest type</p>
+      </div>
+
+      <div class="row g-3">
+        <% if (typeof allCategory !== 'undefined' && allCategory && allCategory.length > 0) { %>
+          <% allCategory.forEach(function(category) { %>
+            <div class="col-lg-3 col-md-4 col-6">
+              <div class="category-card-item card border-0 shadow-sm rounded-3 overflow-hidden h-100 transition-smooth hover-translate-y text-center p-3 bg-white">
+                <div class="category-image-wrap rounded-3 overflow-hidden mb-3" style="height: 140px; background: #F8FAF6;">
+                  <img src="<%= category.cimages %>" alt="<%= category.cname %>" class="w-100 h-100 object-fit-cover transition-smooth" style="object-fit: cover;" />
+                </div>
+                <h6 class="font-weight-bold text-dark text-sm mb-1"><%= category.cname %></h6>
+                <a href="<%= (typeof user !== 'undefined' && user) ? '/user/shopping' : '/shopping' %>" class="text-success font-weight-bold text-xs text-decoration-none">
+                  Shop Collection <i class="fa fa-arrow-right text-xs"></i>
+                </a>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Organic Products Section -->
+  <section class="py-4">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">Featured Fresh Selection</h2>
+        <p class="text-muted text-sm">Top-rated nutrient-dense organic fruits, vegetables & harvest</p>
+      </div>
+
+      <div class="row g-4">
+        <% if (typeof allProduct !== 'undefined' && allProduct && allProduct.length > 0) { %>
+          <% allProduct.forEach(function(product) { %>
+            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+              <div class="product-card-modern bg-white rounded-3 overflow-hidden border shadow-xs h-100 d-flex flex-column transition-smooth">
+                <div class="badge-organic-seal">100% Organic</div>
+
+                <!-- Product Image -->
+                <div class="product-card-image-wrap position-relative overflow-hidden" style="height: 200px; background: #F8FAF6;">
+                  <img src="<%= product.pimages[0] %>" alt="<%= product.pname %>" class="w-100 h-100 object-fit-cover" />
                   
-               </div>
-           </div>
-           <div class="row featured__filter">
-               <% allProduct.forEach(function(product) { %>
-               <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                   <div class="featured__item">
-                       <div class="featured__item__pic set-bg" data-setbg="<%=product.pimages[0]%>">
-                           <ul class="featured__item__pic__hover">
-                               <%if(product.pcountInStock===0){%>
-                                   <label style="font-size: large;color: red;font-weight: bolder;">Out of Stock</label>
-                               <%}else{%>
-                                   <!-- <li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
-                                   <% if (user){%>
-                                       
-                                       <li><a onclick="AddToWishList('<%=product._id%>')"><i class="fa fa-heart"></i></a></li>
+                  <!-- Top Right Action Icons -->
+                  <div class="position-absolute top-0 end-0 p-2 d-flex flex-column gap-1">
+                    <% if (product.pcountInStock > 0) { %>
+                      <% if (typeof user !== 'undefined' && user) { %>
+                        <button type="button" class="btn btn-sm btn-white border shadow-xs p-1.5 text-dark rounded-3" onclick="AddToWishList('<%= product._id %>')" title="Wishlist">
+                          <i class="fa fa-heart text-danger"></i>
+                        </button>
+                      <% } else { %>
+                        <a href="/user/wishList" class="btn btn-sm btn-white border shadow-xs p-1.5 text-dark rounded-3" title="Wishlist"><i class="fa fa-heart text-danger"></i></a>
+                      <% } %>
+                    <% } %>
+                  </div>
+                </div>
 
-                                   <li><a onclick="addToCart('<%=product._id%>')"><i class="fa fa-shopping-cart" ></i></a></li>
-                               <%}else{%>
-                                   <li><a href="/user/wishList"><i class="fa fa-heart"></i></a></li>
-                                   <li><a href="/user/getCart"><i class="fa fa-shopping-cart" ></i></a></li>
-                               <%}%>
-                               <%}%>
-                               
-                           </ul>
-                       </div>
-                       <div class="featured__item__text">
-                           <% if(user){%>
-                           <h6><a href="/user/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
-                           <%}else{%>
-                               <h6><a href="/singleProductView/<%=product._id%>"><%=product.pname%></a></h6>
-                               <%}%>
-                           <h5>1kg</h5>
-                           <h5>₹<%=product.pprice%></h5>
-                       </div>
-                   </div>
-               </div>
-               <%})%>
-           </div>
-       </div>
-   </section>
-   <!-- Featured Section End -->
+                <!-- Product Info -->
+                <div class="product-card-body p-3 d-flex flex-column flex-grow-1 justify-content-between">
+                  <div>
+                    <div class="rating-stars mb-1 text-warning" style="font-size: 11px;">
+                      <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    </div>
+                    <h6 class="mb-1">
+                      <a href="<%= (typeof user !== 'undefined' && user) ? '/user/singleProductView/' + product._id : '/singleProductView/' + product._id %>" class="product-title font-weight-bold text-dark text-sm">
+                        <%= product.pname %>
+                      </a>
+                    </h6>
+                    <small class="text-muted d-block text-xs">Standard 1kg Pack</small>
+                  </div>
 
-   <!-- Banner Begin -->
-   <div class="banner">
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-6 col-md-6 col-sm-6">
-                   <% allBanner.forEach(function(banner) { %>
-                       <%if(banner.bname==='index hero1'){%>
-                   <div class="banner__pic">
-                       <img src="<%=banner.bimages[0]%>" alt="">
-                   </div>
-               </div>
-               <div class="col-lg-6 col-md-6 col-sm-6">
-                   <div class="banner__pic">
-                       <img src="<%=banner.bimages[1]%>" alt="">
-                   </div>
-                   <%}%>
-                   <%})%>
-               </div>
-           </div>
-       </div>
-   </div>
-   <!-- Banner End -->
+                  <div class="product-price-row pt-2 mt-2 border-top d-flex align-items-center justify-content-between">
+                    <span class="product-price font-weight-bold text-success" style="font-size: 18px;">₹<%= product.pprice %></span>
+                    
+                    <% if (product.pcountInStock === 0) { %>
+                      <span class="badge bg-danger text-white rounded-3 px-2.5 py-1 text-xs">Out of Stock</span>
+                    <% } else { %>
+                      <% if (typeof user !== 'undefined' && user) { %>
+                        <button type="button" class="btn btn-sm btn-success rounded-3 font-weight-bold text-xs px-3" onclick="addToCart('<%= product._id %>')">
+                          + Add
+                        </button>
+                      <% } else { %>
+                        <a href="/login" class="btn btn-sm btn-success rounded-3 font-weight-bold text-xs px-3">+ Add</a>
+                      <% } %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </section>
 
-   <!-- Latest Product Section Begin -->
-   <section class="latest-product spad">
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-6 col-md-6">
-                   <div class="latest-product__text">
-                       <h4>Latest Products</h4>
-                       <div class="latest-product__slider owl-carousel">
-                           <div class="latest-prdouct__slider__item">
-                               <% latestproduct.forEach(function(topPrd){%>
-                                   <a href="#" class="latest-product__item">
-                                       <div class="latest-product__item__pic">
-                                           <img src="<%=topPrd.pimages[0]%>" alt="">
-                                       </div>
-                                       <div class="latest-product__item__text">
-                                           <h6><%=topPrd.pname%></h6>
-                                           <span>₹<%=topPrd.pprice%></span>
-                                       </div>
-                                   </a>
-                              <% })%>
-                           </div>
-                           <div class="latest-prdouct__slider__item">
-                               <% topratedProduct.forEach(function(topPrd){%>
-                                   <a href="#" class="latest-product__item">
-                                       <div class="latest-product__item__pic">
-                                           <img src="<%=topPrd.pimages[0]%>" alt="">
-                                       </div>
-                                       <div class="latest-product__item__text">
-                                           <h6><%=topPrd.pname%></h6>
-                                           <span>₹<%=topPrd.pprice%></span>
-                                       </div>
-                                   </a>
-                              <% })%>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               <div class="col-lg-6 col-md-6">
-                   <div class="latest-product__text">
-                       <h4>Top Rated Products</h4>
-                       <div class="latest-product__slider owl-carousel">
-                           <div class="latest-prdouct__slider__item">
-                               <% topratedProduct.forEach(function(topPrd){%>
-                                   <a href="#" class="latest-product__item">
-                                       <div class="latest-product__item__pic">
-                                           <img src="<%=topPrd.pimages%>" alt="">
-                                       </div>
-                                       <div class="latest-product__item__text">
-                                           <h6><%=topPrd.pname%></h6>
-                                           <span>₹<%=topPrd.pprice%></span>
-                                       </div>
-                                   </a>
-                              <% })%>
-                           </div>
-                           <div class="latest-prdouct__slider__item">
-                               <% latestproduct.forEach(function(topPrd){%>
-                                   <a href="#" class="latest-product__item">
-                                       <div class="latest-product__item__pic">
-                                           <img src="<%=topPrd.pimages%>" alt="">
-                                       </div>
-                                       <div class="latest-product__item__text">
-                                           <h6><%=topPrd.pname%></h6>
-                                           <span>₹<%=topPrd.pprice%></span>
-                                       </div>
-                                   </a>
-                              <% })%>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               
-           </div>
-       </div>
-   </section>
-   <!-- Latest Product Section End -->
-  
+  <!-- Verified Customer Testimonials -->
+  <section class="py-5 bg-white border-top border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">Loved By Organic Families</h2>
+        <p class="text-muted text-sm">Real reviews from health-conscious customers</p>
+      </div>
 
-  <%- include('../partials/userFooter.ejs')%>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card border-0 shadow-sm rounded-3 p-4 h-100" style="background: #F8FAF6;">
+            <div class="rating-stars text-warning mb-3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+            <p class="text-muted font-italic text-sm mb-4">"The vegetables are extraordinarily fresh! You can really taste the crispness and natural flavor of real farm harvest."</p>
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar rounded-3 bg-light border text-dark font-weight-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 13px;">AP</div>
+              <div>
+                <h6 class="mb-0 font-weight-bold text-dark text-sm">Ananya P.</h6>
+                <small class="text-success font-weight-bold text-xs"><i class="fa fa-check-circle"></i> Verified Buyer</small>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <script>
+        <div class="col-lg-4 col-md-6">
+          <div class="card border-0 shadow-sm rounded-3 p-4 h-100" style="background: #F8FAF6;">
+            <div class="rating-stars text-warning mb-3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+            <p class="text-muted font-italic text-sm mb-4">"Fast 24-hour delivery and zero plastic waste packaging. Finding genuine certified organic produce is finally hassle-free."</p>
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar rounded-3 bg-light border text-dark font-weight-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 13px;">RK</div>
+              <div>
+                <h6 class="mb-0 font-weight-bold text-dark text-sm">Rahul K.</h6>
+                <small class="text-success font-weight-bold text-xs"><i class="fa fa-check-circle"></i> Verified Buyer</small>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-lg-4 col-md-6">
+          <div class="card border-0 shadow-sm rounded-3 p-4 h-100" style="background: #F8FAF6;">
+            <div class="rating-stars text-warning mb-3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+            <p class="text-muted font-italic text-sm mb-4">"Purely Organic has completely transformed our kitchen. Outstanding quality, zero chemical pesticides, and super friendly service!"</p>
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar rounded-3 bg-light border text-dark font-weight-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 13px;">MS</div>
+              <div>
+                <h6 class="mb-0 font-weight-bold text-dark text-sm">Meera S.</h6>
+                <small class="text-success font-weight-bold text-xs"><i class="fa fa-check-circle"></i> Verified Buyer</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('../partials/userFooter.ejs')%>
+
+<script>
 function validateForm() {
- var searchInput = document.getElementById("product-search").value;
- if (searchInput == "") {
-   return false;
- } else {
-   return true;
- }
+  var searchInput = document.getElementById("product-search").value;
+  if (searchInput == "") {
+    return false;
+  } else {
+    return true;
+  }
 }
-
-  </script>
-   <!-- Header Section End -->
+</script>

@@ -1,125 +1,100 @@
 <%-include('../partials/userHeader.ejs')%> 
-<section class="hero hero-normal">
+
+<main class="bg-light pb-5" style="min-height: 80vh;">
+  <!-- Page Banner -->
+  <section class="py-4 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-2">
-                <% allBanner.forEach(function(banner) { %>
-                    <%if(banner.bname==='ogani logo'){%>
-                        <div class="header__logo">
-                            <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                        </div>
-                        <%}%>
-                        <%})%>
-            </div>
-           
-            <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                      <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                        <div class="hero__search__categories">
-                            All Categories
-                            <span class="arrow_carrot-down"></span>
-                        </div>
-                        <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                        <button type="submit" class="site-btn">SEARCH</button>
-                    </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="header__cart">
-                            <ul>
-                                <li><a href="/user/wishList"><i class="fa fa-heart"></i> <span><%=wishCount%></span> </a></li>
-                                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;">My Wishlist Favorites</h1>
+      <p class="text-white-50 text-sm mb-0">Your saved organic products ready for quick purchase</p>
     </div>
-</section>
-<!-- Hero Section End -->
+  </section>
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Wish list</h2>
-                    </div>
-                </div>
+  <% if (typeof showList !== 'undefined' && showList.length > 0) { %>
+    <section class="wishlist-section">
+      <div class="container">
+        <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden mb-4">
+          <div class="card-header bg-white border-bottom py-3 px-4">
+            <h5 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">Saved Items (<%= showList.length %>)</h5>
+          </div>
+
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="ps-4">Product</th>
+                    <th>Price</th>
+                    <th>Stock Status</th>
+                    <th>Add to Cart</th>
+                    <th class="text-end pe-4">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% showList.forEach(function(element) { %>
+                    <tr>
+                      <td class="ps-4">
+                        <div class="d-flex align-items-center gap-3">
+                          <img src="<%= element?.productId?.pimages[0] %>" alt="<%= element?.productId?.pname %>" width="60" height="60" class="rounded-3 border object-fit-cover" />
+                          <div>
+                            <h6 class="mb-0 font-weight-bold text-dark text-sm"><%= element?.productId?.pname %></h6>
+                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5 text-xs font-weight-bold">100% Organic</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-sm font-weight-bold text-dark">
+                        ₹<%= element?.productId?.pprice %>
+                      </td>
+                      <td>
+                        <% if (element?.productId?.pcountInStock !== 0) { %>
+                          <span class="badge bg-success rounded-pill px-2.5 py-1 text-xs font-weight-bold">In Stock</span>
+                        <% } else { %>
+                          <span class="badge bg-danger rounded-pill px-2.5 py-1 text-xs font-weight-bold">Out of Stock</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <% if (element?.productId?.pcountInStock !== 0) { %>
+                          <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 font-weight-bold text-xs" onclick="addToCart('<%= element?.productId?._id %>')">
+                            + Add to Cart
+                          </button>
+                        <% } else { %>
+                          <span class="text-muted text-xs font-weight-bold">Unavailable</span>
+                        <% } %>
+                      </td>
+                      <td class="text-end pe-4">
+                        <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-0 d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" onclick="removeFromWishList('<%= element?.productId?._id %>')">
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
+
+        <div class="text-left">
+          <a href="/user/shopping" class="btn btn-outline-success rounded-pill px-4 py-2 font-weight-bold text-sm">
+            <i class="fa fa-arrow-left mr-2"></i> Continue Shopping
+          </a>
+        </div>
+      </div>
     </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Shoping Cart Section Begin -->
-
-    <%if(showList.length>0){%>
-    <section class="shoping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="shoping__product">Products</th>
-                                    <th>Price</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% showList.forEach(element => { %>
-                                <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="<%=element?.productId?.pimages%>" alt="" style="height:100px;width:100px">
-                                            <h5><%=element?.productId?.pname%></h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            ₹<%=element?.productId?.pprice%>
-                                    </td>
-                                    <td class="shoping__cart__total" style="width: 120px;">
-                                        <%if(element?.productId?.pcountInStock != 0){%>
-                                            <a
-                                            class="btn btn-block btn-success"
-                                            onclick="addToCart('<%=element?.productId?._id %>');event.preventDefault();">
-                                             <i class="icon-cart-plus"></i>Add to Cart
-                </a>
-                                    <%}else{%>
-                                        <span class="text-danger">Out of stock</span>
-                                    <%}%>
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close" onclick="removeFromWishList('<%=element.productId._id %>');event.preventDefault();"></span>
-                                    </td>
-                                </tr>
-                               <%})%>
-                            </tbody>
-                        </table>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__btns">
-                        <a href="/user/shopping" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    </div>
-                </div>
-                
-                
-            </div>
+  <% } else { %>
+    <!-- Empty Wishlist State -->
+    <div class="container py-5 text-center">
+      <div class="card border-0 shadow-sm rounded-4 p-5 max-w-500 mx-auto bg-white" style="max-width: 520px;">
+        <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-inline-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 80px; height: 80px; font-size: 36px;">
+          <i class="fa fa-heart-o"></i>
         </div>
-    </section>
-    <%}else{%>
-        <div style="text-align:center;">
-            <img src="/img/f6e464230662e7fa4c6a4afb92631aed.png" style="width: 500px;height:500px;vertical-align:middle;"><br>
-            <a href="/user/shopping"><button class="btn btn-success mb-5 btn-lg w-25">Keep shopping</button></a>
-        </div>
-        
-        <%}%>
-    <%- include('../partials/userFooter.ejs')%>
+        <h3 class="font-weight-bold text-dark mb-2" style="font-family: 'Playfair Display', serif;">Your Wishlist is Empty</h3>
+        <p class="text-muted text-sm mb-4">You haven't saved any organic products to your wishlist yet.</p>
+        <a href="/user/shopping" class="btn btn-primary-organic rounded-pill px-4 py-2.5 font-weight-bold text-sm mx-auto">
+          Explore Organic Products
+        </a>
+      </div>
+    </div>
+  <% } %>
+</main>
 
-
-    
+<%- include('../partials/userFooter.ejs')%>

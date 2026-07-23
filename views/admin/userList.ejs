@@ -1,185 +1,112 @@
-<div class="screen-overlay"></div>
-<aside class="navbar-aside" id="offcanvas_aside">
-    <div class="aside-top">
-        <a href="index.html" class="brand-wrap">
-            <img src="/assets/imgs/logo.png" class="logo" alt="Evara Dashboard">
-        </a>
-        <div>
-            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
-            </button>
-        </div>
+<%-include('../partials/adminSidebar.ejs')-%>
+<main class="main-wrap bg-light" style="min-height: 100vh;">
+  <%-include('../partials/adminHeader.ejs')-%>
+  <section class="content-main p-4">
+    <div class="content-header mb-4">
+      <h2 class="content-title font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">User Management</h2>
+      <p class="text-muted text-sm mb-0">View registered customers and manage account access</p>
     </div>
-    <nav>
-        <ul class="menu-aside">
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/dashboard"> <i class="icon material-icons md-home"></i>
-                    <span class="text">Dashboard</span>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/productList"> <i
-                        class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Products</span>
-                </a>
-            </li>
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-store"></i>
-                    <span class="text">Categories</span>
-                </a>
-            </li>
-            <li class="menu-item  active">
-                <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-person"></i>
-                    <span class="text">Users</span>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Banners</span>
-                </a>
-            </li>
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#"> <i class="icon material-icons md-stars"></i>
-                    <span class="text">Coupons</span>
-                </a>
-                <div class="submenu">
-                    <a href="/admin/coupons">Coupons</a>
-                    <a href="/admin/addCoupons">Add Coupon</a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/orders"> <i class="icon material-icons md-shopping_cart"></i>
-                    <span class="text">Orders</span>
-                </a>
-            </li>
-            <hr>
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/sales-report">
-                  <i class="icon material-icons md-settings"></i>
-                  <span class="text">Sales Report</span>
-                </a>
-              </li>
-        <br>
-        <br>
-    </nav>
-</aside>
-<main class="main-wrap">
-    <%-include('../partials/adminHeader.ejs')-%>
-    <section class="content-main">
-        <div class="content-header">
-            <h2 class="content-title">User list</h2>
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table align-middle display table-hover w-100" id="userTable">
+            <thead class="bg-light">
+              <tr>
+                <th class="ps-3">#</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Registered Date</th>
+                <th>Status</th>
+                <th class="text-end pe-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (allUser && allUser.length > 0) { %>
+                <% allUser.reverse().forEach(function(user, index) { %>
+                  <tr>
+                    <td class="ps-3 text-muted text-xs font-weight-bold"><%= index + 1 %></td>
+                    <td>
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="avatar rounded-circle bg-success bg-opacity-10 text-success font-weight-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                          <%= user.firstname ? user.firstname.charAt(0).toUpperCase() : 'U' %>
+                        </div>
+                        <div>
+                          <h6 class="mb-0 font-weight-bold text-dark text-sm"><%= user.firstname %> <%= user.lastname || '' %></h6>
+                          <small class="text-muted text-xs">ID: #<%= user._id.toString().substr(0, 10) %></small>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-sm"><%= user.email %></td>
+                    <td class="text-muted text-xs"><%= new Date(user.createdAt || Date.now()).toLocaleDateString('en-GB') %></td>
+                    <td>
+                      <% if (user.isblocked) { %>
+                        <span class="badge bg-danger rounded-pill px-2.5 py-1 text-xs">Blocked</span>
+                      <% } else { %>
+                        <span class="badge bg-success rounded-pill px-2.5 py-1 text-xs">Active</span>
+                      <% } %>
+                    </td>
+                    <td class="text-end pe-3">
+                      <% if (user.isblocked) { %>
+                        <button type="button" class="btn btn-sm btn-success rounded-pill px-3 py-1 font-weight-bold text-xs" onclick="unblockUser('<%-user._id%>')">Unblock User</button>
+                      <% } else { %>
+                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 font-weight-bold text-xs" onclick="blockUser('<%-user._id%>')">Block User</button>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
         </div>
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover" id="userTable">
-                        <thead>
-                            <tr>
-                                <th>Index</th>
-                                <th>user</th>
-                                <th>Email</th>
-                                <th>Registered</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% allUser.reverse().forEach(function(user,index) { %>
-                            <tr>
-                                <td><%=index+1%></td>
-                                <td width="40%">
-                                    <a href="#" class="itemside">
-                                        <div class="left">
-                                            <img src="/assets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                        </div>
-                                        <div class="info pl-3">
-                                            <h6 class="mb-0 title"><%= user.firstname %></h6>
-                                            <small class="text-muted"><%= user._id.toString().substr(0, 10) %></small>
-                                        </div>
-                                    </a>
-                                </td>
-                                <td><%= user.email %></td>
-                                <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
+      </div>
+    </div>
+  </section>
+  <%-include('../partials/adminFooter.ejs')%>
+</main>
 
-                                <% if (user.isblocked) { %>
-                                    
-                                     <td> <button type="submit" class="btn btn-sm btn-success rounded font-sm mt-15" onclick="unblockUser('<%-user._id%>')">unblock</button></td>
-                                    
-                                  <% } else { %>
-                                    
-                                      <td><button type="submit" class="btn btn-sm btn-danger rounded font-sm mt-15" onclick="blockUser('<%-user._id%>')">Block</button></td>
-                                    
-                                  <% } %>
-                            </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-       
-    </section>
-    </main>
-    <%-include('../partials/adminFooter.ejs')%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+<script>
+  function blockUser(userId) {
+    Swal.fire({
+      title: 'Block User?',
+      text: "This user will lose access to login and placed orders.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6e7881',
+      confirmButtonText: 'Yes, Block User'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/admin/blockUser/" + userId,
+          method: "post",
+          success: function() {
+            location.reload();
+          }
+        });
+      }
+    });
+  }
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-
-
-    <script>
-     function blockUser(userId){
-     Swal.fire({
-     title: 'Are you sure?',
-     text: "You won't be able to revert this!",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, Block user!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-  
-  $.ajax({
-    url:"/admin/blockUser/"+userId,
-    method:"post",
-    success: function() 
-    {
-
-          // Reload the page
-          location.reload();
-    }
-})
-    }
-})
-}
-            
-        
-function unblockUser(userId){
-     Swal.fire({
-     title: 'Are you sure?',
-     text: "You won't be able to revert this!",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, UnBlock user!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-  
-  $.ajax({
-    url:"/admin/unBlockUser/"+userId,
-    method:"post",
-    success: function() {
-          // Reload the page
-          location.reload();
-        }
-})
-    }
-})
-                }
-
-    </script>
-
-
-
-
-
-
+  function unblockUser(userId) {
+    Swal.fire({
+      title: 'Unblock User?',
+      text: "This user will regain account access.",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#10B981',
+      cancelButtonColor: '#6e7881',
+      confirmButtonText: 'Yes, Unblock'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/admin/unBlockUser/" + userId,
+          method: "post",
+          success: function() {
+            location.reload();
+          }
+        });
+      }
+    });
+  }
+</script>

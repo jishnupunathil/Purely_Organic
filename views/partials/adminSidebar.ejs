@@ -1,65 +1,87 @@
-<aside class="navbar-aside" id="offcanvas_aside" style="background: #0F4C3A; color: #ffffff;">
-  <div class="aside-top d-flex align-items-center justify-content-between p-3 border-bottom border-light-subtle">
-    <a href="/admin/dashboard" class="brand-wrap d-flex align-items-center text-white text-decoration-none">
-      <h3 class="mb-0 font-weight-bold" style="font-family: 'Playfair Display', serif; color: #ffffff;">Purely Organic</h3>
+<aside class="navbar-aside" id="offcanvas_aside" style="background: linear-gradient(180deg, #093327 0%, #0F4C3A 100%); color: #ffffff; width: 260px; min-height: 100vh; transition: all 0.3s ease;">
+  <!-- Sidebar Brand Header -->
+  <div class="aside-top d-flex align-items-center justify-content-between p-4 border-bottom" style="border-color: rgba(255, 255, 255, 0.1) !important;">
+    <a href="/admin/dashboard" class="brand-wrap d-flex align-items-center text-white text-decoration-none gap-2">
+      <div class="brand-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: #10B981; color: #ffffff;">
+        <i class="material-icons md-eco" style="font-size: 22px;"></i>
+      </div>
+      <div>
+        <h4 class="mb-0 font-weight-bold" style="font-family: 'Playfair Display', serif; color: #ffffff; letter-spacing: 0.5px; font-size: 18px;">Purely Organic</h4>
+        <small class="text-white-50 text-uppercase" style="font-size: 9px; letter-spacing: 1.5px; font-weight: 700;">Admin Dashboard</small>
+      </div>
     </a>
-    <div>
-      <button class="btn btn-icon btn-aside-minimize text-white">
-        <i class="material-icons md-menu_open"></i>
-      </button>
-    </div>
+    <button class="btn btn-icon btn-aside-minimize text-white-50 p-1 d-lg-none">
+      <i class="material-icons md-close"></i>
+    </button>
   </div>
-  <nav class="mt-3">
-    <ul class="menu-aside list-unstyled px-2">
+
+  <!-- Sidebar Navigation Links -->
+  <nav class="mt-3 px-3">
+    <div class="px-3 mb-2 text-uppercase text-white-50 font-weight-bold" style="font-size: 10px; letter-spacing: 1px;">Core Management</div>
+    <ul class="menu-aside list-unstyled mb-4">
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/dashboard" style="transition: 0.2s;">
-          <i class="icon material-icons md-home mr-2" style="color: #10B981;"></i>
-          <span class="text font-weight-bold">Dashboard</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/dashboard" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-dashboard mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text font-weight-bold text-sm text-white">Dashboard</span>
         </a>
       </li>
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/productList" style="transition: 0.2s;">
-          <i class="icon material-icons md-shopping_bag mr-2" style="color: #10B981;"></i>
-          <span class="text">Products</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/productList" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-shopping_bag mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text text-sm">Products Catalog</span>
         </a>
       </li>
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/category" style="transition: 0.2s;">
-          <i class="icon material-icons md-store mr-2" style="color: #10B981;"></i>
-          <span class="text">Categories</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/category" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-category mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text text-sm">Categories</span>
         </a>
       </li>
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/userList" style="transition: 0.2s;">
-          <i class="icon material-icons md-person mr-2" style="color: #10B981;"></i>
-          <span class="text">Users</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/orders" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-local_shipping mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text text-sm">Order Dispatch</span>
         </a>
       </li>
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/banners" style="transition: 0.2s;">
-          <i class="icon material-icons md-photo_library mr-2" style="color: #10B981;"></i>
-          <span class="text">Banners</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/userList" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-people mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text text-sm">Customers</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="px-3 mb-2 text-uppercase text-white-50 font-weight-bold" style="font-size: 10px; letter-spacing: 1px;">Marketing & Analytics</div>
+    <ul class="menu-aside list-unstyled mb-4">
+      <li class="menu-item mb-1">
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/banners" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-photo_library mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text text-sm">Banner Ads</span>
         </a>
       </li>
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/coupons" style="transition: 0.2s;">
-          <i class="icon material-icons md-stars mr-2" style="color: #10B981;"></i>
-          <span class="text">Coupons</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/coupons" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-confirmation_number mr-3" style="color: #10B981; font-size: 20px;"></i>
+          <span class="text text-sm">Coupons & Offers</span>
         </a>
       </li>
       <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/orders" style="transition: 0.2s;">
-          <i class="icon material-icons md-shopping_cart mr-2" style="color: #10B981;"></i>
-          <span class="text">Orders</span>
-        </a>
-      </li>
-      <hr style="border-color: rgba(255,255,255,0.1);" />
-      <li class="menu-item mb-1">
-        <a class="menu-link d-flex align-items-center text-white-50 p-2 rounded" href="/admin/sales-report" style="transition: 0.2s;">
-          <i class="icon material-icons md-assessment mr-2" style="color: #F59E0B;"></i>
-          <span class="text">Sales Report</span>
+        <a class="menu-link d-flex align-items-center text-white-50 p-2.5 rounded-3 text-decoration-none" href="/admin/sales-report" style="transition: all 0.2s ease;">
+          <i class="icon material-icons md-trending_up mr-3" style="color: #F59E0B; font-size: 20px;"></i>
+          <span class="text text-sm">Sales Analytics</span>
         </a>
       </li>
     </ul>
   </nav>
+
+  <!-- Sidebar Footer Widget -->
+  <div class="mt-auto p-3 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
+    <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="badge bg-success rounded-pill px-2 py-0.5 font-9">Active</span>
+        <small class="font-weight-bold text-white text-xs">Store Live</small>
+      </div>
+      <small class="text-white-50 d-block text-xs">Purely Organic Engine v2.0</small>
+    </div>
+  </div>
 </aside>

@@ -1,146 +1,74 @@
 <%-include('../partials/userHeader.ejs')%> 
-<section class="hero hero-normal">
+
+<main class="bg-light pb-5" style="min-height: 80vh;">
+  <!-- Page Banner -->
+  <section class="py-4 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-1">
-                <% allBanner.forEach(function(banner) { %>
-                    <%if(banner.bname==='ogani logo'){%>
-                        <div class="header__logo">
-    
-                            <% if (user){%>
-    
-                                <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                            <%}else{%>
-                                
-                                <a href="/"><img src="<%=banner.bimages%>" alt=""></a>
-                            <%}%>
-                            
-                        </div>
-                        <%}%>
-                        <%})%>
-            </div>
-            <div class="col-lg-9">
-                <nav class="header__menu">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+9496959109</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="col-lg-2">
-                <div class="header__cart">
-                    <ul>
-                        <li><a href="/user/wishList"><i class="fa fa-heart"></i> <span><%=wishCount%></span> </a></li>
-                        <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="humberger__open">
-            <i class="fa fa-bars"></i>
-        </div>
-        </div>
+      <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;">Edit Shipping Address</h1>
+      <p class="text-white-50 text-sm mb-0">Update your saved delivery address details</p>
     </div>
-</section>
-    <!-- Hero Section End -->
+  </section>
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Address</h2>
-                        
-                    </div>
-                </div>
+  <section class="address-form-section">
+    <div class="container">
+      <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white max-w-800 mx-auto" style="max-width: 800px;">
+        <h4 class="font-weight-bold text-dark mb-4" style="font-family: 'Playfair Display', serif; color: #0F4C3A;">Edit Address Info</h4>
+
+        <form action="/user/editAddress/<%= selectedAddress._id %>" method="post" id="billing">
+          <div class="row g-3">
+            <div class="col-md-6 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">First Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="fname" value="<%= selectedAddress.fname %>" required />
             </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Checkout Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">Last Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="lname" value="<%= selectedAddress.lname %>" required />
             </div>
-            <div class="checkout__form">
-                <h4>Edit address</h4>
-                <form action="/user/editAddress/<%=selectedAddress._id%>" method="post" id="billing">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Fist Name<span>*</span></p>
-                                        <input type="text" name="fname" class="text-dark" value="<%=selectedAddress.fname%>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Last Name<span>*</span></p>
-                                        <input type="text" name="lname" class="text-dark" value="<%=selectedAddress.lname%>">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="checkout__input">
-                                <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address" class="checkout__input__add text-dark" name="address" value="<%=selectedAddress.address%>">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Town/City<span>*</span></p>
-                                <input type="text" name="city" value="<%=selectedAddress.city%>" class="text-dark">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country/State<span>*</span></p>
-                                <input type="text" name="state" value="<%=selectedAddress.state%>" class="text-dark">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Postcode / ZIP<span>*</span></p>
-                                <input type="number" name="pincode" value="<%=selectedAddress.pincode%>" class="text-dark">
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Phone<span>*</span></p>
-                                        <input type="number" name="phone" value="<%=selectedAddress.phone%>" class="text-dark">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email</p>
-                                        <input type="text" name="email" value="<%=selectedAddress.email%>" class="text-dark">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success"> save Changes</button>
-                </form>
+          </div>
 
+          <div class="mb-3">
+            <label class="form-label font-weight-bold text-xs text-dark">Street Address <span class="text-danger">*</span></label>
+            <input type="text" class="form-control rounded-3 mb-2" name="address" value="<%= selectedAddress.address %>" required />
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-4 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">Town / City <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="city" value="<%= selectedAddress.city %>" required />
             </div>
-        </div>
-        
-        
-    </section>
-    <!-- Checkout Section End -->
+            <div class="col-md-4 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">State / Province <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="state" value="<%= selectedAddress.state %>" required />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">Postcode / ZIP <span class="text-danger">*</span></label>
+              <input type="number" class="form-control rounded-3" name="pincode" value="<%= selectedAddress.pincode %>" required />
+            </div>
+          </div>
 
-    <%- include('../partials/userFooter.ejs')%>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">Phone Number <span class="text-danger">*</span></label>
+              <input type="number" class="form-control rounded-3" name="phone" value="<%= selectedAddress.phone %>" required />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label font-weight-bold text-xs text-dark">Email Address</label>
+              <input type="email" class="form-control rounded-3" name="email" value="<%= selectedAddress.email %>" />
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 pt-3 border-top">
+            <button type="submit" class="btn btn-primary-organic rounded-pill px-4 py-2.5 font-weight-bold text-sm">
+              Save Changes
+            </button>
+            <a href="/user/checkOut" class="btn btn-outline-secondary rounded-pill px-4 py-2.5 font-weight-bold text-sm">
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('../partials/userFooter.ejs')%>

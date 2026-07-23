@@ -1,250 +1,244 @@
 <%-include('../partials/userHeader.ejs')%> 
-<section class="hero hero-normal">
+
+<main class="bg-light pb-5" style="min-height: 80vh;">
+  <!-- Page Banner -->
+  <section class="py-4 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-1">
-                <% allBanner.forEach(function(banner) { %>
-                    <%if(banner.bname==='ogani logo'){%>
-                        <div class="header__logo">
-                            <% if (user){%>
-                                <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                            <%}else{%>
-                                <a href="/"><img src="<%=banner.bimages%>" alt=""></a>
-                            <%}%>
-                        </div>
-                        <%}%>
-                        <%})%>
-            </div>
-            <div class="col-lg-9">
-                <nav class="header__menu">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+9496959109</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="col-lg-2">
-                <div class="header__cart">
-                    <ul>
-                        <li><a href="/user/wishList"><i class="fa fa-heart"></i><span><%=wishCount%></span>  </a></li>
-                        <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="humberger__open">
-            <i class="fa fa-bars"></i>
-        </div>
-        </div>
+      <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;">Secure Checkout</h1>
+      <p class="text-white-50 text-sm mb-0">Select delivery address and complete your order</p>
     </div>
-</section>
-    <!-- Hero Section End -->
+  </section>
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Checkout</h2>
-                        
-                    </div>
-                </div>
-            </div>
+  <section class="checkout-section">
+    <div class="container">
+      <!-- Step Indicator -->
+      <div class="checkout-steps mb-4">
+        <div class="step-item active">
+          <div class="step-number"><i class="fa fa-shopping-basket"></i></div>
+          <span>Cart</span>
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-    <div>
-    </div>
-    <!-- Checkout Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <!-- Step Indicator -->
-            <div class="checkout-steps">
-                <div class="step-item active">
-                    <div class="step-number">1</div>
-                    <span>Cart</span>
-                </div>
-                <div class="step-line"></div>
-                <div class="step-item active">
-                    <div class="step-number">2</div>
-                    <span>Shipping Address</span>
-                </div>
-                <div class="step-line"></div>
-                <div class="step-item active">
-                    <div class="step-number">3</div>
-                    <span>Payment & Place Order</span>
-                </div>
-            </div>
-
-            <div class="checkout__form">
-                <h4 style="font-family: 'Playfair Display', serif; color: var(--primary-green); font-weight: 700;">Select Delivery Address</h4>
-                <form id="checkout-form">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6 mb-4">
-                            <div class="address-radio-group">
-                                <%if(separateAddresses.length > 0){%>
-                                    <%separateAddresses.forEach(function(address, index){%>
-                                        <div class="address-radio-card <%= index === 0 ? 'selected' : '' %>">
-                                            <input class="form-check-input" value="<%=address._id%>" type="radio" name="address" id="addressRadio_<%=address._id%>" <%= index === 0 ? 'checked' : '' %> />
-                                            <div class="address-content-wrapper">
-                                                <span class="address-tag">Saved Address <%=index+1%></span>
-                                                <h5 style="font-weight: 700; color: var(--text-dark); margin-bottom: 6px;"><%=address.name || user.firstname%></h5>
-                                                <p style="color: var(--text-muted); margin-bottom: 8px;">
-                                                    <%=address.address%>, <%=address.city%>, <%=address.state%> - <%=address.pincode%>
-                                                </p>
-                                                <p style="font-size: 13px; color: var(--text-dark); margin-bottom: 12px;">
-                                                    <strong>Phone:</strong> <%=address.phone%> | <strong>Email:</strong> <%=address.email%>
-                                                </p>
-                                                <div>
-                                                    <a href="/user/editAddress/<%=address._id%>" class="btn btn-sm site-btn-organic" style="padding: 4px 14px !important; font-size: 13px;">Edit Address</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <%})%>
-                                    <div class="mt-3">
-                                        <a href="/user/newAddress" class="btn btn-outline-success site-btn-organic" style="background: transparent !important; color: var(--primary-green) !important; border: 2px solid var(--primary-green) !important;">+ Add New Shipping Address</a>
-                                    </div>
-                                <%}else{%>
-                                    <div class="alert alert-warning p-4 rounded-3 text-center">
-                                        <h5>No Saved Address Found!</h5>
-                                        <p>Please add a shipping address to complete your order.</p>
-                                        <a href="/user/newAddress" class="btn site-btn-organic mt-2">+ Add New Address</a>
-                                    </div>
-                                <%}%>
-                            </div>
-                            <input type="text" value="<%=user._id%>" name="userId" hidden>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="checkout__order">
-                                <h4>Your Order</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
-                                <% productDetails.forEach((prod)=>{%>
-                                    <ul>
-                                        <li><%=prod.name%><span>₹<%=prod.totalPrice%></span></li>
-                                    </ul>
-                                    <%})%>
-                                <div class="checkout__order__subtotal" id="subTotal" name="subTotal">Subtotal <span>₹<%=total%></span></div>
-                                <input type="text" value="<%=discountVal%>" name="discount" hidden>
-                                <input type="text" value="<%=total%>" name="subTotal" hidden>
-                                <div class="checkout__order__subtotal" id="discount" name="discount">Discount <span>₹<%=discountVal%></span></div>
-                                <div class="checkout__order__total" id="totalPrice" name="totalPrice">Total <span>₹<%=subTotal%></div>
-                                <div class="custom-control custom-radio">
-                                    <input id="cod" value="cash_on_delivery" name="paymentMethod" type="radio" class="custom-control-input"/>
-                                    <label class="custom-control-label" for="cod">Cash On Delivery</label>
-                                </div>
-                                <div class="custom-control custom-radio"> 
-                                    <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="custom-control-input"/>
-                                    <label class="custom-control-label" for="online-payment">Online Payment</label>
-                                </div>
-                                  <div class="custom-control custom-radio">
-                                    <input
-                                      id="wallet"
-                                      value="wallet"
-                                      name="paymentMethod"
-                                      type="radio"
-                                      class="custom-control-input"
-                                    />
-                                    <label class="custom-control-label" for="wallet"
-                                      >Wallet</label
-                                    >
-                                  </div>
-                                  <div class="wallet-card" style="display: none;">
-                                    <h3>Wallet Balance</h3>
-                                      <p>Use Wallet</p>
-                                      <p class="wallet-amount">&#x20B9;<%=user.wallet || 0%> </p>
-                                  </div>
-                                  <%if(separateAddresses.length>0){%>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
-                                  <%}else{%>
-                                    <button type="submit" class="site-btn" disabled>PLACE</button>
-                                    <p class="text-danger">Add Address to proceed!</p>
-                                  <%}%>
-                            </div>
-                        </div>
-                    </div>  
-                </form>
-            </div>
+        <div class="step-line"></div>
+        <div class="step-item active">
+          <div class="step-number"><i class="fa fa-map-marker"></i></div>
+          <span>Shipping Address</span>
         </div>
-        <div>
+        <div class="step-line"></div>
+        <div class="step-item active">
+          <div class="step-number"><i class="fa fa-credit-card"></i></div>
+          <span>Payment & Place Order</span>
         </div>
-    </section>
       </div>
-                            </div>
-                        </div>  
-                    </form>
+
+      <form id="checkout-form">
+        <div class="row g-4">
+          <!-- Shipping Address Selection (Left Column) -->
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+              <h5 class="font-weight-bold text-dark mb-3" style="font-family: 'Playfair Display', serif;">Select Shipping Address</h5>
+
+              <div class="address-radio-group">
+                <% if (typeof separateAddresses !== 'undefined' && separateAddresses && separateAddresses.length > 0) { %>
+                  <% separateAddresses.forEach(function(address, index) { %>
+                    <div class="address-radio-card p-3 rounded-4 border mb-3 <%= index === 0 ? 'selected' : '' %>" style="cursor: pointer;">
+                      <div class="d-flex align-items-start gap-3">
+                        <input class="form-check-input mt-1" value="<%= address._id %>" type="radio" name="address" id="addressRadio_<%= address._id %>" <%= index === 0 ? 'checked' : '' %> />
+                        <label for="addressRadio_<%= address._id %>" class="w-100 mb-0 cursor-pointer">
+                          <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 text-xs font-weight-bold mb-1">Saved Address <%= index + 1 %></span>
+                          <h6 class="font-weight-bold text-dark mb-1"><%= address.name || (typeof user !== 'undefined' ? user.firstname : '') %></h6>
+                          <p class="text-muted text-xs mb-1"><%= address.address %>, <%= address.city %>, <%= address.state %> - <%= address.pincode %></p>
+                          <small class="text-dark text-xs d-block"><strong>Phone:</strong> <%= address.phone %> | <strong>Email:</strong> <%= address.email %></small>
+                        </label>
+                      </div>
+                    </div>
+                  <% }); %>
+
+                  <div class="mt-3">
+                    <a href="/user/newAddress" class="btn btn-outline-success rounded-pill font-weight-bold text-xs px-4 py-2">
+                      + Add New Shipping Address
+                    </a>
+                  </div>
+                <% } else { %>
+                  <div class="alert alert-warning p-4 rounded-4 text-center mb-0">
+                    <h6 class="font-weight-bold mb-1">No Saved Address Found</h6>
+                    <p class="text-muted text-xs mb-3">Please add a shipping address to proceed with your order.</p>
+                    <a href="/user/newAddress" class="btn btn-primary-organic rounded-pill font-weight-bold text-xs px-4 py-2">+ Add New Address</a>
+                  </div>
+                <% } %>
+              </div>
+              <input type="text" value="<%= typeof user !== 'undefined' && user ? user._id : '' %>" name="userId" hidden />
+            </div>
+          </div>
+
+          <!-- Order Summary & Payment Method (Right Column) -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+              <h5 class="font-weight-bold text-dark mb-3" style="font-family: 'Playfair Display', serif;">Order Summary</h5>
+
+              <!-- Product Line Items -->
+              <div class="order-items-list mb-3 pb-3 border-bottom max-h-200 overflow-auto">
+                <% if (typeof productDetails !== 'undefined' && productDetails) { %>
+                  <% productDetails.forEach(function(prod) { %>
+                    <div class="d-flex align-items-center justify-content-between text-xs py-1">
+                      <span class="text-dark font-weight-bold"><%= prod.name %> <small class="text-muted">x<%= prod.quantity %></small></span>
+                      <span class="font-weight-bold text-dark">₹<%= prod.totalPrice %></span>
+                    </div>
+                  <% }); %>
+                <% } %>
+              </div>
+
+              <!-- Price Totals Breakdown -->
+              <div class="d-flex justify-content-between text-xs text-muted mb-2">
+                <span>Subtotal:</span>
+                <span class="font-weight-bold text-dark">₹<%= typeof total !== 'undefined' ? total : 0 %></span>
+              </div>
+
+              <input type="text" value="<%= typeof discountVal !== 'undefined' ? discountVal : 0 %>" name="discount" hidden />
+              <input type="text" value="<%= typeof total !== 'undefined' ? total : 0 %>" name="subTotal" hidden />
+
+              <% if (typeof discountVal !== 'undefined' && discountVal > 0) { %>
+                <div class="d-flex justify-content-between text-xs text-danger mb-2">
+                  <span>Discount Coupon:</span>
+                  <span class="font-weight-bold">-₹<%= discountVal %></span>
                 </div>
+              <% } %>
+
+              <div class="d-flex justify-content-between text-xs text-muted mb-3">
+                <span>Shipping Fee:</span>
+                <span class="text-success font-weight-bold"><%= (typeof total !== 'undefined' && total >= 149) ? 'FREE' : '₹40' %></span>
+              </div>
+
+              <div class="d-flex justify-content-between font-weight-bold text-dark pt-2 border-top mb-4" style="font-size: 18px;">
+                <span>Total Amount:</span>
+                <span class="text-success font-weight-bold">₹<%= typeof subTotal !== 'undefined' ? subTotal : 0 %></span>
+              </div>
+
+              <!-- Payment Method Selection -->
+              <h6 class="font-weight-bold text-dark mb-2 text-xs text-uppercase tracking-wider">Select Payment Method</h6>
+              
+              <div class="payment-option-card mb-2 p-3 rounded-3 border">
+                <div class="form-check">
+                  <input id="cod" value="cash_on_delivery" name="paymentMethod" type="radio" class="form-check-input" checked />
+                  <label class="form-check-label font-weight-bold text-sm text-dark ms-2" for="cod">
+                    Cash On Delivery (COD)
+                  </label>
+                </div>
+              </div>
+
+              <div class="payment-option-card mb-2 p-3 rounded-3 border">
+                <div class="form-check">
+                  <input id="online-payment" value="online_payment" name="paymentMethod" type="radio" class="form-check-input" />
+                  <label class="form-check-label font-weight-bold text-sm text-dark ms-2" for="online-payment">
+                    Online Payment (Razorpay / UPI / Cards)
+                  </label>
+                </div>
+              </div>
+
+              <div class="payment-option-card mb-3 p-3 rounded-3 border">
+                <div class="form-check">
+                  <input id="wallet" value="wallet" name="paymentMethod" type="radio" class="form-check-input" />
+                  <label class="form-check-label font-weight-bold text-sm text-dark ms-2" for="wallet">
+                    Organic Wallet (Balance: ₹<%= typeof user !== 'undefined' && user?.wallet ? user.wallet : 0 %>)
+                  </label>
+                </div>
+              </div>
+
+              <!-- Place Order Button -->
+              <% if (typeof separateAddresses !== 'undefined' && separateAddresses && separateAddresses.length > 0) { %>
+                <button type="submit" class="btn btn-primary-organic w-100 rounded-pill py-3 font-weight-bold text-sm shadow-md">
+                  PLACE ORDER <i class="fa fa-arrow-right ml-2"></i>
+                </button>
+              <% } else { %>
+                <button type="submit" class="btn btn-secondary w-100 rounded-pill py-3 font-weight-bold text-sm" disabled>
+                  PLACE ORDER
+                </button>
+                <small class="text-danger d-block text-center mt-2 font-weight-bold">Please add a shipping address above to proceed</small>
+              <% } %>
             </div>
-            <div>
-            </div>
-        </section>
-        
-    <!-- Checkout Section End -->
- 
-      
-      <!-- edit address -->
-      
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
 
+<%- include('../partials/userFooter.ejs')%>
 
-
-    <%- include('../partials/userFooter.ejs')%>
-
-
-    <script>
- 
-        $("#checkout-form").submit((e)=>{
-            e.preventDefault()
-            $.ajax({
-                url:'/user/place-order',
-                method:'post', 
-                data:$('#checkout-form').serialize(),
-                success:(response)=>{
-                    
-                }
-            })
-        })
-
-
-         function deleteAddress(addressId){
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  $("#checkout-form").submit((e) => {
+    e.preventDefault();
+    $.ajax({
+      url: '/user/place-order',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
+        let addressId = response.addressId;
+        if (response.codSuccess) {
+          let orderId = response.orderId;
+          Swal.fire({
+            title: 'Order Placed Successfully! 🌿',
+            text: 'Your organic harvest order has been confirmed.',
+            icon: 'success',
+            confirmButtonColor: '#0F4C3A',
+          }).then(() => {
+            location.href = "/user/orderInfo/" + orderId + "/" + addressId;
+          });
+        } else if (response.id) {
+          razorpayPayment(response);
+        } else {
+          Swal.fire({
+            title: 'Order Placed!',
+            text: response.message || 'Order completed.',
+            icon: 'success',
+          }).then(() => {
+            if (response.orderId) {
+              location.href = "/user/orderInfo/" + response.orderId + "/" + addressId;
+            } else {
+              location.href = "/user/myOrders";
+            }
+          });
+        }
+      },
+      error: (xhr) => {
         Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-       confirmButtonText: 'Yes, delete Product!'
-     }).then((result) => {
-       if (result.isConfirmed) {
-     
-     $.ajax({
-       url:"/user/deleteAddress/"+addressId,
-       method:"post",
-       success: function() 
-       {
-   
-             // Reload the page
-             location.reload();
-       }
-   })
-       }
-   })
-   }
-    </script>
+          title: 'Order Failed',
+          text: xhr.responseJSON?.message || 'Failed to place order. Please try again.',
+          icon: 'error',
+        });
+      }
+    });
+  });
+
+  function razorpayPayment(order) {
+    var options = {
+      "key": "rzp_test_LlUB5deQFFVcRd",
+      "amount": order.amount,
+      "currency": "INR",
+      "name": "Purely Organic",
+      "description": "Organic Harvest Transaction",
+      "image": "/images/logo1.png",
+      "order_id": order.id,
+      "handler": function (response) {
+        verifyPayment(response, order);
+      },
+      "theme": { "color": "#0F4C3A" }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
+
+  function verifyPayment(payment, order) {
+    $.ajax({
+      url: '/user/verify-payment',
+      data: { payment, order },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          location.href = "/user/orderInfo/" + response.orderId + "/" + response.addresId;
+        } else {
+          Swal.fire({ title: 'Payment Failed', text: 'Online payment could not be verified.', icon: 'error' });
+        }
+      }
+    });
+  }
+</script>

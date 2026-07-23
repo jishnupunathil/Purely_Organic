@@ -1,3 +1,41 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<%-include('partials/userHeader.ejs')%>
+
+<main class="bg-light py-5 d-flex align-items-center justify-content-center" style="min-height: 75vh;">
+  <div class="container text-center">
+    <div class="card border-0 shadow-sm rounded-3 p-5 max-w-600 mx-auto bg-white" style="max-width: 600px; border-top: 5px solid #0F4C3A !important;">
+      
+      <!-- Organic 404 Icon Container -->
+      <div class="rounded-3 bg-light border p-4 d-inline-flex align-items-center justify-content-center mb-3 mx-auto text-success" style="width: 80px; height: 80px; font-size: 36px;">
+        <i class="fa fa-leaf"></i>
+      </div>
+
+      <h1 class="font-weight-bold text-dark mb-2" style="font-family: 'Playfair Display', serif; font-size: 32px; color: #0F4C3A;">Oops! Off The Organic Farm</h1>
+      
+      <p class="text-muted text-sm mb-4" style="line-height: 1.6;">
+        The page or product you are looking for (<code class="text-danger"><%= typeof message !== 'undefined' ? message : 'Not Found' %></code>) may have been moved, harvested, or no longer exists.
+      </p>
+
+      <!-- Instant Store Search Box -->
+      <div class="mb-4">
+        <form action="/shopping" method="get" class="d-flex align-items-center gap-2 justify-content-center">
+          <div class="input-group" style="max-width: 420px;">
+            <input type="search" name="search" class="form-control bg-light border-0 text-sm" placeholder="Search vegetables, fruits, dairy..." style="padding-top: 10px; padding-bottom: 10px;" />
+            <button type="submit" class="btn btn-primary-organic text-xs px-3 font-weight-bold">Search Store</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Quick Action Navigation Shortcuts -->
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <a href="/" class="btn btn-primary-organic rounded-3 font-weight-bold text-xs px-4 py-2.5">
+          <i class="fa fa-home mr-1"></i> Return to Home
+        </a>
+        <a href="/shopping" class="btn btn-outline-success rounded-3 font-weight-bold text-xs px-4 py-2.5">
+          <i class="fa fa-shopping-bag mr-1"></i> Explore Shop Catalog
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/userFooter.ejs')%>

@@ -1,117 +1,93 @@
 <%-include('../partials/userHeader.ejs') %>
-<head>
-<!-- Font Icon -->
-      <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-      <!-- Main css -->
-      <link rel="stylesheet" href="/cssSL/style.css">
- </head>
- <% allBanner.forEach(function(banner) { %>
-    <%if(banner.bname==='login bg'){%>
-    <div class="main"  style="background-image: url('<%=banner.bimages[1]%>');">
+<div class="auth-wrapper py-5" style="min-height: 85vh; background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 45%), radial-gradient(circle at bottom left, rgba(15, 76, 58, 0.06), transparent 45%);">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg border-0" style="max-width: 500px; width: 100%; border-radius: 24px; overflow: hidden; background: #ffffff;">
+      <div class="p-4 p-md-5">
+        <div class="text-center mb-4">
+          <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: #10B981;">
+            <i class="fa fa-shield fa-2x"></i>
+          </div>
+          <h3 class="font-weight-bold" style="font-family: 'Playfair Display', serif; color: #0F4C3A; font-size: 26px;">Enter OTP Code</h3>
+          <p class="text-muted small mb-0">We sent a 6-digit verification code to</p>
+          <span class="font-weight-bold" style="color: #0F4C3A;">+91 <%= mobNumber %></span>
+        </div>
 
-        <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container2">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="<%=banner.bimages[2]%>" alt="sing up image"></figure>
-                        <%}%>
-        <%})%>
-                    </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Login with otp</h2>
-                        <form action="/user/submitOtp" method="POST" class="register-form" id="otpLoginSubmit">
-                            <div class="form-group">
-                                <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="number" name="code" id="code" placeholder="6-digit Code" />
-                            </div>
-                           <input name="mobNumber" value="<%= mobNumber %>" hidden>
-                            <div class="form-group">
-                            <div class="form-group form-button">
-                                <button type="submit" class="btn btn-success">Submit otp</button>
-                            </div>
-                            <%if(message){%>
-                                <p style="color: red;"> <%=message%></p>
-                            <%}%>
-                        
-                        
-                        <div id="countdown-timer" style="display: inline">
-                            Time Left: 1:00
-                          </div>
-                            
-                            <div class="float-right">
-                                <label
-                                  class="text-end"
-                                  for="register-policy-2"
-                                  style="font-size: smaller"
-                                >
-                                  <a
-                                    id="resendOTP"
-                            
-                                    class="resend-link text-secondary fw-bold"
-                                    style="display: none"
-                                    onclick="resendOTP() "
-                                    >Resend OTP</a>
-                                </label>
-                              </div>
-                             
-                            </form>
-    
-                        <div class="social-login">
-                        
-                        </div>
-                    </div>
-                </div>
+        <form action="/user/submitOtp" method="POST" id="otpLoginSubmit">
+          <div class="form-group mb-3">
+            <label for="code" class="font-weight-bold small text-dark">6-Digit OTP Code</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-lock text-muted"></i></span>
+              </div>
+              <input type="number" name="code" id="code" class="form-control bg-light border-left-0 text-center font-weight-bold" placeholder="• • • • • •" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 12px; font-size: 20px; letter-spacing: 4px;">
             </div>
-        </section>
+          </div>
+
+          <input name="mobNumber" value="<%= mobNumber %>" hidden>
+
+          <%if(message){%>
+            <div class="alert alert-danger py-2 px-3 small rounded-lg mb-3" style="border-radius: 10px;">
+              <i class="fa fa-exclamation-circle mr-1"></i> <%=message%>
+            </div>
+          <%}%>
+
+          <div class="d-flex justify-content-between align-items-center my-3 p-3 bg-light rounded-lg" style="border-radius: 12px;">
+            <div id="countdown-timer" class="small font-weight-bold text-muted">
+              <i class="fa fa-clock-o mr-1 text-warning"></i> Time Left: <span id="timer-display" style="color: #0F4C3A;">1:00</span>
+            </div>
+            <a id="resendOTP" class="small font-weight-bold" style="display: none; color: #10B981; cursor: pointer;" onclick="resendOTP()">
+              <i class="fa fa-refresh mr-1"></i> Resend OTP
+            </a>
+          </div>
+
+          <button type="submit" class="btn btn-block text-white font-weight-bold py-3 mt-4" style="background: linear-gradient(135deg, #0F4C3A 0%, #10B981 100%); border-radius: 50px; border: none; box-shadow: 0 6px 18px rgba(15, 76, 58, 0.25); transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            VERIFY & LOG IN <i class="fa fa-check-circle ml-2"></i>
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
 
-    <%- include('../partials/userFooter.ejs')%>
+<%- include('../partials/userFooter.ejs')%>
 
-    <script>
-          // Set the time limit for the OTP verification (in seconds)
-  const timeLimit = 60;
-
-// Get the countdown timer element
+<script>
+const timeLimit = 60;
 const countdownTimer = document.getElementById("countdown-timer");
+const timerDisplay = document.getElementById("timer-display");
 const resendLink = document.getElementById("resendOTP");
 
-// Initialize the timer value
 let timerValue = timeLimit;
 
-// Update the timer value every second
 const countdownInterval = setInterval(() => {
   timerValue--;
   const minutes = Math.floor(timerValue / 60);
   const seconds = timerValue % 60;
-  countdownTimer.innerHTML = `Time Left: ${minutes}:${seconds
-    .toString()
-    .padStart(2, "0")}`;
+  timerDisplay.innerHTML = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 
-  // If the timer reaches zero, clear the interval and disable the form
   if (timerValue === 0) {
     clearInterval(countdownInterval);
     resendLink.style.display = "inline";
-    // document.querySelector('button[type="submit"]').disabled = true;
     countdownTimer.style.display = "none";
     Swal.fire({
-      title: "Time's up!",
+      title: "OTP Expired",
+      text: "Please click Resend OTP to receive a new code",
       icon: "warning",
       timer: 3000,
     });
   }
 }, 1000);
 
-
 function resendOTP() {
   Swal.fire({
-    title: 'Do you want to resend?',
+    title: 'Resend Verification Code?',
+    text: 'A new 6-digit code will be sent to +91 <%= mobNumber %>',
     icon: 'question',
     showCancelButton: true,
-    confirmButtonText: 'Yes',
-    cancelButtonText: 'No',
+    confirmButtonText: 'Yes, Send Code',
+    cancelButtonText: 'Cancel',
+    confirmButtonColor: '#0F4C3A'
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
@@ -122,28 +98,32 @@ function resendOTP() {
           if (response.status === 'success') {
             Swal.fire({
               title: 'OTP Resent!',
+              text: 'Check your mobile phone for the new code',
               icon: 'success',
-              timer: 4000,
+              timer: 3000,
             });
+            timerValue = 60;
+            resendLink.style.display = "none";
+            countdownTimer.style.display = "inline";
           } else {
             Swal.fire({
-              title: 'OTP resend failed!',
-              text: response.message,
+              title: 'Failed to send OTP',
+              text: response.message || 'Please try again later',
               icon: 'error',
-              timer: 4000,
+              timer: 3000,
             });
           }
         },
         error: function (error) {
           Swal.fire({
-            title: 'Error occurred!',
-            text: error.message,
+            title: 'Error!',
+            text: 'Could not connect to server',
             icon: 'error',
-            timer: 2000,
+            timer: 3000,
           });
         },
       });
     }
   });
 }
-    </script>
+</script>

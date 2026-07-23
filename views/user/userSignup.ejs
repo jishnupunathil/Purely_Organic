@@ -1,118 +1,115 @@
 <%-include('../partials/userHeader.ejs') %>
-<head>
-  <!-- Font Icon -->
-  <link
-    rel="stylesheet"
-    href="/fonts/material-icon/css/material-design-iconic-font.min.css"
-  />
 
-  <!-- Main css -->
-  <link rel="stylesheet" href="/cssSL/style.css" />
-</head>
-<% allBanner.forEach(function(banner) { %> <%if(banner.bname==='login bg'){%>
-<div class="main" style="background-image: url('<%=banner.bimages[1]%>')">
-  <!-- Sign up form -->
-  <section class="signup">
-    <div class="container2">
-      <div class="signup-content">
-        <div class="signup-form">
-          <h2 class="form-title">Sign up</h2>
-          <form
-            action="/user/registration"
-            method="POST"
-            class="register-form"
-            id="signup"
-          >
-            <div class="form-group">
-              <label for="firstname"
-                ><i class="zmdi zmdi-account material-icons-name"></i
-              ></label>
-              <input
-                type="text"
-                name="firstname"
-                id="firstname"
-                placeholder="First Name..."
-              />
+<div class="auth-wrapper py-5" style="min-height: 85vh; background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 45%), radial-gradient(circle at bottom left, rgba(15, 76, 58, 0.06), transparent 45%);">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg border-0" style="max-width: 950px; width: 100%; border-radius: 24px; overflow: hidden; background: #ffffff;">
+      <div class="row no-gutters">
+        <!-- Form Side -->
+        <div class="col-lg-7 p-4 p-md-5">
+          <div class="auth-header mb-4">
+            <h3 class="font-weight-bold" style="font-family: 'Playfair Display', serif; color: #0F4C3A; font-size: 28px;">Create Your Account</h3>
+            <p class="text-muted small">Join thousands of families enjoying farm-fresh 100% organic produce</p>
+          </div>
+
+          <form action="/user/registration" method="POST" id="signup">
+            <div class="row">
+              <div class="col-md-6 form-group mb-3">
+                <label for="firstname" class="font-weight-bold small text-dark">First Name</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-user text-muted"></i></span>
+                  </div>
+                  <input type="text" name="firstname" id="firstname" class="form-control bg-light border-left-0" placeholder="John" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 11px;">
+                </div>
+              </div>
+
+              <div class="col-md-6 form-group mb-3">
+                <label for="lastname" class="font-weight-bold small text-dark">Last Name</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-user text-muted"></i></span>
+                  </div>
+                  <input type="text" name="lastname" id="lastname" class="form-control bg-light border-left-0" placeholder="Doe" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 11px;">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="lastname"
-                ><i class="zmdi zmdi-account material-icons-name"></i
-              ></label>
-              <input
-                type="text"
-                name="lastname"
-                id="lastname"
-                placeholder="Last Name..."
-              />
+
+            <div class="form-group mb-3">
+              <label for="email" class="font-weight-bold small text-dark">Email Address</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-envelope text-muted"></i></span>
+                </div>
+                <input type="email" name="email" id="email" class="form-control bg-light border-left-0" placeholder="name@example.com" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 11px;">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="email"><i class="zmdi zmdi-email"></i></label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email..."
-              />
+
+            <div class="form-group mb-3">
+              <label for="phoneNumber" class="font-weight-bold small text-dark">Phone Number</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-phone text-muted"></i></span>
+                </div>
+                <input type="number" name="phoneNumber" id="phoneNumber" class="form-control bg-light border-left-0" placeholder="9876543210" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 11px;">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="phoneNumber"><i class="zmdi zmdi-lock"></i></label>
-              <input
-                type="number"
-                name="phoneNumber"
-                id="phoneNumber"
-                placeholder="Phone Number..."
-              />
+
+            <div class="row">
+              <div class="col-md-6 form-group mb-3">
+                <label for="password" class="font-weight-bold small text-dark">Password</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-lock text-muted"></i></span>
+                  </div>
+                  <input type="password" name="password" id="password" class="form-control bg-light border-left-0" placeholder="••••••••" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 11px;">
+                </div>
+              </div>
+
+              <div class="col-md-6 form-group mb-3">
+                <label for="confirmPassword" class="font-weight-bold small text-dark">Confirm Password</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px; border-color: #E2E8F0;"><i class="fa fa-lock text-muted"></i></span>
+                  </div>
+                  <input type="password" name="confirmPassword" id="confirmPassword" class="form-control bg-light border-left-0" placeholder="••••••••" required style="border-radius: 0 12px 12px 0; border-color: #E2E8F0; padding: 11px;">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="password"><i class="zmdi zmdi-lock"></i></label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password..."
-              />
-            </div>
-            <div class="form-group">
-              <label for="confirm password"
-                ><i class="zmdi zmdi-lock-outline"></i
-              ></label>
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                placeholder="Confirm password..."
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="agree-term"
-                id="agree-term"
-                class="agree-term"
-              />
-            </div>
-            <div class="form-group form-button">
-              <button type="submit" class="form-submit">Sign Up</button>
-            </div>
+
             <%if(message){%>
-              <p  style="    color: red;
-              font-size: larger;"><%=message%></p>
-              <%}%>
+              <div class="alert alert-danger py-2 px-3 small rounded-lg mb-3" style="border-radius: 10px;">
+                <i class="fa fa-exclamation-circle mr-1"></i> <%=message%>
+              </div>
+            <%}%>
+
+            <button type="submit" class="btn btn-block text-white font-weight-bold py-3 mt-3" style="background: linear-gradient(135deg, #0F4C3A 0%, #10B981 100%); border-radius: 50px; border: none; box-shadow: 0 6px 18px rgba(15, 76, 58, 0.25); transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+              CREATE ACCOUNT <i class="fa fa-arrow-right ml-2"></i>
+            </button>
           </form>
+
+          <div class="text-center mt-4">
+            <p class="small text-muted mb-0">Already registered? <a href="/login" class="font-weight-bold" style="color: #10B981;">Sign In Here</a></p>
+          </div>
         </div>
-        
-        
-        <div class="signup-image">
-          <figure>
-            <img src="<%=banner.bimages[0]%>" alt="sing up image" />
-          </figure>
-          <%}%> <%})%>
-          <a href="/login" class="signup-image-link" style="font-size: 18px"
-            >I am already member</a
-          >
+
+        <!-- Banner Side -->
+        <div class="col-lg-5 d-none d-lg-flex align-items-center justify-content-center p-5 text-white" style="background: linear-gradient(135deg, #0F4C3A 0%, #10B981 100%); position: relative;">
+          <div class="text-center z-index-1">
+            <div class="mb-4">
+              <span class="badge badge-light px-3 py-2 text-uppercase font-weight-bold" style="border-radius: 50px; color: #0F4C3A; font-size: 11px; letter-spacing: 1px;">🌿 Join Purely Organic</span>
+            </div>
+            <h2 class="font-weight-bold mb-3" style="font-family: 'Playfair Display', serif; color: #ffffff;">Start Your Healthier Journey</h2>
+            <ul class="list-unstyled text-left small text-white-50 my-4" style="line-height: 2;">
+              <li><i class="fa fa-check-circle text-white mr-2"></i> 100% Certified Non-GMO Harvest</li>
+              <li><i class="fa fa-check-circle text-white mr-2"></i> Free Express Shipping over ₹149</li>
+              <li><i class="fa fa-check-circle text-white mr-2"></i> Exclusive Member Promo Coupons</li>
+              <li><i class="fa fa-check-circle text-white mr-2"></i> Direct Support from Organic Farmers</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </div>
+
 <%- include('../partials/userFooter.ejs')%>

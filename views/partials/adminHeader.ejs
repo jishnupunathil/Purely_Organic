@@ -1,46 +1,65 @@
-<header class="main-header navbar">
-  <div class="col-search"></div>
-  <div class="col-nav">
-    <button
-      class="btn btn-icon btn-mobile me-auto"
-      data-trigger="#offcanvas_aside"
-    >
-      <i class="material-icons md-apps"></i>
-    </button>
-    <ul class="nav">
-      <li class="nav-item">
-        <a class="nav-link btn-icon" href="#">
-          <i class="material-icons md-notifications animation-shake"></i>
-          <span class="badge rounded-pill">3</span>
+<header class="main-header navbar px-4 py-3 shadow-xs bg-white border-bottom border-light sticky-top">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <!-- Left: Mobile Trigger & Search Bar -->
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-icon btn-mobile me-2 d-lg-none text-dark" data-trigger="#offcanvas_aside">
+        <i class="material-icons md-menu font-24"></i>
+      </button>
+
+      <div class="d-none d-md-flex align-items-center search-bar-wrap position-relative" style="width: 320px;">
+        <i class="material-icons md-search position-absolute text-muted" style="left: 14px; font-size: 20px;"></i>
+        <input 
+          type="text" 
+          class="form-control rounded-3 ps-5 bg-light border-0 shadow-none text-sm" 
+          placeholder="Search orders, products, customers..." 
+          style="padding-top: 9px; padding-bottom: 9px;"
+        />
+      </div>
+    </div>
+
+    <!-- Right: Quick Links, Status Badge & Admin Profile -->
+    <div class="d-flex align-items-center gap-3 ms-auto">
+      <!-- Live Store Status Badge -->
+      <a href="/" target="_blank" class="btn btn-sm btn-outline-success rounded-3 d-none d-sm-inline-flex align-items-center gap-1 font-weight-bold px-3">
+        <i class="material-icons md-storefront text-sm"></i>
+        <span>View Shop</span>
+      </a>
+
+      <!-- Notifications Dropdown -->
+      <div class="dropdown">
+        <a class="nav-link btn-icon position-relative text-dark p-2 rounded-3 hover-bg-light" href="#" data-bs-toggle="dropdown">
+          <i class="material-icons md-notifications"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill font-9">3</span>
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link btn-icon darkmode" href="#">
-          <i class="material-icons md-nights_stay"></i>
-        </a>
-      </li>
-      <li class="dropdown nav-item">
-        <a
-          class="dropdown-toggle"
-          data-bs-toggle="dropdown"
-          href="#"
-          id="dropdownAccount"
-          aria-expanded="false"
-        >
-          <img
-            class="img-xs rounded-circle"
-            src="/assets/imgs/people/avatar2.jpg"
-            alt="User"
-        /></a>
-        <div
-          class="dropdown-menu dropdown-menu-end"
-          aria-labelledby="dropdownAccount"
-        >
-          <a class="dropdown-item text-danger" href="/admin/logout"
-            ><i class="material-icons md-exit_to_app"></i>Logout</a
-          >
+        <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 p-2" style="min-width: 260px;">
+          <h6 class="dropdown-header text-uppercase text-muted font-weight-bold text-xs">System Alerts</h6>
+          <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2" href="/admin/orders">
+            <i class="material-icons md-shopping_bag text-success"></i>
+            <div>
+              <p class="mb-0 text-sm font-weight-bold">New orders received</p>
+              <small class="text-muted text-xs">Check pending dispatches</small>
+            </div>
+          </a>
         </div>
-      </li>
-    </ul>
+      </div>
+
+      <!-- Admin User Avatar Menu -->
+      <div class="dropdown">
+        <a class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle" href="#" id="dropdownAccount" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="avatar avatar-sm rounded-3 text-dark bg-light border d-flex align-items-center justify-content-center font-weight-bold" style="width: 38px; height: 38px;">
+            A
+          </div>
+          <div class="d-none d-lg-block text-start">
+            <span class="d-block font-weight-bold text-dark text-sm leading-tight">Admin Portal</span>
+            <small class="text-muted text-xs">Store Manager</small>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2 p-2" aria-labelledby="dropdownAccount" style="min-width: 180px;">
+          <a class="dropdown-item text-danger d-flex align-items-center gap-2 py-2 rounded font-weight-bold" href="/admin/logout">
+            <i class="material-icons md-exit_to_app"></i> Logout Account
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </header>

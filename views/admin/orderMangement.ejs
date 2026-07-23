@@ -1,91 +1,100 @@
 <%-include('../partials/adminSidebar.ejs')-%>
-<main class="main-wrap">
-    <%-include('../partials/adminHeader.ejs')-%>
-    <section class="content-main">
-        <div class="content-header">
-          <div>
-            <h2 class="content-title card-title">Order Management.</h2>
-            <p>Manage Orders</p>
+<main class="main-wrap bg-light" style="min-height: 100vh;">
+  <%-include('../partials/adminHeader.ejs')-%>
+
+  <section class="content-main p-4">
+    <!-- Header Title Section -->
+    <div class="content-header mb-4 d-flex align-items-center justify-content-between">
+      <div>
+        <h2 class="content-title card-title font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">Order Management & Dispatch</h2>
+        <p class="text-muted text-sm mb-0">Track live orders, delivery updates, returns, and payment statuses</p>
+      </div>
+    </div>
+
+    <!-- Orders Card -->
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-header bg-white border-0 pt-4 px-4 pb-3">
+        <div class="row align-items-center g-3">
+          <div class="col-md-6">
+            <h5 class="card-title font-weight-bold text-dark mb-0" style="font-family: 'Playfair Display', serif;">All Dispatch Orders</h5>
           </div>
         </div>
-        <div class="card mb-4">
-          <header class="card-header">
-            <div class="row gx-3">
-             
-            </div>
-          </header>
-    <div class="card-body">
+      </div>
+
+      <div class="card-body p-4">
         <div class="table-responsive">
-          <table id="myTableOrder" class="table table-hover display">
-            <thead>
+          <table id="myTableOrder" class="table align-middle display table-hover w-100">
+            <thead class="bg-light">
               <tr>
-                <th>index</th>
-                <th>#ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Payment Method</th>
-                <th scope="col">Status</th>
-                <th scope="col">Date</th>
-                <th scope="col" class="text-end">Action</th>
+                <th class="ps-3">#</th>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Total Amount</th>
+                <th>Payment Method</th>
+                <th>Delivery Status</th>
+                <th>Order Date</th>
+                <th class="text-end pe-3">Action</th>
               </tr>
             </thead>
             <tbody>
-             
-                <% orders.reverse().forEach(function(order,index) { %>
-                    <tr>
-                        <td><%-index+1%></td>
-                      <td><%= order._id.toString().substr(0, 10) %></td>
-                      <td><b><%= order.fname %></b></td>
-                      <td>&#x20B9;<%= order.total_amount %></td>
-                      <td><%= order.payment_method %></td>
-                      <td>
-                        <% if (order.order_status === "placed") { %>
-                          <span class="badge rounded-pill bg-success">
-                            <%= order.order_status %>
-                          </span>
-                          <% }else if (order.order_status === "paid") { %>
-                            <span class="badge rounded-pill bg-warning">
-                              <%= order.order_status %>
-                            </span>
-                        <% }else if (order.order_status === "pending") { %>
-                        <span class="badge rounded-pill bg-warning">
-                          <%= order.order_status %>
-                        </span>
-                        <% } else if (order.order_status === "Shipped") { %>
-                        <span class="badge rounded-pill bg-success">
-                          <%= order.order_status %>
-                        </span>
-                        <% } else if (order.order_status === "delivered") { %>
-                        <span class="badge rounded-pill bg-info">
-                          <%= order.order_status %>
-                        </span>
-                        <% } else if (order.order_status === "cancelled") { %>
-                        <span class="badge rounded-pill bg-danger">
-                          <%= order.order_status %>
-                        </span>
-                        <% } %>
-                      </td>
-                      <td>
-                        <%= new Date(order.order_date).toLocaleDateString('en-GB', {
-                        day: '2-digit', month: '2-digit', year: 'numeric', hour:
-                        '2-digit', minute: '2-digit', }).replace(/\//g, '-') %>
-                      </td>
-                      <td class="text-end">
-                        <a
-                          href="/admin/viewOrders/<%= order._id %>"
-                          class="btn btn-md rounded font-sm"
-                          >View Order</a
-                        >
-                      </td>
-                    </tr>
-                    <% }); %>
+              <% if (orders && orders.length > 0) { %>
+                <% orders.reverse().forEach(function(order, index) { %>
+                  <tr>
+                    <td class="ps-3 text-muted text-xs font-weight-bold"><%= index + 1 %></td>
+                    <td class="font-weight-bold text-dark text-sm">
+                      #<%= order._id.toString().substr(0, 10) %>
+                    </td>
+                    <td>
+                      <span class="font-weight-bold text-dark d-block text-sm"><%= order.fname %></span>
+                    </td>
+                    <td class="font-weight-bold text-dark text-sm">
+                      ₹<%= Number(order.total_amount || 0).toLocaleString('en-IN') %>
+                    </td>
+                    <td>
+                      <% if (order.payment_method === 'cash_on_delivery') { %>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 text-xs font-weight-bold">COD</span>
+                      <% } else if (order.payment_method === 'online_payment') { %>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1 text-xs font-weight-bold">Online</span>
+                      <% } else { %>
+                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2.5 py-1 text-xs font-weight-bold">Wallet</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (order.order_status === "placed") { %>
+                        <span class="badge bg-info text-dark rounded-pill px-2.5 py-1 text-xs font-weight-bold">Placed</span>
+                      <% } else if (order.order_status === "processing") { %>
+                        <span class="badge bg-warning text-dark rounded-pill px-2.5 py-1 text-xs font-weight-bold">Processing</span>
+                      <% } else if (order.order_status === "Shipped") { %>
+                        <span class="badge bg-primary rounded-pill px-2.5 py-1 text-xs font-weight-bold">Shipped</span>
+                      <% } else if (order.order_status === "delivered") { %>
+                        <span class="badge bg-success rounded-pill px-2.5 py-1 text-xs font-weight-bold">Delivered</span>
+                      <% } else if (order.order_status === "cancelled") { %>
+                        <span class="badge bg-danger rounded-pill px-2.5 py-1 text-xs font-weight-bold">Cancelled</span>
+                      <% } else if (order.order_status === "Returned") { %>
+                        <span class="badge bg-secondary text-white rounded-pill px-2.5 py-1 text-xs font-weight-bold">Returned</span>
+                      <% } else { %>
+                        <span class="badge bg-light text-dark rounded-pill px-2.5 py-1 text-xs font-weight-bold"><%= order.order_status %></span>
+                      <% } %>
+                    </td>
+                    <td class="text-muted text-xs">
+                      <%= new Date(order.order_date).toLocaleDateString('en-GB', {
+                        day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                      }) %>
+                    </td>
+                    <td class="text-end pe-3">
+                      <a href="/admin/viewOrders/<%= order._id %>" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold px-3 py-1 text-xs">
+                        View Order Details
+                      </a>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
             </tbody>
           </table>
         </div>
       </div>
-      </div>
-      </section>
-</main>
-<!-- content-main end// -->
+    </div>
+  </section>
 
-<%-include('../partials/adminFooter.ejs')%>
+  <%-include('../partials/adminFooter.ejs')%>
+</main>

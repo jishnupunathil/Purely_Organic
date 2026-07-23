@@ -1,116 +1,114 @@
-    <!-- Page Preloder -->
-    <!-- <div id="preloder">
-    <div class="loader"></div>
-    </div> -->
-
-    <!-- Humberger Begin -->
-    <div class="humberger__menu__overlay"></div>
-    <div class="humberger__menu__wrapper">
-        <div class="humberger__menu__logo">
-            <a href="#"><img src="/img/logo.png" alt=""></a>
+<!-- Top Announcement Bar -->
+<div class="header-top-bar text-white py-2" style="background: #093327; font-size: 13px;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-8 d-none d-md-block">
+        <div class="d-flex align-items-center gap-3">
+          <span class="d-inline-flex align-items-center gap-1 font-weight-medium">
+            <i class="fa fa-leaf text-success"></i> 100% Certified Organic Harvest
+          </span>
+          <span class="text-white-50">|</span>
+          <span class="font-weight-medium"><i class="fa fa-truck text-warning"></i> Free Express Shipping on Orders Above ₹149</span>
         </div>
-        <div class="humberger__menu__cart">
-            <ul>
-                <%if(user){%>
-                <li><a href="/user/wishList"><i class="fa fa-heart"></i><span class="wish-badge"><%=wishCount%></span></a></li>
-                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge"><%=cartCount%></span></a></li>
-                <%}else{%>
-                    <li><a href="/user/wishList"><i class="fa fa-heart"></i><span class="wish-badge">0</span></a></li>
-                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge">0</span></a></li>
-                <%}%>
-            </ul>
-        </div>
-        <div class="humberger__menu__widget">
-          <!--   <div class="header__top__right__language">
-                <img src="img/language.png" alt="">
-                <div>English</div>
-                <span class="arrow_carrot-down"></span>
-                <ul>
-                    <li><a href="#">Spanis</a></li>
-                    <li><a href="#">English</a></li>
-                </ul>
-            </div>-->
-            <%if(loggedIn){%>
-            <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i><%=user.firstname%></a>
-                <a href="/user/logout"><button class="bg-danger" style="margin-top: 10px;">Logout</button></a>
+      </div>
+      <div class="col-lg-6 col-md-4 text-center text-md-right">
+        <div class="d-inline-flex align-items-center gap-3">
+          <span class="mr-3 d-none d-lg-inline-block text-white-50"><i class="fa fa-phone mr-1 text-success"></i> +91 9496959109</span>
+          
+          <% if (typeof loggedIn !== 'undefined' && loggedIn && typeof user !== 'undefined' && user) { %>
+            <div class="dropdown d-inline-block">
+              <a href="#" class="dropdown-toggle text-white text-decoration-none font-weight-bold d-inline-flex align-items-center gap-1 py-1 px-2.5 rounded-3" id="userAuthDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: rgba(255,255,255,0.1);">
+                <i class="fa fa-user-circle-o text-success mr-1"></i>
+                <span>Hi, <%= user.firstname %></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-3 mt-2 p-2" aria-labelledby="userAuthDropdown" style="min-width: 190px;">
+                <div class="dropdown-header text-uppercase text-muted font-weight-bold" style="font-size: 10px; letter-spacing: 0.5px;">Account Menu</div>
+                <a class="dropdown-item py-2 rounded-2 d-flex align-items-center gap-2 text-dark font-weight-medium" href="/user/viewProfile">
+                  <i class="fa fa-user text-muted"></i> View Profile
+                </a>
+                <a class="dropdown-item py-2 rounded-2 d-flex align-items-center gap-2 text-dark font-weight-medium" href="/user/myOrders">
+                  <i class="fa fa-shopping-bag text-muted"></i> My Orders
+                </a>
+                <a class="dropdown-item py-2 rounded-2 d-flex align-items-center gap-2 text-dark font-weight-medium" href="/user/changePassword">
+                  <i class="fa fa-key text-muted"></i> Change Password
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item py-2 rounded-2 text-danger font-weight-bold d-flex align-items-center gap-2" href="/user/logout">
+                  <i class="fa fa-sign-out text-danger"></i> Logout
+                </a>
+              </div>
             </div>
-            <%} else {%>
-                <div class="header__top__right__auth">
-                    <a href="/login"><i class="fa fa-user"></i> Login</a>
-                </div>
-                <%}%>
-        </div> 
-        <nav class="humberger__menu__nav mobile-menu">
-            <ul>
-                <% if (user){%>
-                    <li class="active"><a href="/user/index">Home</a></li>
-
-                    <li><a href="/user/shopping">Shop</a></li>
-                <%}else{%>
-                    <li class="active"><a href="/">Home</a></li>
-                    <li><a href="/shopping">Shop</a></li>
-                <%}%>
-            </ul>
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="header__top__right__social">
-            <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-            <a href="https://www.twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin"></i></a>
-            <!-- <a href="#"><i class="fa fa-pinterest-p"></i></a> -->
+          <% } else { %>
+            <a href="/login" class="text-white text-decoration-none font-weight-bold d-inline-flex align-items-center gap-1 py-1 px-3 rounded-3" style="background: rgba(255,255,255,0.1);">
+              <i class="fa fa-user-circle"></i> Login / Register
+            </a>
+          <% } %>
         </div>
-        <div class="humberger__menu__contact">
-            <ul>
-                <li><i class="fa fa-envelope"></i> purely@organic.com</li>
-                <li>Free Shipping for all Order of ₹149</li>
-            </ul>
-        </div>
+      </div>
     </div>
-    <!-- Humberger End -->
+  </div>
+</div>
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> purelyorganiic.shop</li>
-                                <li>Free Shipping for all Order of ₹149</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="header__top__right">
-                            <div class="header__top__right__social">
-                                <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-                                <a href="https://www.twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
-                                <a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin"></i></a>
-                            </div>
-                            <%if(loggedIn){%>
-                                <div class="header__top__right__auth">
-                                    <div class="dropdown">
-                                      <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <%= user.firstname %>
-                                      </a>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="/user/viewProfile">view Profile</a>
-                                        <a class="dropdown-item" href="/user/editProfile">Edit Profile</a>
-                                        <a class="dropdown-item" href="/user/myOrders">My orders</a>
-                                        <a class="dropdown-item bg-danger" href="/user/logout">Logout</a>
-                                      </div>
-                                    </div>
-                                  </div>
-                            <%} else {%>
-                            <div class="header__top__right__auth">
-                                <a href="/login"><i class="fa fa-user"></i> Login</a>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Main Navigation Header -->
+<header class="header-main sticky-top bg-white border-bottom shadow-xs">
+  <div class="container py-3">
+    <div class="row align-items-center">
+      <!-- Logo -->
+      <div class="col-lg-3 col-6">
+        <a href="<%= (typeof user !== 'undefined' && user) ? '/user/index' : '/' %>" class="d-inline-flex align-items-center gap-2 text-decoration-none">
+          <i class="fa fa-leaf text-success font-24"></i>
+          <div>
+            <h3 class="mb-0 font-weight-bold" style="font-family: 'Playfair Display', serif; color: #0F4C3A; font-size: 22px; line-height: 1;">Purely Organic</h3>
+            <span class="text-uppercase text-muted d-block" style="font-size: 9px; letter-spacing: 1.5px; font-weight: 700;">100% Farm Fresh</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Main Navigation Menu -->
+      <div class="col-lg-6 d-none d-lg-block text-center">
+        <nav class="main-nav-organic">
+          <ul class="d-inline-flex align-items-center gap-4 list-unstyled mb-0 font-weight-bold" style="font-size: 15px;">
+            <li>
+              <a href="<%= (typeof user !== 'undefined' && user) ? '/user/index' : '/' %>" class="nav-link-organic text-dark text-decoration-none py-2 px-3 rounded-3 hover-bg-light transition-smooth">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="<%= (typeof user !== 'undefined' && user) ? '/user/shopping' : '/shopping' %>" class="nav-link-organic text-dark text-decoration-none py-2 px-3 rounded-3 hover-bg-light transition-smooth">
+                Shop Catalog
+              </a>
+            </li>
+            <% if (typeof user !== 'undefined' && user) { %>
+              <li>
+                <a href="/user/myOrders" class="nav-link-organic text-dark text-decoration-none py-2 px-3 rounded-3 hover-bg-light transition-smooth">
+                  My Orders
+                </a>
+              </li>
+            <% } %>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Header Action Utilities (Wishlist, Cart) -->
+      <div class="col-lg-3 col-6 text-right">
+        <div class="d-inline-flex align-items-center gap-2">
+          <a href="/user/wishList" class="btn btn-light border rounded-3 px-3 py-2 text-dark text-decoration-none position-relative d-inline-flex align-items-center gap-2 font-weight-bold text-xs" title="Wishlist">
+            <i class="fa fa-heart text-danger"></i>
+            <span class="d-none d-sm-inline">Wishlist</span>
+            <span class="wish-badge badge bg-success text-white font-weight-bold px-2 py-0.5 rounded-pill">
+              <%= typeof wishCount !== 'undefined' ? wishCount : 0 %>
+            </span>
+          </a>
+
+          <a href="/user/getCart" class="btn btn-success border-0 rounded-3 px-3 py-2 text-white text-decoration-none position-relative d-inline-flex align-items-center gap-2 font-weight-bold text-xs shadow-xs" title="Shopping Cart">
+            <i class="fa fa-shopping-bag"></i>
+            <span class="d-none d-sm-inline">Cart</span>
+            <span class="cart-badge badge bg-white text-success font-weight-bold px-2 py-0.5 rounded-pill">
+              <%= typeof cartCount !== 'undefined' ? cartCount : 0 %>
+            </span>
+          </a>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
+</header>

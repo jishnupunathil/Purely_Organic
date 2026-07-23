@@ -1,320 +1,277 @@
-<%-include('../partials/adminHeader.ejs')-%>
+<%-include('../partials/adminSidebar.ejs')-%>
+<main class="main-wrap bg-light" style="min-height: 100vh;">
+  <%-include('../partials/adminHeader.ejs')-%>
 
-<link href="../adminassets/css/main.css" rel="stylesheet" type="text/css" />
-<section class="content-main">
-  <div class="content-header">
-    <div>
-      <h2 class="content-title card-title">Order details.</h2>
-      <p>Details for Order ID:<%=order._id.toString().substr(0, 10)%> </p>
+  <section class="content-main p-4">
+    <!-- Header Title -->
+    <div class="content-header mb-4 d-flex align-items-center justify-content-between">
+      <div>
+        <h2 class="content-title card-title font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">Order Details & Management</h2>
+        <p class="text-muted text-sm mb-0">Order ID: <span class="font-weight-bold text-dark">#<%= order._id %></span></p>
+      </div>
+      <a href="/admin/orders" class="btn btn-outline-secondary rounded-pill font-weight-bold px-3 text-sm">
+        <i class="material-icons md-arrow_back align-middle text-sm"></i> Back to Orders
+      </a>
     </div>
-  </div>
-  <div class="card">
-    <header class="card-header">
-      <div class="row align-items-center">
-        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-          <span>
-            <i class="material-icons md-calendar_today"></i>
-            <b><%=new Date(order.order_date).toLocaleString('en-US', {
-                dateStyle: 'short', timeStyle: 'short' })%>
-              </b
-            >
-          </span>
-          <br />
-          <small class="text-muted">Order ID:<%= order._id.toString().substr(0, 10) %> </small>
+
+    <!-- Main Order Details Card -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-header bg-white border-0 pt-4 px-4 pb-3 border-bottom">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-2 mb-md-0">
+            <span class="text-muted text-xs d-block">Order Placed On</span>
+            <span class="font-weight-bold text-dark text-sm">
+              <i class="material-icons md-calendar_today align-middle text-sm text-success me-1"></i>
+              <%= new Date(order.order_date).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' }) %>
+            </span>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <span class="me-2 text-xs text-muted font-weight-bold">Current Status:</span>
+            <% if (order.order_status === "delivered") { %>
+              <span class="badge bg-success rounded-pill px-3 py-1.5 text-xs">Delivered</span>
+            <% } else if (order.order_status === "Shipped") { %>
+              <span class="badge bg-primary rounded-pill px-3 py-1.5 text-xs">Shipped</span>
+            <% } else if (order.order_status === "cancelled") { %>
+              <span class="badge bg-danger rounded-pill px-3 py-1.5 text-xs">Cancelled</span>
+            <% } else if (order.order_status === "Returned") { %>
+              <span class="badge bg-warning text-dark rounded-pill px-3 py-1.5 text-xs">Returned</span>
+            <% } else { %>
+              <span class="badge bg-info text-dark rounded-pill px-3 py-1.5 text-xs"><%= order.order_status %></span>
+            <% } %>
+          </div>
         </div>
-        
       </div>
-    </header>
-    <!-- card-header end// -->
-    <div class="card-body">
-      <div class="row mb-50 mt-20 order-info-wrap">
-        <div class="col-md-4">
-          <article class="icontext align-items-start">
-            <span class="icon icon-sm rounded-circle bg-primary-light">
-              <i class="text-primary material-icons md-person"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1">Customer</h6>
-              <p class="mb-1">
-                <%=order.fname%> <br />
-                <%=order.phone%>
-                
+
+      <div class="card-body p-4">
+        <!-- Info Cards Row -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="p-3 rounded-4 bg-light border border-light h-100">
+              <div class="d-flex align-items-center mb-2 gap-2">
+                <span class="rounded-circle p-2 bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                  <i class="material-icons md-person"></i>
+                </span>
+                <h6 class="mb-0 font-weight-bold text-dark text-sm">Customer Info</h6>
+              </div>
+              <p class="mb-0 text-sm font-weight-bold text-dark"><%= order.fname %> <%= order.lname || '' %></p>
+              <p class="mb-0 text-xs text-muted"><i class="material-icons md-phone text-xs align-middle"></i> <%= order.phone || 'N/A' %></p>
+              <p class="mb-0 text-xs text-muted"><i class="material-icons md-email text-xs align-middle"></i> <%= order.email || 'N/A' %></p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 rounded-4 bg-light border border-light h-100">
+              <div class="d-flex align-items-center mb-2 gap-2">
+                <span class="rounded-circle p-2 bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                  <i class="material-icons md-local_shipping"></i>
+                </span>
+                <h6 class="mb-0 font-weight-bold text-dark text-sm">Shipping & Payment</h6>
+              </div>
+              <p class="mb-1 text-xs text-muted">Carrier: <span class="font-weight-bold text-dark">Purely Organic Express</span></p>
+              <p class="mb-1 text-xs text-muted">Method: <span class="badge bg-light text-dark border rounded-pill px-2 py-0.5"><%= order.payment_method %></span></p>
+              <p class="mb-0 text-xs text-muted">Payment Status: 
+                <% if (order.payment_status === 'paid') { %>
+                  <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5 font-weight-bold">Paid</span>
+                <% } else { %>
+                  <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 py-0.5 font-weight-bold">Pending</span>
+                <% } %>
               </p>
             </div>
-          </article>
-        </div>
-        <!-- col// -->
-        <div class="col-md-4">
-          <article class="icontext align-items-start">
-            <span class="icon icon-sm rounded-circle bg-primary-light">
-              <i class="text-primary material-icons md-local_shipping"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1">Order info</h6>
-              <p class="mb-1">
-                Shipping: Ogani Logistics <br />
-                Pay method:<%=order?.payment_method%><br />
-                order Status: <%=order?.order_status%>
-              </p>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 rounded-4 bg-light border border-light h-100">
+              <div class="d-flex align-items-center mb-2 gap-2">
+                <span class="rounded-circle p-2 bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                  <i class="material-icons md-place"></i>
+                </span>
+                <h6 class="mb-0 font-weight-bold text-dark text-sm">Delivery Address</h6>
+              </div>
+              <p class="mb-0 text-xs text-dark font-weight-bold"><%= order.address || 'Address on file' %></p>
+              <p class="mb-0 text-xs text-muted"><%= order.city || '' %>, <%= order.state || '' %> - <%= order.pincode || '' %></p>
             </div>
-          </article>
+          </div>
         </div>
-        <!-- col// -->
-        <div class="col-md-4">
-          <article class="icontext align-items-start">
-            <span class="icon icon-sm rounded-circle bg-primary-light">
-              <i class="text-primary material-icons md-place"></i>
-            </span>
-            <div class="text">
-              <h6 class="mb-1">Deliver to</h6>
-              <p class="mb-1">
-                <%=order?.address%>,<br> <%=order?.city %>,<br>
-                <%= order?.state %> - <%=order?.pincode
-                %><br />
-              </p>
-            </div>
-          </article>
-        </div>
-        <!-- col// -->
-      </div>
-      <!-- row // -->
-      <div class="row">
-        <div class="col-lg-7">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th width="40%">Product</th>
-                  <th width="20%">Unit Price</th>
-                  <th width="20%">Quantity</th>
-                  <th width="20%" class="text-end">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% productDetails.forEach(function(product,index) { %>
+
+        <!-- Products Table and Action Controls -->
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <h6 class="font-weight-bold text-dark mb-3">Order Items</h6>
+            <div class="table-responsive rounded-3 border">
+              <table class="table align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th width="50%">Product</th>
+                    <th>Unit Price</th>
+                    <th>Qty</th>
+                    <th class="text-end pe-3">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% productDetails.forEach(function(product) { %>
                     <tr>
                       <td>
-                        <a class="itemside" href="">
-                          <div class="left">
-                            <img
-                              src="<%= product.image%>"
-                              width="40"
-                              height="40"
-                              class="img-xs"
-                              alt="Item"
-                            />
-                          </div>
-                          <div class="info"><%= product.name %></div>
-                        </a>
+                        <div class="d-flex align-items-center gap-3">
+                          <img src="<%= product.image %>" width="48" height="48" class="rounded-3 border object-fit-cover" alt="<%= product.name %>" />
+                          <span class="font-weight-bold text-dark text-sm"><%= product.name %></span>
+                        </div>
                       </td>
-                      <td>&#x20B9;<%= product.price %></td>
-                      <td><%= product.quantity %></td>
-                      <td class="text-end">
-                        &#x20B9;<%= product.quantity * product.price %>
-                      </td>
+                      <td class="text-sm">₹<%= product.price %></td>
+                      <td class="text-sm font-weight-bold"><%= product.quantity %></td>
+                      <td class="text-end pe-3 font-weight-bold text-sm">₹<%= product.quantity * product.price %></td>
                     </tr>
-                    <% }); %>
-                <tr>
-                  <td colspan="4">
-                    <article class="float-end">
-                     
-                    <%if(order.discount != 0){%>
-                      <dl class="dlist">
-                            <dt>discount:</dt>
-                            <dd> <b class="h6">-₹<%=order.discount%></b> </dd>
-                          </dl>
-                          <%}%>
-                    <dl class="dlist">
-                        <dt>Grand total:</dt>
-                        <dd> <b class="h5">₹<%=order.total_amount%></b> </dd>
-                    </dl>
-                      <dl class="dlist">
-                        <dt class="text-muted">payment Status:</dt>
-                        <dd>
-                            <% if (order?.payment_status === "paid") { %>
-                                <span
-                                  class="badge rounded-pill alert-success text-success"
-                                  >Paid</span
-                                >
-                                <% } else { %>
-                                <span
-                                  class="badge rounded-pill alert-danger text-danger"
-                                  >Pending</span
-                                >
-                                <% } %>
-                        </dd>
-                      </dl>
-                    </article>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- table-responsive// -->
-        </div>
-        <!-- col// -->
-        <div class="col-lg-1"></div>
-        <div class="col-lg-3">
-          <div class="box shadow-sm bg-light">
-            <div class="mb-4">
-                <div class="mb-4">
-                    <% if (order.order_status === "Returned" && (order.return_status
-                    === "pending" || order.return_status === "rejected" ||
-                    order.return_status === "approved")) { %>
-                    <input type="text" id="orderId" value="<%=order._id%>" hidden />
-                    <label
-                      class="mb-2 form-check form-check-inline"
-                      style="width: 60%"
-                    >
-                      <input
-                        class="form-check-input"
-                        name="status"
-                        id="approved"
-                        type="radio"
-                        value="approved"
-                      />
-                      <span class="form-check-label">Approve</span>
-                    </label>
-                    <label
-                      class="mb-2 form-check form-check-inline"
-                      style="width: 60%"
-                    >
-                      <input
-                        class="form-check-input"
-                        name="status"
-                        id="rejected"
-                        type="radio"
-                        value="rejected"
-                      />
-                      <span class="form-check-label">Reject</span>
-                    </label>
-                    <button
-                      class="btn btn-primary"
-                      type="button"
-                      onclick="validateFormreturn()"
-                    >
-                      Change Status
-                    </button>
-      
-                    <% } else if(order.order_status != "cancelled" && order.order_status != "delivered"){ %>
-                    <input type="text" id="orderId" value="<%=order._id%>" hidden />
-                    <label
-                      class="mb-2 form-check form-check-inline"
-                      style="width: 60%"
-                    >
-                      <input
-                        class="form-check-input"
-                        name="status"
-                        id="shipped"
-                        type="radio"
-                        value="Shipped"
-                      />
-                      <span class="form-check-label">Shipped</span>
-                    </label>
-                    <label
-                      class="mb-2 form-check form-check-inline"
-                      style="width: 60%"
-                    >
-                      <input
-                        class="form-check-input"
-                        name="status"
-                        id="delivered"
-                        type="radio"
-                        value="delivered"
-                      />
-                      <span class="form-check-label">Delivered</span>
-                    </label>
-                    <label
-                      class="mb-2 form-check form-check-inline"
-                      style="width: 60%"
-                    >
-                      <input
-                        class="form-check-input"
-                        name="status"
-                        id="cancelled"
-                        type="radio"
-                        value="cancelled"
-                      />
-                      <span class="form-check-label">Cancel</span>
-                    </label>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Total Calculation Summary -->
+            <div class="d-flex justify-content-end mt-3">
+              <div style="min-width: 240px;">
+                <% if (order.discount && order.discount > 0) { %>
+                  <div class="d-flex justify-content-between text-xs text-muted mb-1">
+                    <span>Discount Coupon:</span>
+                    <span class="text-danger font-weight-bold">-₹<%= order.discount %></span>
                   </div>
-                  <button
-                    class="btn btn-primary"
-                    type="button"
-                    onclick="validateForm()"
-                  >
-                    Change Status
-                  </button>
-                  <% }else{ %>
-                    <div></div>
-                    <%}%>
-            
+                <% } %>
+                <div class="d-flex justify-content-between font-weight-bold text-dark text-base pt-2 border-top">
+                  <span>Grand Total:</span>
+                  <span class="text-success font-weight-bold" style="font-size: 18px;">₹<%= order.total_amount %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Update Sidebar Box -->
+          <div class="col-lg-4">
+            <div class="p-4 rounded-4 bg-white border shadow-sm">
+              <h6 class="font-weight-bold text-dark mb-3">Update Delivery Status</h6>
+              <input type="text" id="orderId" value="<%= order._id %>" hidden />
+
+              <% if (order.order_status === "Returned" && (order.return_status === "pending" || order.return_status === "rejected" || order.return_status === "approved")) { %>
+                <p class="text-xs text-muted mb-3">Manage Customer Return Request</p>
+                <div class="form-check mb-2 p-2 rounded border">
+                  <input class="form-check-input ms-0 me-2" name="status" id="approved" type="radio" value="approved" />
+                  <label class="form-check-label font-weight-bold text-sm text-success" for="approved">Approve Return & Refund Wallet</label>
+                </div>
+                <div class="form-check mb-3 p-2 rounded border">
+                  <input class="form-check-input ms-0 me-2" name="status" id="rejected" type="radio" value="rejected" />
+                  <label class="form-check-label font-weight-bold text-sm text-danger" for="rejected">Reject Return Request</label>
+                </div>
+                <button class="btn btn-primary-organic w-100 rounded-pill py-2 font-weight-bold text-sm" type="button" onclick="validateFormreturn()">
+                  Update Return Status
+                </button>
+
+              <% } else if (order.order_status !== "cancelled" && order.order_status !== "delivered") { %>
+                <p class="text-xs text-muted mb-3">Select the next status in the delivery pipeline:</p>
+                
+                <div class="form-check mb-2 p-2 rounded border">
+                  <input class="form-check-input ms-0 me-2" name="status" id="shipped" type="radio" value="Shipped" />
+                  <label class="form-check-label font-weight-bold text-sm text-primary" for="shipped">Mark as Shipped</label>
+                </div>
+
+                <div class="form-check mb-2 p-2 rounded border">
+                  <input class="form-check-input ms-0 me-2" name="status" id="delivered" type="radio" value="delivered" />
+                  <label class="form-check-label font-weight-bold text-sm text-success" for="delivered">Mark as Delivered</label>
+                </div>
+
+                <div class="form-check mb-3 p-2 rounded border">
+                  <input class="form-check-input ms-0 me-2" name="status" id="cancelled" type="radio" value="cancelled" />
+                  <label class="form-check-label font-weight-bold text-sm text-danger" for="cancelled">Cancel Order & Restock Items</label>
+                </div>
+
+                <button class="btn btn-primary-organic w-100 rounded-pill py-2 font-weight-bold text-sm" type="button" onclick="validateForm()">
+                  Apply Status Change
+                </button>
+              <% } else { %>
+                <div class="alert alert-light border text-center text-muted text-xs rounded-3 mb-0">
+                  <i class="material-icons md-lock align-middle text-sm me-1"></i> Order status is finalized (<%= order.order_status %>). No further changes permitted.
+                </div>
+              <% } %>
+            </div>
           </div>
         </div>
-
-        <script>
-          function validateFormreturn() {
-            let orderId = document.getElementById("orderId").value;
-            let status = "";
-            if (document.getElementById("approved").checked) {
-              status = "approved";
-            } else if (document.getElementById("rejected").checked) {
-              status = "rejected";
-            } else {
-              alert("Select Order status to update");
-              return; // added return to exit the function if no radio button is selected
-            }
-            updateOrderStatus(status, orderId);
-          }
-          function validateForm() {
-            let orderId = document.getElementById("orderId").value;
-            let status = "";
-            if (document.getElementById("shipped").checked) {
-              status = document.getElementById("shipped").value;
-            } else if (document.getElementById("delivered").checked) {
-              status = document.getElementById("delivered").value;
-            } else if (document.getElementById("cancelled").checked) {
-              status = document.getElementById("cancelled").value;
-            } else {
-              alert("Select Order status to update");
-              return; // added return to exit the function if no radio button is selected
-            }
-            updateOrderStatus(status, orderId);
-          }
-
-          function updateOrderStatus(status, orderId) {
-            $.ajax({
-              url: "/admin/update-order-status",
-              method: "post",
-              data: {
-                status: status,
-                orderId: orderId,
-              },
-              success: (response) => {
-                if (response.status) {
-                  Swal.fire({
-                    title: "Updated!",
-                    text: "Order status has been updated.",
-                    icon: "success",
-                  }).then((result) => {
-                    location.reload();
-                  });
-                } else {
-                  Swal.fire({
-                    title: "Oops!",
-                    text: "Order status could not update.",
-                    icon: "error",
-                  }).then((result) => {
-                    location.reload();
-                  });
-                }
-              },
-            });
-          }
-        </script>
-
-<%-include('../partials/adminFooter.ejs')%>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <%-include('../partials/adminFooter.ejs')%>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function validateFormreturn() {
+    let orderId = document.getElementById("orderId").value;
+    let status = "";
+    if (document.getElementById("approved")?.checked) {
+      status = "approved";
+    } else if (document.getElementById("rejected")?.checked) {
+      status = "rejected";
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Please Select Status",
+        text: "Please select Approve or Reject before updating.",
+      });
+      return;
+    }
+    updateOrderStatus(status, orderId);
+  }
+
+  function validateForm() {
+    let orderId = document.getElementById("orderId").value;
+    let status = "";
+    if (document.getElementById("shipped")?.checked) {
+      status = "Shipped";
+    } else if (document.getElementById("delivered")?.checked) {
+      status = "delivered";
+    } else if (document.getElementById("cancelled")?.checked) {
+      status = "cancelled";
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Please Select Status",
+        text: "Please select Shipped, Delivered, or Cancelled.",
+      });
+      return;
+    }
+    updateOrderStatus(status, orderId);
+  }
+
+  function updateOrderStatus(status, orderId) {
+    $.ajax({
+      url: "/admin/update-order-status",
+      method: "post",
+      data: {
+        status: status,
+        orderId: orderId,
+      },
+      success: (response) => {
+        if (response.status === "success" || response.status) {
+          Swal.fire({
+            title: "Status Updated!",
+            text: "Order status has been updated successfully.",
+            icon: "success",
+            confirmButtonColor: "#0F4C3A",
+          }).then(() => {
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            title: "Update Failed",
+            text: response.error || "Could not update order status.",
+            icon: "error",
+          });
+        }
+      },
+      error: (xhr) => {
+        Swal.fire({
+          title: "Error",
+          text: xhr.responseJSON?.error || "An error occurred while updating status.",
+          icon: "error",
+        });
+      }
+    });
+  }
+</script>

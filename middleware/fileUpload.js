@@ -2,7 +2,14 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
+
+const uploadDir = path.join(process.cwd(), "public/images");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -25,16 +32,16 @@ const imageUpload = multer({ storage: storage });
 const singleImageUpload = (req, res, next) => {
   const upload = imageUpload.single("image");
   upload(req, res, async function (err) {
-    if (err instanceof multer.MulterError) {
+    if (err instanceof multer.MulterError || err) {
       return res.json({
         success: 0,
-        message: "Error occurred while uploading image" + err,
+        message: "Error occurred while uploading image: " + err,
       });
-    } else if (err) {
-      return res.json({
-        success: 0,
-        message: "Error occurred while uploading image" + err,
-      });
+    }
+
+    if (!req.file) {
+      req.image = null;
+      return next();
     }
 
     try {
@@ -45,7 +52,7 @@ const singleImageUpload = (req, res, next) => {
       console.log(error);
       return res.json({
         success: 0,
-        message: "Error occurred while uploading image" + error,
+        message: "Error occurred while uploading image: " + error,
       });
     }
   });
@@ -55,16 +62,16 @@ const singleImageUpload = (req, res, next) => {
 const multipleImageUpload = (req, res, next) => {
   const upload = imageUpload.array("images", 10);
   upload(req, res, async function (err) {
-    if (err instanceof multer.MulterError) {
+    if (err instanceof multer.MulterError || err) {
       return res.json({
         success: 0,
-        message: "Error occurred while uploading images" + err,
+        message: "Error occurred while uploading images: " + err,
       });
-    } else if (err) {
-      return res.json({
-        success: 0,
-        message: "Error occurred while uploading images" + err,
-      });
+    }
+
+    if (!req.files || req.files.length === 0) {
+      req.images = [];
+      return next();
     }
 
     try {
@@ -79,7 +86,7 @@ const multipleImageUpload = (req, res, next) => {
       console.log(error);
       return res.json({
         success: 0,
-        message: "Error occurred while uploading images" + error,
+        message: "Error occurred while uploading images: " + error,
       });
     }
   });

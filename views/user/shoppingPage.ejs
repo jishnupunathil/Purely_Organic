@@ -1,171 +1,114 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <%-include('../partials/userHeader.ejs')%> 
-    <section class="hero hero-normal">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <% allBanner.forEach(function(banner) { %>
-                        <%if(banner.bname==='ogani logo'){%>
-                            <div class="header__logo">
-                                <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                            </div>
-                            <%}%>
-                            <%})%>
-                </div>
-               
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <%if(user){%>
-                            <div class="hero__search__form">
-                                <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                                    <div class="hero__search__categories">
-                                        All Categories
-                                        <span class="arrow_carrot-down"></span>
-                                    </div>
-                                    <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                                    <button type="submit" class="site-btn">SEARCH</button>
-                                </form>
-                            </div>
-                         <%}else{%>
-                             <div class="hero__search__form">
-                                 <form action="/product-search/?search"  method="get" onsubmit="return validateForm()">
-                                     <div class="hero__search__categories">
-                                         All Categories
-                                         <span class="arrow_carrot-down"></span>
-                                     </div>
-                                     <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                                     <button type="submit" class="site-btn">SEARCH</button>
-                                 </form>
-                             </div>
-                         <%}%>
-                        <div class="hero__search__phone">
-                            <div class="header__cart">
-                                <ul>
-                                    <li><a href="/user/wishList"><i class="fa fa-heart"></i> <span class="wish-badge"><%=wishCount%></span> </a></li>
-                                    <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span class="cart-badge"><%=cartCount%></span></a></li>
-                                </ul>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
+<%-include('../partials/userHeader.ejs')%> 
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Ogani Shop</h2>
-                        
-                    </div>
+<!-- Catalog Banner Header Section -->
+<section class="py-5 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
+    <div class="container">
+        <h1 class="font-weight-bold text-white mb-2" style="font-family: 'Playfair Display', serif; font-size: 36px;">Purely Organic Harvest Catalog</h1>
+        <p class="text-white-50 text-sm mb-0">Discover 100% certified organic produce picked fresh from local sustainable farms</p>
+    </div>
+</section>
+
+<!-- Product Catalog Section -->
+<section class="featured spad py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center mb-4">
+                    <h2 id="allcategoryHead" style="font-family: 'Playfair Display', serif; font-weight: 800; color: #0F4C3A;">Filter By Category</h2>
                 </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
-   
-
-    <section class="featured spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2 id="allcategoryHead">All Category</h2>
-                    </div>
-                    <div class="featured__controls"> 
-                        <ul>
-                            <li class="active" data-filter="*">All</li>
+                <div class="featured__controls mb-4 text-center"> 
+                    <ul class="d-inline-flex flex-wrap gap-2 justify-content-center bg-white p-2 rounded-pill shadow-sm border">
+                        <li class="active px-4 py-2 rounded-pill font-weight-bold text-sm cursor-pointer" data-filter="*">All Harvest</li>
+                        <% if (typeof allCategory !== 'undefined' && allCategory) { %>
                             <% for (let i=0; i<allCategory.length; i++) { %> 
-                                <li data-filter=".<%=allCategory[i].cname.replace(' ','_')%>"><%=allCategory[i].cname%></li>
-                                <% } %>
-                        </ul>
-                    </div>
+                                <li class="px-4 py-2 rounded-pill font-weight-bold text-sm cursor-pointer" data-filter=".<%=allCategory[i].cname.replace(/\s+/g,'_')%>"><%=allCategory[i].cname%></li>
+                            <% } %>
+                        <% } %>
+                    </ul>
                 </div>
-            </div>
-            <div class="row featured__filter g-4">
-                <% allProduct.forEach(function(product) { %>
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mix <%=product.pcategory.replace(' ','_')%>">
-                    <div class="product-card-modern">
-                        <div class="product-card-image-wrap">
-                            <span class="badge-organic-seal">🌿 100% Organic</span>
-                            <img src="<%=product.pimages[0]%>" alt="<%=product.pname%>" loading="lazy">
-                            
-                            <div class="product-card-actions">
-                                <%if(product.pcountInStock > 0){%>
-                                    <% if (user){%>
-                                        <button type="button" class="btn-action-icon" onclick="AddToWishList('<%=product._id%>')" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
-                                        <button type="button" class="btn-action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart"><i class="fa fa-shopping-cart"></i></button>
-                                    <%}else{%>
-                                        <a href="/user/wishList" class="btn-action-icon"><i class="fa fa-heart"></i></a>
-                                        <a href="/user/getCart" class="btn-action-icon"><i class="fa fa-shopping-cart"></i></a>
-                                    <%}%>
-                                <%}%>
-                            </div>
-                        </div>
-                        <div class="product-card-body">
-                            <div>
-                                <div class="rating-stars">
-                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>
-                                    <span class="text-muted ml-1" style="font-size: 11px;">(4.8)</span>
-                                </div>
-                                <%if(user){%>
-                                    <a href="/user/singleProductView/<%=product._id%>" class="product-title"><%=product.pname%></a>
-                                <%}else{%>
-                                    <a href="/singleProductView/<%=product._id%>" class="product-title"><%=product.pname%></a>
-                                <%}%>
-                            </div>
-                            
-                            <div class="product-price-row">
-                                <div>
-                                    <span class="product-price">₹<%=product.pprice%></span>
-                                    <span class="text-muted" style="font-size: 12px; font-weight: 500;"> / 1kg</span>
-                                </div>
-                                <%if(product.pcountInStock === 0){%>
-                                    <span class="badge out-of-stock-badge">Out of Stock</span>
-                                <%}else{%>
-                                    <span class="organic-badge" style="font-size: 10px;">In Stock</span>
-                                <%}%>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <%})%>
             </div>
         </div>
 
-
-
-        
-    </section>
-    <div class="pagination-area mt-15 mb-50 ">
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
-            <% if (currentPage > 1) { %>
-            <li class="page-item"><a class="page-link" href="?page=<%=currentPage-1%>"><i class="material-icons" style="font-size:15px">chevron_left</i></a></li>
+        <div class="row featured__filter g-4">
+            <% if (typeof allProduct !== 'undefined' && allProduct && allProduct.length > 0) { %>
+                <% allProduct.forEach(function(product) { %>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-6 mb-4 mix <%=product.pcategory ? product.pcategory.replace(/\s+/g,'_') : ''%>">
+                        <div class="product-card-modern bg-white rounded-4 overflow-hidden border-0 shadow-sm h-100 d-flex flex-column transition-smooth">
+                            <div class="product-card-image-wrap position-relative overflow-hidden" style="height: 200px; background: #F8FAF6;">
+                                <span class="badge-organic-seal">🌿 100% Organic</span>
+                                <img src="<%=product.pimages[0]%>" alt="<%=product.pname%>" loading="lazy" class="w-100 h-100 object-fit-cover">
+                                
+                                <div class="product-card-actions">
+                                    <% if (product.pcountInStock > 0) { %>
+                                        <% if (typeof user !== 'undefined' && user) { %>
+                                            <button type="button" class="btn-action-icon" onclick="AddToWishList('<%=product._id%>')" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+                                            <button type="button" class="btn-action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart"><i class="fa fa-shopping-cart"></i></button>
+                                        <% } else { %>
+                                            <a href="/user/wishList" class="btn-action-icon" title="Wishlist"><i class="fa fa-heart"></i></a>
+                                            <a href="/user/getCart" class="btn-action-icon" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="product-card-body p-3 d-flex flex-column flex-grow-1 justify-content-between">
+                                <div>
+                                    <div class="rating-stars text-warning mb-1" style="font-size: 11px;">
+                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>
+                                        <span class="text-muted ml-1" style="font-size: 11px;">(4.8)</span>
+                                    </div>
+                                    <% if (typeof user !== 'undefined' && user) { %>
+                                        <a href="/user/singleProductView/<%=product._id%>" class="product-title font-weight-bold text-dark text-sm"><%=product.pname%></a>
+                                    <% } else { %>
+                                        <a href="/singleProductView/<%=product._id%>" class="product-title font-weight-bold text-dark text-sm"><%=product.pname%></a>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="product-price-row pt-2 mt-2 border-top d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="product-price font-weight-bold text-success" style="font-size: 18px;">₹<%=product.pprice%></span>
+                                        <span class="text-muted text-xs">/ 1kg</span>
+                                    </div>
+                                    <% if (product.pcountInStock === 0) { %>
+                                        <span class="badge bg-danger text-white rounded-pill px-2.5 py-1 text-xs">Out of Stock</span>
+                                    <% } else { %>
+                                        <% if (typeof user !== 'undefined' && user) { %>
+                                            <button type="button" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold text-xs px-3" onclick="addToCart('<%=product._id%>')">
+                                                + Add
+                                            </button>
+                                        <% } else { %>
+                                            <a href="/login" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold text-xs px-3">+ Add</a>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             <% } %>
-            <% for (let i = 1; i <= totalPages; i++) { %>
-            <li class="page-item <% if (i === currentPage) { %>active<% } %>"><a class="page-link" href="?page=<%=i%>"><%=i%></a></li>
+        </div>
+    </div>
+</section>
+
+<!-- Pagination -->
+<div class="pagination-area mt-3 mb-5">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center gap-1">
+            <% if (typeof currentPage !== 'undefined' && currentPage > 1) { %>
+                <li class="page-item"><a class="page-link rounded-circle border-0 shadow-xs text-dark" href="?page=<%=currentPage-1%>"><i class="material-icons text-sm">chevron_left</i></a></li>
             <% } %>
-            <% if (currentPage < totalPages) { %>
-            <li class="page-item"><a class="page-link" href="?page=<%=currentPage+1%>"><i class="material-icons" style="font-size:15px">chevron_right</i></a></li>
+            <% if (typeof totalPages !== 'undefined') { %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <% if (i === currentPage) { %>active<% } %>">
+                        <a class="page-link rounded-circle border-0 shadow-xs <% if (i === currentPage) { %>bg-success text-white<% } else { %>text-dark<% } %>" href="?page=<%=i%>"><%=i%></a>
+                    </li>
+                <% } %>
             <% } %>
-          </ul>
-        </nav>
-      </div>
- 
-    <!-- Product Section End -->
+            <% if (typeof currentPage !== 'undefined' && typeof totalPages !== 'undefined' && currentPage < totalPages) { %>
+                <li class="page-item"><a class="page-link rounded-circle border-0 shadow-xs text-dark" href="?page=<%=currentPage+1%>"><i class="material-icons text-sm">chevron_right</i></a></li>
+            <% } %>
+        </ul>
+    </nav>
+</div>
 
-
-    <!-- Footer Section Begin -->
-    <%- include('../partials/userFooter.ejs')%>   
-    <!-- Footer Section End -->
-
-    <!-- Js Plugins -->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"></script>
+<%- include('../partials/userFooter.ejs')%>   

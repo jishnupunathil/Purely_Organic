@@ -1,119 +1,69 @@
 <!DOCTYPE HTML>
 <html lang="en">
-
-
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:32:35 GMT -->
-
 <head>
     <meta charset="utf-8">
-    <title>OGANI</title>
+    <title>Purely Organic | Admin Management Portal</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
+    <meta name="description" content="Purely Organic Store Management & Operations Portal">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="noindex, nofollow">
+
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/images/logo1.png">
-    <!-- Template CSS -->
+
+    <!-- Google Fonts & Material Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Stylesheets -->
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="/css/modern-organic.css" rel="stylesheet" type="text/css" />
 
-    <!-- Data Table -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-    <script type="text/javascript" charset="utf8"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Data Table -->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 </head>
 
-<body>
+<body class="bg-light">
     <%- body %>
-<script>
-    $(document).ready( function () {
-      $('#userTable').DataTable();
-  } );
-</script>
-<script>
-  $(document).ready( function () {
-    $('#productTable').DataTable();
-} );
-</script>
-<script>
-  $(document).ready( function () {
-    $('#categoryTable').DataTable();
-} );
-</script>
-<script>
-$(document).ready( function () {
-  $('#bannerTable').DataTable();
-} );
-</script>
-<script>
-  $(document).ready( function () {
-    $('#orderListTable').DataTable();
-  } );
-  </script>
 
-<script>
-  $(document).ready( function () {
-    $('#myTableOrder').DataTable();
-  } );
-  </script>
-<script>
+    <!-- Single Unified Core JavaScript Bundles (No Duplicates) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+    
+    <!-- DataTables JS (Loaded Once) -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-  $(document).ready(function () {
-    $("#mySalesTable").DataTable();
-  });
-  
-  </script>
-
-
+    <!-- SweetAlert2 (Loaded Once) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/vendors/select2.min.js"></script>
-    <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
-    <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
-    <script src="/assets/js/vendors/chart.js"></script>
-
-    <!-- data table cdn -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-    <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>
-    <!-- data table cdn -->
-    <!-- Main Script -->
+    <!-- Main Template Scripts -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
-    <script src="/assets/js/custom-chart.js" type="text/javascript"></script>
 
     <script>
+      $(document).ready(function () {
+        if ($('#userTable').length) $('#userTable').DataTable({ responsive: true });
+        if ($('#productTable').length) $('#productTable').DataTable({ responsive: true });
+        if ($('#categoryTable').length) $('#categoryTable').DataTable({ responsive: true });
+        if ($('#bannerTable').length) $('#bannerTable').DataTable({ responsive: true });
+        if ($('#myTableOrder').length) $('#myTableOrder').DataTable({ responsive: true });
+        if ($('#mySalesTable').length) $('#mySalesTable').DataTable({ responsive: true });
+      });
+
       function previewImage(event) {
         var input = event.target;
-    
         var preview = input.nextElementSibling;
-    
         if (input.files && input.files[0]) {
           var reader = new FileReader();
-    
           reader.onload = function () {
             preview.src = reader.result;
           };
-    
           reader.readAsDataURL(input.files[0]);
         }
       }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-
-    
-
 </body>
-
-
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:32:57 GMT -->
-
 </html>

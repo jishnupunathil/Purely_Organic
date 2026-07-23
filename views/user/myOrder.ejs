@@ -1,83 +1,88 @@
-<%-include('../partials/userHeader.ejs') %>
-<head>
-    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
-</head>
-<section class="content-main">
-  <div class="content-header">
-    <div>
-      <h2 class="content-title card-title">Order List</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-9">
-      <div class="card mb-4">
-        <%if(orders.length>0){%>
+<%-include('../partials/userHeader.ejs')%> 
 
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover" id="orderListTable">
-              <thead>
-                <tr>
-                  <th>index</th>
-                  <th>Order Id</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th class="text-end">1</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% orders.sort(function(a, b) { return new Date(b.order_date) -
-                new Date(a.order_date); }).forEach(function(order, index) { %>
-                <tr>
-                  <td><%-index+1%></td>
-                  <td><b><%=order._id.toString().substr(0, 10)%></b></td>
-                  <td>₹<%=order.total_amount%></td>
-                  <td>
-                    <span
-                      class="badge rounded-pill <%= order.order_status === 'pending' ? 'alert-warning' : order.order_status === 'cancelled' ? 'alert-danger' : 'alert-success' %>"
-                    >
-                      <%= order.order_status %>
-                    </span>
-                  </td>
-                  <td>
-                    <%=order.order_date.toLocaleDateString('en-US', { weekday:
-                    'long', year: 'numeric', month: 'long', day: 'numeric' })%>
-                  </td>
-                  <td class="text-end">
-                    <a
-                      href="/user/orderInfoc/<%=order._id%>/<%=order.address%>"
-                      class="btn btn-md rounded font-sm"
-                      >Detail</a
-                    >
-                  </td>
-                </tr>
-                <%})%>
-              </tbody>
-            </table>
-          </div>
-          <!-- table-responsive //end -->
-        </div>
-        <!-- card-body end// -->
-        <%}else{%>
-        <div>
-          <div style="text-align: center">
-            <img
-              src="/img/empty-cart.svg"
-              style="width: 500px; height: 500px; vertical-align: middle"
-            /><br />
-            <a href="/user/shopping"
-              ><button class="btn btn-success mb-5 btn-lg w-25">
-                Keep shopping
-              </button></a
-            >
-          </div>
-        </div>
-        <%}%>
-      </div>
-      <!-- card end// -->
+<main class="bg-light pb-5" style="min-height: 80vh;">
+  <!-- Page Banner -->
+  <section class="py-4 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
+    <div class="container">
+      <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;">My Order History</h1>
+      <p class="text-white-50 text-sm mb-0">Track your current dispatches and review previous purchases</p>
     </div>
-  </div>
-</section>
-<!-- content-main end// -->
+  </section>
+
+  <section class="orders-section">
+    <div class="container">
+      <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden mb-4">
+        <div class="card-header bg-white border-bottom py-3 px-4">
+          <h5 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">My Orders</h5>
+        </div>
+
+        <% if (typeof orders !== 'undefined' && orders.length > 0) { %>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table align-middle display table-hover w-100" id="orderListTable">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="ps-4">#</th>
+                    <th>Order ID</th>
+                    <th>Total Amount</th>
+                    <th>Delivery Status</th>
+                    <th>Order Date</th>
+                    <th class="text-end pe-4">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% orders.sort(function(a, b) { return new Date(b.order_date) - new Date(a.order_date); }).forEach(function(order, index) { %>
+                    <tr>
+                      <td class="ps-4 text-muted text-xs font-weight-bold"><%= index + 1 %></td>
+                      <td class="font-weight-bold text-dark text-sm">
+                        #<%= order._id.toString().substr(0, 10) %>
+                      </td>
+                      <td class="font-weight-bold text-dark text-sm">
+                        ₹<%= Number(order.total_amount || 0).toLocaleString('en-IN') %>
+                      </td>
+                      <td>
+                        <% if (order.order_status === "delivered") { %>
+                          <span class="badge bg-success rounded-pill px-2.5 py-1 text-xs font-weight-bold">Delivered</span>
+                        <% } else if (order.order_status === "Shipped") { %>
+                          <span class="badge bg-primary rounded-pill px-2.5 py-1 text-xs font-weight-bold">Shipped</span>
+                        <% } else if (order.order_status === "cancelled") { %>
+                          <span class="badge bg-danger rounded-pill px-2.5 py-1 text-xs font-weight-bold">Cancelled</span>
+                        <% } else if (order.order_status === "Returned") { %>
+                          <span class="badge bg-warning text-dark rounded-pill px-2.5 py-1 text-xs font-weight-bold">Returned</span>
+                        <% } else { %>
+                          <span class="badge bg-info text-dark rounded-pill px-2.5 py-1 text-xs font-weight-bold"><%= order.order_status %></span>
+                        <% } %>
+                      </td>
+                      <td class="text-muted text-xs">
+                        <%= new Date(order.order_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                      </td>
+                      <td class="text-end pe-4">
+                        <a href="/user/orderInfoc/<%= order._id %>/<%= order.address %>" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold px-3 py-1 text-xs">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% } else { %>
+          <!-- Empty Orders State -->
+          <div class="card-body p-5 text-center">
+            <div class="rounded-circle bg-success bg-opacity-10 text-success d-inline-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 80px; height: 80px; font-size: 36px;">
+              <i class="fa fa-shopping-bag"></i>
+            </div>
+            <h4 class="font-weight-bold text-dark mb-2" style="font-family: 'Playfair Display', serif;">No Orders Found</h4>
+            <p class="text-muted text-sm mb-4">You haven't placed any orders yet.</p>
+            <a href="/user/shopping" class="btn btn-primary-organic rounded-pill px-4 py-2.5 font-weight-bold text-sm mx-auto">
+              Start Shopping
+            </a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+</main>
+
 <%- include('../partials/userFooter.ejs')%>

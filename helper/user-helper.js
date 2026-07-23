@@ -553,6 +553,10 @@ const userHelper = {
       return false;
     }
 
+    await productModel.findByIdAndUpdate(productId, {
+      $inc: { pcountInStock: -1 },
+    });
+
     await cartModel.updateOne(
       { user: userId },
       { $push: { products: { productId, quantity: 1 } } },
@@ -584,39 +588,31 @@ const userHelper = {
   countWish: async (userId) => {
     try {
       const wishCount = await wishModel.findOne({ userId: userId });
-      const productCount = wishCount?.items.length;
+      const productCount = wishCount?.items?.length;
       if (!productCount) return 0;
       return productCount;
     } catch (err) {
       console.error(err);
+      return 0;
     }
   },
 };
 
- // Example implementation of getWalletBalance function
+ // Implementation of getWalletBalance function
  const walletHelper={
   getWalletBalance: async (userId) => {
-    // Retrieve the user's wallet balance from the database or any other data source
-    // based on the provided userId
-    // Perform necessary database queries or calculations
-    // and return the wallet balance
-    // Example:
     const user = await userModel.findById(userId);
-    const walletBalance = user.wallet;
+    const walletBalance = user?.wallet || 0;
     return walletBalance;
   },
   
-  // Example implementation of deductAmountFromWallet function
+  // Implementation of deductAmountFromWallet function
   deductAmountFromWallet: async (userId, amount) => {
-    // Deduct the specified amount from the user's wallet
-    // Update the user's wallet balance in the database or any other data source
-    // based on the provided userId
-    // Perform necessary database queries or calculations to deduct the amount
-    // Example:
     const user = await userModel.findById(userId);
-    user.walletBalance -= amount;
-    await user.save();
-    // Optionally, you may also log the transaction or update a transaction history
+    if (user) {
+      user.wallet = (user.wallet || 0) - amount;
+      await user.save();
+    }
   },
   updateOrderPaymentStatus: async (orderId, paymentStatus) => {
     try {

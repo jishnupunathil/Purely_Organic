@@ -15,15 +15,11 @@ module.exports = (req, res, next) => {
       res.set("Expires", "0");
       next();
     } else {
-      return res.json({
-        success: 0,
-        message: "Unauthorized access",
-      });
+      res.clearCookie("token");
+      return res.redirect("/login");
     }
   } catch (error) {
-    return res.json({
-      success: 0,
-      message: "Invalid token",
-    });
+    res.clearCookie("token");
+    return res.redirect("/login");
   }
 };

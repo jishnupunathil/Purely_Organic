@@ -1,247 +1,227 @@
 <%-include('../partials/userHeader.ejs')%> 
-<section class="hero hero-normal">
+
+<main class="bg-light pb-5" style="min-height: 80vh;">
+  <!-- Page Banner -->
+  <section class="py-4 text-white text-center rounded-3 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%);">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-2">
-                <% allBanner.forEach(function(banner) { %>
-                    <%if(banner.bname==='ogani logo'){%>
-                        <div class="header__logo">
-                            <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                        </div>
-                        <%}%>
-                        <%})%>
-            </div>
-           
-            <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                      <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                        <div class="hero__search__categories">
-                            All Categories
-                            <span class="arrow_carrot-down"></span>
-                        </div>
-                        <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                        <button type="submit" class="site-btn">SEARCH</button>
-                    </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="header__cart">
-                            <ul>
-                                <li><a href="/user/wishList"><i class="fa fa-heart"></i> <span><%=wishCount%></span> </a></li>
-                                <li><a href="/user/getCart"><i class="fa fa-shopping-bag"></i><span><%=cartCount%></span></a></li>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;">Your Shopping Basket</h1>
+      <p class="text-white-50 text-sm mb-0">Review items, apply discount coupons, and proceed to checkout</p>
     </div>
-</section>
-<!-- Hero Section End -->
+  </section>
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Shopping Cart</h2>
-                    </div>
+  <% if (typeof productDetails !== 'undefined' && productDetails.length > 0) { %>
+    <section class="shopping-cart-section">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Cart Items Table Column -->
+          <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-3 mb-4 bg-white overflow-hidden">
+              <div class="card-header bg-white border-bottom py-3 px-4 d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 font-weight-bold text-dark" style="font-family: 'Playfair Display', serif;">Cart Items (<%= productDetails.length %>)</h5>
+                <a href="/user/shopping" class="text-success text-xs font-weight-bold text-decoration-none">
+                  + Add More Items
+                </a>
+              </div>
+
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table align-middle mb-0">
+                    <thead class="bg-light">
+                      <tr>
+                        <th class="ps-4">Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th class="text-end pe-4">Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% productDetails.forEach(function(prod) { %>
+                        <tr>
+                          <td class="ps-4">
+                            <div class="d-flex align-items-center gap-3">
+                              <img src="<%= prod.image[0] %>" alt="<%= prod.name %>" width="60" height="60" class="rounded-3 border object-fit-cover" />
+                              <div>
+                                <h6 class="mb-0 font-weight-bold text-dark text-sm"><%= prod.name %></h6>
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5 text-xs font-weight-bold">100% Organic</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-sm font-weight-bold text-dark">
+                            ₹<%= prod.price %>
+                          </td>
+                          <td>
+                            <div class="d-inline-flex align-items-center border rounded-3 bg-light p-1">
+                              <button type="button" class="btn btn-sm btn-link text-dark text-decoration-none px-2 py-0 font-weight-bold" onclick="changeQuantity('<%= prod.id %>', -1, '<%= prod.quantity %>')">-</button>
+                              <span class="px-2 font-weight-bold text-sm text-dark"><%= prod.quantity %></span>
+                              <button type="button" class="btn btn-sm btn-link text-dark text-decoration-none px-2 py-0 font-weight-bold" onclick="changeQuantity('<%= prod.id %>', 1, '<%= prod.quantity %>')">+</button>
+                            </div>
+                          </td>
+                          <td class="text-sm font-weight-bold text-success">
+                            ₹<%= prod.totalPrice %>
+                          </td>
+                          <td class="text-end pe-4">
+                            <button type="button" class="btn btn-sm btn-outline-danger border-0 rounded-2 p-1.5" onclick="removeFromCart('<%= prod.id %>', '<%= prod.name %>')" title="Remove Item">
+                              <i class="fa fa-trash-o font-16"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
                 </div>
+              </div>
             </div>
+
+            <!-- Continue Shopping Action -->
+            <a href="/user/shopping" class="btn btn-outline-success rounded-3 px-4 py-2 font-weight-bold text-sm">
+              <i class="fa fa-arrow-left mr-2"></i> Continue Shopping
+            </a>
+          </div>
+
+          <!-- Order Summary Column -->
+          <div class="col-lg-4">
+            <!-- Coupon Code Box -->
+            <div class="card border-0 shadow-sm rounded-3 p-4 mb-4 bg-white">
+              <h6 class="font-weight-bold text-dark mb-2">Have A Discount Coupon?</h6>
+              <p class="text-muted text-xs mb-3">Enter coupon code to unlock instant discounts</p>
+
+              <form action="/user/applyCoupon/?code=" method="post" class="mb-2">
+                <div class="input-group">
+                  <input type="text" name="code" class="form-control bg-light border-0 text-sm" placeholder="Enter coupon code" value="<%= typeof coupon !== 'undefined' ? coupon : '' %>" />
+                  <button type="submit" class="btn btn-primary-organic text-xs px-3 font-weight-bold">Apply</button>
+                </div>
+              </form>
+              <a href="/user/allCoupons" class="text-success text-xs font-weight-bold text-decoration-none">
+                <i class="fa fa-tag mr-1"></i> View Available Coupons
+              </a>
+            </div>
+
+            <!-- Cart Totals Card -->
+            <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
+              <h5 class="font-weight-bold text-dark mb-3" style="font-family: 'Playfair Display', serif;">Cart Summary</h5>
+
+              <!-- Free Shipping Bar -->
+              <div class="p-3 rounded-3 mb-3" style="background: #F0FDF4; border: 1px solid rgba(16,185,129,0.2);">
+                <% if (typeof total !== 'undefined' && total >= 149) { %>
+                  <span class="text-success font-weight-bold text-xs"><i class="fa fa-check-circle mr-1"></i> You unlocked FREE Express Shipping! 🚚</span>
+                <% } else { %>
+                  <span class="text-muted text-xs font-weight-bold">Add ₹<%= 149 - (total || 0) %> more to get <strong>Free Express Shipping</strong></span>
+                <% } %>
+              </div>
+
+              <div class="d-flex justify-content-between text-sm text-muted mb-2">
+                <span>Subtotal:</span>
+                <span class="font-weight-bold text-dark">₹<%= typeof total !== 'undefined' ? total : 0 %></span>
+              </div>
+
+              <% if (typeof discountVal !== 'undefined' && discountVal > 0) { %>
+                <div class="d-flex justify-content-between text-sm text-danger mb-2">
+                  <span>Coupon Discount:</span>
+                  <span class="font-weight-bold">-₹<%= discountVal %></span>
+                </div>
+              <% } %>
+
+              <div class="d-flex justify-content-between text-sm text-muted mb-3">
+                <span>Shipping Fee:</span>
+                <span class="text-success font-weight-bold"><%= (typeof total !== 'undefined' && total >= 149) ? 'FREE' : '₹40' %></span>
+              </div>
+
+              <div class="d-flex justify-content-between font-weight-bold text-dark pt-3 border-top mb-4" style="font-size: 18px;">
+                <span>Total Amount:</span>
+                <span class="text-success font-weight-bold">₹<%= typeof subTotal !== 'undefined' ? subTotal : 0 %></span>
+              </div>
+
+              <a href="/user/checkOut" class="btn btn-primary-organic w-100 rounded-3 py-3 font-weight-bold text-sm shadow-md">
+                PROCEED TO CHECKOUT <i class="fa fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Shoping Cart Section Begin -->
-    <%if(productDetails.length > 0){%>
-    <section class="shoping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="shoping__product">Products</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% productDetails.forEach((prod)=>{%>
-                                <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="<%=prod.image[0]%>" alt="" style="height:100px;width:100px">
-                                            <h5><%=prod.name%></h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            ₹<%=prod.price%>
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <span class="dec qtybtn" 
-                                                onclick="changeQuantity('<%=prod.id %>', -1,'<%= prod.quantity %>')">-</span>
-                                                <input type="text" value="<%=prod.quantity%>">
-                                                <span class="inc qtybtn"  
-                                                onclick="changeQuantity('<%= prod.id %>', 1)">+</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        ₹<%=prod.totalPrice%>
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close" onclick="removeFromCart('<%=prod.id%>','<%=prod.name%>')"></span>
-                                    </td>
-                                </tr>
-                                <%})%>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__btns">
-                        <a href="/user/shopping" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="shoping__continue">
-                        <div class="shoping__discount">
-                            <h5>Discount Codes</h5>
-                            <form action="/user/applyCoupon/?code=" method="post">
-                                <input type="text" name="code" placeholder="Enter your coupon code" value="<%=coupon%>" />
-                                <button type="submit" class="site-btn">APPLY COUPON</button>
-                            </form><br>
-                            <a href="/user/allCoupons">Available coupons</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="shoping__checkout">
-                        <h5>Cart Total</h5>
-                        <ul>
-                            <li>Subtotal <span>₹<%=total%></span></li>
-                            <%if(discountVal){%>
-                            <li>Discount <span>&#8722;₹<%=discountVal%></span></li>
-                            <%}%>
-                            <li>Total <span>₹<%=subTotal%></span></li>
-                        </ul>
-                        <a href="/user/checkOut" class="primary-btn">PROCEED TO CHECKOUT</a>
-                    </div>
-                </div>
-            </div>
+  <% } else { %>
+    <!-- Empty Cart State -->
+    <div class="container py-5 text-center">
+      <div class="card border-0 shadow-sm rounded-3 p-5 max-w-500 mx-auto bg-white" style="max-width: 520px;">
+        <div class="rounded-3 bg-light border p-4 d-inline-flex align-items-center justify-content-center mb-3 mx-auto text-success" style="width: 70px; height: 70px; font-size: 32px;">
+          <i class="fa fa-shopping-basket"></i>
         </div>
-    </section>
-    <%}else{%>
-        <div style="text-align:center;">
-            <img src="/img/empty-cart.svg" style="width: 500px;height:500px;vertical-align:middle;"><br>
-            <a href="/user/shopping"><button class="btn btn-success mb-5 btn-lg w-25">Keep shopping</button></a>
-        </div>
-        
-        <%}%>
-    <%- include('../partials/userFooter.ejs')%>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
- <script>
-    function removeFromCart(prodId,prodName) {
-  Swal.fire({
-    title: `Are you sure you want to remove ${prodName} from the cart?`,
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Yes, remove it!",
-    cancelButtonText: "Cancel",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        url: "/user/removeFromCart/"+prodId,
-        method: "post",
-        success: (response) => {
-          if (response) {
-            Swal.fire({
-              title: `Product removed from cart!`,
-              icon: "success",
-              timer: 4000,
-            }).then((result) => {
-              location.reload();
-            });
-          }
-        },
-      });
-    }
-  });
-}
- </script>
+        <h3 class="font-weight-bold text-dark mb-2" style="font-family: 'Playfair Display', serif;">Your Basket is Empty</h3>
+        <p class="text-muted text-sm mb-4">You haven't added any fresh organic produce to your basket yet.</p>
+        <a href="/user/shopping" class="btn btn-primary-organic rounded-3 px-4 py-2.5 font-weight-bold text-sm mx-auto">
+          Explore Organic Harvest
+        </a>
+      </div>
+    </div>
+  <% } %>
+</main>
 
+<%- include('../partials/userFooter.ejs')%>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+  function removeFromCart(prodId, prodName) {
+    Swal.fire({
+      title: `Remove item?`,
+      text: `Are you sure you want to remove ${prodName} from your basket?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, remove",
+      confirmButtonColor: "#0F4C3A",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/user/removeFromCart/" + prodId,
+          method: "post",
+          success: (response) => {
+            if (response) {
+              location.reload();
+            }
+          }
+        });
+      }
+    });
+  }
 
   function changeQuantity(productId, quantityChange, currentQuantity) {
-    
     if (parseInt(currentQuantity) + parseInt(quantityChange) == 0) {
       Swal.fire({
-        title: "Are you sure you want to remove?",
-        icon: "question",
+        title: "Remove from cart?",
+        text: "Reducing quantity to 0 will remove this product.",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, remove it!",
-        cancelButtonText: "Cancel",
+        confirmButtonText: "Yes, remove",
+        confirmButtonColor: "#0F4C3A",
       }).then((result) => {
         if (result.isConfirmed) {
           $.ajax({
             url: "/user/change-product-quantity",
             method: "post",
-            data: {
-              productId: productId,
-              quantityChange: quantityChange,
-              currentQuantity: currentQuantity,
-            },
+            data: { productId: productId, quantityChange: quantityChange, currentQuantity: currentQuantity },
             success: (response) => {
-              if (response) {
-                Swal.fire({
-                  title: `Product removed from cart!`,
-                  icon: "success",
-                  timer: 4000,
-                }).then(() => {
-                  location.reload();
-                });
-              }
-            },
+              location.reload();
+            }
           });
-        }else{
-          location.reload()
         }
       });
     } else {
       $.ajax({
         url: "/user/change-product-quantity",
         method: "post",
-        data: {
-              productId: productId,
-              quantityChange: quantityChange,
-              currentQuantity: currentQuantity,
-              },
-       
+        data: { productId: productId, quantityChange: quantityChange, currentQuantity: currentQuantity },
         success: (response) => {
           if (response.status) {
             location.reload();
           } else {
             Swal.fire({
               title: "Out of stock!",
+              text: "Cannot add more than available stock.",
               icon: "error",
-              confirmButtonText: "OK",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                location.reload();
-              }
             });
-            return;
           }
-        },
+        }
       });
     }
   }
-   </script>
-
- 
+</script>

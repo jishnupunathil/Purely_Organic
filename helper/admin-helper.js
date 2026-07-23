@@ -114,91 +114,92 @@ module.exports = {
 
   updateOrderStatus: async (orderId, orderStatus) => {
     try {
-      let order;
-      if (orderStatus === "delivered") {
-        order = await Order.findById(orderId);
-        if (!order) {
-          throw new Error("Order not found");
-        }
+      let order = await Order.findById(orderId);
+      if (!order) {
+        throw new Error("Order not found");
+      }
 
+      if (orderStatus === "delivered") {
         order.order_status = "delivered";
         if (order.payment_method === "cash_on_delivery") {
           order.payment_status = "paid";
         }
-
-        // Save the updated order in the database
         const updatedOrder = await order.save();
         return updatedOrder;
-      } else if (orderStatus === "approved" || orderStatus === "rejected") {
-        if (orderStatus === "approved") {
-          // Retrieve updated order
-          order = await Order.findOneAndUpdate(
-            { _id: orderId },
-            {
-              return_status: orderStatus,
-              refund: "success",
-            },
-            { new: true }
-          );
-
-          // Retrieve user
-          const userId = order.user_id;
-          const user = await userModel.findOne({ _id: userId });
-
-          if (!user) {
-            throw new Error("User not found");
+      } else if (orderStatus === "cancelled") {
+        if (order.order_status !== "cancelled") {
+          // Restock items
+          if (order.items && order.items.length > 0) {
+            await Promise.all(
+              order.items.map(async (item) => {
+                const product = await productModel.findById(item.product_id);
+                if (product) {
+                  product.pcountInStock += item.quantity;
+                  await product.save();
+                }
+              })
+            );
           }
 
-          if (user.wallet) {
-            user.wallet += order.total_amount;
-          } else {
-            user.wallet = order.total_amount;
+          // Refund to wallet if order was pre-paid or paid
+          if (
+            order.payment_status === "paid" ||
+            order.payment_method === "online_payment" ||
+            order.payment_method === "wallet"
+          ) {
+            const user = await userModel.findById(order.user_id);
+            if (user) {
+              user.wallet = (user.wallet || 0) + order.total_amount;
+              await user.save();
+            }
+            order.refund = "success";
           }
 
-          // Save updated user object
-          await user.save();
-
-          // Iterate over order items
-          const orderItems = order?.items;
-          await Promise.all(
-            orderItems.map(async (item) => {
-              const product = await productModel.findById(item.product_id);
-              if (product) {
-                // Add returned quantity to product quantity
-                product.pcountInStock += item.quantity;
-                await product.save();
-              }
-            })
-          );
-
-          return order;
-        } else {
-          order = await Order.findOneAndUpdate(
-            { _id: orderId },
-            {
-              return_status: orderStatus,
-              refund: "failure",
-            },
-            { new: true }
-          );
-          return order;
-        }
-      } else {
-        order = await Order.findByIdAndUpdate(
-          { _id: orderId },
-          {
-            order_status: orderStatus,
-          },
-          { new: true }
-        );
-        if (!order) {
-          throw new Error("Order not found");
+          order.order_status = "cancelled";
+          order.payment_status = "cancelled";
+          const updatedOrder = await order.save();
+          return updatedOrder;
         }
         return order;
+      } else if (orderStatus === "approved" || orderStatus === "rejected") {
+        if (orderStatus === "approved") {
+          order.return_status = "approved";
+          order.order_status = "Returned";
+          order.refund = "success";
+
+          const user = await userModel.findById(order.user_id);
+          if (user) {
+            user.wallet = (user.wallet || 0) + order.total_amount;
+            await user.save();
+          }
+
+          if (order.items && order.items.length > 0) {
+            await Promise.all(
+              order.items.map(async (item) => {
+                const product = await productModel.findById(item.product_id);
+                if (product) {
+                  product.pcountInStock += item.quantity;
+                  await product.save();
+                }
+              })
+            );
+          }
+          const updatedOrder = await order.save();
+          return updatedOrder;
+        } else {
+          order.return_status = "rejected";
+          order.refund = "failure";
+          const updatedOrder = await order.save();
+          return updatedOrder;
+        }
+      } else {
+        order.order_status = orderStatus;
+        const updatedOrder = await order.save();
+        return updatedOrder;
       }
     } catch (err) {
       console.error(err);
-      throw err; // Rethrow the error for further handling
+      throw err;
     }
   },
 
@@ -257,9 +258,10 @@ module.exports = {
           },
         },
       ]);
-      return result[0].totalRevenue;
+      return result && result.length > 0 ? result[0].totalRevenue : 0;
     } catch (err) {
       console.error(err);
+      return 0;
     }
   },
   getOrderDetails: async () => {
@@ -268,30 +270,29 @@ module.exports = {
         .populate("address")
         .populate("items.product_id")
         .exec();
-      if (order.length === 0) {
-      } else {
-        return order;
-      }
+      return order || [];
     } catch (err) {
       console.error(err);
+      return [];
     }
   },
   getAllProducts: async () => {
     try {
       const products = await productModel.find({});
-      return products;
+      return products || [];
     } catch (err) {
       console.error(err);
+      return [];
     }
   },
   getAllUsers: () => {
     return new Promise(async (resolve, reject) => {
         try {
           let users = await userModel.find({ isblocked: false });
-          resolve(users);
+          resolve(users || []);
         } catch (err) {
           console.error(err);
-          reject(err);
+          resolve([]);
         }
     });
   },
@@ -302,17 +303,67 @@ module.exports = {
           $group: {
             _id: "$payment_method",
             count: { $sum: 1 },
+            totalAmount: { $sum: "$total_amount" },
           },
         },
       ]);
-      const counts = {};
-      for (const payment of paymentData) {
-        counts[payment._id] = payment.count;
+
+      const methodStats = {
+        cash_on_delivery: { count: 0, amount: 0 },
+        online_payment: { count: 0, amount: 0 },
+        wallet: { count: 0, amount: 0 },
+      };
+
+      let grandTotalCount = 0;
+      let grandTotalAmount = 0;
+
+      for (const item of paymentData) {
+        if (item._id && methodStats[item._id] !== undefined) {
+          methodStats[item._id].count = item.count || 0;
+          methodStats[item._id].amount = item.totalAmount || 0;
+        }
+        grandTotalCount += item.count || 0;
+        grandTotalAmount += item.totalAmount || 0;
       }
 
-      return counts;
+      const codCount = methodStats.cash_on_delivery.count;
+      const onlineCount = methodStats.online_payment.count;
+      const walletCount = methodStats.wallet.count;
+
+      return {
+        cash_on_delivery: codCount,
+        online_payment: onlineCount,
+        wallet: walletCount,
+        cod: {
+          count: codCount,
+          amount: methodStats.cash_on_delivery.amount,
+          percent: grandTotalCount > 0 ? Math.round((codCount / grandTotalCount) * 100) : 0,
+        },
+        online: {
+          count: onlineCount,
+          amount: methodStats.online_payment.amount,
+          percent: grandTotalCount > 0 ? Math.round((onlineCount / grandTotalCount) * 100) : 0,
+        },
+        wallet: {
+          count: walletCount,
+          amount: methodStats.wallet.amount,
+          percent: grandTotalCount > 0 ? Math.round((walletCount / grandTotalCount) * 100) : 0,
+        },
+        grandTotalCount,
+        grandTotalAmount,
+      };
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      return {
+        cash_on_delivery: 0,
+        online_payment: 0,
+        wallet: 0,
+        cod: { count: 0, amount: 0, percent: 0 },
+        online: { count: 0, amount: 0, percent: 0 },
+        wallet: { count: 0, amount: 0, percent: 0 },
+        grandTotalCount: 0,
+        grandTotalAmount: 0,
+      };
     }
   },
   orderStatusData: async () => {
@@ -325,25 +376,56 @@ module.exports = {
           },
         },
       ]);
-      const counts = {};
+      const counts = {
+        placed: 0,
+        processing: 0,
+        Shipped: 0,
+        delivered: 0,
+        cancelled: 0,
+        Returned: 0,
+      };
       for (const order of orderData) {
-        counts[order._id] = order.count;
+        if (order._id) {
+          counts[order._id] = order.count;
+        }
       }
 
       return counts;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      return {
+        placed: 0,
+        processing: 0,
+        Shipped: 0,
+        delivered: 0,
+        cancelled: 0,
+        Returned: 0,
+      };
+    }
+  },
+
+  getRecentOrders: async (limit = 5) => {
+    try {
+      const orders = await Order.find({})
+        .sort({ order_date: -1 })
+        .limit(limit)
+        .populate("user_id", "name email phone")
+        .exec();
+      return orders || [];
+    } catch (err) {
+      console.error(err);
+      return [];
     }
   },
 
   getReportDetails: async () => {
     try {
-      // Query the orders collection based on the order_date field
       const query = { order_status: "delivered" };
       const orders = await Order.find(query).populate("address");
-      return orders;
+      return orders || [];
     } catch (err) {
       console.error(err);
+      return [];
     }
   },
 
@@ -365,16 +447,17 @@ module.exports = {
         },
         {
           $sort: {
-            date: -1,
+            order_date: -1,
           },
         },
       ];
 
       const orders = await Order.aggregate(query);
-
-      return orders;
+      return orders || [];
     } catch (err) {
       console.error(err);
+      return [];
     }
   }
 };
+

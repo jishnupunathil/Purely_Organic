@@ -1,119 +1,91 @@
 <%-include('../partials/userHeader.ejs')%>
-<section class="hero hero-normal">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-2">
-        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='ogani logo'){%>
-        <div class="header__logo">
-          <a href="/user/index"><img src="<%=banner.bimages%>" alt="" /></a>
-        </div>
-        <%}%> <%})%>
-      </div>
-      <div class="col-lg-9">
-        <div class="hero__search">
-          <div class="hero__search__form">
-            <form
-              action="/user/product-search/?search"
-              method="get"
-              onsubmit="return validateForm()"
-            >
-              <div class="hero__search__categories">
-                All Categories
-                <span class="arrow_carrot-down"></span>
-              </div>
-              <input
-                type="search"
-                placeholder="What do yo u need?"
-                name="search"
-                id="product-search"
-              />
-              <button type="submit" class="site-btn">SEARCH</button>
-            </form>
-          </div>
-          <div class="hero__search__phone">
-            <div class="header__cart">
-              <ul>
-                <li>
-                  <a href="/user/wishList"
-                    ><i class="fa fa-heart"></i><span><%=wishCount%></span>
-                  </a>
-                </li>
-                <li>
-                  <a href="/user/getCart"
-                    ><i class="fa fa-shopping-bag"></i
-                    ><span><%=cartCount%></span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Hero Section End -->
 
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <div class="breadcrumb__text">
-          <h2>All Coupons</h2>
-        </div>
-      </div>
+<main class="bg-light pb-5" style="min-height: 80vh;">
+  <!-- Page Banner -->
+  <section class="py-4 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
+    <div class="container">
+      <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;">Exclusive Offers & Coupons</h1>
+      <p class="text-white-50 text-sm mb-0">Save big on your organic harvest orders with discount vouchers</p>
     </div>
-  </div>
-  <div></div>
-</section>
-<br />
-<section>
-  <div class="page-content">
-    <div class="dashboard">
-      <div class="container">
-        <div class="header-left">
-          <div class="row">
-            <% coupons.forEach(function(element) { %>
-               <% if (element?.days_remaining > 0) { %>
-            <!-- Check if the coupon has not expired -->
-            <div class="col-lg-4 mb-4">
-              <div
-                class="card h-100 card-dashboard"
-                style="background-color: rgb(228, 226, 223)"
-              >
-                <div class="address-section">
-                  <div class="existing-address">
-                    <h5 class="card-title text-center pt-3">
-                      <b
-                        ><%=element?.days_remaining <= 0
-                        ?"Expired":element?.code%></b
-                      >
-                    </h5>
-                    <p class="card-text text-center">
-                      Discount: <%=element?.discount %>%<br />
-                      Max Discount: &#x20B9;<%=element?.maxdiscount %><br />
-                      Expiry Date: <%= new
-                      Date(element.expirationDate).toLocaleString('en-IN', {
-                      dateStyle: 'short'}).split('T')[0]%><br />
-                    </p>
+  </section>
+
+  <section class="coupons-section">
+    <div class="container">
+      <% if (typeof coupons !== 'undefined' && coupons && coupons.length > 0) { %>
+        <div class="row g-4">
+          <% coupons.forEach(function(element) { %>
+            <% if (element?.days_remaining > 0) { %>
+              <div class="col-lg-4 col-md-6">
+                <div class="coupon-card bg-white p-4 rounded-4 shadow-sm border-2 position-relative h-100 d-flex flex-column justify-content-between transition-smooth hover-translate-y" style="border: 2px dashed #10B981; background: linear-gradient(135deg, #ffffff 0%, #F0FDF4 100%);">
+                  
+                  <!-- Top Badge Row -->
+                  <div>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                      <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 font-weight-bold text-xs">
+                        <i class="fa fa-percent mr-1"></i> <%= element.discount %>% OFF
+                      </span>
+                      <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2.5 py-1 text-xs font-weight-bold">
+                        <i class="fa fa-clock-o mr-1"></i> <%= element.days_remaining %> days left
+                      </span>
+                    </div>
+
+                    <!-- Code Box -->
+                    <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-3" style="background: #E6F4EA; border: 1px dashed #10B981;">
+                      <code class="coupon-code font-weight-bold text-success" style="font-size: 20px; font-family: monospace; letter-spacing: 2px;"><%= element.code %></code>
+                      <button type="button" class="btn btn-sm btn-success rounded-pill font-weight-bold text-xs px-3" onclick="copyCouponCode('<%= element.code %>')">
+                        Copy Code
+                      </button>
+                    </div>
+
+                    <!-- Discount Specs -->
+                    <div class="text-xs text-muted mb-2">
+                      <p class="mb-1"><i class="fa fa-check-circle text-success mr-1"></i> Maximum Discount Limit: <strong class="text-dark">₹<%= element.maxdiscount %></strong></p>
+                      <p class="mb-0"><i class="fa fa-calendar text-muted mr-1"></i> Expiry Date: <strong class="text-dark"><%= new Date(element.expirationDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) %></strong></p>
+                    </div>
+                  </div>
+
+                  <!-- Quick Use Shortcut -->
+                  <div class="pt-3 border-top mt-3">
+                    <a href="/user/getCart" class="btn btn-outline-success w-100 rounded-pill font-weight-bold text-xs py-2">
+                      Use in Cart <i class="fa fa-arrow-right ml-1"></i>
+                    </a>
                   </div>
                 </div>
-                <div class="card-footer">
-                  <%= element?.days_remaining <= 0 ? 'Expired':
-                  element?.days_remaining + ' days left' %>
-                </div>
               </div>
-            </div>
-            <%}%> 
-            <% }) %>
-          </div>
+            <% } %>
+          <% }); %>
         </div>
-      </div>
+      <% } else { %>
+        <!-- Empty Coupons State -->
+        <div class="card border-0 shadow-sm rounded-4 p-5 text-center bg-white max-w-500 mx-auto" style="max-width: 500px;">
+          <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-inline-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
+            <i class="fa fa-ticket"></i>
+          </div>
+          <h4 class="font-weight-bold text-dark mb-2" style="font-family: 'Playfair Display', serif;">No Coupons Active Right Now</h4>
+          <p class="text-muted text-sm mb-4">Check back soon for new seasonal organic harvest discounts.</p>
+          <a href="/user/shopping" class="btn btn-primary-organic rounded-pill px-4 py-2 font-weight-bold text-sm mx-auto">
+            Explore Shop Catalog
+          </a>
+        </div>
+      <% } %>
     </div>
-    <!-- End .container -->
-  </div>
-  <!-- End .dashboard -->
-</section>
-<!-- Breadcrumb Section End -->
+  </section>
+</main>
+
 <%- include('../partials/userFooter.ejs')%>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function copyCouponCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: `Coupon ${code} copied!`,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    });
+  }
+</script>

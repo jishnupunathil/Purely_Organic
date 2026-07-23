@@ -1,74 +1,72 @@
-<!-- Footer Section Begin -->
-<footer class="footer spad">
+<!-- Super Cool Modern Footer -->
+<footer class="footer-organic pt-5 pb-4 text-white" style="background: linear-gradient(180deg, #093327 0%, #051F18 100%); font-size: 14px;">
   <div class="container">
-      <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="footer__about">
-                  <% allBanner.forEach(function(banner) { %>
-                      <%if(banner.bname==='ogani logo'){%>
-                  <div class="footer__about__logo">
-                      <a href="/user/index"><img src="<%=banner.bimages%>" alt=""></a>
-                  </div>
-                  <%}%>
-                  <%})%>
-                  <ul>
-                      <li>Address: Palarivattom | Kochi</li>
-                      <li>Phone: +919496959109</li>
-                      <li>Email: purelyorganic.com</li>
-                  </ul>
-              </div>
+    <div class="row g-4 mb-5">
+      <!-- Brand & Mission Column -->
+      <div class="col-lg-4 col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+            <i class="fa fa-leaf"></i>
           </div>
-          <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
-              <div class="footer__widget">
-                  <h6>Useful Links</h6>
-                  <ul>
-                      <li><a href="#">About Us</a></li>
-                      <li><a href="#">About Our Shop</a></li>
-                      <li><a href="#">Secure Shopping</a></li>
-                      <li><a href="#">Delivery infomation</a></li>
-                      <li><a href="#">Privacy Policy</a></li>
-                      <li><a href="#">Our Sitemap</a></li>
-                  </ul>
-                  <ul>
-                      <li><a href="#">Who We Are</a></li>
-                      <li><a href="#">Our Services</a></li>
-                      <li><a href="#">Projects</a></li>
-                      <li><a href="#">Contact</a></li>
-                      <li><a href="#">Innovation</a></li>
-                      <li><a href="#">Testimonials</a></li>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-lg-4 col-md-12">
-              <div class="footer__widget">
-                  <h6>Join Our Newsletter Now</h6>
-                  <p>Get E-mail updates about our latest shop and special offers.</p>
-                  <form action="#">
-                      <input type="text" placeholder="Enter your mail">
-                      <button type="submit" class="site-btn">Subscribe</button>
-                  </form>
-                  <div class="footer__widget__social">
-                      <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-                      <a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"></i></a>
-                      <a href="https://www.twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
-                  </div>
-              </div>
-          </div>
+          <h4 class="mb-0 font-weight-bold text-white" style="font-family: 'Playfair Display', serif;">Purely Organic</h4>
+        </div>
+        <p class="text-white-50 text-sm mb-3">Bringing 100% certified farm-fresh organic produce, non-GMO harvest, and natural groceries straight to your home.</p>
+        <ul class="list-unstyled text-white-50 text-xs gap-2 d-flex flex-column mb-0">
+          <li><i class="fa fa-map-marker text-success mr-2"></i> Palarivattom, Kochi, Kerala</li>
+          <li><i class="fa fa-phone text-success mr-2"></i> +91 9496959109</li>
+          <li><i class="fa fa-envelope text-success mr-2"></i> support@purelyorganic.com</li>
+        </ul>
       </div>
-      <div class="row">
-          <div class="col-lg-12">
-              <div class="footer__copyright">
-                  <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved |purelyorganiic.shop by jishnu 
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-<% allBanner.forEach(function(banner) { %>
-  <%if(banner.bname==='payment Image'){%>
-                  <div class="footer__copyright__payment"><img src="<%=banner.bimages[0]%>" alt=""></div>
-              </div>
-              <%}%>
-                  <%})%>
-          </div>
+
+      <!-- Quick Links Column -->
+      <div class="col-lg-2 col-md-3 col-6">
+        <h6 class="font-weight-bold text-white text-uppercase mb-3" style="letter-spacing: 0.5px; font-size: 12px;">Quick Links</h6>
+        <ul class="list-unstyled text-white-50 text-xs d-flex flex-column gap-2 mb-0">
+          <li><a href="/" class="text-white-50 text-decoration-none hover-text-white">Home Harvest</a></li>
+          <li><a href="/shopping" class="text-white-50 text-decoration-none hover-text-white">Shop Catalog</a></li>
+          <li><a href="/user/wishList" class="text-white-50 text-decoration-none hover-text-white">My Wishlist</a></li>
+          <li><a href="/user/getCart" class="text-white-50 text-decoration-none hover-text-white">Shopping Cart</a></li>
+        </ul>
       </div>
+
+      <!-- Customer Service Column -->
+      <div class="col-lg-2 col-md-3 col-6">
+        <h6 class="font-weight-bold text-white text-uppercase mb-3" style="letter-spacing: 0.5px; font-size: 12px;">Support & Policy</h6>
+        <ul class="list-unstyled text-white-50 text-xs d-flex flex-column gap-2 mb-0">
+          <li><a href="#" class="text-white-50 text-decoration-none hover-text-white">Organic Guarantee</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none hover-text-white">Shipping Policy</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none hover-text-white">Returns & Refunds</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none hover-text-white">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter & Social Column -->
+      <div class="col-lg-4 col-md-12">
+        <h6 class="font-weight-bold text-white text-uppercase mb-3" style="letter-spacing: 0.5px; font-size: 12px;">Subscribe To Organic News</h6>
+        <p class="text-white-50 text-xs mb-3">Receive weekly farm harvest updates, discount coupons, and healthy organic living tips.</p>
+        
+        <form action="#" class="mb-3" onsubmit="return false;">
+          <div class="input-group">
+            <input type="email" class="form-control bg-white border-0 text-sm" placeholder="Enter your email address..." />
+            <button type="submit" class="btn btn-primary-organic font-weight-bold text-xs px-3">Join Harvest</button>
+          </div>
+        </form>
+
+        <div class="d-flex align-items-center gap-2">
+          <a href="https://facebook.com" target="_blank" class="btn btn-sm btn-outline-light rounded-circle p-0 d-inline-flex align-items-center justify-content-center" style="width: 34px; height: 34px;"><i class="fa fa-facebook"></i></a>
+          <a href="https://instagram.com" target="_blank" class="btn btn-sm btn-outline-light rounded-circle p-0 d-inline-flex align-items-center justify-content-center" style="width: 34px; height: 34px;"><i class="fa fa-instagram"></i></a>
+          <a href="https://twitter.com" target="_blank" class="btn btn-sm btn-outline-light rounded-circle p-0 d-inline-flex align-items-center justify-content-center" style="width: 34px; height: 34px;"><i class="fa fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright & Security Footer Bar -->
+    <div class="pt-4 border-top border-secondary d-flex flex-column flex-md-row align-items-center justify-content-between text-xs text-white-50 gap-2">
+      <p class="mb-0">© <script>document.write(new Date().getFullYear());</script> Purely Organic. All rights reserved. Crafted with care for healthy living.</p>
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-success bg-opacity-25 text-white px-2 py-1">Razorpay Secured</span>
+        <span class="badge bg-success bg-opacity-25 text-white px-2 py-1">100% Non-GMO Verified</span>
+      </div>
+    </div>
   </div>
 </footer>
-<!-- Footer Section End -->

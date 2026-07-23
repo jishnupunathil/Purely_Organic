@@ -1,19 +1,61 @@
 <!DOCTYPE html>
-<html lang="zxx">
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>OGANI</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Purely Organic | Farm-Fresh Organic Groceries & Natural Produce</title>
+    <meta name="title" content="Purely Organic | Farm-Fresh Organic Groceries & Natural Produce">
+    <meta name="description" content="Shop 100% certified farm-fresh organic vegetables, natural fruits, dairy, and eco-friendly products. Directly sourced from local organic farms to your doorstep with fast delivery.">
+    <meta name="keywords" content="organic food, organic vegetables, fresh fruits, natural groceries, organic farming, Purely Organic, farm fresh, eco-friendly produce, buy organic online">
+    <meta name="author" content="Purely Organic">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://purelyorganic.com/">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-<!-- Favicon -->
-<link rel="shortcut icon" type="image/x-icon" href="/images/logo1.png">
+    <!-- Open Graph / Facebook SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://purelyorganic.com/">
+    <meta property="og:title" content="Purely Organic | Farm-Fresh Organic Groceries & Natural Produce">
+    <meta property="og:description" content="Shop 100% certified farm-fresh organic vegetables, natural fruits, dairy, and eco-friendly products with fast home delivery.">
+    <meta property="og:image" content="/images/logo1.png">
+    <meta property="og:site_name" content="Purely Organic">
 
-    <!-- Css Styles -->
+    <!-- Twitter SEO -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://purelyorganic.com/">
+    <meta property="twitter:title" content="Purely Organic | Farm-Fresh Organic Groceries">
+    <meta property="twitter:description" content="100% certified organic fruits, vegetables & natural produce delivered fresh.">
+    <meta property="twitter:image" content="/images/logo1.png">
+
+    <!-- JSON-LD Structured Data Schema for Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GroceryStore",
+      "name": "Purely Organic",
+      "description": "Farm-fresh 100% certified organic groceries and natural produce.",
+      "url": "https://purelyorganic.com",
+      "logo": "https://purelyorganic.com/images/logo1.png",
+      "priceRange": "₹₹",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://purelyorganic.com/shoppingPage?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/images/logo1.png">
+
+    <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
@@ -23,103 +65,36 @@
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/modern-organic.css" type="text/css">
-    <!-- Data Table -->
-        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-        <script type="text/javascript" charset="utf8"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
-        <!-- Data Table -->
-    </head>
-<body>
-    <%-body %>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+</head>
 
-    <!-- JS -->
+<body>
+    <%- body %>
+
+    <!-- Unified Script Imports (Single load to eliminate lag & script conflict) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Theme Plugins -->
     <script src="/js/jquery.nice-select.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
     <script src="/js/jquery.slicknav.js"></script>
     <script src="/js/mixitup.min.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/validation.js"></script>
     <script src="/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-
 
     <script>
-  $(document).ready( function () {
-    $('#orderListTable').DataTable();
-  } );
-  </script>
-
-    <script>
-        $(function () { 
-          $('#userTable').DataTable(); 
+        $(document).ready(function () {
+          if ($('#orderListTable').length) $('#orderListTable').DataTable({ responsive: true });
+          if ($('#userTable').length) $('#userTable').DataTable({ responsive: true });
         });
-        
-     
-        jQuery.validator.setDefaults({
-          rules:{
-            name: {
-              required: true,
-              minlength: 1
-            }, 
-            email: {
-              required: true,
-              email: true
-            }, 
-            password: {
-              required: true
-            }
-          },
-          messages:{
-            name: {
-              required: "Please Enter your name",
-              minlength: "Name should have atleast 1 character"
-            }, 
-            email: {
-              required: "Please Enter your email id",
-              email: "Enter your valid email id"
-            }, 
-            password: {
-              required: "Please Enter Password"
-            }
-          },
-          submitHandler: function(form) {
-            form.submit();
-          }
-        });
-     
-        jQuery('#submit-form').validate();
-        jQuery('#submit-form1').validate();
-        jQuery('#submit-form2').validate();
-        jQuery('#submit-form3').validate();
-     </script>
 
-<script>
-  $(document).ready(function(){
-    $('.dropdown-toggle').dropdown();
-  });
-</script>
-
-
-<script src="/js/zoomsl.min.js"></script>
-<script>
-    $(document).ready(function(){
-      $('#soom').imagezoomsl({
-       
-      })
-    })
-    </script>
-       <script>
         const OrganicToast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -165,7 +140,7 @@
             error: function(err) {
               OrganicToast.fire({
                 icon: 'error',
-                title: err.responseJSON?.message || 'Something went wrong'
+                title: err.responseJSON?.message || 'Please login to add to cart'
               });
             }
           });
@@ -207,212 +182,50 @@
             }
           });
         }
-     </script>
 
-<script>
-  function addToCartFromWish(product_id) {
-$.ajax({
-url: `/user/add-to-cartFromWishL/${product_id}`,
-method: "PUT",
-success: function (response) {
-  if (response.status) {
-    Swal.fire({
-      title: "Product added to cart!",
-      icon: "success",
-      showConfirmButton: false,
-      timer: 1000,
-    }).then(() => {
-      location.reload();
-    });
-  } else {
-    Swal.fire({
-      title: "Out of stock!",
-      icon: "error",
-      showConfirmButton: false,
-      timer: 4000,
-    });
-  }
-},
-error: function (error) {
-  console.log(error);
-},
-});
-}
-
-
-function removeFromWishList(product_id) {
-  Swal.fire({
-    title: `Are you sure you want to remove?`,
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Yes, remove it!",
-    cancelButtonText: "Cancel",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        url: "/user/remove-product-from-wishList",
-        data: {
-          product: product_id,
-        },
-        method: "delete",
-        success: (response) => {
-          if (response) {
-            Swal.fire({
-              title: `Product removed !`,
-              icon: "success",
-              showConfirmButton: false,
-              timer: 2000,
-            }).then(() => {
-              location.reload();
-            });
-          }
-        },
-      });
-    }
-  });
-}
-</script>
-
-     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-
-     <script>
-const paymentMethodRadioButtons = document.querySelectorAll('input[name="paymentMethod"]');
-const walletCard = document.getElementsByClassName("wallet-card")[0];
-const stripePayButton = document.getElementById("stripe-pay-button");
-const orderButton = document.getElementById("order-button");
-
-// Function to toggle wallet details based on radio button selection
-function toggleWalletDetails() {
-  if (this.value === "wallet") {
-    walletCard.style.display = "block";
-  } else {
-    walletCard.style.display = "none";
-  }
-}
-
-// Function to handle payment method selection
-function handlePaymentMethod() {
-  if (this.value === "online_payment") {
-    stripePayButton.style.display = "block";
-    orderButton.style.display = "none";
-  } else {
-    stripePayButton.style.display = "none";
-    orderButton.style.display = "block";
-  }
-}
-
-// Add event listeners to each radio button
-paymentMethodRadioButtons.forEach((radioButton) => {
-  radioButton.addEventListener('change', () => {
-    toggleWalletDetails();
-    handlePaymentMethod();
-  });
-});
-
-// Initial check for the selected radio button
-const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-if (selectedPaymentMethod) {
-  toggleWalletDetails.call(selectedPaymentMethod);
-  handlePaymentMethod.call(selectedPaymentMethod);
-}
-
- </script>
-
-<script>
-  $("#checkout-form").submit((e)=>{
-      e.preventDefault()
-      $.ajax({
-          url:'/user/place-order',
-          method:'post',
-          data:$('#checkout-form').serialize(),
-          success:(response)=>{
-            let id2=response.addressId
-            if(response.codSuccess){
-              let id=response.orderId
-             
-              Swal.fire({
-            title:'Order Placed Succefuly',
-        message:'product added to cart',
-        icon:'success'
-      })
-      .then((success)=>{
-  location.href="/user/orderInfo/"+id+"/"+id2
-            })
-      }else{
-        razorpayPayment(response)
-      }
-          }
-      })
-    })
-
-
-    function razorpayPayment (order){
-        var options = {
-    "key": "rzp_test_LlUB5deQFFVcRd", // Enter the Key ID generated from the Dashboard
-    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-    "currency": "INR",
-    "name": "Jishnu P",
-    "description": "Test Transaction",
-    "image": "/images/logo.jpeg",
-    "order_id": order.id , //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-       
-
-        verifyPayment(response,order)
-    },
-    "prefill": {
-        "name": "Jishnu P",
-        "email": "jishnupunathil000@gmail.com",
-        "contact": "9496959109"
-    },
-    "notes": {
-        "address": "Kochi"
-    },
-    "theme": {
-        "color": "#6a3fc6"
-    }
-    }; 
-    var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-       
-});
-    rzp1.open();
-    }
-
-
-
-
-    
-
-
-    function verifyPayment(payment,order){
-        $.ajax({
-            url:'/user/verify-payment',
-            data:{
-                payment,
-                order
-            },
-            method:'post',
-            success:(response)=>{
-                if(response.status){
-                  let id=response.orderId
-                  let id2=response.addresId
-                  location.href="/user/orderInfo/"+id+"/"+id2
-                }else{
-                    alert('payment failed')
-                }
-            
-
+        function addToCartFromWish(product_id) {
+          $.ajax({
+            url: `/user/add-to-cartFromWishL/${product_id}`,
+            method: "PUT",
+            success: function (response) {
+              if (response.status) {
+                OrganicToast.fire({
+                  icon: 'success',
+                  title: 'Added to Cart!'
+                });
+                setTimeout(() => location.reload(), 1000);
+              } else {
+                OrganicToast.fire({
+                  icon: 'error',
+                  title: 'Out of stock!'
+                });
+              }
+            }
+          });
         }
-      })
-    }
-</script>
 
-
-
-
-
+        function removeFromWishList(product_id) {
+          Swal.fire({
+            title: `Remove from wishlist?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, remove",
+            confirmButtonColor: "#0F4C3A",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                url: "/user/remove-product-from-wishList",
+                data: { product: product_id },
+                method: "delete",
+                success: (response) => {
+                  if (response) {
+                    location.reload();
+                  }
+                }
+              });
+            }
+          });
+        }
+    </script>
 </body>
-
 </html>
