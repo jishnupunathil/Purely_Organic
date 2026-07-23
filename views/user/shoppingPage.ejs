@@ -1,10 +1,9 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <%-include('../partials/userHeader.ejs')%> 
 
 <!-- Catalog Banner Header Section -->
-<section class="py-5 text-white text-center rounded-4 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%); border-radius: 20px !important;">
+<section class="py-4 text-white text-center rounded-3 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%);">
     <div class="container">
-        <h1 class="font-weight-bold text-white mb-2" style="font-family: 'Playfair Display', serif; font-size: 36px;">Purely Organic Harvest Catalog</h1>
+        <h1 class="font-weight-bold text-white mb-2" style="font-family: 'Playfair Display', serif; font-size: 32px;">Purely Organic Harvest Catalog</h1>
         <p class="text-white-50 text-sm mb-0">Discover 100% certified organic produce picked fresh from local sustainable farms</p>
     </div>
 </section>
@@ -18,11 +17,11 @@
                     <h2 id="allcategoryHead" style="font-family: 'Playfair Display', serif; font-weight: 800; color: #0F4C3A;">Filter By Category</h2>
                 </div>
                 <div class="featured__controls mb-4 text-center"> 
-                    <ul class="d-inline-flex flex-wrap gap-2 justify-content-center bg-white p-2 rounded-pill shadow-sm border">
-                        <li class="active px-4 py-2 rounded-pill font-weight-bold text-sm cursor-pointer" data-filter="*">All Harvest</li>
+                    <ul class="d-inline-flex flex-wrap gap-2 justify-content-center bg-white p-2 rounded-3 shadow-sm border list-unstyled mb-0">
+                        <li class="active px-4 py-2 rounded-3 font-weight-bold text-sm cursor-pointer" data-filter="*">All Harvest</li>
                         <% if (typeof allCategory !== 'undefined' && allCategory) { %>
                             <% for (let i=0; i<allCategory.length; i++) { %> 
-                                <li class="px-4 py-2 rounded-pill font-weight-bold text-sm cursor-pointer" data-filter=".<%=allCategory[i].cname.replace(/\s+/g,'_')%>"><%=allCategory[i].cname%></li>
+                                <li class="px-4 py-2 rounded-3 font-weight-bold text-sm cursor-pointer" data-filter=".<%=allCategory[i].cname.replace(/\s+/g,'_')%>"><%=allCategory[i].cname%></li>
                             <% } %>
                         <% } %>
                     </ul>
@@ -34,19 +33,17 @@
             <% if (typeof allProduct !== 'undefined' && allProduct && allProduct.length > 0) { %>
                 <% allProduct.forEach(function(product) { %>
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6 mb-4 mix <%=product.pcategory ? product.pcategory.replace(/\s+/g,'_') : ''%>">
-                        <div class="product-card-modern bg-white rounded-4 overflow-hidden border-0 shadow-sm h-100 d-flex flex-column transition-smooth">
+                        <div class="product-card-modern bg-white rounded-3 overflow-hidden border shadow-xs h-100 d-flex flex-column transition-smooth">
                             <div class="product-card-image-wrap position-relative overflow-hidden" style="height: 200px; background: #F8FAF6;">
                                 <span class="badge-organic-seal">🌿 100% Organic</span>
                                 <img src="<%=product.pimages[0]%>" alt="<%=product.pname%>" loading="lazy" class="w-100 h-100 object-fit-cover">
                                 
-                                <div class="product-card-actions">
+                                <div class="position-absolute top-0 end-0 p-2 d-flex flex-column gap-1">
                                     <% if (product.pcountInStock > 0) { %>
                                         <% if (typeof user !== 'undefined' && user) { %>
-                                            <button type="button" class="btn-action-icon" onclick="AddToWishList('<%=product._id%>')" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
-                                            <button type="button" class="btn-action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart"><i class="fa fa-shopping-cart"></i></button>
+                                            <button type="button" class="btn btn-sm btn-white border shadow-xs p-1.5 text-dark rounded-3" onclick="AddToWishList('<%=product._id%>')" title="Wishlist"><i class="fa fa-heart text-danger"></i></button>
                                         <% } else { %>
-                                            <a href="/user/wishList" class="btn-action-icon" title="Wishlist"><i class="fa fa-heart"></i></a>
-                                            <a href="/user/getCart" class="btn-action-icon" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="/user/wishList" class="btn btn-sm btn-white border shadow-xs p-1.5 text-dark rounded-3" title="Wishlist"><i class="fa fa-heart text-danger"></i></a>
                                         <% } %>
                                     <% } %>
                                 </div>
@@ -70,14 +67,14 @@
                                         <span class="text-muted text-xs">/ 1kg</span>
                                     </div>
                                     <% if (product.pcountInStock === 0) { %>
-                                        <span class="badge bg-danger text-white rounded-pill px-2.5 py-1 text-xs">Out of Stock</span>
+                                        <span class="badge bg-danger text-white rounded-3 px-2.5 py-1 text-xs">Out of Stock</span>
                                     <% } else { %>
                                         <% if (typeof user !== 'undefined' && user) { %>
-                                            <button type="button" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold text-xs px-3" onclick="addToCart('<%=product._id%>')">
+                                            <button type="button" class="btn btn-sm btn-success rounded-3 font-weight-bold text-xs px-3" onclick="addToCart('<%=product._id%>')">
                                                 + Add
                                             </button>
                                         <% } else { %>
-                                            <a href="/login" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold text-xs px-3">+ Add</a>
+                                            <a href="/login" class="btn btn-sm btn-success rounded-3 font-weight-bold text-xs px-3">+ Add</a>
                                         <% } %>
                                     <% } %>
                                 </div>
@@ -95,20 +92,20 @@
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center gap-1">
             <% if (typeof currentPage !== 'undefined' && currentPage > 1) { %>
-                <li class="page-item"><a class="page-link rounded-circle border-0 shadow-xs text-dark" href="?page=<%=currentPage-1%>"><i class="material-icons text-sm">chevron_left</i></a></li>
+                <li class="page-item"><a class="page-link rounded-3 border shadow-xs text-dark" href="?page=<%=currentPage-1%>"><i class="fa fa-chevron-left text-xs"></i></a></li>
             <% } %>
             <% if (typeof totalPages !== 'undefined') { %>
                 <% for (let i = 1; i <= totalPages; i++) { %>
                     <li class="page-item <% if (i === currentPage) { %>active<% } %>">
-                        <a class="page-link rounded-circle border-0 shadow-xs <% if (i === currentPage) { %>bg-success text-white<% } else { %>text-dark<% } %>" href="?page=<%=i%>"><%=i%></a>
+                        <a class="page-link rounded-3 border shadow-xs <% if (i === currentPage) { %>bg-success text-white<% } else { %>text-dark<% } %>" href="?page=<%=i%>"><%=i%></a>
                     </li>
                 <% } %>
             <% } %>
             <% if (typeof currentPage !== 'undefined' && typeof totalPages !== 'undefined' && currentPage < totalPages) { %>
-                <li class="page-item"><a class="page-link rounded-circle border-0 shadow-xs text-dark" href="?page=<%=currentPage+1%>"><i class="material-icons text-sm">chevron_right</i></a></li>
+                <li class="page-item"><a class="page-link rounded-3 border shadow-xs text-dark" href="?page=<%=currentPage+1%>"><i class="fa fa-chevron-right text-xs"></i></a></li>
             <% } %>
         </ul>
     </nav>
 </div>
 
-<%- include('../partials/userFooter.ejs')%>   
+<%- include('../partials/userFooter.ejs')%>

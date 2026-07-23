@@ -1,240 +1,157 @@
 <%-include('../partials/userHeader.ejs')%>
-<section class="hero hero-normal">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-2">
-        <% allBanner.forEach(function(banner) { %> <%if(banner.bname==='ogani logo'){%>
-        <div class="header__logo">
-          <a href="/user/index"><img src="<%=banner.bimages%>" alt="" /></a>
-        </div>
-        <%}%> <%})%>
-      </div>
 
-      <div class="col-lg-9">
-        <div class="hero__search">
-          <%if(user){%>
-            <div class="hero__search__form">
-                <form action="/user/product-search/?search"  method="get" onsubmit="return validateForm()">
-                    <div class="hero__search__categories">
-                        All Categories
-                        <span class="arrow_carrot-down"></span>
-                    </div>
-                    <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                    <button type="submit" class="site-btn">SEARCH</button>
-                </form>
-            </div>
-         <%}else{%>
-             <div class="hero__search__form">
-                 <form action="/product-search/?search"  method="get" onsubmit="return validateForm()">
-                     <div class="hero__search__categories">
-                         All Categories
-                         <span class="arrow_carrot-down"></span>
-                     </div>
-                     <input type="search" placeholder="What do yo u need?" name="search" id="product-search">
-                     <button type="submit" class="site-btn">SEARCH</button>
-                 </form>
-             </div>
-         <%}%>
-          <div class="hero__search__phone">
-            <div class="header__cart">
-              <ul>
-                <li>
-                  <a href="/user/wishList"
-                    ><i class="fa fa-heart"></i><span><%=wishCount%></span>
-                  </a>
-                </li>
-                <li>
-                  <a href="/user/getCart"
-                    ><i class="fa fa-shopping-bag"></i
-                    ><span><%=cartCount%></span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- Product Details Banner -->
+<section class="py-4 text-white text-center rounded-3 mb-4 mx-3 shadow-sm" style="background: linear-gradient(135deg, #093327 0%, #0F4C3A 100%);">
+  <div class="container">
+    <h1 class="font-weight-bold text-white mb-1" style="font-family: 'Playfair Display', serif; font-size: 32px;"><%= singleProduct.pname %></h1>
+    <p class="text-white-50 text-sm mb-0">100% Certified Farm-Fresh Organic Produce</p>
   </div>
 </section>
-<!-- Hero Section End -->
-
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <div class="breadcrumb__text">
-          <h2>Product</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Breadcrumb Section End -->
 
 <!-- Product Details Section Begin -->
-<section class="product-details spad">
+<section class="product-details py-4">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-6 col-md-12">
-        <div class="product__details__pic">
-          <div class="product__details__pic__item">
+    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-5">
+      <div class="row align-items-center g-4">
+        <!-- Product Image Gallery -->
+        <div class="col-lg-6">
+          <div class="product-main-image-box border rounded-3 p-3 bg-light text-center mb-3">
             <img
-              class="product__details__pic__item--large"
-              src="<%=singleProduct.pimages[0]%>"
-              alt=""
-              style="height: 400px; width: 150px"
+              class="img-fluid rounded-3 object-fit-contain"
+              src="<%= singleProduct.pimages[0] %>"
+              alt="<%= singleProduct.pname %>"
+              style="max-height: 380px; width: 100%; object-fit: contain;"
               id="soom"
             />
           </div>
-          <div class="product__details__pic__slider owl-carousel">
-            <img
-              data-imgbigurl="<%=singleProduct.pimages[0]%>"
-              src="<%=singleProduct.pimages[0]%>"
-              alt=""
-            />
-            <img
-              data-imgbigurl="<%=singleProduct.pimages[1]%>"
-              src="<%=singleProduct.pimages[1]%>"
-              alt=""
-            />
-            <img
-              data-imgbigurl="<%=singleProduct.pimages[2]%>"
-              src="<%=singleProduct.pimages[2]%>"
-              alt=""
-            />
-            <img
-              data-imgbigurl="<%=singleProduct.pimages[3]%>"
-              src="<%=singleProduct.pimages[3]%>"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="product__details__text">
-          <span class="badge-organic-seal mb-2" style="position: static; display: inline-block;">🌿 100% Certified Organic</span>
-          <h2 style="font-weight: 700; color: var(--primary-green);"><%=singleProduct.pname%></h2>
-
-          <div class="rating-stars my-2" style="font-size: 16px;">
-            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>
-            <span class="text-muted ml-2" style="font-size: 13px;">(4.9 Verified Reviews)</span>
-          </div>
-
-          <div class="product__details__price" style="font-size: 28px; font-weight: 800; color: var(--primary-green);">₹<%=singleProduct.pprice%> <span class="text-muted" style="font-size: 14px; font-weight: 500;">/ 1kg</span></div>
-
-          <div class="my-4">
-            <%if(singleProduct.pcountInStock===0){%>
-              <button type="button" class="btn btn-danger btn-lg px-4" disabled>Out Of Stock</button>
-            <%}else{%>
-              <button type="button" class="btn site-btn-organic btn-lg" onclick="addToCart('<%=singleProduct._id%>')"><i class="fa fa-shopping-bag mr-2"></i> ADD TO CART</button>
-              <button type="button" class="btn btn-outline-secondary site-btn-organic ml-2" onclick="AddToWishList('<%=singleProduct._id%>')" style="background: transparent !important; color: var(--text-dark) !important; border: 1px solid var(--border-light) !important;"><i class="fa fa-heart"></i></button>
-            <% }%>
-          </div>
-
-          <!-- Organic Guarantee Trust Box -->
-          <div class="organic-guarantee-box">
-            <div class="guarantee-item">
-              <i class="fa fa-leaf"></i>
-              <span>100% Farm Fresh</span>
+          <% if (singleProduct.pimages && singleProduct.pimages.length > 1) { %>
+            <div class="d-flex gap-2 overflow-auto py-2">
+              <% singleProduct.pimages.forEach(function(img) { %>
+                <img
+                  src="<%= img %>"
+                  alt="<%= singleProduct.pname %>"
+                  class="rounded-3 border cursor-pointer object-fit-cover"
+                  style="width: 70px; height: 70px;"
+                  onclick="document.getElementById('soom').src = this.src"
+                />
+              <% }); %>
             </div>
-            <div class="guarantee-item">
-              <i class="fa fa-shield"></i>
-              <span>Zero Pesticides</span>
-            </div>
-            <div class="guarantee-item">
-              <i class="fa fa-truck"></i>
-              <span>24h Cold Transport</span>
-            </div>
-          </div>
-
-          <ul>
-            <%if(singleProduct.pcountInStock===0){%>
-            <li>
-              <b>Availability:</b> <span class="badge out-of-stock-badge ml-2">Out of stock</span>
-            </li>
-            <%}else{%>
-            <li>
-              <b>Availability:</b>
-              <span class="badge organic-badge ml-2"><%=singleProduct.pcountInStock%> KG left in stock</span>
-            </li>
-            <%}%>
-            <li><b>Shipping:</b> <span>Express Same Day Delivery</span></li>
-            <li><b>Standard Pack:</b> <span>1 kg</span></li>
-          </ul>
+          <% } %>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Product Details Section End -->
 
-<!-- Related Product Section Begin -->
-<section class="related-product">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section-title related__product__title">
-          <h2>Related Product</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <% allProduct.forEach(function(product) { %>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="product__item">
-          <div
-            class="product__item__pic set-bg"
-            data-setbg="<%=product.pimages[0]%>"
-          >
-            <ul class="product__item__pic__hover">
-              <%if(product.pcountInStock===0){%>
-              <label style="font-size: large; color: red; font-weight: bolder"
-                >Out of Stock</label
-              >
-              <%}else{%> <%if(user){%>
-              <li>
-                <a onclick="AddToWishList('<%=product._id%>')"
-                  ><i class="fa fa-heart"></i
-                ></a>
+        <!-- Product Specs & Buy Box -->
+        <div class="col-lg-6">
+          <div class="product__details__text">
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 text-xs font-weight-bold mb-2 d-inline-block">
+              <i class="fa fa-leaf mr-1"></i> 100% Certified Organic
+            </span>
+            
+            <h2 class="font-weight-bold text-dark mb-2" style="font-family: 'Playfair Display', serif; font-size: 32px; color: #0F4C3A;"><%= singleProduct.pname %></h2>
+
+            <div class="rating-stars mb-3 text-warning" style="font-size: 14px;">
+              <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+              <span class="text-muted ml-2 text-xs">(4.9 Verified Customer Rating)</span>
+            </div>
+
+            <div class="product-price-tag mb-4">
+              <span class="font-weight-bold text-success" style="font-size: 32px;">₹<%= singleProduct.pprice %></span>
+              <span class="text-muted text-sm">/ 1 kg pack</span>
+            </div>
+
+            <!-- Organic Guarantee Box -->
+            <div class="organic-guarantee-box p-3 rounded-3 mb-4 bg-light border d-flex justify-content-around text-center">
+              <div class="guarantee-item">
+                <i class="fa fa-leaf text-success d-block mb-1 font-20"></i>
+                <span class="text-xs font-weight-bold text-dark d-block">100% Farm Fresh</span>
+              </div>
+              <div class="guarantee-item">
+                <i class="fa fa-shield text-success d-block mb-1 font-20"></i>
+                <span class="text-xs font-weight-bold text-dark d-block">Zero Pesticides</span>
+              </div>
+              <div class="guarantee-item">
+                <i class="fa fa-truck text-success d-block mb-1 font-20"></i>
+                <span class="text-xs font-weight-bold text-dark d-block">24h Express Transport</span>
+              </div>
+            </div>
+
+            <!-- Availability & Specifications -->
+            <ul class="list-unstyled text-sm text-dark mb-4 border-top border-bottom py-3">
+              <li class="mb-2">
+                <strong>Availability:</strong>
+                <% if (singleProduct.pcountInStock === 0) { %>
+                  <span class="badge bg-danger text-white rounded-pill px-2.5 py-1 text-xs ml-2">Out of Stock</span>
+                <% } else { %>
+                  <span class="badge bg-success text-white rounded-pill px-2.5 py-1 text-xs ml-2"><%= singleProduct.pcountInStock %> KG available in stock</span>
+                <% } %>
               </li>
-              <li>
-                <a onclick="addToCart('<%=product._id%>')"
-                  ><i class="fa fa-shopping-cart"></i
-                ></a>
-              </li>
-              <%}else{%>
-              <li>
-                <a href="/login"><i class="fa fa-heart"></i></a>
-              </li>
-              <li>
-                <a href="/login"><i class="fa fa-shopping-cart"></i></a>
-              </li>
-              <%}%> <%}%>
+              <li class="mb-2"><strong>Shipping:</strong> <span class="text-muted">Free Express Delivery on orders above ₹149</span></li>
+              <li class="mb-0"><strong>Standard Pack:</strong> <span class="text-muted">1 kg Net Weight</span></li>
             </ul>
-          </div>
-          <div class="product__item__text">
-            <%if(user){%>
-            <h6>
-              <a href="/user/singleProductView/<%=product._id%>"
-                ><%=product.pname%></a
-              >
-            </h6>
-            <%}else{%>
-            <h6>
-              <a href="/singleProductView/<%=product._id%>"
-                ><%=product.pname%></a
-              >
-            </h6>
-            <%}%>
-            <h5>1 kg</h5>
-            <h5>₹<%=product.pprice%></h5>
+
+            <!-- Buy Action Buttons -->
+            <div class="d-flex align-items-center gap-3">
+              <% if (singleProduct.pcountInStock === 0) { %>
+                <button type="button" class="btn btn-secondary rounded-pill px-4 py-2.5 font-weight-bold text-sm" disabled>
+                  Out Of Stock
+                </button>
+              <% } else { %>
+                <button type="button" class="btn btn-primary-organic rounded-pill px-4 py-2.5 font-weight-bold text-sm shadow-sm" onclick="addToCart('<%= singleProduct._id %>')">
+                  <i class="fa fa-shopping-bag mr-2"></i> ADD TO CART
+                </button>
+                <button type="button" class="btn btn-outline-danger rounded-pill px-3 py-2.5 font-weight-bold text-sm" onclick="AddToWishList('<%= singleProduct._id %>')" title="Save to Wishlist">
+                  <i class="fa fa-heart"></i>
+                </button>
+              <% } %>
+            </div>
           </div>
         </div>
       </div>
-      <%})%>
     </div>
+
+    <!-- Related Organic Products Section -->
+    <% if (typeof allProduct !== 'undefined' && allProduct && allProduct.length > 0) { %>
+      <div class="mt-5">
+        <div class="text-center mb-4">
+          <h3 class="font-weight-bold text-dark mb-1" style="font-family: 'Playfair Display', serif; color: #0F4C3A;">Related Organic Harvest</h3>
+          <p class="text-muted text-sm">Customers who bought this item also explored</p>
+        </div>
+
+        <div class="row g-4">
+          <% allProduct.slice(0, 4).forEach(function(product) { %>
+            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+              <div class="product-card-modern bg-white rounded-3 overflow-hidden border shadow-xs h-100 d-flex flex-column transition-smooth">
+                <div class="badge-organic-seal">100% Organic</div>
+
+                <div class="product-card-image-wrap position-relative overflow-hidden" style="height: 180px; background: #F8FAF6;">
+                  <img src="<%= product.pimages[0] %>" alt="<%= product.pname %>" class="w-100 h-100 object-fit-cover" />
+                </div>
+
+                <div class="product-card-body p-3 d-flex flex-column flex-grow-1 justify-content-between">
+                  <div>
+                    <h6 class="mb-1">
+                      <a href="<%= (typeof user !== 'undefined' && user) ? '/user/singleProductView/' + product._id : '/singleProductView/' + product._id %>" class="product-title font-weight-bold text-dark text-sm">
+                        <%= product.pname %>
+                      </a>
+                    </h6>
+                    <small class="text-muted d-block text-xs">Standard 1kg Pack</small>
+                  </div>
+
+                  <div class="product-price-row pt-2 mt-2 border-top d-flex align-items-center justify-content-between">
+                    <span class="product-price font-weight-bold text-success" style="font-size: 18px;">₹<%= product.pprice %></span>
+                    <% if (product.pcountInStock > 0) { %>
+                      <button type="button" class="btn btn-sm btn-success rounded-3 font-weight-bold text-xs px-3" onclick="addToCart('<%= product._id %>')">+ Add</button>
+                    <% } else { %>
+                      <span class="badge bg-danger text-white rounded-3 px-2 py-1 text-xs">Out of Stock</span>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
   </div>
 </section>
+
 <%- include('../partials/userFooter.ejs')%>
